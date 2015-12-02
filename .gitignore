@@ -13,3 +13,4 @@ build
 
 *.DS_Store
 fix_bug_comp
+*.rej

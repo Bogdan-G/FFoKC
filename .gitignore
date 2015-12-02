@@ -12,3 +12,4 @@ build
 .gradle
 
 *.DS_Store
+fix_bug_comp

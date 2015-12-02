@@ -25,12 +25,12 @@ public class CustomTimingsHandler
     /*========================================================================*/
     private final String name;
     private final CustomTimingsHandler parent;
-    private long count = 0;
-    private long start = 0;
-    private long timingDepth = 0;
-    private long totalTime = 0;
-    private long curTickTotal = 0;
-    private long violations = 0;
+    public long count = 0;
+    public long start = 0;
+    public long timingDepth = 0;
+    public long totalTime = 0;
+    public long curTickTotal = 0;
+    public long violations = 0;
 
     public CustomTimingsHandler(String name)
     {

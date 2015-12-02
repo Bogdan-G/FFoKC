@@ -172,8 +172,8 @@ public class SpigotConfig
         outdatedServerMessage = transform( getString( "messages.outdated-server", outdatedServerMessage ) );
     }
 
-    public static int timeoutTime = 90; // Cauldron - raise to 90
-    public static boolean restartOnCrash = true;
+    public static int timeoutTime = 120; // Cauldron - raise to 90
+    public static boolean restartOnCrash = false;
     public static String restartScript = "./start.sh";
     public static String restartMessage;
     private static void watchdog()
@@ -199,7 +199,7 @@ public class SpigotConfig
 
     private static void nettyThreads()
     {
-        int count = getInt( "settings.netty-threads", 4 );
+        int count = getInt( "settings.netty-threads", 8 );
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString( count ) );
         Bukkit.getLogger().log( Level.INFO, "Using {0} threads for Netty based IO", count );
     }

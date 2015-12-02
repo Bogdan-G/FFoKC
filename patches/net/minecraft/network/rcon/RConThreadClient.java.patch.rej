@@ -1,0 +1,28 @@
+++++ REJECTED PATCH 1
+ 
+     public void run()
+     {
+-        while (true)
++        try
+         {
+-            try
++            while (true)
+             {
+-                if (!this.running)
++                if (!this.running || clientSocket == null)
+                 {
+                     break;
+                 }
+ 
+                 BufferedInputStream bufferedinputstream = new BufferedInputStream(this.clientSocket.getInputStream());
+                 int i = bufferedinputstream.read(this.buffer, 0, 1460);
+-
+-                if (10 > i)
++                
++                if (i < 10)
+                 {
++                    this.running = false; // Cauldron
+                     return;
+                 }
+ 
+++++ END PATCH

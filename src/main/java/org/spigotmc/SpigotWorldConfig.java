@@ -115,14 +115,14 @@ public class SpigotWorldConfig
     public double itemMerge;
     private void itemMerge()
     {
-        itemMerge = getDouble("merge-radius.item", 2.5 );
+        itemMerge = getDouble("merge-radius.item", 8.0 );
         log( "Item Merge Radius: " + itemMerge );
     }
 
     public double expMerge;
     private void expMerge()
     {
-        expMerge = getDouble("merge-radius.exp", 3.0 );
+        expMerge = getDouble("merge-radius.exp", 16.0 );
         log( "Experience Merge Radius: " + expMerge );
     }
 
@@ -142,7 +142,7 @@ public class SpigotWorldConfig
 
     public int animalActivationRange = 32;
     public int monsterActivationRange = 32;
-    public int miscActivationRange = 16;
+    public int miscActivationRange = 32;
     private void activationRange()
     {
         animalActivationRange = getInt( "entity-activation-range.animals", animalActivationRange );
@@ -151,11 +151,11 @@ public class SpigotWorldConfig
         log( "Entity Activation Range: An " + animalActivationRange + " / Mo " + monsterActivationRange + " / Mi " + miscActivationRange );
     }
 
-    public int playerTrackingRange = 48;
-    public int animalTrackingRange = 48;
-    public int monsterTrackingRange = 48;
-    public int miscTrackingRange = 32;
-    public int maxTrackingRange = 64;
+    public int playerTrackingRange = 128;
+    public int animalTrackingRange = 128;
+    public int monsterTrackingRange = 128;
+    public int miscTrackingRange = 128;
+    public int maxTrackingRange = 128;
     private void trackingRange()
     {
         playerTrackingRange = getInt( "entity-tracking-range.players", playerTrackingRange );
@@ -219,7 +219,7 @@ public class SpigotWorldConfig
     public AntiXray antiXrayInstance;
     private void antiXray()
     {
-        antiXray = getBoolean( "anti-xray.enabled", true );
+        antiXray = getBoolean( "anti-xray.enabled", false );
         log( "Anti X-Ray: " + antiXray );
 
         engineMode = getInt( "anti-xray.engine-mode", 1 );
@@ -268,14 +268,14 @@ public class SpigotWorldConfig
     public int maxBulkChunk;
     private void bulkChunkCount()
     {
-        maxBulkChunk = getInt( "max-bulk-chunks", 5 );
+        maxBulkChunk = getInt( "max-bulk-chunks", 15 );
         log( "Sending up to " + maxBulkChunk + " chunks per packet" );
     }
 
     public int maxCollisionsPerEntity;
     private void maxEntityCollision()
     {
-        maxCollisionsPerEntity = getInt( "max-entity-collisions", 8 );
+        maxCollisionsPerEntity = getInt( "max-entity-collisions", 16 );
         log( "Max Entity Collisions: " + maxCollisionsPerEntity );
     }
     
@@ -283,8 +283,8 @@ public class SpigotWorldConfig
     public int entityMaxTickTime;
     private void maxTickTimes()
     {
-    	tileMaxTickTime = getInt("max-tick-time.tile", 50);
-    	entityMaxTickTime = getInt("max-tick-time.entity", 50);
+    	tileMaxTickTime = getInt("max-tick-time.tile", 5000);
+    	entityMaxTickTime = getInt("max-tick-time.entity", 5000);
     	log("Tile Max Tick Time: " + tileMaxTickTime + "ms Entity max Tick Time: " + entityMaxTickTime + "ms");
     }
 }

@@ -1,4 +1,0 @@
-It is a fork of a fork, which is the preservation of a few minor changes made by me, as well as other changes to other people.
-Some edits test for preserving the history of what they were doing. Part specific to the assembly BMPL.
-Changes can be controversial.
-Changes underway in the direction of my modpack.

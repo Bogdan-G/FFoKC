@@ -3,6 +3,7 @@ package org.bukkit.craftbukkit;
 /**
  * Credits for this class goes to user aioobe on stackoverflow.com
  * Source: http://stackoverflow.com/questions/4454630/j2me-calculate-the-the-distance-between-2-latitude-and-longitude
+ * J2ME? wut?
  */
 public class TrigMath {
 

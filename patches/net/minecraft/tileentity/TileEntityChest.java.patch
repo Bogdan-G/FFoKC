@@ -67,7 +67,7 @@
              this.numPlayersUsing = 0;
          }
  
-+        int oldPower = Math.max(0, Math.min(15, this.numPlayersUsing)); // CraftBukkit - Get power before new viewer is added
++        int oldPower = Math.max(0, Math.min(10, this.numPlayersUsing)); // CraftBukkit - Get power before new viewer is added
          ++this.numPlayersUsing;
 +
 +        if (this.worldObj == null)
@@ -80,7 +80,7 @@
 +        // CraftBukkit start - Call redstone event
 +        if (this.getBlockType() == Blocks.trapped_chest)
 +        {
-+            int newPower = Math.max(0, Math.min(15, this.numPlayersUsing));
++            int newPower = Math.max(0, Math.min(10, this.numPlayersUsing));
 +
 +            if (oldPower != newPower)
 +            {
@@ -96,7 +96,7 @@
      {
          if (this.getBlockType() instanceof BlockChest)
          {
-+            int oldPower = Math.max(0, Math.min(15, this.numPlayersUsing)); // CraftBukkit - Get power before new viewer is added
++            int oldPower = Math.max(0, Math.min(10, this.numPlayersUsing)); // CraftBukkit - Get power before new viewer is added
              --this.numPlayersUsing;
 +
 +            if (this.worldObj == null)
@@ -109,7 +109,7 @@
 +            // CraftBukkit start - Call redstone event
 +            if (this.getBlockType() == Blocks.trapped_chest)
 +            {
-+                int newPower = Math.max(0, Math.min(15, this.numPlayersUsing));
++                int newPower = Math.max(0, Math.min(10, this.numPlayersUsing));
 +
 +                if (oldPower != newPower)
 +                {

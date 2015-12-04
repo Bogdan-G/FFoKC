@@ -902,6 +902,7 @@ public class CraftEventFactory {
     }
 
     public static void handleInventoryCloseEvent(net.minecraft.entity.player.EntityPlayer human) {
+        if (human.openContainer == human.inventoryContainer) return; // Spigot
         InventoryCloseEvent event = new InventoryCloseEvent(human.openContainer.getBukkitView());
         if (human.openContainer.getBukkitView() != null) human.worldObj.getServer().getPluginManager().callEvent(event); // Cauldron - allow vanilla mods to bypass
         human.openContainer.transferTo(human.inventoryContainer, human.getBukkitEntity());

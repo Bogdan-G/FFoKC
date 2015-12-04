@@ -62,7 +62,7 @@
  
 @@ -208,7 +232,15 @@
          {
-             for (int i = 1000; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
+             for (int i = 1500; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
              {
 -                Packet packet = (Packet)this.receivedPacketsQueue.poll();
 +                Packet packet = (Packet) this.receivedPacketsQueue.poll();

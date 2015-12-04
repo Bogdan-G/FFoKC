@@ -15,3 +15,4 @@ build
 fix_bug_comp
 *.rej
 clean_patch
+symlink.bat

@@ -1,6 +1,7 @@
 --- ../src-base/minecraft/net/minecraft/network/rcon/RConThreadClient.java
 +++ ../src-work/minecraft/net/minecraft/network/rcon/RConThreadClient.java
-@@ -41,20 +41,21 @@
+@@ -40,19 +40,19 @@
+    }
  
      public void run()
      {
@@ -22,11 +23,19 @@
 -                if (10 > i)
 +                
 +                if (i < 10)
-                 {
+                {
+                    byte b0 = 0;
+                    int j = RConUtils.getBytesAsLEInt(this.buffer, 0, i);
+@@ -59,9 +59,9 @@
+                    int j = RConUtils.getBytesAsLEInt(this.buffer, 0, i);
+
+                    if (j != i - 4)
+                    {
 +                    this.running = false; // Cauldron
                      return;
-                 }
+                     }
  
+                     int i1 = b0 + 4;
 @@ -110,26 +111,23 @@
                      }
                  }

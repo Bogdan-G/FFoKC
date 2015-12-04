@@ -9,7 +9,7 @@ Changes underway in the direction of my modpack.
 
 ## I used to compile
 * Win 7 x64
-* Zulu JDK 7u85
+* Zulu JDK 7u91
 * Gradle 2.0
 
 ## Building FF of KCauldron

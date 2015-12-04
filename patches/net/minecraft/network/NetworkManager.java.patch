@@ -60,11 +60,15 @@
          this.setConnectionState(EnumConnectionState.HANDSHAKING);
      }
  
-@@ -208,7 +232,15 @@
+@@ -206,9 +232,15 @@
+
+        if (this.netHandler != null)
          {
-             for (int i = 1500; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
-             {
+-             for (int i = 1000; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
+-             {
 -                Packet packet = (Packet)this.receivedPacketsQueue.poll();
++             for (int i = 2000; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
++             {
 +                Packet packet = (Packet) this.receivedPacketsQueue.poll();
 +
 +                // CraftBukkit start

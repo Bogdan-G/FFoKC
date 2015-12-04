@@ -2,6 +2,6 @@
 	path = bukkit
 	url = https://github.com/Bogdan-G/KCauldron-Bukkit.git
 [submodule "MinecraftForge"]
-	path = forge
+	path = MinecraftForge
 	url = https://github.com/Bogdan-G/MinecraftForge.git
 	branch = 1.7.10

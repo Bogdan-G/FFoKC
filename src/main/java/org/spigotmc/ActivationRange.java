@@ -55,10 +55,10 @@ public class ActivationRange
     {
         Chunk chunk = null;
         // Cauldron start - account for entities that dont extend EntityMob, EntityAmbientCreature, EntityCreature
-        if ( entity instanceof EntityMob || entity instanceof EntitySlime || entity.isCreatureType(EnumCreatureType.monster, false)) // Cauldron - account for entities that dont extend EntityMob
+        if ( entity.getClass().equals(EntityMob.class) || entity.getClass().equals(EntitySlime.class) || entity.isCreatureType(EnumCreatureType.monster, false)) // Cauldron - account for entities that dont extend EntityMob
         {
             return 1; // Monster
-        } else if ( entity instanceof EntityCreature || entity instanceof EntityAmbientCreature || entity.isCreatureType(EnumCreatureType.creature, false) 
+        } else if ( entity.getClass().equals(EntityCreature.class) || entity.getClass().equals(EntityAmbientCreature.class) || entity.isCreatureType(EnumCreatureType.creature, false) 
                  || entity.isCreatureType(EnumCreatureType.waterCreature, false) || entity.isCreatureType(EnumCreatureType.ambient, false))
         {
             return 2; // Animal
@@ -92,17 +92,17 @@ public class ActivationRange
         if ( ( entity.activationType == 3 && config.miscActivationRange == 0 )
                 || ( entity.activationType == 2 && config.animalActivationRange == 0 )
                 || ( entity.activationType == 1 && config.monsterActivationRange == 0 )
-                || (entity instanceof EntityPlayer && !(entity instanceof FakePlayer)) // Cauldron
-                || entity instanceof EntityThrowable
-                || entity instanceof EntityDragon
-                || entity instanceof EntityDragonPart
-                || entity instanceof EntityWither
-                || entity instanceof EntityFireball
-                || entity instanceof EntityWeatherEffect
-                || entity instanceof EntityTNTPrimed
-                || entity instanceof EntityEnderCrystal
-                || entity instanceof EntityFireworkRocket
-                || entity instanceof EntityVillager
+                || (entity.getClass().equals(EntityPlayer.class) && !(entity.getClass().equals(FakePlayer.class))) // Cauldron
+                || entity.getClass().equals(EntityThrowable.class)
+                || entity.getClass().equals(EntityDragon.class)
+                || entity.getClass().equals(EntityDragonPart.class)
+                || entity.getClass().equals(EntityWither.class)
+                || entity.getClass().equals(EntityFireball.class)
+                || entity.getClass().equals(EntityWeatherEffect.class)
+                || entity.getClass().equals(EntityTNTPrimed.class)
+                || entity.getClass().equals(EntityEnderCrystal.class)
+                || entity.getClass().equals(EntityFireworkRocket.class)
+                || entity.getClass().equals(EntityVillager.class)
                 // Cauldron start - force ticks for entities with superclass of Entity and not a creature/monster
                 || (entity.getClass().getSuperclass() == Entity.class && !entity.isCreatureType(EnumCreatureType.creature, false)
                 && !entity.isCreatureType(EnumCreatureType.ambient, false) && !entity.isCreatureType(EnumCreatureType.monster, false)
@@ -239,7 +239,7 @@ public class ActivationRange
         {
             return true;
         }
-        if ( !( entity instanceof EntityArrow ) )
+        if ( !( entity.getClass().equals(EntityArrow.class) ) )
         {
             if ( !entity.onGround || entity.riddenByEntity != null
                     || entity.ridingEntity != null )
@@ -251,29 +251,29 @@ public class ActivationRange
             return true;
         }
         // special cases.
-        if ( entity instanceof EntityLiving )
+        if ( entity.getClass().equals(EntityLiving.class) )
         {
             EntityLiving living = (EntityLiving) entity;
             if ( living.attackTime > 0 || living.hurtTime > 0 || living.activePotionsMap.size() > 0 )
             {
                 return true;
             }
-            if ( entity instanceof EntityCreature && ( (EntityCreature) entity ).entityToAttack != null )
+            if ( entity.getClass().equals(EntityCreature.class) && ( (EntityCreature) entity ).entityToAttack != null )
             {
                 return true;
             }
-            if ( entity instanceof EntityVillager && ( (EntityVillager) entity ).isMating() /* Getter for first boolean */ )
+            if ( entity.getClass().equals(EntityVillager.class) && ( (EntityVillager) entity ).isMating() /* Getter for first boolean */ )
             {
                 return true;
             }
-            if ( entity instanceof EntityAnimal )
+            if ( entity.getClass().equals(EntityAnimal.class) )
             {
                 EntityAnimal animal = (EntityAnimal) entity;
                 if ( animal.isChild() || animal.isInLove() /*love*/ )
                 {
                     return true;
                 }
-                if ( entity instanceof EntitySheep && ( (EntitySheep) entity ).getSheared() )
+                if ( entity.getClass().equals(EntitySheep.class) && ( (EntitySheep) entity ).getSheared() )
                 {
                     return true;
                 }

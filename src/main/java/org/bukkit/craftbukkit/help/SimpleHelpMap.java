@@ -181,10 +181,10 @@ public class SimpleHelpMap implements HelpMap {
     }
 
     private String getCommandPluginName(Command command) {
-        if (command instanceof VanillaCommandWrapper) {
+        if (command.getClass().equals(VanillaCommandWrapper.class)) {
             return "Minecraft";
         }
-        if (command instanceof BukkitCommand || command instanceof VanillaCommand) {
+        if (command.getClass().equals(BukkitCommand.class) || command.getClass().equals(VanillaCommand.class)) {
             return "Bukkit";
         }
         if (command instanceof PluginIdentifiableCommand) {
@@ -194,7 +194,7 @@ public class SimpleHelpMap implements HelpMap {
     }
 
     private boolean commandInIgnoredPlugin(Command command, Set<String> ignoredPlugins) {
-        if ((command instanceof BukkitCommand || command instanceof VanillaCommand) && ignoredPlugins.contains("Bukkit")) {
+        if ((command.getClass().equals(BukkitCommand.class) || command.getClass().equals(VanillaCommand.class)) && ignoredPlugins.contains("Bukkit")) {
             return true;
         }
         if (command instanceof PluginIdentifiableCommand && ignoredPlugins.contains(((PluginIdentifiableCommand)command).getPlugin().getName())) {

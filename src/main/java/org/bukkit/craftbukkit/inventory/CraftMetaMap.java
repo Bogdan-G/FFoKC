@@ -22,7 +22,7 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
     CraftMetaMap(CraftMetaItem meta) {
         super(meta);
 
-        if (!(meta instanceof CraftMetaMap)) {
+        if (!(meta.getClass().equals(CraftMetaMap.class))) {
             return;
         }
 
@@ -92,7 +92,7 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
         if (!super.equalsCommon(meta)) {
             return false;
         }
-        if (meta instanceof CraftMetaMap) {
+        if (meta.getClass().equals(CraftMetaMap.class)) {
             CraftMetaMap that = (CraftMetaMap) meta;
 
             return (this.scaling == that.scaling);
@@ -102,7 +102,7 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 
     @Override
     boolean notUncommon(CraftMetaItem meta) {
-        return super.notUncommon(meta) && (meta instanceof CraftMetaMap || isMapEmpty());
+        return super.notUncommon(meta) && (meta.getClass().equals(CraftMetaMap.class) || isMapEmpty());
     }
 
     @Override

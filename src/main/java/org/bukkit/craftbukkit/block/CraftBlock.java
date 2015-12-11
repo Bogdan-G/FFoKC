@@ -261,7 +261,7 @@ public class CraftBlock implements Block {
         if (material == null)
         {
             TileEntity te = ((CraftWorld)this.getWorld()).getHandle().getTileEntity(this.getX(), this.getY(), this.getZ());
-            if (te != null && te instanceof IInventory)
+            if (te != null && te.getClass().equals(IInventory.class))
             {
                 // In order to allow plugins to properly grab the container location, we must pass a class that extends CraftBlockState and implements InventoryHolder.
                 // Note: This will be returned when TileEntity.getOwner() is called
@@ -305,7 +305,7 @@ public class CraftBlock implements Block {
         default:
             // Cauldron start
             TileEntity te = ((CraftWorld)this.getWorld()).getHandle().getTileEntity(this.getX(), this.getY(), this.getZ());
-            if (te != null && te instanceof IInventory)
+            if (te != null && te.getClass().equals(IInventory.class))
             {
                 // In order to allow plugins to properly grab the container location, we must pass a class that extends CraftBlockState and implements InventoryHolder.
                 // Note: This will be returned when TileEntity.getOwner() is called
@@ -359,7 +359,7 @@ public class CraftBlock implements Block {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if (!(o instanceof CraftBlock)) return false;
+        if (!(o.getClass().equals(CraftBlock.class))) return false;
         CraftBlock other = (CraftBlock) o;
 
         return this.x == other.x && this.y == other.y && this.z == other.z && this.getWorld().equals(other.getWorld());
@@ -406,7 +406,7 @@ public class CraftBlock implements Block {
         // Cauldron start - support custom air blocks (Railcraft player aura tracking block)
         //return getType() == Material.AIR;
         if (getType() == Material.AIR) return true;
-        if (!(getWorld() instanceof CraftWorld)) return false;
+        if (!(getWorld().getClass().equals(CraftWorld.class))) return false;
         return ((CraftWorld) getWorld()).getHandle().isAirBlock(getX(), getY(), getZ());
         // Cauldron end
     }

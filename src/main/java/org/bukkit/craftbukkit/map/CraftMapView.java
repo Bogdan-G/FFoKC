@@ -41,7 +41,7 @@ public final class CraftMapView implements MapView {
     }
 
     public boolean isVirtual() {
-        return renderers.size() > 0 && !(renderers.get(0) instanceof CraftMapRenderer);
+        return renderers.size() > 0 && !(renderers.get(0).getClass().equals(CraftMapRenderer.class));
     }
 
     public Scale getScale() {

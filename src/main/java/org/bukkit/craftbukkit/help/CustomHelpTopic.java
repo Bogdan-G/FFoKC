@@ -18,7 +18,7 @@ public class CustomHelpTopic extends HelpTopic {
     }
 
     public boolean canSee(CommandSender sender) {
-        if (sender instanceof ConsoleCommandSender) {
+        if (sender.getClass().equals(ConsoleCommandSender.class)) {
             return true;
         }
 

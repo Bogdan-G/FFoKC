@@ -36,7 +36,7 @@ public class MultipleCommandAliasHelpTopic extends HelpTopic {
 
     public boolean canSee(CommandSender sender) {
         if (amendedPermission == null) {
-            if (sender instanceof ConsoleCommandSender) {
+            if (sender.getClass().equals(ConsoleCommandSender.class)) {
                 return true;
             }
 

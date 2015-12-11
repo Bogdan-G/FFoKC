@@ -163,11 +163,11 @@ public class CraftEnchantment extends Enchantment {
     // Cauldron end
 
     public static net.minecraft.enchantment.Enchantment getRaw(Enchantment enchantment) {
-        if (enchantment instanceof EnchantmentWrapper) {
+        if (enchantment.getClass().equals(EnchantmentWrapper.class)) {
             enchantment = ((EnchantmentWrapper) enchantment).getEnchantment();
         }
 
-        if (enchantment instanceof CraftEnchantment) {
+        if (enchantment.getClass().equals(CraftEnchantment.class)) {
             return ((CraftEnchantment) enchantment).target;
         }
 
@@ -176,10 +176,10 @@ public class CraftEnchantment extends Enchantment {
 
     @Override
     public boolean conflictsWith(Enchantment other) {
-        if (other instanceof EnchantmentWrapper) {
+        if (other.getClass().equals(EnchantmentWrapper.class)) {
             other = ((EnchantmentWrapper) other).getEnchantment();
         }
-        if (!(other instanceof CraftEnchantment)) {
+        if (!(other.getClass().equals(CraftEnchantment.class))) {
             return false;
         }
         CraftEnchantment ench = (CraftEnchantment) other;

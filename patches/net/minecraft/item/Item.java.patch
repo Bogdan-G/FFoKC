@@ -21,7 +21,7 @@
              else
              {
                  if (hashset.contains(block))
-@@ -923,7 +942,13 @@
+@@ -923,7 +956,13 @@
       */
      public int getEntityLifespan(ItemStack itemStack, World world)
      {

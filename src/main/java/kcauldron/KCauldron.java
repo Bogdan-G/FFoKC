@@ -109,8 +109,9 @@ public class KCauldron {
     private static int sForgeRevision = 0;
 
     public static int lookupForgeRevision() {
-        if (sForgeRevision != 0) return sForgeRevision;
-        int revision = Integer.parseInt(System.getProperty("kcauldron.forgeRevision", "0"));
+        //if (sForgeRevision != 0) return sForgeRevision;
+        return sForgeRevision;
+        /*int revision = Integer.parseInt(System.getProperty("kcauldron.forgeRevision", "0"));
         try {
             Properties p = new Properties();
             p.load(KCauldron.class
@@ -123,6 +124,6 @@ public class KCauldron {
             KLog.get().warning("KCauldron: could not parse forge revision, critical error");
             FMLCommonHandler.instance().exitJava(1, false);
         }
-        return sForgeRevision = revision;
+        return sForgeRevision = revision;*/
     }
 }

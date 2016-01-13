@@ -1,7 +1,5 @@
 package org.bukkit.craftbukkit;
 
-import gnu.trove.procedure.TObjectProcedure;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -138,7 +136,7 @@ public class CraftWorld implements World {
     }
 
     public Chunk[] getLoadedChunks() {
-        Object[] chunks = world.theChunkProviderServer.loadedChunkHashMap_KC.values();
+        Object[] chunks = world.theChunkProviderServer.loadedChunkHashMap_KC.values().toArray();
         org.bukkit.Chunk[] craftChunks = new CraftChunk[chunks.length];
 
         for (int i = 0; i < chunks.length; i++) {
@@ -278,6 +276,7 @@ public class CraftWorld implements World {
         if (chunk != null) {
             world.theChunkProviderServer.loadedChunkHashMap_KC.put(LongHash.toLong(x, z), chunk);
             world.theChunkProviderServer.loadedChunks.add(chunk); // Cauldron - vanilla compatibility
+            world.theChunkProviderServer.loadedChunkHashMap.add(ChunkCoordIntPair.chunkXZ2Int(x, z), chunk);
 
             chunk.onChunkLoad();
 
@@ -1393,25 +1392,40 @@ public class CraftWorld implements World {
             return;
         }
 
-        final net.minecraft.world.gen.ChunkProviderServer cps = world.theChunkProviderServer;
-        cps.loadedChunkHashMap_KC.forEachValue(new TObjectProcedure<net.minecraft.world.chunk.Chunk>() {
-			@Override
-			public boolean execute(net.minecraft.world.chunk.Chunk chunk) {
+        //final net.minecraft.world.gen.ChunkProviderServer cps = world.theChunkProviderServer;
+        //cps.loadedChunkHashMap_KC.forEachValue(new TObjectProcedure<net.minecraft.world.chunk.Chunk>() {
+			//@Override
+			//public boolean execute(net.minecraft.world.chunk.Chunk chunk) {
 	            // If in use, skip it
-	            if (isChunkInUse(chunk.xPosition, chunk.zPosition)) {
-					return true;
-	            }
-
+	           // if (isChunkInUse(chunk.xPosition, chunk.zPosition)) {
+					//return true;
+	            //}
+//
 	            // Already unloading?
-	            if (cps.chunksToUnload.contains(chunk.xPosition, chunk.zPosition)) {
-					return true;
-	            }
-
+	            //if (cps.chunksToUnload.contains(chunk.xPosition, chunk.zPosition)) {
+					//return true;
+	           //}
+//
 	            // Add unload request
-	            cps.unloadChunksIfNotNearSpawn(chunk.xPosition, chunk.zPosition);
-				return true;
-			}
-		});
+	            //cps.unloadChunksIfNotNearSpawn(chunk.xPosition, chunk.zPosition);
+				//return true;
+			//}
+		//});
+        net.minecraft.world.gen.ChunkProviderServer cps = world.theChunkProviderServer; 
+        for (net.minecraft.world.chunk.Chunk chunk : cps.loadedChunkHashMap_KC.values()) { 
+            // If in use, skip it
+            if (isChunkInUse(chunk.xPosition, chunk.zPosition)) { 
+                continue;
+            } 
+	 
+            // Already unloading? 
+            if (cps.chunksToUnload.contains(chunk.xPosition, chunk.zPosition)) {	 
+                continue;	 
+            }	 
+	 
+            // Add unload request	 
+            cps.unloadChunksIfNotNearSpawn(chunk.xPosition, chunk.zPosition);	 
+        }
     }
 
     // Spigot start

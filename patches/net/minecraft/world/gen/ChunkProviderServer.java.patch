@@ -6,7 +6,7 @@
 +// CraftBukkit start
 +import java.util.Random;
 +import net.minecraft.block.BlockSand;
-+
++import java.util.*;
 +import org.bukkit.Server;
 +import org.bukkit.craftbukkit.util.LongHash;
 +import org.bukkit.craftbukkit.util.LongHashSet;
@@ -37,8 +37,9 @@
 +    public LongObjectHashMap<Chunk> loadedChunkHashMap_KC = new LongObjectHashMap<Chunk>();
 +    public List loadedChunks = new ArrayList(); // Cauldron - vanilla compatibility
      public WorldServer worldObj;
-     private Set<Long> loadingChunks = com.google.common.collect.Sets.newHashSet();
-+    public LongHashMap loadedChunkHashMap = new kcauldron.wrapper.VanillaChunkHashMap(loadedChunkHashMap_KC); // KCauldron - vanilla/mystcraft compatibility
+-     private Set<Long> loadingChunks = com.google.common.collect.Sets.newHashSet();
++     private Set<Long> loadingChunks = new HashSet();
++    public LongObjectHashHashMap loadedChunkHashMap = new LongObjectHashHashMap(); // KCauldron - vanilla/mystcraft compatibility
      private static final String __OBFID = "CL_00001436";
 +     private boolean mUnloading;
  

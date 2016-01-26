@@ -15,7 +15,7 @@
  import java.util.Random;
  import java.util.Set;
  import java.util.TreeSet;
-+
++import java.util.*;
  import net.minecraft.block.Block;
  import net.minecraft.block.BlockEventData;
  import net.minecraft.block.material.Material;
@@ -54,7 +54,8 @@
 +    public EntityTracker theEntityTracker; // CraftBukkit - private final -> public
      private final PlayerManager thePlayerManager;
      private Set pendingTickListEntriesHashSet;
-     private TreeSet pendingTickListEntriesTreeSet;
+-     private TreeSet pendingTickListEntriesTreeSet;
++     private SortedSet pendingTickListEntriesTreeSet;
 @@ -92,9 +111,13 @@
      protected Set<ChunkCoordIntPair> doneChunks = new HashSet<ChunkCoordIntPair>();
      public List<Teleporter> customTeleporters = new ArrayList<Teleporter>();
@@ -96,12 +97,12 @@
 +
 +        if (this.pendingTickListEntriesHashSet == null)
 +        {
-+            this.pendingTickListEntriesHashSet = new HashSet();
++            this.pendingTickListEntriesHashSet = Collections.synchronizedSet(new HashSet());
 +        }
 +
 +        if (this.pendingTickListEntriesTreeSet == null)
 +        {
-+            this.pendingTickListEntriesTreeSet = new TreeSet();
++            this.pendingTickListEntriesTreeSet = Collections.synchronizedSortedSet(new TreeSet());
 +        }
 +
 +        this.worldTeleporter = new org.bukkit.craftbukkit.CraftTravelAgent(this); // CraftBukkit

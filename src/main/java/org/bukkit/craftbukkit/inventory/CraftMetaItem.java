@@ -302,7 +302,13 @@ class CraftMetaItem implements ItemMeta, Repairable {
             int id = 0xffff & ((net.minecraft.nbt.NBTTagCompound) ench.getCompoundTagAt(i)).getShort(ENCHANTMENTS_ID.NBT);
             int level = 0xffff & ((net.minecraft.nbt.NBTTagCompound) ench.getCompoundTagAt(i)).getShort(ENCHANTMENTS_LVL.NBT);
 
-            enchantments.put(Enchantment.getById(id), level);
+            //enchantments.put(Enchantment.getById(id), level);//test changes VVV
+            // Spigot start - skip invalid enchantments
+            Enchantment e = Enchantment.getById(id);
+            if (e == null) continue;
+            // Spigot end
+            enchantments.put(e, level);
+            
         }
 
         return enchantments;

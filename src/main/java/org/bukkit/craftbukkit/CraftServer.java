@@ -137,7 +137,7 @@ import net.minecraftforge.event.world.WorldEvent;
 // Cauldron end
 
 import jline.console.ConsoleReader;
-
+@sun.misc.Contended
 public final class CraftServer implements Server {
     private static final Player[] EMPTY_PLAYER_ARRAY = new Player[0];
     private final String serverName = "Cauldron"; // Cauldron - temporarily keep MCPC-Plus name until plugins adapt

@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
+@sun.misc.Contended
 public class LongHashSet implements Set<Long> {
     private final static int INITIAL_SIZE = 3;
     private final static double LOAD_FACTOR = 0.75;

@@ -18,7 +18,7 @@ import net.minecraftforge.cauldron.configuration.CauldronConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-
+@sun.misc.Contended
 public class WatchdogThread extends Thread
 {
 

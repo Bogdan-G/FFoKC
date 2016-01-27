@@ -1,7 +1,7 @@
 package org.spigotmc;
 
 import org.bukkit.craftbukkit.util.LongHash;
-
+@sun.misc.Contended
 public class FlatMap<V>
 {
 

@@ -1,5 +1,5 @@
 # FF of KCauldron
-### FF of KCauldron - the regular version Cauldron
+### FF of KCauldron - assembly modifications
 
 ## Info Fork
 It is a fork of a fork, which is the preservation of a few minor changes made by me, as well as other changes to other people.
@@ -9,8 +9,9 @@ Changes underway in the direction of my modpack.
 
 ## I used to compile
 * Win 7 x64
-* Zulu JDK 7u91
+* Zulu JDK 7u91 x64
 * Gradle 2.0
+* git-scm 2.7.0 x64
 
 ## Building FF of KCauldron
 * Checkout project
@@ -32,6 +33,7 @@ If you're once checkout source - you not need to do it again
 
 ## License project
 it is not an ordinary license =)
+
 <a href="http://www.wtfpl.net/" target="_blank">![WTFPL_dowl][License_img]</a>
 
 [License_img]: http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png

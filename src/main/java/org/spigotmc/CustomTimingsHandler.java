@@ -18,7 +18,6 @@ import org.bukkit.World;
 /**
  * Provides custom timing sections for /timings merged.
  */
-@sun.misc.Contended
 public class CustomTimingsHandler
 {
 

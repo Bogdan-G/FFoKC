@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static org.bukkit.craftbukkit.util.Java15Compat.Arrays_copyOf;
-@sun.misc.Contended
+
 @SuppressWarnings("unchecked")
 public class LongObjectHashMap<V> implements Cloneable, Serializable {
     static final long serialVersionUID = 2841537710170573815L;

@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
 // implementation of an ArrayList that offers a getter without range checks
-@sun.misc.Contended
 @SuppressWarnings("unchecked")
 public class UnsafeList<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
     private static final long serialVersionUID = 8683452581112892191L;

@@ -9,7 +9,6 @@ import org.bukkit.craftbukkit.block.CraftBlock;
  * Represents a static, thread-safe snapshot of chunk of blocks
  * Purpose is to allow clean, efficient copy of a chunk data to be made, and then handed off for processing in another thread (e.g. map rendering)
  */
-@sun.misc.Contended
 public class CraftChunkSnapshot implements ChunkSnapshot {
     private final int x, z;
     private final String worldname;

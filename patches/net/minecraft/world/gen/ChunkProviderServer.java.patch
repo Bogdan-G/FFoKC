@@ -338,7 +338,7 @@
                  GameRegistry.generateWorld(p_73153_2_, p_73153_3_, worldObj, currentChunkProvider, p_73153_1_);
                  chunk.setChunkModified();
              }
-@@ -286,11 +407,13 @@
+@@ -286,11 +407,14 @@
      public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_)
      {
          int i = 0;
@@ -350,12 +350,13 @@
 +        for (int j = 0; j < chunks.length; ++j)
          {
 -            Chunk chunk = (Chunk)arraylist.get(j);
++            if (chunks[j] == null) { continue; }
 +            Chunk chunk = (Chunk)chunks[j];
 +            //Cauldron end
  
              if (p_73151_1_)
              {
-@@ -325,36 +448,60 @@
+@@ -325,36 +449,60 @@
      {
          if (!this.worldObj.levelSaving)
          {
@@ -436,7 +437,7 @@
              if (this.currentChunkLoader != null)
              {
                  this.currentChunkLoader.chunkTick();
-@@ -371,7 +518,7 @@
+@@ -371,7 +519,7 @@
  
      public String makeString()
      {
@@ -445,7 +446,7 @@
      }
  
      public List getPossibleCreatures(EnumCreatureType p_73155_1_, int p_73155_2_, int p_73155_3_, int p_73155_4_)
-@@ -386,8 +533,31 @@
+@@ -386,8 +534,31 @@
  
      public int getLoadedChunkCount()
      {

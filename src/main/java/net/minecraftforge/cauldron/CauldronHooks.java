@@ -378,7 +378,7 @@ public class CauldronHooks
                         writer.name("z").value(tile.zCoord);
                         writer.name("isInvalid").value(tile.isInvalid());
                         writer.name("canUpdate").value(tile.canUpdate());
-                        writer.name("block").value("" + tile.getBlockType());
+                        writer.name("block").value(String.valueOf(tile.getBlockType()));
                         writer.endObject();
                     }
                     ChunkCoordIntPair chunkCoords = new ChunkCoordIntPair(tile.xCoord >> 4, tile.zCoord >> 4);

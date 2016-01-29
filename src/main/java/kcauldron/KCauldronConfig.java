@@ -59,15 +59,15 @@ public class KCauldronConfig extends ConfigBase {
         try {
             config = YamlConfiguration.loadConfiguration(configFile);
             String header = "";
+            StringBuilder headerSB = new StringBuilder(header);
             for (Setting<?> toggle : settings.values()) {
                 if (!toggle.description.equals(""))
-                    header += "Setting: " + toggle.path + " Default: "
-                            + toggle.def + " # " + toggle.description + "\n";
+                    headerSB.append("Setting: ").append(toggle.path).append(" Default: ").append(toggle.def).append(" # ").append(toggle.description).append("\n");
 
                 config.addDefault(toggle.path, toggle.def);
-                settings.get(toggle.path).setValue(
-                        config.getString(toggle.path));
+                settings.get(toggle.path).setValue(config.getString(toggle.path));
             }
+            header = String.valueOf(headerSB);
             config.options().header(header);
             config.options().copyDefaults(true);
             save();

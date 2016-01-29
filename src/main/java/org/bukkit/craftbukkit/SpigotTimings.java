@@ -74,11 +74,13 @@ public class SpigotTimings {
         String taskname = ctask.getTaskName();
 
         String name = "Task: " + plugin + " Runnable: " + taskname;
+        StringBuilder nameSB = new StringBuilder(name);
         if (period > 0) {
-            name += "(interval:" + period +")";
+            nameSB.append("(interval:").append(period).append(")");
         } else {
-            name += "(Single)";
+            nameSB.append("(Single)");
         }
+        name = String.valueOf(nameSB);
         CustomTimingsHandler result = pluginTaskTimingMap.get(name);
         if (result == null) {
             result = new CustomTimingsHandler(name, SpigotTimings.schedulerSyncTimer);

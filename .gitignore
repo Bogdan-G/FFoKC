@@ -17,3 +17,4 @@ fix_bug_comp
 clean_patch
 symlink.bat
 hs_err_pid7636.log
+dist_builds

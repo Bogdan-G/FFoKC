@@ -54,7 +54,7 @@
          int l = MathHelper.floor_double(this.explosionZ - (double)this.explosionSize - 1.0D);
          int j2 = MathHelper.floor_double(this.explosionZ + (double)this.explosionSize + 1.0D);
 -        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
-+        // PaperSpigot start - Fix lag from explosions processing dead entities
++        //List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));// PaperSpigot start - Fix lag from explosions processing dead entities
 +        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2), new net.minecraft.command.IEntitySelector() {
 +            @Override
 +            public boolean isEntityApplicable(Entity entity) {

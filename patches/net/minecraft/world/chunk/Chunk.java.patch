@@ -252,6 +252,15 @@
      }
  
      public int getPrecipitationHeight(int p_76626_1_, int p_76626_2_)
+@@ -1104,7 +1220,7 @@
+ 
+     public boolean func_150802_k()
+     {
+-        return this.field_150815_m && this.isTerrainPopulated && this.isLightPopulated;
++        return true;
+     }
+ 
+     public ChunkCoordIntPair getChunkCoordIntPair()
 @@ -1184,8 +1300,10 @@
              if ((p_76607_2_ & 1 << l) != 0 && this.storageArrays[l] != null)
              {

@@ -60,6 +60,18 @@
          this.setConnectionState(EnumConnectionState.HANDSHAKING);
      }
  
+@@ -181,9 +205,9 @@
+     {
+         if (this.channel != null && this.channel.isOpen())
+         {
+-            while (!this.outboundPacketsQueue.isEmpty())
++            NetworkManager.InboundHandlerTuplePacketListener inboundhandlertuplepacketlistener = null;
++            while ((inboundhandlertuplepacketlistener = (NetworkManager.InboundHandlerTuplePacketListener)this.outboundPacketsQueue.poll()) != null)
+             {
+-                NetworkManager.InboundHandlerTuplePacketListener inboundhandlertuplepacketlistener = (NetworkManager.InboundHandlerTuplePacketListener)this.outboundPacketsQueue.poll();
+                 this.dispatchPacket(inboundhandlertuplepacketlistener.field_150774_a, inboundhandlertuplepacketlistener.field_150773_b);
+             }
+         }
 @@ -206,9 +232,15 @@
 
         if (this.netHandler != null)
@@ -67,7 +79,7 @@
 -             for (int i = 1000; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
 -             {
 -                Packet packet = (Packet)this.receivedPacketsQueue.poll();
-+             for (int i = 2000; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
++             for (int i = 10000; !this.receivedPacketsQueue.isEmpty() && i >= 0; --i)
 +             {
 +                Packet packet = (Packet) this.receivedPacketsQueue.poll();
 +

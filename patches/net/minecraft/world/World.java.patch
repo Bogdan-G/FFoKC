@@ -877,11 +877,11 @@
 -        for (i = 0; i < this.loadedEntityList.size(); ++i)
 -        {
 -            entity = (Entity)this.loadedEntityList.get(i);
-+        int entitiesThisCycle = 0;
-+        if (tickPosition < 0) tickPosition = 0;
-+        for (entityLimiter.initTick(); entitiesThisCycle < loadedEntityList.size() && (entitiesThisCycle % 10 != 0 || entityLimiter.shouldContinue()); tickPosition++, entitiesThisCycle++) { 
-+            tickPosition = (tickPosition < loadedEntityList.size()) ? tickPosition : 0;
-+            entity = (Entity)this.loadedEntityList.get(this.tickPosition);
++        //nope
++        //nope
++       for (i = 0; i < this.loadedEntityList.size(); ++i) {
++            entity = (Entity)this.loadedEntityList.get(i);
++            //nope
  
              if (entity.ridingEntity != null)
              {
@@ -901,9 +901,9 @@
                  }
 -
 -                this.loadedEntityList.remove(i--);
-+                if (this.tickPosition < this.loadedEntityList.size()) // KCauldron
-+                this.loadedEntityList.remove(this.tickPosition--); // CraftBukkit - Use field for loop variable
-+                else kcauldron.KLog.get().warning("Entity removal desync! " + entity); // KCauldron
++                //nope
++                this.loadedEntityList.remove(i--); // CraftBukkit - Use field for loop variable
++                //nope
                  this.onEntityRemoved(entity);
              }
  
@@ -943,23 +943,23 @@
  
 -            if (!tileentity.isInvalid() && tileentity.hasWorldObj() && this.blockExists(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord))
 +        int tilesThisCycle = 0;
-+        for (tileLimiter.initTick(); tilesThisCycle < loadedTileEntityList.size() && (tilesThisCycle % 10 != 0 || tileLimiter.shouldContinue()); tileTickPosition++, tilesThisCycle++) {
-+            tileTickPosition = (tileTickPosition < loadedTileEntityList.size()) ? tileTickPosition : 0;
-+            TileEntity tileentity = (TileEntity) this.loadedTileEntityList.get(tileTickPosition);
++        for (i = 0; i < this.loadedTileEntityList.size(); ++i)
++        {
++            TileEntity tileentity = (TileEntity) this.loadedTileEntityList.get(i);
 +            
 +            // Spigot start
 +            if (tileentity == null)
              {
 +                getServer().getLogger().severe("Cauldron has detected a null entity and has removed it, preventing a crash");
-+                tilesThisCycle--;
-+                this.loadedTileEntityList.remove(tileTickPosition--);
++                //nope
++                this.loadedTileEntityList.remove(i--);
 +                continue;
 +            }
 +            // Spigot end
 +            
 +            if (tileentity.isInvalid()) {
-+                tilesThisCycle--;
-+                this.loadedTileEntityList.remove(tileTickPosition--);
++                //nope
++                this.loadedTileEntityList.remove(i--);
 +                if (this.chunkExists(tileentity.xCoord >> 4, tileentity.zCoord >> 4)) {
 +                    Chunk chunk = this.getChunkFromChunkCoords(tileentity.xCoord >> 4, tileentity.zCoord >> 4);
 +                    if (chunk != null) chunk.removeInvalidTileEntity(tileentity.xCoord & 15, tileentity.yCoord, tileentity.zCoord & 15);

@@ -1,3 +1,92 @@
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLClientHandler.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLClientHandler.java
+index 758f1b4..aa96898 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLClientHandler.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLClientHandler.java
+@@ -868,7 +868,7 @@ public class FMLClientHandler implements IFMLSidedHandler
+         boolean gotIt = false;
+         try
+         {
+-            gotIt = playClientBlock.await(30,TimeUnit.SECONDS);
++            gotIt = playClientBlock.await(5,TimeUnit.SECONDS);
+         } catch (InterruptedException e)
+         {
+         }
+@@ -954,12 +954,12 @@ public class FMLClientHandler implements IFMLSidedHandler
+                 logger.error("    domain {} has {} location{}:",resourceDomain, resPacks.size(), resPacks.size() != 1 ? "s" :"");
+                 for (IResourcePack resPack : resPacks)
+                 {
+-                    if (resPack.getClass().equals(FMLContainerHolder.class)) {
++                    if (resPack instanceof FMLContainerHolder) {
+                         FMLContainerHolder containerHolder = (FMLContainerHolder) resPack;
+                         ModContainer fmlContainer = containerHolder.getFMLContainer();
+                         logger.error("      mod {} resources at {}", fmlContainer.getModId(), fmlContainer.getSource().getPath());
+                     }
+-                    else if (resPack.getClass().equals(AbstractResourcePack.class))
++                    else if (resPack instanceof AbstractResourcePack)
+                     {
+                         AbstractResourcePack resourcePack = (AbstractResourcePack) resPack;
+                         File resPath = ObfuscationReflectionHelper.getPrivateValue(AbstractResourcePack.class, resourcePack, "resourcePackFile","field_110597"+"_b");
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLFileResourcePack.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLFileResourcePack.java
+index 3e44956..aac1aae 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLFileResourcePack.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLFileResourcePack.java
+@@ -36,7 +36,7 @@ public class FMLFileResourcePack extends FileResourcePack implements FMLContaine
+     @Override
+     protected InputStream getInputStreamByName(String resourceName) throws IOException
+     {
+-        /*try
++        try
+         {
+             return super.getInputStreamByName(resourceName);
+         }
+@@ -53,8 +53,8 @@ public class FMLFileResourcePack extends FileResourcePack implements FMLContaine
+                         "}").getBytes(Charsets.UTF_8));
+             }
+             else throw ioe;
+-        }*/
+-        return super.getInputStreamByName(resourceName);
++        }
++        //return super.getInputStreamByName(resourceName);
+     }
+ 
+     @Override
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLFolderResourcePack.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLFolderResourcePack.java
+index c615c8b..1073d7c 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLFolderResourcePack.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLFolderResourcePack.java
+@@ -41,7 +41,7 @@ public class FMLFolderResourcePack extends FolderResourcePack implements FMLCont
+     @Override
+     protected InputStream getInputStreamByName(String resourceName) throws IOException
+     {
+-        /*try
++        try
+         {
+             return super.getInputStreamByName(resourceName);
+         }
+@@ -58,8 +58,8 @@ public class FMLFolderResourcePack extends FolderResourcePack implements FMLCont
+                         "}").getBytes(Charsets.UTF_8));
+             }
+             else throw ioe;
+-        }*/
+-        return super.getInputStreamByName(resourceName);
++        }
++        //return super.getInputStreamByName(resourceName);
+     }
+ 
+     @Override
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/GuiModsMissing.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/GuiModsMissing.java
+index 57fa566..b53616f 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/GuiModsMissing.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/GuiModsMissing.java
+@@ -46,7 +46,7 @@ public class GuiModsMissing extends GuiErrorScreen
+         for (ArtifactVersion v : modsMissing.missingMods)
+         {
+             offset+=10;
+-            if (v.getClass().equals(DefaultArtifactVersion.class))
++            if (v instanceof DefaultArtifactVersion)
+             {
+                 DefaultArtifactVersion dav =  (DefaultArtifactVersion)v;
+                 if (dav.getRange() != null && dav.getRange().isUnboundedAbove())
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
 index 94c7104..0bff001 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
@@ -67,6 +156,53 @@ index 94c7104..0bff001 100644
          bus().post(new PlayerEvent.PlayerChangedDimensionEvent(player, fromDim, toDim));
      }
  
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/LoadController.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/LoadController.java
+index 76d7f2a..ec68694 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/LoadController.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/LoadController.java
+@@ -179,7 +179,7 @@ public class LoadController
+     @Subscribe
+     public void propogateStateMessage(FMLEvent stateEvent)
+     {
+-        if (stateEvent.getClass().equals(FMLPreInitializationEvent.class))
++        if (stateEvent instanceof FMLPreInitializationEvent)
+         {
+             modObjectList = buildModObjectList();
+         }
+@@ -213,7 +213,7 @@ public class LoadController
+         FMLLog.log(modId, Level.TRACE, "Sent event %s to mod %s", stateEvent.getEventType(), modId);
+         ThreadContext.remove("mod");
+         activeContainer = null;
+-        if (stateEvent.getClass().equals(FMLStateEvent.class))
++        if (stateEvent instanceof FMLStateEvent)
+         {
+             if (!errors.containsKey(modId))
+             {
+@@ -254,7 +254,7 @@ public class LoadController
+ 
+     public void errorOccurred(ModContainer modContainer, Throwable exception)
+     {
+-        if (exception.getClass().equals(InvocationTargetException.class))
++        if (exception instanceof InvocationTargetException)
+         {
+             errors.put(modContainer.getModId(), ((InvocationTargetException)exception).getCause());
+         }
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/LoaderState.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/LoaderState.java
+index 999645e..0c80f2b 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/LoaderState.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/LoaderState.java
+@@ -98,9 +98,9 @@ public enum LoaderState
+         UNLOADED       ("Unloaded",         "U"),
+         LOADED         ("Loaded",           "L"),
+         CONSTRUCTED    ("Constructed",      "C"),
+-        PREINITIALIZED ("Pre-initialized",  "H"),
++        PREINITIALIZED ("Pre-initialized",  "P"),
+         INITIALIZED    ("Initialized",      "I"),
+-        POSTINITIALIZED("Post-initialized", "J"),
++        POSTINITIALIZED("Post-initialized", "P"),
+         AVAILABLE      ("Available",        "A"),
+         DISABLED       ("Disabled",         "D"),
+         ERRORED        ("Errored",          "E");
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/FMLSanityChecker.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/FMLSanityChecker.java
 index df08d6e..353aae3 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/FMLSanityChecker.java
@@ -86,6 +222,19 @@ index df08d6e..353aae3 100644
          return null;
      }
  
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/EventSubscriptionTransformer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/EventSubscriptionTransformer.java
+index 86f8718..237a99a 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/EventSubscriptionTransformer.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/EventSubscriptionTransformer.java
+@@ -65,7 +65,7 @@ public class EventSubscriptionTransformer implements IClassTransformer
+         {
+             if (buildEvents(classNode))
+             {
+-                ClassWriter cw = new ClassWriter(COMPUTE_FRAMES);
++                ClassWriter cw = new ClassWriter(COMPUTE_MAXS | COMPUTE_FRAMES);
+                 classNode.accept(cw);
+                 return cw.toByteArray();
+             }
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/SideTransformer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/SideTransformer.java
 index 886f025..9a08dc9 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/SideTransformer.java
@@ -139,6 +288,19 @@ index da4088a..0ea86b6 100644
          return modList;
      }
  
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLPreInitializationEvent.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/event/FMLPreInitializationEvent.java
+index 1d7b123..0d497b6 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLPreInitializationEvent.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/event/FMLPreInitializationEvent.java
+@@ -84,7 +84,7 @@ public class FMLPreInitializationEvent extends FMLStateEvent
+ 
+     public Properties getVersionProperties()
+     {
+-        if (this.modContainer.getClass().equals(FMLModContainer.class))
++        if (this.modContainer instanceof FMLModContainer)
+         {
+             return ((FMLModContainer)this.modContainer).searchForVersionProperties();
+         }
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLServerStartingEvent.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/event/FMLServerStartingEvent.java
 index 7999048..1f33b11 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLServerStartingEvent.java
@@ -567,7 +729,7 @@ index 58e1e3f..7b79a9b 100644
  
      private static void computeSortedGeneratorList()
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java
-index d14929c..0634aaf 100644
+index d14929c..9c5f5e2 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java
 @@ -60,7 +60,7 @@ public class CoreModManager {
@@ -617,7 +779,17 @@ index d14929c..0634aaf 100644
  
      }
  
-@@ -336,6 +353,10 @@ public class CoreModManager {
+@@ -329,13 +346,19 @@ public class CoreModManager {
+                     }
+                     catch (IOException e)
+                     {
+-                        // Noise
++                        // Noise ? go log info
++                        FMLRelaunchLog.log(Level.INFO, e, "- dont close jar file %s - JVM mechanics (?)", coreMod.getName());
++                        continue;
+                     }
+                 }
+             }
              String cascadedTweaker = mfAttributes.getValue("TweakClass");
              if (cascadedTweaker != null)
              {
@@ -628,7 +800,7 @@ index d14929c..0634aaf 100644
                  FMLRelaunchLog.info("Loading tweaker %s from %s", cascadedTweaker, coreMod.getName());
                  Integer sortOrder = Ints.tryParse(Strings.nullToEmpty(mfAttributes.getValue("TweakOrder")));
                  sortOrder = (sortOrder == null ? Integer.valueOf(0) : sortOrder);
-@@ -365,6 +386,10 @@ public class CoreModManager {
+@@ -365,6 +388,10 @@ public class CoreModManager {
                  FMLRelaunchLog.fine("Not found coremod data in %s", coreMod.getName());
                  continue;
              }
@@ -639,7 +811,7 @@ index d14929c..0634aaf 100644
              // Support things that are mod jars, but not FML mod jars
              try
              {
-@@ -467,8 +492,11 @@ public class CoreModManager {
+@@ -467,8 +494,11 @@ public class CoreModManager {
              MCVersion requiredMCVersion = coreModClazz.getAnnotation(IFMLLoadingPlugin.MCVersion.class);
              if (!Arrays.asList(rootPlugins).contains(coreModClass) && (requiredMCVersion == null || Strings.isNullOrEmpty(requiredMCVersion.value())))
              {
@@ -24881,7 +25053,7 @@ index d358df5..73ae6cc 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..0310864 100644
+index c365f90..6835223 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -2,6 +2,7 @@ package net.minecraft.world;
@@ -25751,7 +25923,7 @@ index c365f90..0310864 100644
              try
              {
                  ++entity.ticksExisted;
-@@ -1862,10 +2393,15 @@ public abstract class World implements IBlockAccess
+@@ -1862,9 +2393,10 @@ public abstract class World implements IBlockAccess
  
          this.unloadedEntityList.clear();
          this.theProfiler.endStartSection("regular");
@@ -25760,17 +25932,11 @@ index c365f90..0310864 100644
  
 -        for (i = 0; i < this.loadedEntityList.size(); ++i)
 -        {
--            entity = (Entity)this.loadedEntityList.get(i);
-+        //int entitiesThisCycle = 0;
-+        //if (tickPosition < 0) tickPosition = 0;
-+        for (this.tickPosition = 0; this.tickPosition < this.loadedEntityList.size(); ++this.tickPosition) {
-+        //for (entityLimiter.initTick(); entitiesThisCycle < loadedEntityList.size() && (entitiesThisCycle % 10 != 0 || entityLimiter.shouldContinue()); tickPosition++, entitiesThisCycle++) { 
-+            //tickPosition = (tickPosition < loadedEntityList.size()) ? tickPosition : 0;
-+            entity = (Entity)this.loadedEntityList.get(this.tickPosition);
++        for (i = 0; i < this.loadedEntityList.size(); ++i) {
+             entity = (Entity)this.loadedEntityList.get(i);
  
              if (entity.ridingEntity != null)
-             {
-@@ -1884,7 +2420,9 @@ public abstract class World implements IBlockAccess
+@@ -1884,7 +2416,9 @@ public abstract class World implements IBlockAccess
              {
                  try
                  {
@@ -25780,15 +25946,13 @@ index c365f90..0310864 100644
                  }
                  catch (Throwable throwable1)
                  {
-@@ -1916,30 +2454,85 @@ public abstract class World implements IBlockAccess
+@@ -1916,30 +2450,74 @@ public abstract class World implements IBlockAccess
                  {
                      this.getChunkFromChunkCoords(j, l).removeEntity(entity);
                  }
 -
 -                this.loadedEntityList.remove(i--);
-+                if (this.tickPosition < this.loadedEntityList.size()) // KCauldron
-+                this.loadedEntityList.remove(this.tickPosition--); // CraftBukkit - Use field for loop variable
-+                else kcauldron.KLog.get().warning("Entity removal desync! " + entity); // KCauldron
++                this.loadedEntityList.remove(i--); // CraftBukkit - Use field for loop variable
                  this.onEntityRemoved(entity);
              }
  
@@ -25799,6 +25963,9 @@ index c365f90..0310864 100644
          this.theProfiler.endStartSection("blockEntities");
 +        timings.tileEntityTick.startTiming(); // Spigot
          this.field_147481_N = true;
+-        Iterator iterator = this.loadedTileEntityList.iterator();
+-
+-        while (iterator.hasNext())
 +        // CraftBukkit start - From below, clean up tile entities before ticking them
 +        if (!this.field_147483_b.isEmpty())
 +        {
@@ -25821,33 +25988,22 @@ index c365f90..0310864 100644
 +            this.field_147483_b.clear();
 +        }
 +        // CraftBukkit end
-         Iterator iterator = this.loadedTileEntityList.iterator();
- 
--        while (iterator.hasNext())
--        {
--            TileEntity tileentity = (TileEntity)iterator.next();
-+        //int tilesThisCycle = 0;
-+        while (iterator.hasNext()) {
-+            TileEntity tileentity = (TileEntity) iterator.next();
-+        //for (tileLimiter.initTick(); tilesThisCycle < loadedTileEntityList.size() && (tilesThisCycle % 10 != 0 || tileLimiter.shouldContinue()); tileTickPosition++, tilesThisCycle++) {
-+            //tileTickPosition = (tileTickPosition < loadedTileEntityList.size()) ? tileTickPosition : 0;
-+            //TileEntity tileentity = (TileEntity) this.loadedTileEntityList.get(tileTickPosition);
 +            
++        for (i = 0; i < this.loadedTileEntityList.size(); ++i)
+         {
+-            TileEntity tileentity = (TileEntity)iterator.next();
++            TileEntity tileentity = (TileEntity) this.loadedTileEntityList.get(i);
 +            // Spigot start
 +            if (tileentity == null)
 +            {
 +                getServer().getLogger().severe("Cauldron has detected a null entity and has removed it, preventing a crash");
-+                iterator.remove();
-+                //tilesThisCycle--;
-+                //this.loadedTileEntityList.remove(tileTickPosition--);
++                this.loadedTileEntityList.remove(i--);
 +                continue;
 +            }
 +            // Spigot end
 +            
 +            if (tileentity.isInvalid()) {
-+                iterator.remove();
-+                //tilesThisCycle--;
-+                //this.loadedTileEntityList.remove(tileTickPosition--);
++                this.loadedTileEntityList.remove(i--);
 +                if (this.chunkExists(tileentity.xCoord >> 4, tileentity.zCoord >> 4)) {
 +                    Chunk chunk = this.getChunkFromChunkCoords(tileentity.xCoord >> 4, tileentity.zCoord >> 4);
 +                    if (chunk != null) chunk.removeInvalidTileEntity(tileentity.xCoord & 15, tileentity.yCoord, tileentity.zCoord & 15);
@@ -25872,7 +26028,7 @@ index c365f90..0310864 100644
                      crashreport = CrashReport.makeCrashReport(throwable, "Ticking block entity");
                      crashreportcategory = crashreport.makeCategory("Block entity being ticked");
                      tileentity.func_145828_a(crashreportcategory);
-@@ -1955,23 +2548,13 @@ public abstract class World implements IBlockAccess
+@@ -1955,32 +2533,11 @@ public abstract class World implements IBlockAccess
                      }
                  }
              }
@@ -25893,23 +26049,22 @@ index c365f90..0310864 100644
 -            }
          }
  
+-        if (!this.field_147483_b.isEmpty())
+-        {
+-            for (Object tile : field_147483_b)
+-            {
+-               ((TileEntity)tile).onChunkUnload();
+-            }
+-            this.loadedTileEntityList.removeAll(this.field_147483_b);
+-            this.field_147483_b.clear();
+-        }
 +        timings.tileEntityTick.stopTiming(); // Spigot
 +        timings.tileEntityPending.startTiming(); // Spigot
 +        this.field_147481_N = false;
-+
-+        /* CraftBukkit start - Moved up
-         if (!this.field_147483_b.isEmpty())
-         {
-             for (Object tile : field_147483_b)
-@@ -1981,6 +2564,7 @@ public abstract class World implements IBlockAccess
-             this.loadedTileEntityList.removeAll(this.field_147483_b);
-             this.field_147483_b.clear();
-         }
-+        */ // CraftBukkit end
  
          this.field_147481_N = false;
  
-@@ -2016,17 +2600,23 @@ public abstract class World implements IBlockAccess
+@@ -2016,17 +2573,23 @@ public abstract class World implements IBlockAccess
              this.addedTileEntityList.clear();
          }
  
@@ -25936,7 +26091,7 @@ index c365f90..0310864 100644
      }
  
      public void updateEntity(Entity p_72870_1_)
-@@ -2036,21 +2626,33 @@ public abstract class World implements IBlockAccess
+@@ -2036,21 +2599,33 @@ public abstract class World implements IBlockAccess
  
      public void updateEntityWithOptionalForce(Entity p_72866_1_, boolean p_72866_2_)
      {
@@ -25971,7 +26126,7 @@ index c365f90..0310864 100644
              p_72866_1_.lastTickPosX = p_72866_1_.posX;
              p_72866_1_.lastTickPosY = p_72866_1_.posY;
              p_72866_1_.lastTickPosZ = p_72866_1_.posZ;
-@@ -2134,6 +2736,7 @@ public abstract class World implements IBlockAccess
+@@ -2134,6 +2709,7 @@ public abstract class World implements IBlockAccess
                      p_72866_1_.riddenByEntity = null;
                  }
              }
@@ -25979,7 +26134,7 @@ index c365f90..0310864 100644
          }
      }
  
-@@ -2570,7 +3173,7 @@ public abstract class World implements IBlockAccess
+@@ -2570,7 +3146,7 @@ public abstract class World implements IBlockAccess
              return;
          }
  
@@ -25988,7 +26143,7 @@ index c365f90..0310864 100644
          {
              if (this.field_147481_N)
              {
-@@ -2718,7 +3321,15 @@ public abstract class World implements IBlockAccess
+@@ -2718,7 +3294,15 @@ public abstract class World implements IBlockAccess
  
                      if (i <= 0)
                      {
@@ -26005,7 +26160,7 @@ index c365f90..0310864 100644
                      }
                  }
  
-@@ -2754,7 +3365,15 @@ public abstract class World implements IBlockAccess
+@@ -2754,7 +3338,15 @@ public abstract class World implements IBlockAccess
  
                      if (j <= 0)
                      {
@@ -26022,7 +26177,7 @@ index c365f90..0310864 100644
                      }
                  }
  
-@@ -2777,8 +3396,41 @@ public abstract class World implements IBlockAccess
+@@ -2777,8 +3369,41 @@ public abstract class World implements IBlockAccess
      protected void setActivePlayerChunksAndCheckLight()
      {
          this.activeChunkSet.clear();
@@ -26065,7 +26220,7 @@ index c365f90..0310864 100644
          int i;
          EntityPlayer entityplayer;
          int j;
-@@ -2788,17 +3440,28 @@ public abstract class World implements IBlockAccess
+@@ -2788,17 +3413,28 @@ public abstract class World implements IBlockAccess
          for (i = 0; i < this.playerEntities.size(); ++i)
          {
              entityplayer = (EntityPlayer)this.playerEntities.get(i);
@@ -26101,7 +26256,7 @@ index c365f90..0310864 100644
          }
  
          this.theProfiler.endSection();
-@@ -2810,7 +3473,7 @@ public abstract class World implements IBlockAccess
+@@ -2810,7 +3446,7 @@ public abstract class World implements IBlockAccess
  
          this.theProfiler.startSection("playerCheckLight");
  
@@ -26110,7 +26265,7 @@ index c365f90..0310864 100644
          {
              i = this.rand.nextInt(this.playerEntities.size());
              entityplayer = (EntityPlayer)this.playerEntities.get(i);
-@@ -3284,8 +3947,21 @@ public abstract class World implements IBlockAccess
+@@ -3284,8 +3920,21 @@ public abstract class World implements IBlockAccess
          {
              Entity entity = (Entity)this.loadedEntityList.get(j);
  
@@ -26133,7 +26288,7 @@ index c365f90..0310864 100644
                  ++i;
              }
          }
-@@ -3298,6 +3974,7 @@ public abstract class World implements IBlockAccess
+@@ -3298,6 +3947,7 @@ public abstract class World implements IBlockAccess
          for (int i = 0; i < p_72868_1_.size(); ++i)
          {
              Entity entity = (Entity)p_72868_1_.get(i);
@@ -26141,7 +26296,7 @@ index c365f90..0310864 100644
              if (!MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, this)))
              {
                  loadedEntityList.add(entity);
-@@ -3314,8 +3991,17 @@ public abstract class World implements IBlockAccess
+@@ -3314,8 +3964,17 @@ public abstract class World implements IBlockAccess
      public boolean canPlaceEntityOnSide(Block p_147472_1_, int p_147472_2_, int p_147472_3_, int p_147472_4_, boolean p_147472_5_, int p_147472_6_, Entity p_147472_7_, ItemStack p_147472_8_)
      {
          Block block1 = this.getBlock(p_147472_2_, p_147472_3_, p_147472_4_);
@@ -26160,7 +26315,7 @@ index c365f90..0310864 100644
      }
  
      public PathEntity getPathEntityToEntity(Entity p_72865_1_, Entity p_72865_2_, float p_72865_3_, boolean p_72865_4_, boolean p_72865_5_, boolean p_72865_6_, boolean p_72865_7_)
-@@ -3464,6 +4150,12 @@ public abstract class World implements IBlockAccess
+@@ -3464,6 +4123,12 @@ public abstract class World implements IBlockAccess
          for (int i = 0; i < this.playerEntities.size(); ++i)
          {
              EntityPlayer entityplayer1 = (EntityPlayer)this.playerEntities.get(i);
@@ -26173,7 +26328,7 @@ index c365f90..0310864 100644
              double d5 = entityplayer1.getDistanceSq(p_72977_1_, p_72977_3_, p_72977_5_);
  
              if ((p_72977_7_ < 0.0D || d5 < p_72977_7_ * p_72977_7_) && (d4 == -1.0D || d5 < d4))
-@@ -3489,7 +4181,12 @@ public abstract class World implements IBlockAccess
+@@ -3489,7 +4154,12 @@ public abstract class World implements IBlockAccess
          for (int i = 0; i < this.playerEntities.size(); ++i)
          {
              EntityPlayer entityplayer1 = (EntityPlayer)this.playerEntities.get(i);
@@ -26187,7 +26342,7 @@ index c365f90..0310864 100644
              if (!entityplayer1.capabilities.disableDamage && entityplayer1.isEntityAlive())
              {
                  double d5 = entityplayer1.getDistanceSq(p_72846_1_, p_72846_3_, p_72846_5_);
-@@ -3660,6 +4357,18 @@ public abstract class World implements IBlockAccess
+@@ -3660,6 +4330,18 @@ public abstract class World implements IBlockAccess
  
      public void updateAllPlayersSleepingFlag() {}
  
@@ -26206,7 +26361,7 @@ index c365f90..0310864 100644
      public float getWeightedThunderStrength(float p_72819_1_)
      {
          return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * p_72819_1_) * this.getRainStrength(p_72819_1_);
-@@ -3932,8 +4641,8 @@ public abstract class World implements IBlockAccess
+@@ -3932,8 +4614,8 @@ public abstract class World implements IBlockAccess
       */
      public void addTileEntity(TileEntity entity)
      {
@@ -26217,7 +26372,7 @@ index c365f90..0310864 100644
          {
              dest.add(entity);
          }
-@@ -4029,4 +4738,73 @@ public abstract class World implements IBlockAccess
+@@ -4029,4 +4711,73 @@ public abstract class World implements IBlockAccess
          }
          return count;
      }
@@ -29454,6 +29609,32 @@ index 5951732..40d8c2d 100644
 +    }
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
+index 4c7cf24..08bd913 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
+@@ -111,7 +111,7 @@ public class ClientCommandHandler extends CommandHandler
+             leftOfCursor = leftOfCursor.substring(1);
+ 
+             Minecraft mc = FMLClientHandler.instance().getClient();
+-            if (mc.currentScreen.getClass().equals(GuiChat.class))
++            if (mc.currentScreen instanceof GuiChat)
+             {
+                 @SuppressWarnings("unchecked")
+                 List<String> commands = getPossibleCommands(mc.thePlayer, leftOfCursor);
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/ForgeHooksClient.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ForgeHooksClient.java
+index 8df4437..42a3244 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/client/ForgeHooksClient.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ForgeHooksClient.java
+@@ -100,7 +100,7 @@ public class ForgeHooksClient
+         boolean is3D = customRenderer.shouldUseRenderHelper(ENTITY, item, BLOCK_3D);
+ 
+         engine.bindTexture(item.getItemSpriteNumber() == 0 ? TextureMap.locationBlocksTexture : TextureMap.locationItemsTexture);
+-        Block block = item.getItem().getClass().equals(ItemBlock.class) ? Block.getBlockFromItem(item.getItem()) : null;
++        Block block = item.getItem() instanceof ItemBlock ? Block.getBlockFromItem(item.getItem()) : null;
+         if (is3D || (block != null && RenderBlocks.renderItemIn3d(block.getRenderType())))
+         {
+             int renderType = (block != null ? block.getRenderType() : 1);
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/IRenderContextHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/IRenderContextHandler.java
 index a315a2f..caaa3dc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/IRenderContextHandler.java
@@ -29465,6 +29646,19 @@ index a315a2f..caaa3dc 100644
 -}
 +}
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/BiomeDictionary.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/BiomeDictionary.java
+index f64520b..5900655 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/BiomeDictionary.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/BiomeDictionary.java
+@@ -303,7 +303,7 @@ public class BiomeDictionary
+                 continue;
+             }
+ 
+-            if (biome.theBiomeDecorator.getClass().equals(DeferredBiomeDecorator.class))
++            if (biome.theBiomeDecorator instanceof DeferredBiomeDecorator)
+             {
+                 DeferredBiomeDecorator decorator = (DeferredBiomeDecorator) biome.theBiomeDecorator;
+                 decorator.fireCreateEventAndReplace(biome);
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/DimensionManager.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/DimensionManager.java
 index 130646b..2b1f8c5 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/DimensionManager.java
@@ -29844,6 +30038,50 @@ index 130646b..2b1f8c5 100644
 +    // Cauldron end
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/DungeonHooks.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/DungeonHooks.java
+index 3927f54..4666d07 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/DungeonHooks.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/DungeonHooks.java
+@@ -89,7 +89,7 @@ public class DungeonHooks
+         @Override
+         public boolean equals(Object target)
+         {
+-            return target.getClass().equals(WeightedRandom.class) && type.equals(((DungeonMob)target).type);
++            return target instanceof DungeonMob && type.equals(((DungeonMob)target).type);
+         }
+     }
+ 
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeChunkManager.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/ForgeChunkManager.java
+index 1ec876e..28af99e 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeChunkManager.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/ForgeChunkManager.java
+@@ -401,7 +401,7 @@ public class ForgeChunkManager
+ 
+         forcedChunks.put(world, ImmutableSetMultimap.<ChunkCoordIntPair,Ticket>of());
+ 
+-        if (!(world.getClass().equals(WorldServer.class)))
++        if (!(world instanceof WorldServer))
+         {
+             return;
+         }
+@@ -545,7 +545,7 @@ public class ForgeChunkManager
+     static void unloadWorld(World world)
+     {
+         // World save fires before this event so the chunk loading info will be done
+-        if (!(world.getClass().equals(WorldServer.class)))
++        if (!(world instanceof WorldServer))
+         {
+             return;
+         }
+@@ -820,7 +820,7 @@ public class ForgeChunkManager
+     static void saveWorld(World world)
+     {
+         // only persist persistent worlds
+-        if (!(world.getClass().equals(WorldServer.class)))
++        if (!(world instanceof WorldServer))
+         {
+             return;
+         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeHooks.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/ForgeHooks.java
 index 545e56f..6496443 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeHooks.java
@@ -30098,6 +30336,20 @@ index 545e56f..6496443 100644
          world.capturedBlockSnapshots.clear();
  
          return flag;
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeInternalHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/ForgeInternalHandler.java
+index 7fc91af..a3a5ed9 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeInternalHandler.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/ForgeInternalHandler.java
+@@ -74,7 +74,7 @@ public class ForgeInternalHandler
+     public void onDimensionUnload(WorldEvent.Unload event)
+     {
+         ForgeChunkManager.unloadWorld(event.world);
+-        if (event.world.getClass().equals(WorldServer.class))
++        if (event.world instanceof WorldServer)
+             FakePlayerFactory.unloadWorld((WorldServer)event.world);
+     }
+ }
+\ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeVersion.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/ForgeVersion.java
 index 324c818..b83fafe 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/ForgeVersion.java
@@ -30233,6 +30485,19 @@ index f4982c9..1da02a6 100644
          }
  
          chunk.populateChunk(queuedChunk.provider, queuedChunk.provider, queuedChunk.x, queuedChunk.z);
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/chunkio/QueuedChunk.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/chunkio/QueuedChunk.java
+index 9cfec10..d796c77 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/chunkio/QueuedChunk.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/chunkio/QueuedChunk.java
+@@ -24,7 +24,7 @@ class QueuedChunk {
+ 
+     @Override
+     public boolean equals(Object object) {
+-        if (object.getClass().equals(QueuedChunk.class)) {
++        if (object instanceof QueuedChunk) {
+             QueuedChunk other = (QueuedChunk) object;
+             return x == other.x && z == other.z && world == other.world;
+         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
 index d00bd91..c024c87 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
@@ -30248,6 +30513,19 @@ index d00bd91..c024c87 100644
 +    }
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ServerToClientConnectionEstablishedHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/network/ServerToClientConnectionEstablishedHandler.java
+index 7a3f04a..1da67a0 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ServerToClientConnectionEstablishedHandler.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/network/ServerToClientConnectionEstablishedHandler.java
+@@ -8,7 +8,7 @@ public class ServerToClientConnectionEstablishedHandler extends ChannelInboundHa
+     @Override
+     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception
+     {
+-        if (evt.getClass().equals(NetworkHandshakeEstablished.class))
++        if (evt instanceof NetworkHandshakeEstablished)
+         {
+             ctx.writeAndFlush(new ForgeMessage.FluidIdMapMessage());
+             return;
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/EnumHelper.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/EnumHelper.java
 index 5f0ec8a..e3e069e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/EnumHelper.java
@@ -30622,8 +30900,21 @@ index 2c8e01e..9c66d5a 100644
          }
      }
  
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/RenderBlockFluid.java ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/RenderBlockFluid.java
+index eaaf6da..b1a058a 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/RenderBlockFluid.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/RenderBlockFluid.java
+@@ -78,7 +78,7 @@ public class RenderBlockFluid implements ISimpleBlockRenderingHandler
+     @Override
+     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
+     {
+-        if (block.getClass().equals(BlockFluidBase.class))
++        if (!(block instanceof BlockFluidBase))
+         {
+             return false;
+         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
-index 5f5321f..44d9c6e 100644
+index 5f5321f..fb419ba 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
 @@ -6,6 +6,10 @@ import java.util.Iterator;
@@ -30661,6 +30952,18 @@ index 5f5321f..44d9c6e 100644
          output = recipe.getRecipeOutput();
          width = recipe.recipeWidth;
          height = recipe.recipeHeight;
+@@ -186,9 +193,9 @@ public class ShapedOreRecipe implements IRecipe
+     @SuppressWarnings("unchecked")
+     private boolean checkMatch(InventoryCrafting inv, int startX, int startY, boolean mirror)
+     {
+-        for (int x = 0; x < MAX_CRAFT_GRID_WIDTH; ++x)
++        for (int x = 0; x < MAX_CRAFT_GRID_WIDTH; x++)
+         {
+-            for (int y = 0; y < MAX_CRAFT_GRID_HEIGHT; ++y)
++            for (int y = 0; y < MAX_CRAFT_GRID_HEIGHT; y++)
+             {
+                 int subX = x - startX;
+                 int subY = y - startY;
 @@ -255,4 +262,13 @@ public class ShapedOreRecipe implements IRecipe
      {
          return this.input;

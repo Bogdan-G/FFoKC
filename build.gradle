@@ -173,7 +173,7 @@ def generateManifest(boolean legacy = false) {
             'KCauldron-Channel'     : project.name,
             'KCauldron-Version'     : project.version,
             'KCauldron-Legacy'      : legacy,
-            'Implementation-Vendor' : 'Prototik',
+            'Implementation-Vendor' : 'Bogdan-G, Prototik, Robotia, etc',
             'Implementation-Title'  : project.name,
             'Implementation-Version': project.version,
             'Specification-Vendor'  : 'Bukkit Team',

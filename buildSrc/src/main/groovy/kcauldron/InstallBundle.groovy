@@ -35,9 +35,19 @@ class InstallBundle extends DefaultTask {
         new File(installLocation, "README.txt").withWriter {
             def String jarPath = 'bin/' << (project.group as String).replace('.', File.separator) << File.separator << project.name << File.separator << project.version << File.separator << project.name << '-' << project.version << '.jar'
 
-            it << '''FF of KCauldron installation guide
+            it << '''#FF of KCauldron
 
-# nope
+Starter file: KCauldron-1.7.10-N.testNN-server.bat
+
+#github repo: https://github.com/Bogdan-G/KCauldron
+
+#Credits
+Contributors projects: MC, MCP, Forge, Bukkit, Spigot, PaperSpigot, Cauldron, KCauldron, Thermos, NEID, etc
+
+#Special Thanks
+Prototik, Robotia, Fewizz, SvEgiiVEteR, etc
+
+P.S. In `Credits` & `Special Thanks` - roughly grouped into categories, not the level of merit.(примерно сгруппированы по категориям, не уровень заслуг.)
 '''
         }
         def cp = bootstrapClasspath

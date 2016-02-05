@@ -21,6 +21,8 @@ Changes underway in the direction of my modpack.
   `git submodule update --init --recursive`
 * Setup initial workspace
   `gradle setupCauldron`
+* Setup bundle
+  `gradle installBundle`
 * Build jar
   `gradle jar`
 
@@ -38,3 +40,11 @@ it is not an ordinary license =)
 
 [License_img]: http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png
 [WTFPL_dowl]: http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png
+
+##Credits
+Contributors projects: MC, MCP, Forge, Bukkit, Spigot, PaperSpigot, Cauldron, KCauldron, Thermos, NEID, etc
+
+##Special Thanks
+Prototik, Robotia, Fewizz, SvEgiiVEteR, etc
+
+P.S. In `Credits` & `Special Thanks` - roughly grouped into categories, not the level of merit.(примерно сгруппированы по категориям, не уровень заслуг.)

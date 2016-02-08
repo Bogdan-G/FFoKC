@@ -877,10 +877,10 @@
 -        for (i = 0; i < this.loadedEntityList.size(); ++i)
 -        {
 -            entity = (Entity)this.loadedEntityList.get(i);
-+        //nope
-+        //nope
-+       for (i = 0; i < this.loadedEntityList.size(); ++i) {
++        for (i = 0; i < this.loadedEntityList.size(); ++i) {
 +            entity = (Entity)this.loadedEntityList.get(i);
++            if (entity == null) {System.out.println("Cauldron has detected a null entity and has removed it, preventing a crash"); this.loadedEntityList.remove(i); continue;
++            } else {
 +            //nope
  
              if (entity.ridingEntity != null)
@@ -902,13 +902,14 @@
 -
 -                this.loadedEntityList.remove(i--);
 +                //nope
-+                this.loadedEntityList.remove(i--); // CraftBukkit - Use field for loop variable
++                this.loadedEntityList.remove(i);
 +                //nope
                  this.onEntityRemoved(entity);
              }
  
              this.theProfiler.endSection();
-         }
+-         }
++         }}
  
 +        timings.entityTick.stopTiming(); // Spigot
          this.theProfiler.endStartSection("blockEntities");
@@ -954,7 +955,7 @@
 +                //nope
 +                this.loadedTileEntityList.remove(i--);
 +                continue;
-+            }
++            } else {
 +            // Spigot end
 +            
 +            if (tileentity.isInvalid()) {
@@ -1002,7 +1003,8 @@
 -                    }
 -                }
 -            }
-         }
+-         }
++         }}
  
 +        timings.tileEntityTick.stopTiming(); // Spigot
 +        timings.tileEntityPending.startTiming(); // Spigot

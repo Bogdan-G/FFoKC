@@ -9,8 +9,8 @@ Changes underway in the direction of my modpack.
 
 ## I used to compile
 * Win 7 x64
-* Zulu JDK 7u91 x64
-* Gradle 2.0
+* Zulu JDK 7u95 x64
+* Gradle 2.4
 * git-scm 2.7.0 x64
 
 ## Building FF of KCauldron
@@ -21,17 +21,15 @@ Changes underway in the direction of my modpack.
   `git submodule update --init --recursive`
 * Setup initial workspace
   `gradle setupCauldron`
-* Setup bundle
-  `gradle installBundle`
 * Build jar
-  `gradle jar`
+  `gradle jar --offline`
 
 ## Updating sources
 If you're once checkout source - you not need to do it again
 * Update sources
   * `git pull origin master`
 * Reapply patches & build binaries
-  * `gradle clean setupCauldron jar`
+  * `gradle clean setupCauldron jar --offline`
 
 ## License project
 it is not an ordinary license =)

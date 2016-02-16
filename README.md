@@ -15,7 +15,7 @@ Changes underway in the direction of my modpack.
 
 ## Building FF of KCauldron
 * Checkout project
-  `git clone https://github.com/Bogdan-G/KCauldron.git`
+  `git clone https://github.com/Bogdan-G/FFoKC.git`
 * Init submodules
   * Since this project is merger of two other we need both.
   `git submodule update --init --recursive`

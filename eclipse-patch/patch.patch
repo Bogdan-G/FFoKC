@@ -5479,7 +5479,7 @@ index 24764a3..92a9d60 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLiving.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLiving.java
-index 2a3a366..884fa09 100644
+index 2a3a366..d14c43d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLiving.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLiving.java
 @@ -38,6 +38,13 @@ import net.minecraftforge.common.ForgeHooks;
@@ -5534,7 +5534,15 @@ index 2a3a366..884fa09 100644
  
          if (p_70037_1_.hasKey("CustomName", 8) && p_70037_1_.getString("CustomName").length() > 0)
          {
-@@ -521,15 +542,36 @@ public abstract class EntityLiving extends EntityLivingBase
+@@ -480,6 +501,7 @@ public abstract class EntityLiving extends EntityLivingBase
+ 
+     protected void despawnEntity()
+     {
++        if(!canDespawn()) return;
+         Result result = null;
+         if (this.persistenceRequired)
+         {
+@@ -521,15 +543,36 @@ public abstract class EntityLiving extends EntityLivingBase
                      this.entityAge = 0;
                  }
              }
@@ -5571,7 +5579,7 @@ index 2a3a366..884fa09 100644
          this.worldObj.theProfiler.startSection("sensing");
          this.senses.clearSensingCache();
          this.worldObj.theProfiler.endSection();
-@@ -1005,6 +1047,14 @@ public abstract class EntityLiving extends EntityLivingBase
+@@ -1005,6 +1048,14 @@ public abstract class EntityLiving extends EntityLivingBase
      {
          if (this.getLeashed() && this.getLeashedToEntity() == p_130002_1_)
          {
@@ -5586,7 +5594,7 @@ index 2a3a366..884fa09 100644
              this.clearLeashed(true, !p_130002_1_.capabilities.isCreativeMode);
              return true;
          }
-@@ -1016,6 +1066,14 @@ public abstract class EntityLiving extends EntityLivingBase
+@@ -1016,6 +1067,14 @@ public abstract class EntityLiving extends EntityLivingBase
              {
                  if (!(this instanceof EntityTameable) || !((EntityTameable)this).isTamed())
                  {
@@ -5601,7 +5609,7 @@ index 2a3a366..884fa09 100644
                      this.setLeashedToEntity(p_130002_1_, true);
                      --itemstack.stackSize;
                      return true;
-@@ -1023,6 +1081,14 @@ public abstract class EntityLiving extends EntityLivingBase
+@@ -1023,6 +1082,14 @@ public abstract class EntityLiving extends EntityLivingBase
  
                  if (((EntityTameable)this).func_152114_e(p_130002_1_))
                  {
@@ -5616,7 +5624,7 @@ index 2a3a366..884fa09 100644
                      this.setLeashedToEntity(p_130002_1_, true);
                      --itemstack.stackSize;
                      return true;
-@@ -1049,6 +1115,7 @@ public abstract class EntityLiving extends EntityLivingBase
+@@ -1049,6 +1116,7 @@ public abstract class EntityLiving extends EntityLivingBase
          {
              if (this.leashedToEntity == null || this.leashedToEntity.isDead)
              {
@@ -5624,7 +5632,7 @@ index 2a3a366..884fa09 100644
                  this.clearLeashed(true, true);
              }
          }
-@@ -1136,10 +1203,16 @@ public abstract class EntityLiving extends EntityLivingBase
+@@ -1136,10 +1204,16 @@ public abstract class EntityLiving extends EntityLivingBase
              }
              else
              {
@@ -6350,7 +6358,7 @@ index b62d4bc..135b10b 100644
      private static final String __OBFID = "CL_00001672";
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
-index 480af9d..ab0c713 100644
+index 480af9d..580d085 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
 @@ -38,6 +38,7 @@ import net.minecraft.world.WorldServer;
@@ -6369,6 +6377,15 @@ index 480af9d..ab0c713 100644
 +    public IntHashMap trackedEntityIDs = new IntHashMap(); // CraftBukkit - private -> public
      private int entityViewDistance;
      private static final String __OBFID = "CL_00001431";
+ 
+@@ -65,7 +66,7 @@ public class EntityTracker
+ 
+         if (p_72786_1_ instanceof EntityPlayerMP)
+         {
+-            this.addEntityToTracker(p_72786_1_, 512, 2);
++            this.addEntityToTracker(p_72786_1_, 512, 1);
+             EntityPlayerMP entityplayermp = (EntityPlayerMP)p_72786_1_;
+             Iterator iterator = this.trackedEntities.iterator();
  
 @@ -73,7 +74,7 @@ public class EntityTracker
              {
@@ -6405,7 +6422,14 @@ index 480af9d..ab0c713 100644
                  entitytrackerentry.removeFromWatchingList(entityplayermp);
              }
          }
-@@ -267,12 +272,14 @@ public class EntityTracker
+@@ -261,18 +266,21 @@ public class EntityTracker
+ 
+     public void updateTrackedEntities()
+     {
++        if(theWorld.playerEntities.size() == 0) return;
+         ArrayList arraylist = new ArrayList();
+         Iterator iterator = this.trackedEntities.iterator();
+ 
          while (iterator.hasNext())
          {
              EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
@@ -6420,7 +6444,7 @@ index 480af9d..ab0c713 100644
          }
  
          for (int i = 0; i < arraylist.size(); ++i)
-@@ -284,7 +291,7 @@ public class EntityTracker
+@@ -284,7 +292,7 @@ public class EntityTracker
              {
                  EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry)iterator1.next();
  
@@ -6429,7 +6453,7 @@ index 480af9d..ab0c713 100644
                  {
                      entitytrackerentry1.tryStartWachingThis(entityplayermp);
                  }
-@@ -319,6 +326,7 @@ public class EntityTracker
+@@ -319,6 +327,7 @@ public class EntityTracker
          while (iterator.hasNext())
          {
              EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
@@ -6437,7 +6461,7 @@ index 480af9d..ab0c713 100644
              entitytrackerentry.removePlayerFromTracker(p_72787_1_);
          }
      }
-@@ -331,7 +339,7 @@ public class EntityTracker
+@@ -331,7 +340,7 @@ public class EntityTracker
          {
              EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
  
@@ -6447,7 +6471,7 @@ index 480af9d..ab0c713 100644
                  entitytrackerentry.tryStartWachingThis(p_85172_1_);
              }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTrackerEntry.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
-index 8e64ad6..9c4c750 100644
+index 8e64ad6..f504805 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
 @@ -56,9 +56,15 @@ import net.minecraft.util.MathHelper;
@@ -6485,7 +6509,18 @@ index 8e64ad6..9c4c750 100644
  
                  while (iterator.hasNext())
                  {
-@@ -177,6 +183,22 @@ public class EntityTrackerEntry
+@@ -157,6 +163,10 @@ public class EntityTrackerEntry
+ 
+             this.sendMetadataToAllAssociatedPlayers();
+         }
++        else if(trackingPlayers.size() == 0) 
++        { 
++        // No players - no tracking
++        }
+         else if (this.ticks % this.updateFrequency == 0 || this.myEntity.isAirBorne || this.myEntity.getDataWatcher().hasChanges())
+         {
+             int i;
+@@ -177,6 +187,22 @@ public class EntityTrackerEntry
                  boolean flag = Math.abs(j1) >= 4 || Math.abs(k1) >= 4 || Math.abs(l1) >= 4 || this.ticks % 60 == 0;
                  boolean flag1 = Math.abs(l - this.lastYaw) >= 4 || Math.abs(i1 - this.lastPitch) >= 4;
  
@@ -6508,7 +6543,7 @@ index 8e64ad6..9c4c750 100644
                  if (this.ticks > 0 || this.myEntity instanceof EntityArrow)
                  {
                      if (j1 >= -128 && j1 < 128 && k1 >= -128 && k1 < 128 && l1 >= -128 && l1 < 128 && this.ticksSinceLastForcedTeleport <= 400 && !this.ridingEntity)
-@@ -197,7 +219,15 @@ public class EntityTrackerEntry
+@@ -197,7 +223,15 @@ public class EntityTrackerEntry
                      else
                      {
                          this.ticksSinceLastForcedTeleport = 0;
@@ -6525,7 +6560,7 @@ index 8e64ad6..9c4c750 100644
                      }
                  }
  
-@@ -224,7 +254,7 @@ public class EntityTrackerEntry
+@@ -224,7 +258,7 @@ public class EntityTrackerEntry
                  }
  
                  this.sendMetadataToAllAssociatedPlayers();
@@ -6534,7 +6569,7 @@ index 8e64ad6..9c4c750 100644
                  if (flag)
                  {
                      this.lastScaledXPosition = i;
-@@ -237,7 +267,7 @@ public class EntityTrackerEntry
+@@ -237,7 +271,7 @@ public class EntityTrackerEntry
                      this.lastYaw = l;
                      this.lastPitch = i1;
                  }
@@ -6543,7 +6578,7 @@ index 8e64ad6..9c4c750 100644
                  this.ridingEntity = false;
              }
              else
-@@ -275,7 +305,32 @@ public class EntityTrackerEntry
+@@ -275,7 +309,32 @@ public class EntityTrackerEntry
  
          if (this.myEntity.velocityChanged)
          {
@@ -6577,7 +6612,7 @@ index 8e64ad6..9c4c750 100644
              this.myEntity.velocityChanged = false;
          }
      }
-@@ -296,6 +351,13 @@ public class EntityTrackerEntry
+@@ -296,6 +355,13 @@ public class EntityTrackerEntry
  
              if (!set.isEmpty())
              {
@@ -6591,7 +6626,7 @@ index 8e64ad6..9c4c750 100644
                  this.func_151261_b(new S20PacketEntityProperties(this.myEntity.getEntityId(), set));
              }
  
-@@ -353,6 +415,19 @@ public class EntityTrackerEntry
+@@ -353,6 +419,19 @@ public class EntityTrackerEntry
  
              if (d0 >= (double)(-this.blocksDistanceThreshold) && d0 <= (double)this.blocksDistanceThreshold && d1 >= (double)(-this.blocksDistanceThreshold) && d1 <= (double)this.blocksDistanceThreshold)
              {
@@ -6611,7 +6646,7 @@ index 8e64ad6..9c4c750 100644
                  if (!this.trackingPlayers.contains(p_73117_1_) && (this.isPlayerWatchingThisChunk(p_73117_1_) || this.myEntity.forceSpawn))
                  {
                      this.trackingPlayers.add(p_73117_1_);
-@@ -369,6 +444,13 @@ public class EntityTrackerEntry
+@@ -369,6 +448,13 @@ public class EntityTrackerEntry
                          ServersideAttributeMap serversideattributemap = (ServersideAttributeMap)((EntityLivingBase)this.myEntity).getAttributeMap();
                          Collection collection = serversideattributemap.getWatchedAttributes();
  
@@ -6625,7 +6660,7 @@ index 8e64ad6..9c4c750 100644
                          if (!collection.isEmpty())
                          {
                              p_73117_1_.playerNetServerHandler.sendPacket(new S20PacketEntityProperties(this.myEntity.getEntityId(), collection));
-@@ -397,6 +479,14 @@ public class EntityTrackerEntry
+@@ -397,6 +483,14 @@ public class EntityTrackerEntry
                          p_73117_1_.playerNetServerHandler.sendPacket(new S1BPacketEntityAttach(0, this.myEntity, this.myEntity.ridingEntity));
                      }
  
@@ -6640,7 +6675,7 @@ index 8e64ad6..9c4c750 100644
                      if (this.myEntity instanceof EntityLiving && ((EntityLiving)this.myEntity).getLeashedToEntity() != null)
                      {
                          p_73117_1_.playerNetServerHandler.sendPacket(new S1BPacketEntityAttach(1, this.myEntity, ((EntityLiving)this.myEntity).getLeashedToEntity()));
-@@ -425,6 +515,11 @@ public class EntityTrackerEntry
+@@ -425,6 +519,11 @@ public class EntityTrackerEntry
                          }
                      }
  
@@ -6652,7 +6687,7 @@ index 8e64ad6..9c4c750 100644
                      if (this.myEntity instanceof EntityLivingBase)
                      {
                          EntityLivingBase entitylivingbase = (EntityLivingBase)this.myEntity;
-@@ -465,7 +560,10 @@ public class EntityTrackerEntry
+@@ -465,7 +564,10 @@ public class EntityTrackerEntry
      {
          if (this.myEntity.isDead)
          {
@@ -6664,7 +6699,7 @@ index 8e64ad6..9c4c750 100644
          }
  
          Packet pkt = FMLNetworkHandler.getEntitySpawningPacket(this.myEntity);
-@@ -491,7 +589,7 @@ public class EntityTrackerEntry
+@@ -491,7 +593,7 @@ public class EntityTrackerEntry
          {
              return new S0EPacketSpawnObject(this.myEntity, 1);
          }
@@ -6673,7 +6708,7 @@ index 8e64ad6..9c4c750 100644
          {
              if (this.myEntity instanceof EntityFishHook)
              {
-@@ -528,13 +626,13 @@ public class EntityTrackerEntry
+@@ -528,13 +630,13 @@ public class EntityTrackerEntry
                  return new S0EPacketSpawnObject(this.myEntity, 76);
              }
              else
@@ -6690,7 +6725,7 @@ index 8e64ad6..9c4c750 100644
                      byte b0 = 63;
  
                      if (this.myEntity instanceof EntitySmallFireball)
-@@ -584,7 +682,7 @@ public class EntityTrackerEntry
+@@ -584,7 +686,7 @@ public class EntityTrackerEntry
                  else if (this.myEntity instanceof EntityItemFrame)
                  {
                      EntityItemFrame entityitemframe = (EntityItemFrame)this.myEntity;
@@ -6699,7 +6734,7 @@ index 8e64ad6..9c4c750 100644
                      s0epacketspawnobject.func_148996_a(MathHelper.floor_float((float)(entityitemframe.field_146063_b * 32)));
                      s0epacketspawnobject.func_148995_b(MathHelper.floor_float((float)(entityitemframe.field_146064_c * 32)));
                      s0epacketspawnobject.func_149005_c(MathHelper.floor_float((float)(entityitemframe.field_146062_d * 32)));
-@@ -593,7 +691,7 @@ public class EntityTrackerEntry
+@@ -593,7 +695,7 @@ public class EntityTrackerEntry
                  else if (this.myEntity instanceof EntityLeashKnot)
                  {
                      EntityLeashKnot entityleashknot = (EntityLeashKnot)this.myEntity;
@@ -6708,7 +6743,7 @@ index 8e64ad6..9c4c750 100644
                      s0epacketspawnobject.func_148996_a(MathHelper.floor_float((float)(entityleashknot.field_146063_b * 32)));
                      s0epacketspawnobject.func_148995_b(MathHelper.floor_float((float)(entityleashknot.field_146064_c * 32)));
                      s0epacketspawnobject.func_149005_c(MathHelper.floor_float((float)(entityleashknot.field_146062_d * 32)));
-@@ -607,13 +705,17 @@ public class EntityTrackerEntry
+@@ -607,13 +709,17 @@ public class EntityTrackerEntry
                  {
                      throw new IllegalArgumentException("Don\'t know how to add " + this.myEntity.getClass() + "!");
                  }
@@ -9562,7 +9597,7 @@ index ecca43c..912c670 100644
          else
          {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/monster/EntityZombie.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/monster/EntityZombie.java
-index a137fa3..2b074b5 100644
+index a137fa3..bd504fe 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/monster/EntityZombie.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/monster/EntityZombie.java
 @@ -46,6 +46,13 @@ import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -9601,7 +9636,7 @@ index a137fa3..2b074b5 100644
          this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
          this.tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1.0D, false));
          this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-@@ -72,7 +85,12 @@ public class EntityZombie extends EntityMob
+@@ -72,14 +85,19 @@ public class EntityZombie extends EntityMob
          this.tasks.addTask(8, new EntityAILookIdle(this));
          this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
          this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
@@ -9615,6 +9650,14 @@ index a137fa3..2b074b5 100644
          this.setSize(0.6F, 1.8F);
      }
  
+     protected void applyEntityAttributes()
+     {
+         super.applyEntityAttributes();
+-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
++        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
+         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
+         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3.0D);
+         this.getAttributeMap().registerAttribute(field_110186_bp).setBaseValue(this.rand.nextDouble() * ForgeModContainer.zombieSummonBaseChance);
 @@ -204,7 +222,16 @@ public class EntityZombie extends EntityMob
  
                  if (flag)
@@ -24529,7 +24572,7 @@ index d358df5..73ae6cc 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..12987c3 100644
+index c365f90..7f50419 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -23,9 +25,11 @@ import net.minecraft.command.IEntitySelector;
@@ -25361,20 +25404,37 @@ index c365f90..12987c3 100644
 +        tilesTicked = 0;
 +        // Cauldron end
  
-         for (i = 0; i < this.weatherEffects.size(); ++i)
+-        for (i = 0; i < this.weatherEffects.size(); ++i)
++        for (i = 0; i < this.weatherEffects.size(); i++)
          {
              entity = (Entity)this.weatherEffects.get(i);
  
-+            // CraftBukkit start - Fixed an NPE
 +            if (entity == null)
 +            {
++                System.out.println("Cauldron has detected a null entity weatherEffects and has removed it, preventing a crash");
++                this.weatherEffects.remove(i);
 +                continue;
-+            }
-+            // CraftBukkit end
++            } else {
 +
              try
              {
                  ++entity.ticksExisted;
+@@ -1834,12 +2365,12 @@ public abstract class World implements IBlockAccess
+ 
+             if (entity.isDead)
+             {
+-                this.weatherEffects.remove(i--);
++                this.weatherEffects.remove(i);
+             }
+-        }
++        }}
+ 
+         this.theProfiler.endStartSection("remove");
+-        this.loadedEntityList.removeAll(this.unloadedEntityList);
++        if(unloadedEntityList.size() != 0) this.loadedEntityList.removeAll(new HashSet(unloadedEntityList));
+         int j;
+         int l;
+ 
 @@ -1862,11 +2393,17 @@ public abstract class World implements IBlockAccess
  
          this.unloadedEntityList.clear();
@@ -25396,17 +25456,20 @@ index c365f90..12987c3 100644
              if (entity.ridingEntity != null)
              {
                  if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity)
-@@ -1884,7 +2421,9 @@ public abstract class World implements IBlockAccess
+@@ -1884,7 +2421,12 @@ public abstract class World implements IBlockAccess
              {
                  try
                  {
 +                    SpigotTimings.tickEntityTimer.startTiming(); // Spigot
++                    long startT = System.nanoTime();
                      this.updateEntity(entity);
++                    long elapsed = System.nanoTime() - startT;
++                    if(elapsed > 20000000) FMLLog.warning("Possible lag source Entity %s %sms", entity, (elapsed/1000000));
 +                    SpigotTimings.tickEntityTimer.stopTiming(); // Spigot
                  }
                  catch (Throwable throwable1)
                  {
-@@ -1916,30 +2455,74 @@ public abstract class World implements IBlockAccess
+@@ -1916,30 +2458,80 @@ public abstract class World implements IBlockAccess
                  {
                      this.getChunkFromChunkCoords(j, l).removeEntity(entity);
                  }
@@ -25432,7 +25495,10 @@ index c365f90..12987c3 100644
 +            {
 +                TileEntity te = (TileEntity)tile;
 +                te.setGC(true);
++                long startT = System.nanoTime();
 +                te.onChunkUnload();
++                long elapsed = System.nanoTime() - startT;
++                if(elapsed > 20000000) FMLLog.warning("Possible lag source on unload TileEntity with GP %s [%s](%s, %s, %s) %sms", tile.getClass(), provider.dimensionId, te.xCoord, te.yCoord, te.zCoord, (elapsed/1000000));
 +            }
 +            List temporary_tile_entity_list = new ArrayList(this.loadedTileEntityList.size());
 +            for(Object tile : loadedTileEntityList)
@@ -25479,7 +25545,10 @@ index c365f90..12987c3 100644
                  {
 +                    tileentity.tickTimer.startTiming(); // Spigot
 +                    tilesTicked++;
++                    long startT = System.nanoTime();
                      tileentity.updateEntity();
++                    long elapsed = System.nanoTime() - startT;
++                    if(elapsed > 20000000) FMLLog.warning("Possible lag source TileEntity %s [%s](%s, %s, %s) %sms", tileentity.getClass(), provider.dimensionId, tileentity.xCoord, tileentity.yCoord, tileentity.zCoord, (elapsed/1000000));
 +                    tileentity.tickTimer.stopTiming(); // Spigot
                  }
                  catch (Throwable throwable)
@@ -25488,7 +25557,7 @@ index c365f90..12987c3 100644
                      crashreport = CrashReport.makeCrashReport(throwable, "Ticking block entity");
                      crashreportcategory = crashreport.makeCategory("Block entity being ticked");
                      tileentity.func_145828_a(crashreportcategory);
-@@ -1955,32 +2538,11 @@ public abstract class World implements IBlockAccess
+@@ -1955,32 +2547,11 @@ public abstract class World implements IBlockAccess
                      }
                  }
              }
@@ -25525,7 +25594,7 @@ index c365f90..12987c3 100644
  
          this.field_147481_N = false;
  
-@@ -2016,17 +2578,23 @@ public abstract class World implements IBlockAccess
+@@ -2016,17 +2587,23 @@ public abstract class World implements IBlockAccess
              this.addedTileEntityList.clear();
          }
  
@@ -25552,7 +25621,7 @@ index c365f90..12987c3 100644
      }
  
      public void updateEntity(Entity p_72870_1_)
-@@ -2036,21 +2604,33 @@ public abstract class World implements IBlockAccess
+@@ -2036,21 +2613,33 @@ public abstract class World implements IBlockAccess
  
      public void updateEntityWithOptionalForce(Entity p_72866_1_, boolean p_72866_2_)
      {
@@ -25587,7 +25656,7 @@ index c365f90..12987c3 100644
              p_72866_1_.lastTickPosX = p_72866_1_.posX;
              p_72866_1_.lastTickPosY = p_72866_1_.posY;
              p_72866_1_.lastTickPosZ = p_72866_1_.posZ;
-@@ -2134,6 +2714,7 @@ public abstract class World implements IBlockAccess
+@@ -2134,6 +2723,7 @@ public abstract class World implements IBlockAccess
                      p_72866_1_.riddenByEntity = null;
                  }
              }
@@ -25595,7 +25664,7 @@ index c365f90..12987c3 100644
          }
      }
  
-@@ -2570,7 +3151,7 @@ public abstract class World implements IBlockAccess
+@@ -2570,7 +3160,7 @@ public abstract class World implements IBlockAccess
              return;
          }
  
@@ -25604,7 +25673,7 @@ index c365f90..12987c3 100644
          {
              if (this.field_147481_N)
              {
-@@ -2718,7 +3299,15 @@ public abstract class World implements IBlockAccess
+@@ -2718,7 +3308,15 @@ public abstract class World implements IBlockAccess
  
                      if (i <= 0)
                      {
@@ -25621,7 +25690,7 @@ index c365f90..12987c3 100644
                      }
                  }
  
-@@ -2754,7 +3343,15 @@ public abstract class World implements IBlockAccess
+@@ -2754,7 +3352,15 @@ public abstract class World implements IBlockAccess
  
                      if (j <= 0)
                      {
@@ -25638,7 +25707,7 @@ index c365f90..12987c3 100644
                      }
                  }
  
-@@ -2777,8 +3374,41 @@ public abstract class World implements IBlockAccess
+@@ -2777,8 +3383,41 @@ public abstract class World implements IBlockAccess
      protected void setActivePlayerChunksAndCheckLight()
      {
          this.activeChunkSet.clear();
@@ -25681,7 +25750,7 @@ index c365f90..12987c3 100644
          int i;
          EntityPlayer entityplayer;
          int j;
-@@ -2788,17 +3418,28 @@ public abstract class World implements IBlockAccess
+@@ -2788,17 +3427,28 @@ public abstract class World implements IBlockAccess
          for (i = 0; i < this.playerEntities.size(); ++i)
          {
              entityplayer = (EntityPlayer)this.playerEntities.get(i);
@@ -25717,7 +25786,7 @@ index c365f90..12987c3 100644
          }
  
          this.theProfiler.endSection();
-@@ -2810,7 +3451,7 @@ public abstract class World implements IBlockAccess
+@@ -2810,7 +3460,7 @@ public abstract class World implements IBlockAccess
  
          this.theProfiler.startSection("playerCheckLight");
  
@@ -25726,7 +25795,7 @@ index c365f90..12987c3 100644
          {
              i = this.rand.nextInt(this.playerEntities.size());
              entityplayer = (EntityPlayer)this.playerEntities.get(i);
-@@ -3284,8 +3925,21 @@ public abstract class World implements IBlockAccess
+@@ -3284,8 +3934,21 @@ public abstract class World implements IBlockAccess
          {
              Entity entity = (Entity)this.loadedEntityList.get(j);
  
@@ -25749,7 +25818,7 @@ index c365f90..12987c3 100644
                  ++i;
              }
          }
-@@ -3298,6 +3952,7 @@ public abstract class World implements IBlockAccess
+@@ -3298,6 +3961,7 @@ public abstract class World implements IBlockAccess
          for (int i = 0; i < p_72868_1_.size(); ++i)
          {
              Entity entity = (Entity)p_72868_1_.get(i);
@@ -25757,7 +25826,7 @@ index c365f90..12987c3 100644
              if (!MinecraftForge.EVENT_BUS.post(new EntityJoinWorldEvent(entity, this)))
              {
                  loadedEntityList.add(entity);
-@@ -3314,8 +3969,17 @@ public abstract class World implements IBlockAccess
+@@ -3314,8 +3978,17 @@ public abstract class World implements IBlockAccess
      public boolean canPlaceEntityOnSide(Block p_147472_1_, int p_147472_2_, int p_147472_3_, int p_147472_4_, boolean p_147472_5_, int p_147472_6_, Entity p_147472_7_, ItemStack p_147472_8_)
      {
          Block block1 = this.getBlock(p_147472_2_, p_147472_3_, p_147472_4_);
@@ -25776,7 +25845,7 @@ index c365f90..12987c3 100644
      }
  
      public PathEntity getPathEntityToEntity(Entity p_72865_1_, Entity p_72865_2_, float p_72865_3_, boolean p_72865_4_, boolean p_72865_5_, boolean p_72865_6_, boolean p_72865_7_)
-@@ -3464,6 +4128,12 @@ public abstract class World implements IBlockAccess
+@@ -3464,6 +4137,12 @@ public abstract class World implements IBlockAccess
          for (int i = 0; i < this.playerEntities.size(); ++i)
          {
              EntityPlayer entityplayer1 = (EntityPlayer)this.playerEntities.get(i);
@@ -25789,7 +25858,7 @@ index c365f90..12987c3 100644
              double d5 = entityplayer1.getDistanceSq(p_72977_1_, p_72977_3_, p_72977_5_);
  
              if ((p_72977_7_ < 0.0D || d5 < p_72977_7_ * p_72977_7_) && (d4 == -1.0D || d5 < d4))
-@@ -3489,7 +4159,12 @@ public abstract class World implements IBlockAccess
+@@ -3489,7 +4168,12 @@ public abstract class World implements IBlockAccess
          for (int i = 0; i < this.playerEntities.size(); ++i)
          {
              EntityPlayer entityplayer1 = (EntityPlayer)this.playerEntities.get(i);
@@ -25803,7 +25872,7 @@ index c365f90..12987c3 100644
              if (!entityplayer1.capabilities.disableDamage && entityplayer1.isEntityAlive())
              {
                  double d5 = entityplayer1.getDistanceSq(p_72846_1_, p_72846_3_, p_72846_5_);
-@@ -3660,6 +4335,18 @@ public abstract class World implements IBlockAccess
+@@ -3660,6 +4344,18 @@ public abstract class World implements IBlockAccess
  
      public void updateAllPlayersSleepingFlag() {}
  
@@ -25822,7 +25891,7 @@ index c365f90..12987c3 100644
      public float getWeightedThunderStrength(float p_72819_1_)
      {
          return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * p_72819_1_) * this.getRainStrength(p_72819_1_);
-@@ -3932,8 +4619,8 @@ public abstract class World implements IBlockAccess
+@@ -3932,8 +4628,8 @@ public abstract class World implements IBlockAccess
       */
      public void addTileEntity(TileEntity entity)
      {
@@ -25833,7 +25902,7 @@ index c365f90..12987c3 100644
          {
              dest.add(entity);
          }
-@@ -4029,4 +4716,73 @@ public abstract class World implements IBlockAccess
+@@ -4029,4 +4725,73 @@ public abstract class World implements IBlockAccess
          }
          return count;
      }

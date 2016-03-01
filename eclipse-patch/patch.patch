@@ -1,3 +1,32 @@
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLClientHandler.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLClientHandler.java
+index aa96898..965f9b0 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/FMLClientHandler.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/FMLClientHandler.java
+@@ -14,6 +14,8 @@ package cpw.mods.fml.client;
+ 
+ import java.io.File;
+ import java.io.FileInputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.lang.ref.WeakReference;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -670,13 +672,13 @@ public class FMLClientHandler implements IFMLSidedHandler
+         NBTTagCompound leveldat;
+         try
+         {
+-            leveldat = CompressedStreamTools.readCompressed(new FileInputStream(new File(dir, "level.dat")));
++            leveldat = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(new File(dir, "level.dat"))));
+         }
+         catch (Exception e)
+         {
+             try
+             {
+-                leveldat = CompressedStreamTools.readCompressed(new FileInputStream(new File(dir, "level.dat_old")));
++                leveldat = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(new File(dir, "level.dat_old"))));
+             }
+             catch (Exception e1)
+             {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
 index 94c7104..0bff001 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
@@ -67,6 +96,28 @@ index 94c7104..0bff001 100644
          bus().post(new PlayerEvent.PlayerChangedDimensionEvent(player, fromDim, toDim));
      }
  
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLModContainer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/FMLModContainer.java
+index cf1fb72..620d23b 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLModContainer.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/FMLModContainer.java
+@@ -14,6 +14,8 @@ package cpw.mods.fml.common;
+ 
+ import java.io.File;
+ import java.io.FileInputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.lang.annotation.Annotation;
+ import java.lang.reflect.Field;
+ import java.lang.reflect.Method;
+@@ -236,7 +238,7 @@ public class FMLModContainer implements ModContainer
+                 if (propsFile.exists() && propsFile.isFile())
+                 {
+                     version = new Properties();
+-                    FileInputStream fis = new FileInputStream(propsFile);
++                    BufferedInputStream fis = new BufferedInputStream(new FileInputStream(propsFile));
+                     version.load(fis);
+                     fis.close();
+                 }
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/FMLSanityChecker.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/FMLSanityChecker.java
 index df08d6e..353aae3 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/FMLSanityChecker.java
@@ -107,6 +158,28 @@ index 886f025..9a08dc9 100644
          {
              if (DEBUG)
              {
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java
+index 0e0b0b3..bd11c6e 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java
+@@ -14,6 +14,8 @@ package cpw.mods.fml.common.asm.transformers.deobf;
+ 
+ import java.io.File;
+ import java.io.FileInputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.util.Arrays;
+@@ -75,7 +77,7 @@ public class FMLDeobfuscatingRemapper extends Remapper {
+         try
+         {
+             File mapData = new File(deobfFileName);
+-            LZMAInputSupplier zis = new LZMAInputSupplier(new FileInputStream(mapData));
++            LZMAInputSupplier zis = new LZMAInputSupplier(new BufferedInputStream(new FileInputStream(mapData)));
+             CharSource srgSource = zis.asCharSource(Charsets.UTF_8);
+             List<String> srgList = srgSource.readLines();
+             rawMethodMaps = Maps.newHashMap();
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/ModDiscoverer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/discovery/ModDiscoverer.java
 index da4088a..0ea86b6 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/ModDiscoverer.java
@@ -643,6 +716,43 @@ index 2297276..9c5f5e2 100644
              }
              else if (requiredMCVersion != null && !FMLInjectionData.mccversion.equals(requiredMCVersion.value()))
              {
+diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/GDiffPatcher.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/GDiffPatcher.java
+index 4087b95..6678bac 100644
+--- ./eclipse/Clean/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/GDiffPatcher.java
++++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/GDiffPatcher.java
+@@ -45,6 +45,8 @@ import java.io.EOFException;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.OutputStream;
+@@ -76,8 +78,8 @@ public class GDiffPatcher {
+ 		throws IOException
+ 	{
+         RandomAccessFileSeekableSource source =new RandomAccessFileSeekableSource(new RandomAccessFile(sourceFile, "r"));
+-        InputStream patch = new FileInputStream(patchFile);
+-        OutputStream output = new FileOutputStream(outputFile);
++        InputStream patch = new BufferedInputStream(new FileInputStream(patchFile));
++        OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
+         try {
+             patch(source, patch, output);
+         } catch (IOException e) {
+diff --git ./eclipse/Clean/src/main/java/ibxm/Player.java ./eclipse/cauldron/src/main/java/ibxm/Player.java
+index 0e18307..fe43424 100644
+--- ./eclipse/Clean/src/main/java/ibxm/Player.java
++++ ./eclipse/cauldron/src/main/java/ibxm/Player.java
+@@ -21,7 +21,7 @@ public class Player {
+ 			System.err.println( "Usage: java ibxm.Player <module file>" );
+ 			System.exit( 0 );
+ 		}
+-		FileInputStream file_input_stream = new FileInputStream( args[ 0 ] );
++		InputStream file_input_stream = new BufferedInputStream(new FileInputStream( args[ 0 ] ));
+ 		Player player = new Player();
+ 		player.set_module( Player.load_module( file_input_stream ) );
+ 		file_input_stream.close();
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/Block.java ./eclipse/cauldron/src/main/java/net/minecraft/block/Block.java
 index 525fa61..704ef05 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/Block.java
@@ -3693,6 +3803,37 @@ index b1e33ee..86c9d25 100644
              }
          }
      }
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/client/resources/DefaultResourcePack.java ./eclipse/cauldron/src/main/java/net/minecraft/client/resources/DefaultResourcePack.java
+index 214a729..92d1824 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/client/resources/DefaultResourcePack.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/client/resources/DefaultResourcePack.java
+@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileNotFoundException;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.util.Map;
+@@ -54,7 +56,7 @@ public class DefaultResourcePack implements IResourcePack
+     public InputStream func_152780_c(ResourceLocation p_152780_1_) throws IOException
+     {
+         File file1 = (File)this.field_152781_b.get(p_152780_1_.toString());
+-        return file1 != null && file1.isFile() ? new FileInputStream(file1) : null;
++        return file1 != null && file1.isFile() ? new BufferedInputStream(new FileInputStream(file1)) : null;
+     }
+ 
+     private InputStream getResourceStream(ResourceLocation p_110605_1_)
+@@ -76,7 +78,7 @@ public class DefaultResourcePack implements IResourcePack
+     {
+         try
+         {
+-            FileInputStream fileinputstream = new FileInputStream((File)this.field_152781_b.get("pack.mcmeta"));
++            BufferedInputStream fileinputstream = new BufferedInputStream(new FileInputStream((File)this.field_152781_b.get("pack.mcmeta")));
+             return AbstractResourcePack.readMetadata(p_135058_1_, fileinputstream, p_135058_2_);
+         }
+         catch (RuntimeException runtimeexception)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/command/CommandHandler.java ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandHandler.java
 index be34d1f..628143a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/command/CommandHandler.java
@@ -19703,17 +19844,35 @@ index c23c8fa..9a3d8da 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/ServerEula.java ./eclipse/cauldron/src/main/java/net/minecraft/server/ServerEula.java
-index fa9629c..1dbb640 100644
+index fa9629c..489a9d2 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/ServerEula.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/ServerEula.java
-@@ -26,6 +26,7 @@ public class ServerEula
+@@ -5,6 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.util.Properties;
+ import org.apache.commons.io.IOUtils;
+ import org.apache.logging.log4j.LogManager;
+@@ -26,13 +28,14 @@ public class ServerEula
  
      private boolean func_154347_a(File p_154347_1_)
      {
+-        FileInputStream fileinputstream = null;
 +        if (true) return true; // Cauldron
-         FileInputStream fileinputstream = null;
++        BufferedInputStream fileinputstream = null;
          boolean flag = false;
  
+         try
+         {
+             Properties properties = new Properties();
+-            fileinputstream = new FileInputStream(p_154347_1_);
++            fileinputstream = new BufferedInputStream(new FileInputStream(p_154347_1_));
+             properties.load(fileinputstream);
+             flag = Boolean.parseBoolean(properties.getProperty("eula", "false"));
+         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 index 7526a8d..ac078a6 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
@@ -20000,10 +20159,17 @@ index 7526a8d..ac078a6 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/PropertyManager.java ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/PropertyManager.java
-index ec7735a..a436d79 100644
+index ec7735a..65f7c72 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/PropertyManager.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/PropertyManager.java
-@@ -10,11 +10,13 @@ import java.util.Properties;
+@@ -5,16 +5,20 @@ import cpw.mods.fml.relauncher.SideOnly;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.io.IOException;
+ import java.util.Properties;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -20018,7 +20184,21 @@ index ec7735a..a436d79 100644
      private final File serverPropertiesFile;
      private static final String __OBFID = "CL_00001782";
  
-@@ -58,6 +60,26 @@ public class PropertyManager
+@@ -24,11 +28,11 @@ public class PropertyManager
+ 
+         if (p_i45278_1_.exists())
+         {
+-            FileInputStream fileinputstream = null;
++            BufferedInputStream fileinputstream = null;
+ 
+             try
+             {
+-                fileinputstream = new FileInputStream(p_i45278_1_);
++                fileinputstream = new BufferedInputStream(new FileInputStream(p_i45278_1_));
+                 this.serverProperties.load(fileinputstream);
+             }
+             catch (Exception exception)
+@@ -58,6 +62,26 @@ public class PropertyManager
          }
      }
  
@@ -20045,7 +20225,7 @@ index ec7735a..a436d79 100644
      public void generateNewProperties()
      {
          field_164440_a.info("Generating new properties file");
-@@ -70,6 +92,13 @@ public class PropertyManager
+@@ -70,6 +94,13 @@ public class PropertyManager
  
          try
          {
@@ -20059,7 +20239,7 @@ index ec7735a..a436d79 100644
              fileoutputstream = new FileOutputStream(this.serverPropertiesFile);
              this.serverProperties.store(fileoutputstream, "Minecraft server properties");
          }
-@@ -108,20 +137,20 @@ public class PropertyManager
+@@ -108,20 +139,20 @@ public class PropertyManager
              this.saveProperties();
          }
  
@@ -20083,7 +20263,7 @@ index ec7735a..a436d79 100644
          }
      }
  
-@@ -129,13 +158,13 @@ public class PropertyManager
+@@ -129,13 +160,13 @@ public class PropertyManager
      {
          try
          {
@@ -29013,11 +29193,78 @@ index 1b0ea95..502b782 100644
                      boolean flag = !p_76204_1_.isOnItemFrame();
  
                      if (this.lastPlayerLocationOnMap != null && this.lastPlayerLocationOnMap.length == abyte.length)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/storage/MapStorage.java ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/MapStorage.java
+index a54c225..e7e963a 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/storage/MapStorage.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/MapStorage.java
+@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.Iterator;
+@@ -57,7 +59,7 @@ public class MapStorage
+                             throw new RuntimeException("Failed to instantiate " + p_75742_1_.toString(), exception);
+                         }
+ 
+-                        FileInputStream fileinputstream = new FileInputStream(file1);
++                        BufferedInputStream fileinputstream = new BufferedInputStream(new FileInputStream(file1));
+                         NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(fileinputstream);
+                         fileinputstream.close();
+                         worldsaveddata.readFromNBT(nbttagcompound.getCompoundTag("data"));
+@@ -152,7 +154,7 @@ public class MapStorage
+ 
+             if (file1 != null && file1.exists())
+             {
+-                DataInputStream datainputstream = new DataInputStream(new FileInputStream(file1));
++                DataInputStream datainputstream = new DataInputStream(new BufferedInputStream(new FileInputStream(file1)));
+                 NBTTagCompound nbttagcompound = CompressedStreamTools.read(datainputstream);
+                 datainputstream.close();
+                 Iterator iterator = nbttagcompound.func_150296_c().iterator();
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/storage/SaveFormatOld.java ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/SaveFormatOld.java
-index d922e1c..dcc31c2 100644
+index d922e1c..24b5923 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/storage/SaveFormatOld.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/SaveFormatOld.java
-@@ -179,7 +179,7 @@ public class SaveFormatOld implements ISaveFormat
+@@ -5,6 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.util.ArrayList;
+ import java.util.List;
+ import net.minecraft.client.AnvilConverterException;
+@@ -75,7 +77,7 @@ public class SaveFormatOld implements ISaveFormat
+             {
+                 try
+                 {
+-                    nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
++                    nbttagcompound = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file2)));
+                     nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                     return new WorldInfo(nbttagcompound1);
+                 }
+@@ -91,7 +93,7 @@ public class SaveFormatOld implements ISaveFormat
+             {
+                 try
+                 {
+-                    nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
++                    nbttagcompound = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file2)));
+                     nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                     return new WorldInfo(nbttagcompound1);
+                 }
+@@ -118,7 +120,7 @@ public class SaveFormatOld implements ISaveFormat
+             {
+                 try
+                 {
+-                    NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file2));
++                    NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file2)));
+                     NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                     nbttagcompound1.setString("LevelName", p_75806_2_);
+                     CompressedStreamTools.writeCompressed(nbttagcompound, new FileOutputStream(file2));
+@@ -179,7 +181,7 @@ public class SaveFormatOld implements ISaveFormat
  
                  logger.warn("Unsuccessful in deleting contents.");
  
@@ -29026,7 +29273,7 @@ index d922e1c..dcc31c2 100644
                  {
                      try
                      {
-@@ -189,7 +189,7 @@ public class SaveFormatOld implements ISaveFormat
+@@ -189,7 +191,7 @@ public class SaveFormatOld implements ISaveFormat
                      {
                          ;
                      }
@@ -29036,10 +29283,19 @@ index d922e1c..dcc31c2 100644
  
              return file1.delete();
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/storage/SaveHandler.java ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/SaveHandler.java
-index 4bed2ec..8f15bd3 100644
+index 4bed2ec..a4a61eb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/storage/SaveHandler.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/SaveHandler.java
-@@ -21,6 +21,13 @@ import net.minecraft.world.chunk.storage.IChunkLoader;
+@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.io.IOException;
+ 
+ import cpw.mods.fml.common.FMLCommonHandler;
+@@ -21,6 +23,13 @@ import net.minecraft.world.chunk.storage.IChunkLoader;
  import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
@@ -29053,7 +29309,7 @@ index 4bed2ec..8f15bd3 100644
  public class SaveHandler implements ISaveHandler, IPlayerFileData
  {
      private static final Logger logger = LogManager.getLogger();
-@@ -29,6 +36,8 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -29,6 +38,8 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
      private final File mapDataDir;
      private final long initializationTime = MinecraftServer.getSystemTimeMillis();
      private final String saveDirectoryName;
@@ -29062,7 +29318,7 @@ index 4bed2ec..8f15bd3 100644
      private static final String __OBFID = "CL_00000585";
  
      public SaveHandler(File p_i2146_1_, String p_i2146_2_, boolean p_i2146_3_)
-@@ -67,7 +76,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -67,7 +78,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
          catch (IOException ioexception)
          {
              ioexception.printStackTrace();
@@ -29071,7 +29327,14 @@ index 4bed2ec..8f15bd3 100644
          }
      }
  
-@@ -87,7 +96,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -81,13 +92,13 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+         try
+         {
+             File file1 = new File(this.worldDirectory, "session.lock");
+-            DataInputStream datainputstream = new DataInputStream(new FileInputStream(file1));
++            DataInputStream datainputstream = new DataInputStream(new BufferedInputStream(new FileInputStream(file1)));
+ 
+             try
              {
                  if (datainputstream.readLong() != this.initializationTime)
                  {
@@ -29080,7 +29343,7 @@ index 4bed2ec..8f15bd3 100644
                  }
              }
              finally
-@@ -97,7 +106,10 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -97,7 +108,10 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
          }
          catch (IOException ioexception)
          {
@@ -29092,7 +29355,12 @@ index 4bed2ec..8f15bd3 100644
          }
      }
  
-@@ -122,6 +134,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -118,10 +132,11 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+         {
+             try
+             {
+-                nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
++                nbttagcompound = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file1)));
                  nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
                  worldInfo = new WorldInfo(nbttagcompound1);
                  FMLCommonHandler.instance().handleWorldDataLoad(this, worldInfo, nbttagcompound);
@@ -29100,7 +29368,12 @@ index 4bed2ec..8f15bd3 100644
                  return worldInfo;
              }
              catch (StartupQuery.AbortedException e)
-@@ -145,6 +158,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -141,10 +156,11 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+         {
+             try
+             {
+-                nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
++                nbttagcompound = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file1)));
                  nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
                  worldInfo = new WorldInfo(nbttagcompound1);
                  FMLCommonHandler.instance().handleWorldDataLoad(this, worldInfo, nbttagcompound);
@@ -29108,7 +29381,7 @@ index 4bed2ec..8f15bd3 100644
                  return worldInfo;
              }
              catch (StartupQuery.AbortedException e)
-@@ -157,6 +171,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -157,6 +173,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
              }
          }
  
@@ -29116,7 +29389,16 @@ index 4bed2ec..8f15bd3 100644
          return null;
      }
  
-@@ -284,6 +299,18 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -274,7 +291,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+ 
+             if (file1.exists() && file1.isFile())
+             {
+-                nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
++                nbttagcompound = CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file1)));
+             }
+         }
+         catch (Exception exception)
+@@ -284,6 +301,18 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
  
          if (nbttagcompound != null)
          {
@@ -29135,7 +29417,7 @@ index 4bed2ec..8f15bd3 100644
              p_75752_1_.readFromNBT(nbttagcompound);
          }
  
-@@ -291,6 +318,27 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -291,6 +320,27 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
          return nbttagcompound;
      }
  
@@ -29148,7 +29430,7 @@ index 4bed2ec..8f15bd3 100644
 +
 +            if (file1.exists())
 +            {
-+                return CompressedStreamTools.readCompressed(new FileInputStream(file1));
++                return CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file1)));
 +            }
 +        }
 +        catch (Exception exception)
@@ -29163,7 +29445,7 @@ index 4bed2ec..8f15bd3 100644
      public IPlayerFileData getSaveHandler()
      {
          return this;
-@@ -323,6 +371,100 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+@@ -323,6 +373,100 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
          return this.saveDirectoryName;
      }
  
@@ -29183,7 +29465,7 @@ index 4bed2ec..8f15bd3 100644
 +
 +            try
 +            {
-+                dis = new DataInputStream(new FileInputStream(file1));
++                dis = new DataInputStream(new BufferedInputStream(new FileInputStream(file1)));
 +                return uuid = new UUID(dis.readLong(), dis.readLong());
 +            }
 +            catch (IOException ex)
@@ -29264,6 +29546,15 @@ index 4bed2ec..8f15bd3 100644
      public NBTTagCompound getPlayerNBT(EntityPlayerMP player)
      {
          try
+@@ -331,7 +475,7 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData
+ 
+             if (file1.exists() && file1.isFile())
+             {
+-                return CompressedStreamTools.readCompressed(new FileInputStream(file1));
++                return CompressedStreamTools.readCompressed(new BufferedInputStream(new FileInputStream(file1)));
+             }
+         }
+         catch (Exception exception)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/storage/SaveHandlerMP.java ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/SaveHandlerMP.java
 index 2ab6ad6..f458a25 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/storage/SaveHandlerMP.java
@@ -30135,6 +30426,28 @@ index f4982c9..1da02a6 100644
          }
  
          chunk.populateChunk(queuedChunk.provider, queuedChunk.provider, queuedChunk.x, queuedChunk.z);
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
+index 849986d..34228ca 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
+@@ -15,6 +15,8 @@ import java.io.BufferedWriter;
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.InputStreamReader;
+@@ -815,7 +817,7 @@ public class Configuration
+ 
+             if (file.canRead())
+             {
+-                input = new UnicodeInputStreamReader(new FileInputStream(file), defaultEncoding);
++                input = new UnicodeInputStreamReader(new BufferedInputStream(new FileInputStream(file)), defaultEncoding);
+                 defaultEncoding = input.getEncoding();
+                 buffer = new BufferedReader(input);
+ 
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
 index d00bd91..c024c87 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
@@ -33028,3 +33341,16 @@ index 8a44dd5..cf57045 100644
      }
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/org/bukkit/util/FileUtil.java ./eclipse/cauldron/src/main/java/org/bukkit/util/FileUtil.java
+index 7cf37f5..e57aa38 100644
+--- ./eclipse/Clean/src/main/java/org/bukkit/util/FileUtil.java
++++ ./eclipse/cauldron/src/main/java/org/bukkit/util/FileUtil.java
+@@ -5,6 +5,8 @@ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
++import java.io.BufferedInputStream;
++import java.io.BufferedOutputStream;
+ 
+ /**
+  * Class containing file utilities

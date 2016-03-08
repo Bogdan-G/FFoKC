@@ -389,7 +389,7 @@ public class CauldronHooks
 
                 if (logAll)
                 {
-                    writeChunkCounts(writer, "topEntityColliders", entityCollisionCounts, 20);
+                    writeChunkCounts(writer, "topEntityColliders", entityCollisionCounts, 50);
                 }
                 writeChunkCounts(writer, "entitiesByClass", classEntityCounts);
                 writeChunkCounts(writer, "entitiesByChunk", chunkEntityCounts);

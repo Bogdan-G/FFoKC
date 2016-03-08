@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -552,7 +554,7 @@ public final class CraftServer implements Server {
 
     @Override
     public int getViewDistance() {
-        return this.getConfigInt("view-distance", 10);
+        return this.getConfigInt("view-distance", 8);
     }
 
     @Override
@@ -848,10 +850,10 @@ public final class CraftServer implements Server {
     @SuppressWarnings({ "unchecked", "finally" })
     private void loadCustomPermissions() {
         File file = new File(configuration.getString("settings.permissions-file"));
-        FileInputStream stream;
+        BufferedInputStream stream;
 
         try {
-            stream = new FileInputStream(file);
+            stream = new BufferedInputStream(new FileInputStream(file));
         } catch (FileNotFoundException ex) {
             try {
                 file.createNewFile();

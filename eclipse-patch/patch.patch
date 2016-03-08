@@ -28,7 +28,7 @@ index aa96898..965f9b0 100644
              catch (Exception e1)
              {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
-index 94c7104..0bff001 100644
+index 94c7104..4a71b23 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/FMLCommonHandler.java
 @@ -37,6 +37,10 @@ import net.minecraft.world.storage.WorldInfo;
@@ -46,7 +46,7 @@ index 94c7104..0bff001 100644
      {
          Loader.instance().serverStarted();
          sidedDelegate.allowLogins();
-+        kcauldron.updater.KVersionRetriever.init(MinecraftServer.getServer());
++        //kcauldron.updater.KVersionRetriever.init(MinecraftServer.getServer());
      }
  
      public void handleServerStopping()
@@ -3834,6 +3834,27 @@ index 214a729..92d1824 100644
              return AbstractResourcePack.readMetadata(p_135058_1_, fileinputstream, p_135058_2_);
          }
          catch (RuntimeException runtimeexception)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/command/CommandBase.java ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandBase.java
+index 21d9a81..c4530bd 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/command/CommandBase.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandBase.java
+@@ -248,7 +248,7 @@ public abstract class CommandBase implements ICommand
+ 
+     public static double func_110666_a(ICommandSender p_110666_0_, double p_110666_1_, String p_110666_3_)
+     {
+-        return func_110665_a(p_110666_0_, p_110666_1_, p_110666_3_, -30000000, 30000000);
++        return func_110665_a(p_110666_0_, p_110666_1_, p_110666_3_, -MAX_BLOCK_COORD, MAX_BLOCK_COORD);
+     }
+ 
+     public static double func_110665_a(ICommandSender p_110665_0_, double p_110665_1_, String p_110665_3_, int p_110665_4_, int p_110665_5_)
+@@ -493,4 +493,6 @@ public abstract class CommandBase implements ICommand
+     {
+         return this.compareTo((ICommand)p_compareTo_1_);
+     }
++    //FFoKC: parse UC code
++    public static final int MAX_BLOCK_COORD = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaxCoordOverworld.getValue();
+ }
+\ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/command/CommandHandler.java ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandHandler.java
 index be34d1f..628143a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/command/CommandHandler.java
@@ -15936,7 +15957,7 @@ index c1ed2f6..bb88739 100644
      {
          return this.recipeOutput;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
-index 82678d5..a2d097f 100644
+index 82678d5..f098522 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 @@ -13,6 +13,7 @@ import java.util.Date;
@@ -16261,7 +16282,7 @@ index 82678d5..a2d097f 100644
                  double d10 = d7 * d7 + d8 * d8 + d9 * d9;
  
 -                if (d10 > 100.0D && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getCommandSenderName())))
-+                if (d10 > 250.0D && this.hasMoved && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getCommandSenderName())))   // CraftBukkit - Added this.checkMovement condition to solve this check being triggered by teleports
++                if (d10 > net.minecraft.server.MinecraftServer.kcauldronConfig.commonMovedTooQuicklyThreshold.getValue() && this.hasMoved && (!this.serverController.isSinglePlayer() || !this.serverController.getServerOwner().equals(this.playerEntity.getCommandSenderName())))   // CraftBukkit - Added this.checkMovement condition to solve this check being triggered by teleports
                  {
                      logger.warn(this.playerEntity.getCommandSenderName() + " moved too quickly! " + d4 + "," + d5 + "," + d6 + " (" + d7 + ", " + d8 + ", " + d9 + ")");
                      this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
@@ -16270,7 +16291,7 @@ index 82678d5..a2d097f 100644
                  boolean flag1 = false;
  
 -                if (d10 > 0.0625D && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.theItemInWorldManager.isCreative())
-+                if (d10 > 0.1625D && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.theItemInWorldManager.isCreative())
++                if (d10 > net.minecraft.server.MinecraftServer.kcauldronConfig.commonMovedWronglyThreshold.getValue() && !this.playerEntity.isPlayerSleeping() && !this.playerEntity.theItemInWorldManager.isCreative())
                  {
                      flag1 = true;
                      logger.warn(this.playerEntity.getCommandSenderName() + " moved wrongly!");
@@ -19874,7 +19895,7 @@ index fa9629c..489a9d2 100644
              flag = Boolean.parseBoolean(properties.getProperty("eula", "false"));
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 7526a8d..ac078a6 100644
+index 7526a8d..abaeb5b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -34,9 +34,19 @@ import net.minecraft.world.EnumDifficulty;
@@ -20088,6 +20109,18 @@ index 7526a8d..ac078a6 100644
                  long j = System.nanoTime();
  
                  if (this.getFolderName() == null)
+@@ -249,9 +327,9 @@ public class DedicatedServer extends MinecraftServer implements IServer
+                 this.isCommandBlockEnabled();
+                 this.getOpPermissionLevel();
+                 this.isSnooperEnabled();
+-                this.setBuildLimit(this.settings.getIntProperty("max-build-height", 256));
++                this.setBuildLimit(this.settings.getIntProperty("max-build-height", 999));
+                 this.setBuildLimit((this.getBuildLimit() + 8) / 16 * 16);
+-                this.setBuildLimit(MathHelper.clamp_int(this.getBuildLimit(), 64, 256));
++                this.setBuildLimit(MathHelper.clamp_int(this.getBuildLimit(), 64, 999));
+                 this.settings.setProperty("max-build-height", Integer.valueOf(this.getBuildLimit()));
+                 if (!FMLCommonHandler.instance().handleServerAboutToStart(this)) { return false; }
+                 field_155771_h.info("Preparing level \"" + this.getFolderName() + "\"");
 @@ -274,11 +352,30 @@ public class DedicatedServer extends MinecraftServer implements IServer
                      this.theRConThreadMain.startThread();
                  }
@@ -20841,7 +20874,7 @@ index 513bf57..59f4409 100644
                          // Forge: Grabs ALL tile entities is costly on a modded server, only send needed ones
                          for (k = 0; false && k < 16; ++k)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java ./eclipse/cauldron/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java
-index 8d5db06..0d99542 100644
+index 8d5db06..7c7e2b8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java
 @@ -6,6 +6,8 @@ import com.google.common.collect.Maps;
@@ -21059,7 +21092,7 @@ index 8d5db06..0d99542 100644
 +            p_72377_1_.playerNetServerHandler.sendPacket(new S38PacketPlayerListItem(entityplayermp1.listName, true, entityplayermp1.ping));
          }
 +        // CraftBukkit end
-+        kcauldron.updater.DefaultUpdateCallback.INSTANCE.onPlayerJoin(playerJoinEvent);
++        //kcauldron.updater.DefaultUpdateCallback.INSTANCE.onPlayerJoin(playerJoinEvent);
      }
  
      public void updatePlayerPertinentChunks(EntityPlayerMP p_72358_1_)
@@ -23784,6 +23817,58 @@ index 0d6225d..712fa8e 100644
              ChunkCoordinates chunkcoordinates = this.theVillage.getCenter();
              entityzombie.setHomeArea(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, this.theVillage.getVillageRadius());
              return true;
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/ChunkCache.java ./eclipse/cauldron/src/main/java/net/minecraft/world/ChunkCache.java
+index a4ae42b..c912f55 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/ChunkCache.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/ChunkCache.java
+@@ -160,7 +160,7 @@ public class ChunkCache implements IBlockAccess
+             p_72810_3_ = 255;
+         }
+ 
+-        if (p_72810_3_ >= 0 && p_72810_3_ < 256 && p_72810_2_ >= -30000000 && p_72810_4_ >= -30000000 && p_72810_2_ < 30000000 && p_72810_4_ <= 30000000)
++        if (p_72810_3_ >= 0 && p_72810_3_ < 256 && p_72810_2_ >= -MAX_BLOCK_COORD && p_72810_4_ >= -MAX_BLOCK_COORD && p_72810_2_ < MAX_BLOCK_COORD && p_72810_4_ <= MAX_BLOCK_COORD)
+         {
+             if (p_72810_1_ == EnumSkyBlock.Sky && this.worldObj.provider.hasNoSky)
+             {
+@@ -223,12 +223,12 @@ public class ChunkCache implements IBlockAccess
+             p_72812_3_ = 0;
+         }
+ 
+-        if (p_72812_3_ >= 256)
++        if (p_72812_3_ >= 999)
+         {
+-            p_72812_3_ = 255;
++            p_72812_3_ = 998;
+         }
+ 
+-        if (p_72812_3_ >= 0 && p_72812_3_ < 256 && p_72812_2_ >= -30000000 && p_72812_4_ >= -30000000 && p_72812_2_ < 30000000 && p_72812_4_ <= 30000000)
++        if (p_72812_3_ >= 0 && p_72812_3_ < 256 && p_72812_2_ >= -MAX_BLOCK_COORD && p_72812_4_ >= -MAX_BLOCK_COORD && p_72812_2_ < MAX_BLOCK_COORD && p_72812_4_ <= MAX_BLOCK_COORD)
+         {
+             int l = (p_72812_2_ >> 4) - this.chunkX;
+             int i1 = (p_72812_4_ >> 4) - this.chunkZ;
+@@ -243,17 +243,19 @@ public class ChunkCache implements IBlockAccess
+     @SideOnly(Side.CLIENT)
+     public int getHeight()
+     {
+-        return 256;
++        return 999;
+     }
+ 
+     @Override
+     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default)
+     {
+-        if (x < -30000000 || z < -30000000 || x >= 30000000 || z >= 30000000)
++        if (x < -MAX_BLOCK_COORD || z < -MAX_BLOCK_COORD || x >= MAX_BLOCK_COORD || z >= MAX_BLOCK_COORD)
+         {
+             return _default;
+         }
+ 
+         return getBlock(x, y, z).isSideSolid(this, x, y, z, side);
+     }
++    //?
++    public static final int MAX_BLOCK_COORD = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaxCoordOverworld.getValue();
+ }
+\ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/Explosion.java ./eclipse/cauldron/src/main/java/net/minecraft/world/Explosion.java
 index 004ba3b..34070c0 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/Explosion.java
@@ -24849,7 +24934,7 @@ index d358df5..73ae6cc 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..f4ccd15 100644
+index c365f90..61438a5 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -23,9 +25,11 @@ import net.minecraft.command.IEntitySelector;
@@ -25294,10 +25379,11 @@ index c365f90..f4ccd15 100644
  
      private static MapStorage s_mapStorage;
      private static ISaveHandler s_savehandler;
-@@ -336,6 +656,18 @@ public abstract class World implements IBlockAccess
+@@ -336,7 +656,19 @@ public abstract class World implements IBlockAccess
  
      public Block getBlock(int p_147439_1_, int p_147439_2_, int p_147439_3_)
      {
+-        if (p_147439_1_ >= -30000000 && p_147439_3_ >= -30000000 && p_147439_1_ < 30000000 && p_147439_3_ < 30000000 && p_147439_2_ >= 0 && p_147439_2_ < 256)
 +        // Cauldron start - tree generation
 +        if (captureTreeGeneration)
 +        {
@@ -25310,9 +25396,28 @@ index c365f90..f4ccd15 100644
 +            }
 +        }
 +        // Cauldron end
-         if (p_147439_1_ >= -30000000 && p_147439_3_ >= -30000000 && p_147439_1_ < 30000000 && p_147439_3_ < 30000000 && p_147439_2_ >= 0 && p_147439_2_ < 256)
++        if (p_147439_1_ >= -MAX_BLOCK_COORD && p_147439_3_ >= -MAX_BLOCK_COORD && p_147439_1_ < MAX_BLOCK_COORD && p_147439_3_ < MAX_BLOCK_COORD && p_147439_2_ >= 0 && p_147439_2_ < 999)
          {
              Chunk chunk = null;
+ 
+@@ -368,7 +700,7 @@ public abstract class World implements IBlockAccess
+ 
+     public boolean blockExists(int p_72899_1_, int p_72899_2_, int p_72899_3_)
+     {
+-        return p_72899_2_ >= 0 && p_72899_2_ < 256 ? this.chunkExists(p_72899_1_ >> 4, p_72899_3_ >> 4) : false;
++        return p_72899_2_ >= 0 && p_72899_2_ < 999 ? this.chunkExists(p_72899_1_ >> 4, p_72899_3_ >> 4) : false;
+     }
+ 
+     public boolean doChunksNearChunkExist(int p_72873_1_, int p_72873_2_, int p_72873_3_, int p_72873_4_)
+@@ -378,7 +710,7 @@ public abstract class World implements IBlockAccess
+ 
+     public boolean checkChunksExist(int p_72904_1_, int p_72904_2_, int p_72904_3_, int p_72904_4_, int p_72904_5_, int p_72904_6_)
+     {
+-        if (p_72904_5_ >= 0 && p_72904_2_ < 256)
++        if (p_72904_5_ >= 0 && p_72904_2_ < 999)
+         {
+             p_72904_1_ >>= 4;
+             p_72904_3_ >>= 4;
 @@ -404,7 +736,7 @@ public abstract class World implements IBlockAccess
          }
      }
@@ -25322,10 +25427,11 @@ index c365f90..f4ccd15 100644
      {
          return this.chunkProvider.chunkExists(p_72916_1_, p_72916_2_);
      }
-@@ -421,6 +753,27 @@ public abstract class World implements IBlockAccess
+@@ -421,13 +753,34 @@ public abstract class World implements IBlockAccess
  
      public boolean setBlock(int p_147465_1_, int p_147465_2_, int p_147465_3_, Block p_147465_4_, int p_147465_5_, int p_147465_6_)
      {
+-        if (p_147465_1_ >= -30000000 && p_147465_3_ >= -30000000 && p_147465_1_ < 30000000 && p_147465_3_ < 30000000)
 +        // Cauldron start - tree generation
 +        if (this.captureTreeGeneration)
 +        {
@@ -25347,9 +25453,17 @@ index c365f90..f4ccd15 100644
 +            return true;
 +        }
 +        // Cauldron end
-         if (p_147465_1_ >= -30000000 && p_147465_3_ >= -30000000 && p_147465_1_ < 30000000 && p_147465_3_ < 30000000)
++        if (p_147465_1_ >= -MAX_BLOCK_COORD && p_147465_3_ >= -MAX_BLOCK_COORD && p_147465_1_ < MAX_BLOCK_COORD && p_147465_3_ < MAX_BLOCK_COORD)
          {
              if (p_147465_2_ < 0)
+             {
+                 return false;
+             }
+-            else if (p_147465_2_ >= 256)
++            else if (p_147465_2_ >= 999)
+             {
+                 return false;
+             }
 @@ -448,8 +801,22 @@ public abstract class World implements IBlockAccess
                      this.capturedBlockSnapshots.add(blockSnapshot);
                  }
@@ -25381,10 +25495,11 @@ index c365f90..f4ccd15 100644
                  if (flag && blockSnapshot == null) // Don't notify clients or update physics while capturing blockstates
                  {
                      // Modularize client and physic updates
-@@ -496,6 +864,19 @@ public abstract class World implements IBlockAccess
+@@ -496,13 +864,26 @@ public abstract class World implements IBlockAccess
  
      public int getBlockMetadata(int p_72805_1_, int p_72805_2_, int p_72805_3_)
      {
+-        if (p_72805_1_ >= -30000000 && p_72805_3_ >= -30000000 && p_72805_1_ < 30000000 && p_72805_3_ < 30000000)
 +        // Cauldron start - tree generation
 +        if (captureTreeGeneration)
 +        {
@@ -25398,9 +25513,17 @@ index c365f90..f4ccd15 100644
 +        }
 +        // Cauldron end
 +
-         if (p_72805_1_ >= -30000000 && p_72805_3_ >= -30000000 && p_72805_1_ < 30000000 && p_72805_3_ < 30000000)
++        if (p_72805_1_ >= -MAX_BLOCK_COORD && p_72805_3_ >= -MAX_BLOCK_COORD && p_72805_1_ < MAX_BLOCK_COORD && p_72805_3_ < MAX_BLOCK_COORD)
          {
              if (p_72805_2_ < 0)
+             {
+                 return 0;
+             }
+-            else if (p_72805_2_ >= 256)
++            else if (p_72805_2_ >= 999)
+             {
+                 return 0;
+             }
 @@ -511,7 +892,7 @@ public abstract class World implements IBlockAccess
                  Chunk chunk = this.getChunkFromChunkCoords(p_72805_1_ >> 4, p_72805_3_ >> 4);
                  p_72805_1_ &= 15;
@@ -25410,6 +25533,22 @@ index c365f90..f4ccd15 100644
              }
          }
          else
+@@ -522,13 +903,13 @@ public abstract class World implements IBlockAccess
+ 
+     public boolean setBlockMetadataWithNotify(int p_72921_1_, int p_72921_2_, int p_72921_3_, int p_72921_4_, int p_72921_5_)
+     {
+-        if (p_72921_1_ >= -30000000 && p_72921_3_ >= -30000000 && p_72921_1_ < 30000000 && p_72921_3_ < 30000000)
++        if (p_72921_1_ >= -MAX_BLOCK_COORD && p_72921_3_ >= -MAX_BLOCK_COORD && p_72921_1_ < MAX_BLOCK_COORD && p_72921_3_ < MAX_BLOCK_COORD)
+         {
+             if (p_72921_2_ < 0)
+             {
+                 return false;
+             }
+-            else if (p_72921_2_ >= 256)
++            else if (p_72921_2_ >= 999)
+             {
+                 return false;
+             }
 @@ -610,6 +991,12 @@ public abstract class World implements IBlockAccess
  
      public void notifyBlockChange(int p_147444_1_, int p_147444_2_, int p_147444_3_, Block p_147444_4_)
@@ -25451,6 +25590,101 @@ index c365f90..f4ccd15 100644
                  block.onNeighborBlockChange(this, p_147460_1_, p_147460_2_, p_147460_3_, p_147460_4_);
              }
              catch (Throwable throwable1)
+@@ -750,9 +1153,9 @@ public abstract class World implements IBlockAccess
+         }
+         else
+         {
+-            if (p_72883_2_ >= 256)
++            if (p_72883_2_ >= 999)
+             {
+-                p_72883_2_ = 255;
++                p_72883_2_ = 998;
+             }
+ 
+             return this.getChunkFromChunkCoords(p_72883_1_ >> 4, p_72883_3_ >> 4).getBlockLightValue(p_72883_1_ & 15, p_72883_2_, p_72883_3_ & 15, 0);
+@@ -766,7 +1169,7 @@ public abstract class World implements IBlockAccess
+ 
+     public int getBlockLightValue_do(int p_72849_1_, int p_72849_2_, int p_72849_3_, boolean p_72849_4_)
+     {
+-        if (p_72849_1_ >= -30000000 && p_72849_3_ >= -30000000 && p_72849_1_ < 30000000 && p_72849_3_ < 30000000)
++        if (p_72849_1_ >= -MAX_BLOCK_COORD && p_72849_3_ >= -MAX_BLOCK_COORD && p_72849_1_ < MAX_BLOCK_COORD && p_72849_3_ < MAX_BLOCK_COORD)
+         {
+             if (p_72849_4_ && this.getBlock(p_72849_1_, p_72849_2_, p_72849_3_).getUseNeighborBrightness())
+             {
+@@ -804,9 +1207,9 @@ public abstract class World implements IBlockAccess
+             }
+             else
+             {
+-                if (p_72849_2_ >= 256)
++                if (p_72849_2_ >= 999)
+                 {
+-                    p_72849_2_ = 255;
++                    p_72849_2_ = 998;
+                 }
+ 
+                 Chunk chunk = this.getChunkFromChunkCoords(p_72849_1_ >> 4, p_72849_3_ >> 4);
+@@ -823,7 +1226,7 @@ public abstract class World implements IBlockAccess
+ 
+     public int getHeightValue(int p_72976_1_, int p_72976_2_)
+     {
+-        if (p_72976_1_ >= -30000000 && p_72976_2_ >= -30000000 && p_72976_1_ < 30000000 && p_72976_2_ < 30000000)
++        if (p_72976_1_ >= -MAX_BLOCK_COORD && p_72976_2_ >= -MAX_BLOCK_COORD && p_72976_1_ < MAX_BLOCK_COORD && p_72976_2_ < MAX_BLOCK_COORD)
+         {
+             if (!this.chunkExists(p_72976_1_ >> 4, p_72976_2_ >> 4))
+             {
+@@ -843,7 +1246,7 @@ public abstract class World implements IBlockAccess
+ 
+     public int getChunkHeightMapMinimum(int p_82734_1_, int p_82734_2_)
+     {
+-        if (p_82734_1_ >= -30000000 && p_82734_2_ >= -30000000 && p_82734_1_ < 30000000 && p_82734_2_ < 30000000)
++        if (p_82734_1_ >= -MAX_BLOCK_COORD && p_82734_2_ >= -MAX_BLOCK_COORD && p_82734_1_ < MAX_BLOCK_COORD && p_82734_2_ < MAX_BLOCK_COORD)
+         {
+             if (!this.chunkExists(p_82734_1_ >> 4, p_82734_2_ >> 4))
+             {
+@@ -875,11 +1278,11 @@ public abstract class World implements IBlockAccess
+                 p_72925_3_ = 0;
+             }
+ 
+-            if (p_72925_3_ >= 256)
++            if (p_72925_3_ >= 999)
+             {
+                 return p_72925_1_.defaultLightValue;
+             }
+-            else if (p_72925_2_ >= -30000000 && p_72925_4_ >= -30000000 && p_72925_2_ < 30000000 && p_72925_4_ < 30000000)
++            else if (p_72925_2_ >= -MAX_BLOCK_COORD && p_72925_4_ >= -MAX_BLOCK_COORD && p_72925_2_ < MAX_BLOCK_COORD && p_72925_4_ < MAX_BLOCK_COORD)
+             {
+                 int l = p_72925_2_ >> 4;
+                 int i1 = p_72925_4_ >> 4;
+@@ -938,12 +1341,12 @@ public abstract class World implements IBlockAccess
+             p_72972_3_ = 0;
+         }
+ 
+-        if (p_72972_3_ >= 256)
++        if (p_72972_3_ >= 999)
+         {
+-            p_72972_3_ = 255;
++            p_72972_3_ = 998;
+         }
+ 
+-        if (p_72972_2_ >= -30000000 && p_72972_4_ >= -30000000 && p_72972_2_ < 30000000 && p_72972_4_ < 30000000)
++        if (p_72972_2_ >= -MAX_BLOCK_COORD && p_72972_4_ >= -MAX_BLOCK_COORD && p_72972_2_ < MAX_BLOCK_COORD && p_72972_4_ < MAX_BLOCK_COORD)
+         {
+             int l = p_72972_2_ >> 4;
+             int i1 = p_72972_4_ >> 4;
+@@ -966,11 +1369,11 @@ public abstract class World implements IBlockAccess
+ 
+     public void setLightValue(EnumSkyBlock p_72915_1_, int p_72915_2_, int p_72915_3_, int p_72915_4_, int p_72915_5_)
+     {
+-        if (p_72915_2_ >= -30000000 && p_72915_4_ >= -30000000 && p_72915_2_ < 30000000 && p_72915_4_ < 30000000)
++        if (p_72915_2_ >= -MAX_BLOCK_COORD && p_72915_4_ >= -MAX_BLOCK_COORD && p_72915_2_ < MAX_BLOCK_COORD && p_72915_4_ < MAX_BLOCK_COORD)
+         {
+             if (p_72915_3_ >= 0)
+             {
+-                if (p_72915_3_ < 256)
++                if (p_72915_3_ < 999)
+                 {
+                     if (this.chunkExists(p_72915_2_ >> 4, p_72915_4_ >> 4))
+                     {
 @@ -1307,6 +1710,13 @@ public abstract class World implements IBlockAccess
  
      public boolean spawnEntityInWorld(Entity p_72838_1_)
@@ -25678,6 +25912,15 @@ index c365f90..f4ccd15 100644
  
          for (int j2 = 0; j2 < list.size(); ++j2)
          {
+@@ -1483,7 +2004,7 @@ public abstract class World implements IBlockAccess
+                     {
+                         Block block;
+ 
+-                        if (k1 >= -30000000 && k1 < 30000000 && l1 >= -30000000 && l1 < 30000000)
++                        if (k1 >= -MAX_BLOCK_COORD && k1 < MAX_BLOCK_COORD && l1 >= -MAX_BLOCK_COORD && l1 < MAX_BLOCK_COORD)
+                         {
+                             block = this.getBlock(k1, i2, l1);
+                         }
 @@ -1797,15 +2318,29 @@ public abstract class World implements IBlockAccess
          Entity entity;
          CrashReport crashreport;
@@ -25890,11 +26133,9 @@ index c365f90..f4ccd15 100644
                      {
                          throw new ReportedException(crashreport);
 -                    }
-+                    }*/
-                 }
-             }
-+        }}
- 
+-                }
+-            }
+-
 -            if (tileentity.isInvalid())
 -            {
 -                iterator.remove();
@@ -25907,10 +26148,12 @@ index c365f90..f4ccd15 100644
 -                    {
 -                        chunk.removeInvalidTileEntity(tileentity.xCoord & 15, tileentity.yCoord, tileentity.zCoord & 15);
 -                    }
--                }
--            }
++                    }*/
+                 }
+             }
 -        }
--
++        }}
+ 
 -        if (!this.field_147483_b.isEmpty())
 -        {
 -            for (Object tile : field_147483_b)
@@ -25996,6 +26239,15 @@ index c365f90..f4ccd15 100644
          }
      }
  
+@@ -2511,7 +3105,7 @@ public abstract class World implements IBlockAccess
+ 
+     public TileEntity getTileEntity(int p_147438_1_, int p_147438_2_, int p_147438_3_)
+     {
+-        if (p_147438_2_ >= 0 && p_147438_2_ < 256)
++        if (p_147438_2_ >= 0 && p_147438_2_ < 999)
+         {
+             TileEntity tileentity = null;
+             int l;
 @@ -2570,7 +3164,7 @@ public abstract class World implements IBlockAccess
              return;
          }
@@ -26005,6 +26257,15 @@ index c365f90..f4ccd15 100644
          {
              if (this.field_147481_N)
              {
+@@ -2629,7 +3223,7 @@ public abstract class World implements IBlockAccess
+ 
+     public boolean isBlockNormalCubeDefault(int p_147445_1_, int p_147445_2_, int p_147445_3_, boolean p_147445_4_)
+     {
+-        if (p_147445_1_ >= -30000000 && p_147445_3_ >= -30000000 && p_147445_1_ < 30000000 && p_147445_3_ < 30000000)
++        if (p_147445_1_ >= -MAX_BLOCK_COORD && p_147445_3_ >= -MAX_BLOCK_COORD && p_147445_1_ < MAX_BLOCK_COORD && p_147445_3_ < MAX_BLOCK_COORD)
+         {
+             Chunk chunk = this.chunkProvider.provideChunk(p_147445_1_ >> 4, p_147445_3_ >> 4);
+ 
 @@ -2718,7 +3312,15 @@ public abstract class World implements IBlockAccess
  
                      if (i <= 0)
@@ -26127,6 +26388,24 @@ index c365f90..f4ccd15 100644
          {
              i = this.rand.nextInt(this.playerEntities.size());
              entityplayer = (EntityPlayer)this.playerEntities.get(i);
+@@ -2887,7 +3541,7 @@ public abstract class World implements IBlockAccess
+         }
+         else
+         {
+-            if (p_72834_2_ >= 0 && p_72834_2_ < 256 && this.getSavedLightValue(EnumSkyBlock.Block, p_72834_1_, p_72834_2_, p_72834_3_) < 10)
++            if (p_72834_2_ >= 0 && p_72834_2_ < 999 && this.getSavedLightValue(EnumSkyBlock.Block, p_72834_1_, p_72834_2_, p_72834_3_) < 10)
+             {
+                 Block block = this.getBlock(p_72834_1_, p_72834_2_, p_72834_3_);
+ 
+@@ -2951,7 +3605,7 @@ public abstract class World implements IBlockAccess
+         }
+         else
+         {
+-            if (p_147478_2_ >= 0 && p_147478_2_ < 256 && this.getSavedLightValue(EnumSkyBlock.Block, p_147478_1_, p_147478_2_, p_147478_3_) < 10)
++            if (p_147478_2_ >= 0 && p_147478_2_ < 999 && this.getSavedLightValue(EnumSkyBlock.Block, p_147478_1_, p_147478_2_, p_147478_3_) < 10)
+             {
+                 Block block = this.getBlock(p_147478_1_, p_147478_2_, p_147478_3_);
+ 
 @@ -3284,8 +3938,21 @@ public abstract class World implements IBlockAccess
          {
              Entity entity = (Entity)this.loadedEntityList.get(j);
@@ -26252,7 +26531,31 @@ index c365f90..f4ccd15 100644
          {
              dest.add(entity);
          }
-@@ -4029,4 +4729,78 @@ public abstract class World implements IBlockAccess
+@@ -3968,7 +4668,7 @@ public abstract class World implements IBlockAccess
+     @Override
+     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default)
+     {
+-        if (x < -30000000 || z < -30000000 || x >= 30000000 || z >= 30000000)
++        if (x < -MAX_BLOCK_COORD || z < -MAX_BLOCK_COORD || x >= MAX_BLOCK_COORD || z >= MAX_BLOCK_COORD)
+         {
+             return _default;
+         }
+@@ -4001,12 +4701,12 @@ public abstract class World implements IBlockAccess
+      */
+     public int getBlockLightOpacity(int x, int y, int z)
+     {
+-        if (x < -30000000 || z < -30000000 || x >= 30000000 || z >= 30000000)
++        if (x < -MAX_BLOCK_COORD || z < -MAX_BLOCK_COORD || x >= MAX_BLOCK_COORD || z >= MAX_BLOCK_COORD)
+         {
+             return 0;
+         }
+ 
+-        if (y < 0 || y >= 256)
++        if (y < 0 || y >= 999)
+         {
+             return 0;
+         }
+@@ -4029,4 +4729,80 @@ public abstract class World implements IBlockAccess
          }
          return count;
      }
@@ -26330,6 +26633,8 @@ index c365f90..f4ccd15 100644
 +        if(blockExists(x, y, z)) return getBlock(x, y, z);
 +        return Blocks.air;
 +        }
++    public static final int MAX_BLOCK_COORD = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaxCoordOverworld.getValue();
++    //public static final int CL_LOAD_RADIUS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaxCoordOverworld.getValue();
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldManager.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldManager.java
@@ -26345,6 +26650,19 @@ index ab10275..dfa4bec 100644
      private static final String __OBFID = "CL_00001433";
  
      public WorldManager(MinecraftServer p_i1517_1_, WorldServer p_i1517_2_)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldProvider.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldProvider.java
+index fb62dd3..2f77f8c 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/WorldProvider.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldProvider.java
+@@ -487,7 +487,7 @@ public abstract class WorldProvider
+ 
+     public int getHeight()
+     {
+-        return 256;
++        return 999;
+     }
+ 
+     public int getActualHeight()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
 index 055597f..1e1a8ca 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java
@@ -27261,7 +27579,7 @@ index dac10c8..a8bcc9a 100644
          if (i <= 1)
              return 0;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
-index 65b90b0..1103057 100644
+index 65b90b0..6ce1afb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
 @@ -36,6 +36,17 @@ import net.minecraftforge.event.world.ChunkEvent;
@@ -27291,7 +27609,12 @@ index 65b90b0..1103057 100644
      private static final String __OBFID = "CL_00000373";
  
      public Chunk(World p_i1995_1_, int p_i1995_2_, int p_i1995_3_)
-@@ -80,13 +93,22 @@ public class Chunk
+@@ -76,17 +89,26 @@ public class Chunk
+         this.worldObj = p_i1995_1_;
+         this.xPosition = p_i1995_2_;
+         this.zPosition = p_i1995_3_;
+-        this.heightMap = new int[256];
++        this.heightMap = new int[999];
  
          for (int k = 0; k < this.entityLists.length; ++k)
          {

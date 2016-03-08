@@ -3,38 +3,29 @@ package kcauldron;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.cauldron.configuration.BoolSetting;
-import net.minecraftforge.cauldron.configuration.ConfigBase;
-import net.minecraftforge.cauldron.configuration.Setting;
-import net.minecraftforge.cauldron.configuration.StringSetting;
+import net.minecraftforge.cauldron.configuration.*;
 
 public class KCauldronConfig extends ConfigBase {
-    public BoolSetting commandEnable = new BoolSetting(this, "command.enable",
-            true, "Enable KCauldron command");
-    public BoolSetting updatecheckerEnable = new BoolSetting(this,
-            "updatechecker.enable", false, "Enable KCauldron update checker");
-    public StringSetting updatecheckerSymlinks = new StringSetting(this,
-            "updatechecker.symlinks", "KCauldron.jar", "(Re)create symlinks after update");
-    public BoolSetting updatecheckerQuiet = new BoolSetting(this,
-            "updatechecker.quiet", false, "Print less info during update");
+    public BoolSetting commandEnable = new BoolSetting(this, "command.enable", false, "Enable KCauldron command");
 
-    public BoolSetting loggingMaterialInjection = new BoolSetting(this,
-            "logging.materialInjection", false, "Log material injection event");
-    public BoolSetting loggingClientModList = new BoolSetting(this,
-            "logging.clientModList", true, "Print client's mod list during attempt to join");
+    public BoolSetting loggingMaterialInjection = new BoolSetting(this, "logging.materialInjection", true, "Log material injection event");
+    public BoolSetting loggingClientModList = new BoolSetting(this, "logging.clientModList", true, "Print client's mod list during attempt to join");
         
-    public BoolSetting commonAllowNetherPortal = new BoolSetting(this,
-            "common.allowNetherPortalBesidesOverworld", false, "Allow nether portals in dimensions besides overworld");
+    public BoolSetting commonAllowNetherPortal = new BoolSetting(this, "common.allowNetherPortalBesidesOverworld", false, "Allow nether portals in dimensions besides overworld");
+            
+    public IntSetting commonMaxCoordOverworld = new IntSetting(this, "common.MaxCoordinatesInOverworld", 30000000, "Max Coordinates In Overworld (XZ)");
+    public DoubleSetting commonMovedTooQuicklyThreshold = new DoubleSetting(this, "common.MovedTooQuicklyThreshold", 250.0D, "Moved too quickly limit configurable");
+    public DoubleSetting commonMovedWronglyThreshold = new DoubleSetting(this, "common.MovedWronglyThreshold", 0.1625D, "Moved wrongly limit configurable");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
         register(commandEnable);
-        register(updatecheckerEnable);
-        register(updatecheckerSymlinks);
-        register(updatecheckerQuiet);
         register(loggingMaterialInjection);
         register(loggingClientModList);
         register(commonAllowNetherPortal);
+        register(commonMaxCoordOverworld);
+        register(commonMovedTooQuicklyThreshold);
+        register(commonMovedWronglyThreshold);
         load();
     }
 
@@ -51,7 +42,7 @@ public class KCauldronConfig extends ConfigBase {
 
     @Override
     protected void addCommands() {
-        commands.put(commandName, new KCauldronCommand());
+        //commands.put(commandName, new KCauldronCommand());
     }
 
     @Override

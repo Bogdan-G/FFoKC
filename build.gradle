@@ -44,15 +44,15 @@ minecraft {
     srgExtra "PK: org/bukkit/craftbukkit org/bukkit/craftbukkit/v1_7_R4"
 }
 
-group = 'pw.prok'
+group = 'custom.fork'
 
 ext.buildInfoCached = null;
 
 def buildInfo(String key) {
     if (!buildInfoCached) {
             buildInfoCached = [
-                    nextBuildNumber: 'test34',
-                    version        : 'test33'
+                    nextBuildNumber: 'test34.6',
+                    version        : 'test34.5'
             ]
     }
     return key ? buildInfoCached[key] : buildInfoCached;
@@ -81,7 +81,7 @@ def gitInfo(String key) {
     return key ? gitInfoCached[key] : gitInfoCached;
 }
 
-version = "1.7.10-0.test34"
+version = "1.7.10-0.test34.6"
 
 launch4j {
     jreMinVersion = '1.6.0'

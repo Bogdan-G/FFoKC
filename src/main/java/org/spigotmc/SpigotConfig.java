@@ -199,7 +199,7 @@ public class SpigotConfig
 
     private static void nettyThreads()
     {
-        int count = getInt( "settings.netty-threads", 4 );
+        int count = getInt( "settings.netty-threads", 1 );
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString( count ) );
         Bukkit.getLogger().log( Level.INFO, "Using {0} threads for Netty based IO", count );
     }

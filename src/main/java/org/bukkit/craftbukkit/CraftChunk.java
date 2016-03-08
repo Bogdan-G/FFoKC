@@ -236,8 +236,8 @@ public class CraftChunk implements Chunk {
         int[] hmap = null;
 
         if (includeMaxBlockY) {
-            hmap = new int[256]; // Get copy of height map
-            System.arraycopy(chunk.heightMap, 0, hmap, 0, 256);
+            hmap = new int[999]; // Get copy of height map
+            System.arraycopy(chunk.heightMap, 0, hmap, 0, 999);
         }
 
         net.minecraft.world.biome.BiomeGenBase[] biome = null;

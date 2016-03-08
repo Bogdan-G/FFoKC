@@ -10,7 +10,7 @@ Changes underway in the direction of my modpack.
 ## I used to compile
 * Win 7 x64
 * Zulu JDK 7u95 x64
-* Gradle 2.4
+* Gradle 2.11
 * git-scm 2.7.0 x64
 
 ## Building FF of KCauldron
@@ -30,6 +30,9 @@ If you're once checkout source - you not need to do it again
   * `git pull origin master`
 * Reapply patches & build binaries
   * `gradle clean setupCauldron jar --offline`
+
+## Issue Tracker
+>> https://github.com/Bogdan-G/FFoKC/issues
 
 ## License project
 it is not an ordinary license =)

@@ -6964,9 +6964,17 @@ index b62d4bc..135b10b 100644
      private static final String __OBFID = "CL_00001672";
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
-index 480af9d..2560c03 100644
+index 480af9d..8da6f8a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
+@@ -1,6 +1,6 @@
+ package net.minecraft.entity;
+ 
+-import java.util.ArrayList;
++import java.util.ArrayList;import java.util.List;//FFoKC
+ import java.util.HashSet;
+ import java.util.Iterator;
+ import java.util.Set;
 @@ -38,6 +38,7 @@ import net.minecraft.world.WorldServer;
  import net.minecraft.world.chunk.Chunk;
  import org.apache.logging.log4j.LogManager;
@@ -6975,11 +6983,13 @@ index 480af9d..2560c03 100644
  
  import cpw.mods.fml.common.registry.EntityRegistry;
  
-@@ -46,9 +47,11 @@ public class EntityTracker
+@@ -45,10 +46,12 @@ public class EntityTracker
+ {
      private static final Logger logger = LogManager.getLogger();
      private final WorldServer theWorld;
-     private Set trackedEntities = new HashSet();
+-    private Set trackedEntities = new HashSet();
 -    private IntHashMap trackedEntityIDs = new IntHashMap();
++    private List<EntityTrackerEntry> trackedEntities = new ArrayList<EntityTrackerEntry>();//FFoKC - HashSet -> ArrayList
 +    public IntHashMap trackedEntityIDs = new IntHashMap(); // CraftBukkit - private -> public
      private int entityViewDistance;
      private static final String __OBFID = "CL_00001431";
@@ -6988,25 +6998,26 @@ index 480af9d..2560c03 100644
  
      public EntityTracker(WorldServer p_i1516_1_)
      {
-@@ -65,7 +68,7 @@ public class EntityTracker
+@@ -65,15 +68,12 @@ public class EntityTracker
  
          if (p_72786_1_ instanceof EntityPlayerMP)
          {
 -            this.addEntityToTracker(p_72786_1_, 512, 2);
 +            this.addEntityToTracker(p_72786_1_, 512, 1);
              EntityPlayerMP entityplayermp = (EntityPlayerMP)p_72786_1_;
-             Iterator iterator = this.trackedEntities.iterator();
+-            Iterator iterator = this.trackedEntities.iterator();
  
-@@ -73,7 +76,7 @@ public class EntityTracker
+-            while (iterator.hasNext())
++            for(EntityTrackerEntry entitytrackerentry : this.trackedEntities)
              {
-                 EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
- 
+-                EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+-
 -                if (entitytrackerentry.myEntity != entityplayermp)
 +                if (entitytrackerentry != null && entitytrackerentry.myEntity != entityplayermp)
                  {
                      entitytrackerentry.tryStartWachingThis(entityplayermp);
                  }
-@@ -184,6 +187,7 @@ public class EntityTracker
+@@ -184,6 +184,7 @@ public class EntityTracker
  
      public void addEntityToTracker(Entity p_72785_1_, int p_72785_2_, final int p_72785_3_, boolean p_72785_4_)
      {
@@ -7014,7 +7025,7 @@ index 480af9d..2560c03 100644
          if (p_72785_2_ > this.entityViewDistance)
          {
              p_72785_2_ = this.entityViewDistance;
-@@ -193,7 +197,7 @@ public class EntityTracker
+@@ -193,7 +194,7 @@ public class EntityTracker
          {
              if (this.trackedEntityIDs.containsItem(p_72785_1_.getEntityId()))
              {
@@ -7023,7 +7034,7 @@ index 480af9d..2560c03 100644
              }
  
              EntityTrackerEntry entitytrackerentry = new EntityTrackerEntry(p_72785_1_, p_72785_2_, p_72785_3_, p_72785_4_);
-@@ -203,6 +207,7 @@ public class EntityTracker
+@@ -203,6 +204,7 @@ public class EntityTracker
          }
          catch (Throwable throwable)
          {
@@ -7031,7 +7042,7 @@ index 480af9d..2560c03 100644
              CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding entity to track");
              CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity To Track");
              crashreportcategory.addCrashSection("Tracking range", p_72785_2_ + " blocks");
-@@ -223,7 +228,9 @@ public class EntityTracker
+@@ -223,7 +225,9 @@ public class EntityTracker
              });
              p_72785_1_.addEntityCrashInfo(crashreportcategory);
              CrashReportCategory crashreportcategory1 = crashreport.makeCategory("Entity That Is Already Tracked");
@@ -7041,25 +7052,32 @@ index 480af9d..2560c03 100644
  
              try
              {
-@@ -246,6 +253,7 @@ public class EntityTracker
-             while (iterator.hasNext())
+@@ -241,11 +245,10 @@ public class EntityTracker
+         if (p_72790_1_ instanceof EntityPlayerMP)
+         {
+             EntityPlayerMP entityplayermp = (EntityPlayerMP)p_72790_1_;
+-            Iterator iterator = this.trackedEntities.iterator();
+ 
+-            while (iterator.hasNext())
++            for(EntityTrackerEntry entitytrackerentry : this.trackedEntities)
              {
-                 EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+-                EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
 +                if (entitytrackerentry != null)
                  entitytrackerentry.removeFromWatchingList(entityplayermp);
              }
          }
-@@ -261,21 +269,25 @@ public class EntityTracker
+@@ -261,30 +264,29 @@ public class EntityTracker
  
      public void updateTrackedEntities()
      {
 +        if(theWorld.playerEntities.size() == 0) return;
          ArrayList arraylist = new ArrayList();
-         Iterator iterator = this.trackedEntities.iterator();
+-        Iterator iterator = this.trackedEntities.iterator();
  
-         while (iterator.hasNext())
+-        while (iterator.hasNext())
++        for(EntityTrackerEntry entitytrackerentry : this.trackedEntities)
          {
-             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+-            EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
 +            if (entitytrackerentry != null) {
              entitytrackerentry.sendLocationToAllClients(this.theWorld.playerEntities);
  
@@ -7075,37 +7093,77 @@ index 480af9d..2560c03 100644
 +        for (int i = 0; i < arraylist_sS; ++i)
          {
              EntityPlayerMP entityplayermp = (EntityPlayerMP)arraylist.get(i);
-             Iterator iterator1 = this.trackedEntities.iterator();
-@@ -284,7 +296,7 @@ public class EntityTracker
-             {
-                 EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry)iterator1.next();
+-            Iterator iterator1 = this.trackedEntities.iterator();
  
+-            while (iterator1.hasNext())
++            for(EntityTrackerEntry entitytrackerentry1 : this.trackedEntities)
+             {
+-                EntityTrackerEntry entitytrackerentry1 = (EntityTrackerEntry)iterator1.next();
+-
 -                if (entitytrackerentry1.myEntity != entityplayermp)
 +                if (entitytrackerentry1 != null && entitytrackerentry1.myEntity != entityplayermp)
                  {
                      entitytrackerentry1.tryStartWachingThis(entityplayermp);
                  }
-@@ -319,6 +331,7 @@ public class EntityTracker
-         while (iterator.hasNext())
+@@ -314,24 +316,18 @@ public class EntityTracker
+ 
+     public void removePlayerFromTrackers(EntityPlayerMP p_72787_1_)
+     {
+-        Iterator iterator = this.trackedEntities.iterator();
+-
+-        while (iterator.hasNext())
++        for(EntityTrackerEntry entitytrackerentry : this.trackedEntities)
          {
-             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+-            EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
 +            if (entitytrackerentry != null)
              entitytrackerentry.removePlayerFromTracker(p_72787_1_);
          }
      }
-@@ -331,7 +344,7 @@ public class EntityTracker
-         {
-             EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
  
+     public void func_85172_a(EntityPlayerMP p_85172_1_, Chunk p_85172_2_)
+     {
+-        Iterator iterator = this.trackedEntities.iterator();
+-
+-        while (iterator.hasNext())
++        for(EntityTrackerEntry entitytrackerentry : this.trackedEntities)
+         {
+-            EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
+-
 -            if (entitytrackerentry.myEntity != p_85172_1_ && entitytrackerentry.myEntity.chunkCoordX == p_85172_2_.xPosition && entitytrackerentry.myEntity.chunkCoordZ == p_85172_2_.zPosition)
 +            if (entitytrackerentry != null && entitytrackerentry.myEntity != p_85172_1_ && entitytrackerentry.myEntity.chunkCoordX == p_85172_2_.xPosition && entitytrackerentry.myEntity.chunkCoordZ == p_85172_2_.zPosition)
              {
                  entitytrackerentry.tryStartWachingThis(p_85172_1_);
              }
+@@ -346,13 +342,13 @@ public class EntityTracker
+      * @param entity the Entity
+      * @return all players tracking the Entity
+      */
+-    public Set<net.minecraft.entity.player.EntityPlayer> getTrackingPlayers(Entity entity)
++    public List<net.minecraft.entity.player.EntityPlayer> getTrackingPlayers(Entity entity)
+     {
+         EntityTrackerEntry entry = (EntityTrackerEntry) trackedEntityIDs.lookup(entity.getEntityId());
+         if (entry == null)
+-            return java.util.Collections.emptySet();
++            return null;
+         else
+-            return java.util.Collections.unmodifiableSet(entry.trackingPlayers);
++            return entry.trackingPlayers;
+     }
+     
+     /* ======================================== FORGE END   =====================================*/
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTrackerEntry.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
-index 8e64ad6..b6044fd 100644
+index 8e64ad6..18782dc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
+@@ -1,7 +1,7 @@
+ package net.minecraft.entity;
+ 
+ import java.util.Collection;
+-import java.util.HashSet;
++import java.util.HashSet;import java.util.ArrayList;//FFoKC
+ import java.util.Iterator;
+ import java.util.List;
+ import java.util.Set;
 @@ -56,9 +56,15 @@ import net.minecraft.util.MathHelper;
  import net.minecraft.world.storage.MapData;
  import org.apache.logging.log4j.LogManager;
@@ -7122,11 +7180,14 @@ index 8e64ad6..b6044fd 100644
  public class EntityTrackerEntry
  {
      private static final Logger logger = LogManager.getLogger();
-@@ -86,6 +92,7 @@ public class EntityTrackerEntry
+@@ -84,8 +90,9 @@ public class EntityTrackerEntry
+     private Entity field_85178_v;
+     private boolean ridingEntity;
      public boolean playerEntitiesUpdated;
-     public Set trackingPlayers = new HashSet();
+-    public Set trackingPlayers = new HashSet();
++    public List<EntityPlayer> trackingPlayers = new ArrayList<EntityPlayer>();//FFoKC HashSet -> ArrayList
      private static final String __OBFID = "CL_00001443";
-+    int sF_sS;
++    int sF_sS;Collection<PotionEffect> iterators;//FFoKC
  
      public EntityTrackerEntry(Entity p_i1525_1_, int p_i1525_2_, int p_i1525_3_, boolean p_i1525_4_)
      {
@@ -7145,7 +7206,7 @@ index 8e64ad6..b6044fd 100644
              this.isDataInitialized = true;
              this.playerEntitiesUpdated = true;
              this.sendEventsToPlayers(p_73122_1_);
-@@ -131,15 +138,15 @@ public class EntityTrackerEntry
+@@ -131,19 +138,19 @@ public class EntityTrackerEntry
              this.func_151259_a(new S1BPacketEntityAttach(0, this.myEntity, this.myEntity.ridingEntity));
          }
  
@@ -7160,10 +7221,16 @@ index 8e64ad6..b6044fd 100644
              {
                  MapData mapdata = Items.filled_map.getMapData(itemstack, this.myEntity.worldObj);
 -                Iterator iterator = p_73122_1_.iterator();
-+                Iterator iterator = this.trackingPlayers.iterator(); // CraftBukkit
++                //Iterator iterator = this.trackingPlayers.iterator(); // CraftBukkit
  
-                 while (iterator.hasNext())
+-                while (iterator.hasNext())
++                for (EntityPlayer entityplayer : this.trackingPlayers)
                  {
+-                    EntityPlayer entityplayer = (EntityPlayer)iterator.next();
++                    //EntityPlayer entityplayer = (EntityPlayer)iterator.next();
+                     EntityPlayerMP entityplayermp = (EntityPlayerMP)entityplayer;
+                     mapdata.updateVisiblePlayers(entityplayermp, itemstack);
+                     Packet packet = Items.filled_map.func_150911_c(itemstack, this.myEntity.worldObj, entityplayermp);
 @@ -157,6 +164,10 @@ public class EntityTrackerEntry
  
              this.sendMetadataToAllAssociatedPlayers();
@@ -7330,7 +7397,7 @@ index 8e64ad6..b6044fd 100644
                      if (this.myEntity instanceof EntityLiving && ((EntityLiving)this.myEntity).getLeashedToEntity() != null)
                      {
                          p_73117_1_.playerNetServerHandler.sendPacket(new S1BPacketEntityAttach(1, this.myEntity, ((EntityLiving)this.myEntity).getLeashedToEntity()));
-@@ -425,6 +520,11 @@ public class EntityTrackerEntry
+@@ -425,14 +520,19 @@ public class EntityTrackerEntry
                          }
                      }
  
@@ -7342,6 +7409,17 @@ index 8e64ad6..b6044fd 100644
                      if (this.myEntity instanceof EntityLivingBase)
                      {
                          EntityLivingBase entitylivingbase = (EntityLivingBase)this.myEntity;
+-                        Iterator iterator = entitylivingbase.getActivePotionEffects().iterator();
++                        iterators = entitylivingbase.getActivePotionEffects();//Iterator iterator = entitylivingbase.getActivePotionEffects().iterator();
+ 
+-                        while (iterator.hasNext())
++                        for (PotionEffect potioneffect : iterators)
+                         {
+-                            PotionEffect potioneffect = (PotionEffect)iterator.next();
++                            //PotionEffect potioneffect = (PotionEffect)iterator.next();
+                             p_73117_1_.playerNetServerHandler.sendPacket(new S1DPacketEntityEffect(this.myEntity.getEntityId(), potioneffect));
+                         }
+                     }
 @@ -455,7 +555,8 @@ public class EntityTrackerEntry
  
      public void sendEventsToPlayers(List p_73125_1_)
@@ -25782,7 +25860,7 @@ index d358df5..73ae6cc 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..219820c 100644
+index c365f90..305dac8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -23,9 +25,11 @@ import net.minecraft.command.IEntitySelector;
@@ -26791,7 +26869,7 @@ index c365f90..219820c 100644
  
 +            if (entity == null)
 +            {
-+                System.out.println("Cauldron has detected a null entity weatherEffects and has removed it, preventing a crash");
++                FMLLog.warning("FFoKC has detected a null entity weatherEffects and has removed it, preventing a crash and NPE");
 +                this.weatherEffects.remove(i);
 +                weatherEffects_sS=this.weatherEffects.size();
 +                continue;
@@ -26860,7 +26938,7 @@ index c365f90..219820c 100644
 -
 +            if (entity == null)
 +            {
-+                System.out.println("Cauldron has detected a null entity and has removed it, preventing a crash");
++                FMLLog.warning("FFoKC has detected a null entity and has removed it, preventing a crash and NPE");
 +                this.loadedEntityList.remove(i);
 +                loadedEntityList_sS=this.loadedEntityList.size();
 +                continue;
@@ -26954,7 +27032,7 @@ index c365f90..219820c 100644
 +            // Spigot start
 +            if (tileentity == null)
 +            {
-+                System.out.println("Cauldron has detected a null tileentity and has removed it, preventing a crash");
++                FMLLog.warning("FFoKC has detected a null tileentity and has removed it, preventing a crash and NPE");
 +                this.loadedTileEntityList.remove(i);
 +                loadedTileEntityList_sS=this.loadedTileEntityList.size();
 +                continue;

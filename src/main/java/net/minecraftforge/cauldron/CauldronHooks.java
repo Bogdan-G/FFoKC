@@ -340,8 +340,9 @@ public class CauldronHooks
                 TObjectIntHashMap<ChunkCoordIntPair> chunkEntityCounts = new TObjectIntHashMap<ChunkCoordIntPair>();
                 TObjectIntHashMap<Class> classEntityCounts = new TObjectIntHashMap<Class>();
                 TObjectIntHashMap<Entity> entityCollisionCounts = new TObjectIntHashMap<Entity>();
-                Set<ChunkCoordinates> collidingCoords = new HashSet<ChunkCoordinates>();
-                for (int i = 0; i < world.loadedEntityList.size(); i++)
+                List<ChunkCoordinates> collidingCoords = new ArrayList<ChunkCoordinates>();
+                int world_loadedEntityList_sS=world.loadedEntityList.size();
+                for (int i = 0; i < world_loadedEntityList_sS; i++)
                 {
                     Entity entity = (Entity) world.loadedEntityList.get(i);
                     ChunkCoordIntPair chunkCoords = new ChunkCoordIntPair((int) entity.posX >> 4, (int) entity.posZ >> 4);

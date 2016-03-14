@@ -7865,6 +7865,54 @@ index ebcb7a3..fb36827 100644
                  this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 30.0F);
                  this.entity.setAIMoveSpeed((float)(this.speed * this.entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
  
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/ai/attributes/ModifiableAttributeInstance.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/ai/attributes/ModifiableAttributeInstance.java
+index 53f2b4d..f2bf730 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/entity/ai/attributes/ModifiableAttributeInstance.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/ai/attributes/ModifiableAttributeInstance.java
+@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.Side;
+ import cpw.mods.fml.relauncher.SideOnly;
+ import java.util.ArrayList;
+ import java.util.Collection;
+-import java.util.HashSet;
++import java.util.HashSet;import java.util.HashMap;//FFoKC
+ import java.util.Iterator;
+ import java.util.Map;
+ import java.util.Set;
+@@ -15,9 +15,9 @@ public class ModifiableAttributeInstance implements IAttributeInstance
+ {
+     private final BaseAttributeMap attributeMap;
+     private final IAttribute genericAttribute;
+-    private final Map mapByOperation = Maps.newHashMap();
+-    private final Map mapByName = Maps.newHashMap();
+-    private final Map mapByUUID = Maps.newHashMap();
++    private final Map mapByOperation = new HashMap();//Maps.newHashMap();
++    private final Map mapByName = new HashMap();//Maps.newHashMap();
++    private final Map mapByUUID = new HashMap();//Maps.newHashMap();
+     private double baseValue;
+     private boolean needsUpdate = true;
+     private double cachedValue;
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/ai/attributes/ServersideAttributeMap.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/ai/attributes/ServersideAttributeMap.java
+index f4ff4ab..cc4bcc2 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/entity/ai/attributes/ServersideAttributeMap.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/ai/attributes/ServersideAttributeMap.java
+@@ -10,7 +10,7 @@ import net.minecraft.server.management.LowerStringMap;
+ 
+ public class ServersideAttributeMap extends BaseAttributeMap
+ {
+-    private final Set attributeInstanceSet = Sets.newHashSet();
++    private final Set attributeInstanceSet = new HashSet();//Sets.newHashSet();
+     protected final Map descriptionToAttributeInstanceMap = new LowerStringMap();
+     private static final String __OBFID = "CL_00001569";
+ 
+@@ -67,7 +67,7 @@ public class ServersideAttributeMap extends BaseAttributeMap
+ 
+     public Collection getWatchedAttributes()
+     {
+-        HashSet hashset = Sets.newHashSet();
++        HashSet hashset = new HashSet();
+         Iterator iterator = this.getAllAttributes().iterator();
+ 
+         while (iterator.hasNext())
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/boss/EntityDragon.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/boss/EntityDragon.java
 index 53cf67e..989bf83 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/boss/EntityDragon.java
@@ -11457,7 +11505,7 @@ index c01b6d5..6b74d77 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
-index bd354f1..9b56e7e 100644
+index bd354f1..7acbd94 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
 @@ -83,6 +84,7 @@ import net.minecraft.tileentity.TileEntityDropper;
@@ -11496,9 +11544,10 @@ index bd354f1..9b56e7e 100644
      public final ItemInWorldManager theItemInWorldManager;
      public double managedPosX;
      public double managedPosZ;
-     public final List loadedChunks = new LinkedList();
+-    public final List loadedChunks = new LinkedList();
 -    private final List destroyedItemsNetCache = new LinkedList();
-+    public final List destroyedItemsNetCache = new LinkedList();
++    public final List loadedChunks = new ArrayList();
++    public final List destroyedItemsNetCache = new ArrayList();
      private final StatisticsFile field_147103_bO;
      private float field_130068_bO = Float.MIN_VALUE;
      private float lastHealth = -1.0E8F;
@@ -11566,7 +11615,7 @@ index bd354f1..9b56e7e 100644
      }
  
      public void readEntityFromNBT(NBTTagCompound p_70037_1_)
-@@ -170,13 +227,56 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -170,14 +227,57 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                  this.theItemInWorldManager.setGameType(WorldSettings.GameType.getByID(p_70037_1_.getInteger("playerGameType")));
              }
          }
@@ -11579,8 +11628,8 @@ index bd354f1..9b56e7e 100644
          super.writeEntityToNBT(p_70014_1_);
          p_70014_1_.setInteger("playerGameType", this.theItemInWorldManager.getGameType().getID());
 +        this.getBukkitEntity().setExtraData(p_70014_1_); // CraftBukkit
-+    }
-+
+     }
+ 
 +    // CraftBukkit start - World fallback code, either respawn location or global spawn
 +
 +    /**
@@ -11618,31 +11667,101 @@ index bd354f1..9b56e7e 100644
 +
 +        this.dimension = ((WorldServer) this.worldObj).provider.dimensionId;
 +        this.theItemInWorldManager.setWorld((WorldServer) world);
-     }
++    }
 +    // CraftBukkit end
- 
++
      public void addExperienceLevel(int p_82242_1_)
      {
-@@ -240,7 +340,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+         super.addExperienceLevel(p_82242_1_);
+@@ -221,13 +321,16 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+         {
+             int i = Math.min(this.destroyedItemsNetCache.size(), 127);
+             int[] aint = new int[i];
+-            Iterator iterator = this.destroyedItemsNetCache.iterator();
+-            int j = 0;
++            //Iterator iterator = this.destroyedItemsNetCache.iterator();
++            int j = 0;int destroyedItemsNetCache_sS=this.destroyedItemsNetCache.size();
+ 
+-            while (iterator.hasNext() && j < i)
++            for (int ji = 0; ji < destroyedItemsNetCache_sS; ji++)
+             {
+-                aint[j++] = ((Integer)iterator.next()).intValue();
+-                iterator.remove();
++                if (j < i) {
++                aint[j++] = ((Integer)this.destroyedItemsNetCache.get(ji)).intValue();
++                this.destroyedItemsNetCache.remove(ji);
++                destroyedItemsNetCache_sS=this.destroyedItemsNetCache.size();
++                }
+             }
+ 
+             this.playerNetServerHandler.sendPacket(new S13PacketDestroyEntities(aint));
+@@ -236,13 +339,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+         if (!this.loadedChunks.isEmpty())
+         {
+             ArrayList arraylist = new ArrayList();
+-            Iterator iterator1 = this.loadedChunks.iterator();
++            //Iterator iterator1 = this.loadedChunks.iterator();
              ArrayList arraylist1 = new ArrayList();
-             Chunk chunk;
+-            Chunk chunk;
++            Chunk chunk;int loadedChunks_sS = this.loadedChunks.size();
  
 -            while (iterator1.hasNext() && arraylist.size() < S26PacketMapChunkBulk.func_149258_c())
-+            while (iterator1.hasNext() && arraylist.size() < this.worldObj.getSpigotConfig().maxBulkChunk)   // Spigot // Cauldron
++            for (int i = 0; i < loadedChunks_sS; i++)   // Spigot // Cauldron
              {
-                 ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)iterator1.next();
+-                ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)iterator1.next();
++                if (arraylist.size() < this.worldObj.getSpigotConfig().maxBulkChunk) {
++                ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)loadedChunks.get(i);//ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)iterator1.next();
  
-@@ -253,8 +353,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+                 if (chunkcoordintpair != null)
+                 {
+@@ -253,34 +357,35 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                          if (chunk.func_150802_k())
                          {
                              arraylist.add(chunk);
 -                            arraylist1.addAll(((WorldServer)this.worldObj).func_147486_a(chunkcoordintpair.chunkXPos * 16, 0, chunkcoordintpair.chunkZPos * 16, chunkcoordintpair.chunkXPos * 16 + 15, 256, chunkcoordintpair.chunkZPos * 16 + 15));
 -                            //BugFix: 16 makes it load an extra chunk, which isn't associated with a player, which makes it not unload unless a player walks near it.
+-                            iterator1.remove();
 +                            arraylist1.addAll(chunk.chunkTileEntityMap.values()); // CraftBukkit - Get tile entities directly from the chunk instead of the world
-                             iterator1.remove();
++                            loadedChunks.remove(i);loadedChunks_sS = this.loadedChunks.size();
                          }
                      }
-@@ -309,9 +408,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+                 }
+                 else
+                 {
+-                    iterator1.remove();
++                    loadedChunks.remove(i);loadedChunks_sS = this.loadedChunks.size();
+                 }
+-            }
++            }}
+ 
+             if (!arraylist.isEmpty())
+             {
+                 this.playerNetServerHandler.sendPacket(new S26PacketMapChunkBulk(arraylist));
+-                Iterator iterator2 = arraylist1.iterator();
++                //Iterator iterator2 = arraylist1.iterator();
++                int arraylist1_sS = arraylist1.size();
+ 
+-                while (iterator2.hasNext())
++                for (int i = 0; i < arraylist1_sS; i++)
+                 {
+-                    TileEntity tileentity = (TileEntity)iterator2.next();
++                    TileEntity tileentity = (TileEntity)arraylist1.get(i);//TileEntity tileentity = (TileEntity)iterator2.next();
+                     this.func_147097_b(tileentity);
+                 }
+ 
+-                iterator2 = arraylist.iterator();
++                //iterator2 = arraylist.iterator();
++                int arraylist_sS = arraylist.size();
+ 
+-                while (iterator2.hasNext())
++                for (int i = 0; i < arraylist_sS; i++)
+                 {
+-                    chunk = (Chunk)iterator2.next();
++                    chunk = (Chunk)arraylist.get(i);//chunk = (Chunk)iterator2.next();
+                     this.getServerForPlayer().getEntityTracker().func_85172_a(this, chunk);
+                     MinecraftForge.EVENT_BUS.post(new ChunkWatchEvent.Watch(chunk.getChunkCoordIntPair(), this));
+                 }
+@@ -309,9 +414,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                  }
              }
  
@@ -11654,7 +11773,7 @@ index bd354f1..9b56e7e 100644
                  this.lastHealth = this.getHealth();
                  this.lastFoodLevel = this.foodStats.getFoodLevel();
                  this.wasHungry = this.foodStats.getSaturationLevel() == 0.0F;
-@@ -320,16 +420,18 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -320,16 +426,18 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
              if (this.getHealth() + this.getAbsorptionAmount() != this.field_130068_bO)
              {
                  this.field_130068_bO = this.getHealth() + this.getAbsorptionAmount();
@@ -11680,7 +11799,7 @@ index bd354f1..9b56e7e 100644
              if (this.experienceTotal != this.lastExperience)
              {
                  this.lastExperience = this.experienceTotal;
-@@ -340,6 +442,20 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -340,6 +448,20 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
              {
                  this.func_147098_j();
              }
@@ -11701,7 +11820,16 @@ index bd354f1..9b56e7e 100644
          }
          catch (Throwable throwable)
          {
-@@ -402,34 +518,75 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -368,7 +490,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+ 
+             if (this.func_147099_x().canUnlockAchievement(AchievementList.field_150961_L) && jsonserializableset.size() == BiomeGenBase.explorationBiomesList.size())
+             {
+-                HashSet hashset = Sets.newHashSet(BiomeGenBase.explorationBiomesList);
++                HashSet hashset = new HashSet(BiomeGenBase.explorationBiomesList);//Sets.newHashSet(BiomeGenBase.explorationBiomesList);
+                 Iterator iterator = jsonserializableset.iterator();
+ 
+                 while (iterator.hasNext())
+@@ -402,34 +524,75 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public void onDeath(DamageSource p_70645_1_)
      {
@@ -11787,7 +11915,7 @@ index bd354f1..9b56e7e 100644
              score.func_96648_a();
          }
  
-@@ -495,7 +652,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -495,7 +658,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public boolean canAttackPlayer(EntityPlayer p_96122_1_)
      {
@@ -11797,7 +11925,7 @@ index bd354f1..9b56e7e 100644
      }
  
      public void travelToDimension(int p_71027_1_)
-@@ -526,7 +684,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -526,7 +690,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                  this.triggerAchievement(AchievementList.portal);
              }
  
@@ -11809,7 +11937,7 @@ index bd354f1..9b56e7e 100644
              this.lastExperience = -1;
              this.lastHealth = -1.0F;
              this.lastFoodLevel = -1;
-@@ -549,7 +710,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -549,7 +716,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      public void onItemPickup(Entity p_71001_1_, int p_71001_2_)
      {
          super.onItemPickup(p_71001_1_, p_71001_2_);
@@ -11818,7 +11946,7 @@ index bd354f1..9b56e7e 100644
      }
  
      public EntityPlayer.EnumStatus sleepInBedAt(int p_71018_1_, int p_71018_2_, int p_71018_3_)
-@@ -569,6 +730,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -569,6 +736,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public void wakeUpPlayer(boolean p_70999_1_, boolean p_70999_2_, boolean p_70999_3_)
      {
@@ -11830,7 +11958,7 @@ index bd354f1..9b56e7e 100644
          if (this.isPlayerSleeping())
          {
              this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(this, 2));
-@@ -584,9 +750,25 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -584,9 +756,25 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public void mountEntity(Entity p_70078_1_)
      {
@@ -11859,7 +11987,7 @@ index bd354f1..9b56e7e 100644
      }
  
      protected void updateFallState(double p_70064_1_, boolean p_70064_3_) {}
-@@ -610,29 +792,64 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -610,29 +798,64 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
          this.currentWindowId = this.currentWindowId % 100 + 1;
      }
  
@@ -11927,7 +12055,7 @@ index bd354f1..9b56e7e 100644
          this.openContainer.windowId = this.currentWindowId;
          this.openContainer.addCraftingToCrafters(this);
      }
-@@ -644,71 +861,150 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -644,71 +867,150 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
              this.closeScreen();
          }
  
@@ -12086,7 +12214,7 @@ index bd354f1..9b56e7e 100644
          this.openContainer.windowId = this.currentWindowId;
          this.openContainer.addCraftingToCrafters(this);
          InventoryMerchant inventorymerchant = ((ContainerMerchant)this.openContainer).getMerchantInventory();
-@@ -725,7 +1021,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -725,7 +1027,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                  merchantrecipelist.func_151391_a(packetbuffer);
                  this.playerNetServerHandler.sendPacket(new S3FPacketCustomPayload("MC|TrList", packetbuffer));
              }
@@ -12095,7 +12223,7 @@ index bd354f1..9b56e7e 100644
              {
                  logger.error("Couldn\'t send trade list", ioexception);
              }
-@@ -738,6 +1034,17 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -738,6 +1040,17 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public void displayGUIHorse(EntityHorse p_110298_1_, IInventory p_110298_2_)
      {
@@ -12113,7 +12241,7 @@ index bd354f1..9b56e7e 100644
          if (this.openContainer != this.inventoryContainer)
          {
              this.closeScreen();
-@@ -745,7 +1052,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -745,7 +1058,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
          this.getNextWindowId();
          this.playerNetServerHandler.sendPacket(new S2DPacketOpenWindow(this.currentWindowId, 11, p_110298_2_.getInventoryName(), p_110298_2_.getSizeInventory(), p_110298_2_.hasCustomInventoryName(), p_110298_1_.getEntityId()));
@@ -12122,7 +12250,7 @@ index bd354f1..9b56e7e 100644
          this.openContainer.windowId = this.currentWindowId;
          this.openContainer.addCraftingToCrafters(this);
      }
-@@ -770,6 +1077,15 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -770,6 +1083,15 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      {
          this.playerNetServerHandler.sendPacket(new S30PacketWindowItems(p_71110_1_.windowId, p_71110_2_));
          this.playerNetServerHandler.sendPacket(new S2FPacketSetSlot(-1, -1, this.inventory.getItemStack()));
@@ -12138,7 +12266,7 @@ index bd354f1..9b56e7e 100644
      }
  
      public void sendProgressBarUpdate(Container p_71112_1_, int p_71112_2_, int p_71112_3_)
-@@ -779,6 +1095,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -779,6 +1101,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public void closeScreen()
      {
@@ -12146,7 +12274,7 @@ index bd354f1..9b56e7e 100644
          this.playerNetServerHandler.sendPacket(new S2EPacketCloseWindow(this.openContainer.windowId));
          this.closeContainer();
      }
-@@ -853,7 +1170,18 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -853,7 +1176,18 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      public void setPlayerHealthUpdated()
      {
          this.lastHealth = -1.0E8F;
@@ -12165,7 +12293,7 @@ index bd354f1..9b56e7e 100644
  
      public void addChatComponentMessage(IChatComponent p_146105_1_)
      {
-@@ -1037,6 +1365,114 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -1037,6 +1371,114 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
          return this.field_143005_bX;
      }
  

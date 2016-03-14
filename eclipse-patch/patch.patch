@@ -823,10 +823,10 @@ index 989ea2c..6cc3b6b 100644
          if (p_150062_5_ != i1)
          {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockBrewingStand.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockBrewingStand.java
-index db74e19..9c70ed8 100644
+index db74e19..485a947 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockBrewingStand.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockBrewingStand.java
-@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
+@@ -20,10 +20,11 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
  import net.minecraft.util.AxisAlignedBB;
  import net.minecraft.util.IIcon;
  import net.minecraft.world.World;
@@ -834,6 +834,11 @@ index db74e19..9c70ed8 100644
  
  public class BlockBrewingStand extends BlockContainer
  {
+-    private Random field_149961_a = new Random();
++    private Random field_149961_a = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     @SideOnly(Side.CLIENT)
+     private IIcon iconBrewingStandBase;
+     private static final String __OBFID = "CL_00000207";
 @@ -126,6 +127,12 @@ public class BlockBrewingStand extends BlockContainer
                          entityitem.motionX = (double)((float)this.field_149961_a.nextGaussian() * f3);
                          entityitem.motionY = (double)((float)this.field_149961_a.nextGaussian() * f3 + 0.2F);
@@ -1005,6 +1010,19 @@ index 958f8d9..b988b12 100644
              int l = p_150036_1_.getBlockMetadata(p_150036_2_, p_150036_3_, p_150036_4_) + 1;
  
              if (l >= 6)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockChest.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockChest.java
+index 0cc9293..b70169f 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockChest.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockChest.java
+@@ -28,7 +28,7 @@ import static net.minecraftforge.common.util.ForgeDirection.*;
+ 
+ public class BlockChest extends BlockContainer
+ {
+-    private final Random field_149955_b = new Random();
++    private final Random field_149955_b = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     public final int field_149956_a;
+     private static final String __OBFID = "CL_00000214";
+ 
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockCocoa.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockCocoa.java
 index b8f1f48..dc042bc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockCocoa.java
@@ -1086,13 +1104,15 @@ index 3de2177..120bd23 100644
              }
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockDispenser.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockDispenser.java
-index 0c0f0eb..0550494 100644
+index 0c0f0eb..a95713d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockDispenser.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockDispenser.java
-@@ -30,6 +30,7 @@ public class BlockDispenser extends BlockContainer
+@@ -29,7 +29,8 @@ import net.minecraft.world.World;
+ public class BlockDispenser extends BlockContainer
  {
      public static final IRegistry dispenseBehaviorRegistry = new RegistryDefaulted(new BehaviorDefaultDispenseItem());
-     protected Random field_149942_b = new Random();
+-    protected Random field_149942_b = new Random();
++    protected Random field_149942_b = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
 +    public static boolean eventFired = false; // CraftBukkit
      @SideOnly(Side.CLIENT)
      protected IIcon field_149944_M;
@@ -1637,6 +1657,19 @@ index ad5c214..fc96b63 100644
              }
              else
              {
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockFurnace.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockFurnace.java
+index 80bafbc..5d1f75e 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockFurnace.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockFurnace.java
+@@ -22,7 +22,7 @@ import net.minecraft.world.World;
+ 
+ public class BlockFurnace extends BlockContainer
+ {
+-    private final Random field_149933_a = new Random();
++    private final Random field_149933_a = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     private final boolean field_149932_b;
+     private static boolean field_149934_M;
+     @SideOnly(Side.CLIENT)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockGrass.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockGrass.java
 index 681c491..6e8e5b9 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockGrass.java
@@ -1704,10 +1737,10 @@ index 681c491..6e8e5b9 100644
                  }
              }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockHopper.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockHopper.java
-index cee2fd1..d6e6b96 100644
+index cee2fd1..f5ee6ea 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockHopper.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockHopper.java
-@@ -22,6 +22,7 @@ import net.minecraft.util.Facing;
+@@ -22,10 +22,11 @@ import net.minecraft.util.Facing;
  import net.minecraft.util.IIcon;
  import net.minecraft.world.IBlockAccess;
  import net.minecraft.world.World;
@@ -1715,6 +1748,11 @@ index cee2fd1..d6e6b96 100644
  
  public class BlockHopper extends BlockContainer
  {
+-    private final Random field_149922_a = new Random();
++    private final Random field_149922_a = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     @SideOnly(Side.CLIENT)
+     private IIcon field_149921_b;
+     @SideOnly(Side.CLIENT)
 @@ -210,7 +211,7 @@ public class BlockHopper extends BlockContainer
  
      public static int getDirectionFromMetadata(int p_149918_0_)
@@ -1848,6 +1886,19 @@ index 8aeef26..85dec5f 100644
                      {
                          p_149805_1_.setBlock(p_149805_2_, p_149805_3_, p_149805_4_, Blocks.cobblestone);
                      }
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockMobSpawner.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockMobSpawner.java
+index 69067ae..ee72f7d 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockMobSpawner.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockMobSpawner.java
+@@ -39,7 +39,7 @@ public class BlockMobSpawner extends BlockContainer
+         super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, p_149690_7_);
+     }
+ 
+-    private Random rand = new Random();
++    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     @Override
+     public int getExpDrop(IBlockAccess world, int metadata, int fortune)
+     {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockMushroom.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockMushroom.java
 index 87ada3b..8442120 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockMushroom.java
@@ -2024,6 +2075,19 @@ index 0d6a08f..1f842a4 100644
 +    // CraftBukkit end
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockOre.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockOre.java
+index 3710b5b..093057d 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockOre.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockOre.java
+@@ -54,7 +54,7 @@ public class BlockOre extends Block
+         super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, p_149690_7_);
+     }
+ 
+-    private Random rand = new Random();
++    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     @Override
+     public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_)
+     {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockPistonBase.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockPistonBase.java
 index 01c6fb0..b5872e1 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockPistonBase.java
@@ -2927,7 +2991,7 @@ index 332dd36..4f62282 100644
          }
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneOre.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneOre.java
-index da58173..6f3cf67 100644
+index da58173..b2fe0a6 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneOre.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneOre.java
 @@ -13,6 +13,8 @@ import net.minecraft.item.ItemStack;
@@ -2972,6 +3036,15 @@ index da58173..6f3cf67 100644
      }
  
      public boolean onBlockActivated(World p_149727_1_, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+@@ -91,7 +115,7 @@ public class BlockRedstoneOre extends Block
+         super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, p_149690_7_);
+     }
+ 
+-    private Random rand = new Random();
++    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     @Override // World, meta, fortune
+     public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_)
+     {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneTorch.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
 index 08eb480..f50142d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
@@ -4822,8 +4895,21 @@ index f4180aa..f9e53e0 100644
      }
  
      public int getWeight()
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java ./eclipse/cauldron/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java
+index 2e1f419..b79627b 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java
+@@ -21,7 +21,7 @@ import net.minecraft.util.WeightedRandom;
+ 
+ public class EnchantmentHelper
+ {
+-    private static final Random enchantmentRand = new Random();
++    private static final Random enchantmentRand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     private static final EnchantmentHelper.ModifierDamage enchantmentModifierDamage = new EnchantmentHelper.ModifierDamage(null);
+     private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
+     private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
-index e114a23..df81f5d 100644
+index e114a23..0a8f32a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
 @@ -45,13 +45,51 @@ import net.minecraft.util.Vec3;
@@ -4924,8 +5010,12 @@ index e114a23..df81f5d 100644
  
      public int getEntityId()
      {
-@@ -159,7 +209,7 @@ public abstract class Entity
-         this.rand = new Random();
+@@ -156,10 +206,10 @@ public abstract class Entity
+         this.width = 0.6F;
+         this.height = 1.8F;
+         this.nextStepDistance = 1;
+-        this.rand = new Random();
++        this.rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
          this.fireResistance = 1;
          this.firstUpdate = true;
 -        this.entityUniqueID = UUID.randomUUID();
@@ -15616,7 +15706,7 @@ index 3c043ca..d10cb1c 100644
              {
                  j = EntityXPOrb.getXPSplit(i);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/Item.java ./eclipse/cauldron/src/main/java/net/minecraft/item/Item.java
-index 8a249dd..3495b6a 100644
+index 8a249dd..778a780 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/Item.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/Item.java
 @@ -54,6 +54,7 @@ import net.minecraft.util.Vec3;
@@ -15627,6 +15717,15 @@ index 8a249dd..3495b6a 100644
  import net.minecraftforge.common.util.EnumHelper;
  
  public class Item
+@@ -61,7 +62,7 @@ public class Item
+     public static final RegistryNamespaced itemRegistry = GameData.getItemRegistry();
+     protected static final UUID field_111210_e = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
+     private CreativeTabs tabToDisplayOn;
+-    protected static Random itemRand = new Random();
++    protected static Random itemRand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     protected int maxStackSize = 64;
+     private int maxDamage;
+     protected boolean bFull3D;
 @@ -402,6 +403,12 @@ public class Item
              {
                  object = (new ItemDoublePlant(Blocks.double_plant, Blocks.double_plant, BlockDoublePlant.field_149892_a)).setUnlocalizedName("doublePlant");
@@ -16293,7 +16392,7 @@ index 2ac413d..e15944b 100644
                  }
              }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemShears.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemShears.java
-index e6dd15d..422210b 100644
+index e6dd15d..85d5b9a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemShears.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemShears.java
 @@ -3,6 +3,8 @@ package net.minecraft.item;
@@ -16305,7 +16404,7 @@ index e6dd15d..422210b 100644
  import net.minecraft.block.Block;
  import net.minecraft.block.material.Material;
  import net.minecraft.creativetab.CreativeTabs;
-@@ -61,6 +63,16 @@ public class ItemShears extends Item
+@@ -61,10 +63,20 @@ public class ItemShears extends Item
              IShearable target = (IShearable)entity;
              if (target.isShearable(itemstack, entity.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ))
              {
@@ -16322,6 +16421,20 @@ index e6dd15d..422210b 100644
                  ArrayList<ItemStack> drops = target.onSheared(itemstack, entity.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ,
                          EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, itemstack));
  
+-                Random rand = new Random();
++                Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+                 for(ItemStack stack : drops)
+                 {
+                     EntityItem ent = entity.entityDropItem(stack, 1.0F);
+@@ -94,7 +106,7 @@ public class ItemShears extends Item
+             {
+                 ArrayList<ItemStack> drops = target.onSheared(itemstack, player.worldObj, x, y, z,
+                         EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, itemstack));
+-                Random rand = new Random();
++                Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+ 
+                 for(ItemStack stack : drops)
+                 {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemStack.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemStack.java
 index 1270e5d..5619d3d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemStack.java
@@ -19661,7 +19774,7 @@ index 4bf8cee..d3542e4 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
-index c23c8fa..64e9769 100644
+index c23c8fa..daee173 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -33,7 +34,10 @@ import java.util.List;
@@ -19683,7 +19796,7 @@ index c23c8fa..64e9769 100644
  import net.minecraft.server.gui.IUpdatePlayerListBox;
  import net.minecraft.server.management.PlayerProfileCache;
  import net.minecraft.server.management.ServerConfigurationManager;
-@@ -80,18 +86,54 @@ import net.minecraftforge.common.DimensionManager;
+@@ -80,20 +86,56 @@ import net.minecraftforge.common.DimensionManager;
  import net.minecraftforge.common.MinecraftForge;
  import net.minecraftforge.event.world.WorldEvent;
  
@@ -19739,8 +19852,11 @@ index c23c8fa..64e9769 100644
 -    private final NetworkSystem field_147144_o;
 +    private NetworkSystem field_147144_o; // Spigot
      private final ServerStatusResponse field_147147_p = new ServerStatusResponse();
-     private final Random field_147146_q = new Random();
+-    private final Random field_147146_q = new Random();
++    private final Random field_147146_q = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
      @SideOnly(Side.SERVER)
+     private String hostname;
+     private int serverPort = -1;
 @@ -135,8 +177,43 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      private long field_147142_T = 0L;
      private final GameProfileRepository field_152365_W;
@@ -24635,6 +24751,40 @@ index 5fe0ace..94830a2 100644
          {
              CombatEntry combatentry2 = (CombatEntry)this.combatEntries.get(i);
              CombatEntry combatentry3 = i > 0 ? (CombatEntry)this.combatEntries.get(i - 1) : null;
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/util/EnchantmentNameParts.java ./eclipse/cauldron/src/main/java/net/minecraft/util/EnchantmentNameParts.java
+index 24c4667..ca4c677 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/util/EnchantmentNameParts.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/util/EnchantmentNameParts.java
+@@ -8,7 +8,7 @@ import java.util.Random;
+ public class EnchantmentNameParts
+ {
+     public static final EnchantmentNameParts instance = new EnchantmentNameParts();
+-    private Random rand = new Random();
++    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     private String[] namePartsArray = "the elder scrolls klaatu berata niktu xyzzy bless curse light darkness fire air earth water hot dry cold wet ignite snuff embiggen twist shorten stretch fiddle destroy imbue galvanize enchant free limited range of towards inside sphere cube self other ball mental physical grow shrink demon elemental spirit animal creature beast humanoid undead fresh stale ".split(" ");
+     private static final String __OBFID = "CL_00000756";
+ 
+@@ -16,16 +16,18 @@ public class EnchantmentNameParts
+     {
+         int i = this.rand.nextInt(2) + 3;
+         String s = "";
++        StringBuilder sSB = new StringBuilder(s);
+ 
+         for (int j = 0; j < i; ++j)
+         {
+             if (j > 0)
+             {
+-                s = s + " ";
++                sSB.append(" ");
+             }
+ 
+-            s = s + this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)];
++            sSB.append(this.namePartsArray[this.rand.nextInt(this.namePartsArray.length)]);
+         }
++        s = String.valueOf(sSB);
+ 
+         return s;
+     }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/util/EntityDamageSourceIndirect.java ./eclipse/cauldron/src/main/java/net/minecraft/util/EntityDamageSourceIndirect.java
 index 7cfcead..433c9f7 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/util/EntityDamageSourceIndirect.java
@@ -24924,10 +25074,10 @@ index a4ae42b..c912f55 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/Explosion.java ./eclipse/cauldron/src/main/java/net/minecraft/world/Explosion.java
-index 004ba3b..34070c0 100644
+index 004ba3b..09363ae 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/Explosion.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/Explosion.java
-@@ -15,11 +16,19 @@ import net.minecraft.entity.EntityLivingBase;
+@@ -15,17 +16,25 @@ import net.minecraft.entity.EntityLivingBase;
  import net.minecraft.entity.item.EntityTNTPrimed;
  import net.minecraft.entity.player.EntityPlayer;
  import net.minecraft.init.Blocks;
@@ -24947,6 +25097,13 @@ index 004ba3b..34070c0 100644
  public class Explosion
  {
      public boolean isFlaming;
+     public boolean isSmoking = true;
+     private int field_77289_h = 16;
+-    private Random explosionRNG = new Random();
++    private Random explosionRNG = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     private World worldObj;
+     public double explosionX;
+     public double explosionY;
 @@ -34,6 +43,7 @@ public class Explosion
      public float explosionSize;
      public List affectedBlockPositions = new ArrayList();
@@ -25988,7 +26145,7 @@ index d358df5..73ae6cc 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..305dac8 100644
+index c365f90..de8c70f 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -23,9 +25,11 @@ import net.minecraft.command.IEntitySelector;
@@ -26077,11 +26234,13 @@ index c365f90..305dac8 100644
      protected final int DIST_HASH_MAGIC = 1013904223;
      public float prevRainingStrength;
      public float rainingStrength;
-@@ -100,26 +151,93 @@ public abstract class World implements IBlockAccess
+@@ -99,27 +150,94 @@ public abstract class World implements IBlockAccess
+     public float thunderingStrength;
      public int lastLightningBolt;
      public EnumDifficulty difficultySetting;
-     public Random rand = new Random();
+-    public Random rand = new Random();
 -    public final WorldProvider provider;
++    public Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
 +    protected int updateLCG = this.rand.nextInt();
 +    public WorldProvider provider; // CraftBukkit - remove final
      protected List worldAccesses = new ArrayList();
@@ -30343,6 +30502,45 @@ index 32a619c..dd1bc84 100644
          this.layerCount = p_i45467_1_;
          this.field_151537_a = p_i45467_2_;
      }
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenBase.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenBase.java
+index 8ad6ae5..a64369f 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenBase.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenBase.java
+@@ -8,7 +8,7 @@ import net.minecraft.world.chunk.IChunkProvider;
+ public class MapGenBase
+ {
+     protected int range = 8;
+-    protected Random rand = new Random();
++    protected Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+     protected World worldObj;
+     private static final String __OBFID = "CL_00000394";
+ 
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java
+index 2fb87c7..f730678 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java
+@@ -17,7 +17,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator
+ 
+     public NoiseGeneratorImproved()
+     {
+-        this(new Random());
++        this(new thermos.thermite.ThermiteRandom());//FFoKC: parse Thermos modification
+     }
+ 
+     public NoiseGeneratorImproved(Random p_i45469_1_)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java
+index cafca4d..32c844b 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java
+@@ -16,7 +16,7 @@ public class NoiseGeneratorSimplex
+ 
+     public NoiseGeneratorSimplex()
+     {
+-        this(new Random());
++        this(new thermos.thermite.ThermiteRandom());//FFoKC: parse Thermos modification
+     }
+ 
+     public NoiseGeneratorSimplex(Random p_i45471_1_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/feature/WorldGenIceSpike.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/feature/WorldGenIceSpike.java
 index 9197bd4..3c5c029 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/feature/WorldGenIceSpike.java
@@ -30406,9 +30604,18 @@ index d5a65f7..967aece 100644
                          WeightedRandomChestContent.generateChestContents(p_76484_2_, this.theBonusChestGenerator, tileentitychest, this.itemsToGenerateInBonusChest);
                      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java
-index 21b1ccc..9a2673c 100644
+index 21b1ccc..ec716d2 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java
+@@ -82,7 +82,7 @@ public class MapGenStronghold extends MapGenStructure
+     {
+         if (!this.ranBiomeCheck)
+         {
+-            Random random = new Random();
++            Random random = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+             random.setSeed(this.worldObj.getSeed());
+             double d0 = random.nextDouble() * Math.PI * 2.0D;
+             int l = 1;
 @@ -92,7 +92,17 @@ public class MapGenStronghold extends MapGenStructure
                  double d1 = (1.25D * (double)l + random.nextDouble()) * this.field_82671_h * (double)l;
                  int j1 = (int)Math.round(Math.cos(d0) * d1);
@@ -34839,3 +35046,16 @@ index 7cf37f5..e57aa38 100644
  
  /**
   * Class containing file utilities
+diff --git ./eclipse/Clean/src/main/java/org/bukkit/util/Vector.java ./eclipse/cauldron/src/main/java/org/bukkit/util/Vector.java
+index bc53db7..5a4a656 100644
+--- ./eclipse/Clean/src/main/java/org/bukkit/util/Vector.java
++++ ./eclipse/cauldron/src/main/java/org/bukkit/util/Vector.java
+@@ -18,7 +18,7 @@ import org.bukkit.configuration.serialization.SerializableAs;
+ public class Vector implements Cloneable, ConfigurationSerializable {
+     private static final long serialVersionUID = -2657651106777219169L;
+ 
+-    private static Random random = new Random();
++    private static Random random = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+ 
+     /**
+      * Threshold for fuzzy equals().

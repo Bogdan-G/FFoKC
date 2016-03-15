@@ -78,7 +78,8 @@ public abstract class ConfigBase
 
     public void saveWorldConfigs()
     {
-        for (int i = 0; i < MinecraftServer.getServer().worlds.size(); ++i)
+        int worlds_sS=MinecraftServer.getServer().worlds.size();
+        for (int i = 0; i < worlds_sS; ++i)
         {
             WorldServer worldserver = MinecraftServer.getServer().worlds.get(i);
 

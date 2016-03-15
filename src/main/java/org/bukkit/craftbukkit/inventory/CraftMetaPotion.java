@@ -198,7 +198,8 @@ class CraftMetaPotion extends CraftMetaItem implements PotionMeta {
             return -1;
         }
 
-        for (int i = 0; i < customEffects.size(); i++) {
+        int customEffects_sS=customEffects.size();
+        for (int i = 0; i < customEffects_sS; i++) {
             if (customEffects.get(i).getType().equals(type)) {
                 return i;
             }

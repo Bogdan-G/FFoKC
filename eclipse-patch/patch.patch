@@ -31368,6 +31368,92 @@ index 5951732..40d8c2d 100644
 +    }
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
+index 08bd913..2e01a60 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
+@@ -39,7 +39,7 @@ public class ClientCommandHandler extends CommandHandler
+     {
+         message = message.trim();
+ 
+-        if (message.startsWith("/"))
++        if (message.charAt(0) == '/')//message.startsWith("/")
+         {
+             message = message.substring(1);
+         }
+@@ -119,14 +119,16 @@ public class ClientCommandHandler extends CommandHandler
+                 {
+                     if (leftOfCursor.indexOf(' ') == -1)
+                     {
+-                        for (int i = 0; i < commands.size(); i++)
++                        int commands_sS=commands.size();
++                        for (int i = 0; i < commands_sS; i++)
+                         {
+                             commands.set(i, GRAY + "/" + commands.get(i) + RESET);
+                         }
+                     }
+                     else
+                     {
+-                        for (int i = 0; i < commands.size(); i++)
++                        int commands_sS=commands.size();
++                        for (int i = 0; i < commands_sS; i++)
+                         {
+                             commands.set(i, GRAY + commands.get(i) + RESET);
+                         }
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/GuiIngameForge.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/GuiIngameForge.java
+index 87d31b4..230f378 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/client/GuiIngameForge.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/GuiIngameForge.java
+@@ -527,7 +527,7 @@ public class GuiIngameForge extends GuiIngame
+                 mc.mcProfiler.startSection("expLevel");
+                 boolean flag1 = false;
+                 int color = flag1 ? 16777215 : 8453920;
+-                String text = "" + mc.thePlayer.experienceLevel;
++                String text = String.valueOf(mc.thePlayer.experienceLevel);
+                 int x = (width - fontrenderer.getStringWidth(text)) / 2;
+                 int y = height - 31 - 4;
+                 fontrenderer.drawString(text, x + 1, y, 0);
+@@ -698,14 +698,16 @@ public class GuiIngameForge extends GuiIngame
+         RenderGameOverlayEvent.Text event = new RenderGameOverlayEvent.Text(eventParent, left, right);
+         if (!MinecraftForge.EVENT_BUS.post(event))
+         {
+-            for (int x = 0; x < left.size(); x++)
++            int left_sS=left.size();
++            for (int x = 0; x < left_sS; x++)
+             {
+                 String msg = left.get(x);
+                 if (msg == null) continue;
+                 fontrenderer.drawStringWithShadow(msg, 2, 2 + x * 10, WHITE);
+             }
+ 
+-            for (int x = 0; x < right.size(); x++)
++            int right_sS=right.size();
++            for (int x = 0; x < right_sS; x++)
+             {
+                 String msg = right.get(x);
+                 if (msg == null) continue;
+@@ -814,7 +816,7 @@ public class GuiIngameForge extends GuiIngame
+                         if (maxX - endX > 5)
+                         {
+                             Score score = scoreobjective.getScoreboard().func_96529_a(player.name, scoreobjective);
+-                            String scoreDisplay = EnumChatFormatting.YELLOW + "" + score.getScorePoints();
++                            String scoreDisplay = String.valueOf(EnumChatFormatting.YELLOW) + String.valueOf(score.getScorePoints());
+                             fontrenderer.drawStringWithShadow(scoreDisplay, maxX - fontrenderer.getStringWidth(scoreDisplay), yPos, 16777215);
+                         }
+                     }
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java
+index dc5b48d..25a95fd 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java
+@@ -83,7 +83,7 @@ public class WavefrontObject implements IModelCustom
+                 lineCount++;
+                 currentLine = currentLine.replaceAll("\\s+", " ").trim();
+ 
+-                if (currentLine.startsWith("#") || currentLine.length() == 0)
++                if (currentLine.charAt(0) == '#' || currentLine.length() == 0)//currentLine.startsWith("#")
+                 {
+                     continue;
+                 }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/DimensionManager.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/DimensionManager.java
 index 130646b..2b1f8c5 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/DimensionManager.java
@@ -32119,7 +32205,7 @@ index f4982c9..1da02a6 100644
  
          chunk.populateChunk(queuedChunk.provider, queuedChunk.provider, queuedChunk.x, queuedChunk.z);
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
-index 849986d..34228ca 100644
+index 849986d..cddb482 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
 @@ -15,6 +15,8 @@ import java.io.BufferedWriter;
@@ -32140,6 +32226,70 @@ index 849986d..34228ca 100644
                  defaultEncoding = input.getEncoding();
                  buffer = new BufferedReader(input);
  
+@@ -860,9 +862,9 @@ public class Configuration
+                     int nameStart = -1, nameEnd = -1;
+                     boolean skip = false;
+                     boolean quoted = false;
+-                    boolean isFirstNonWhitespaceCharOnLine = true;
++                    boolean isFirstNonWhitespaceCharOnLine = true;int line_sS=line.length();
+ 
+-                    for (int i = 0; i < line.length() && !skip; ++i)
++                    for (int i = 0; i < line_sS && !skip; ++i)
+                     {
+                         if (Character.isLetterOrDigit(line.charAt(i)) || ALLOWED_CHARS.indexOf(line.charAt(i)) != -1 || (quoted && line.charAt(i) != '"'))
+                         {
+@@ -942,7 +944,7 @@ public class Configuration
+                                     }
+ 
+                                     Property prop = new Property(name, line.substring(i + 1), type, true);
+-                                    i = line.length();
++                                    i = line.length();line_sS=line.length();
+ 
+                                     currentCat.put(name, prop);
+ 
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Property.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Property.java
+index 8616986..312140f 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Property.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Property.java
+@@ -843,9 +843,10 @@ public class Property
+             catch (NumberFormatException e){}
+         }
+ 
+-        int[] primitives = new int[nums.size()];
++        int nums_sS=nums.size();
++        int[] primitives = new int[nums_sS];
+ 
+-        for (int i = 0; i < nums.size(); i++)
++        for (int i = 0; i < nums_sS; i++)
+         {
+             primitives[i] = nums.get(i);
+         }
+@@ -892,9 +893,10 @@ public class Property
+             catch (NumberFormatException e){}
+         }
+ 
+-        boolean[] primitives = new boolean[tmp.size()];
++        int temp_sS=tmp.size();
++        boolean[] primitives = new boolean[temp_sS];
+ 
+-        for (int i = 0; i < tmp.size(); i++)
++        for (int i = 0; i < temp_sS; i++)
+         {
+             primitives[i] = tmp.get(i);
+         }
+@@ -938,9 +940,10 @@ public class Property
+             catch (NumberFormatException e) {}
+         }
+ 
+-        double[] primitives = new double[tmp.size()];
++        int temp_sS=tmp.size();
++        double[] primitives = new double[temp_sS];
+ 
+-        for (int i = 0; i < tmp.size(); i++)
++        for (int i = 0; i < temp_sS; i++)
+         {
+             primitives[i] = tmp.get(i);
+         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
 index d00bd91..c024c87 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
@@ -32529,8 +32679,22 @@ index 2c8e01e..9c66d5a 100644
          }
      }
  
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
+index fcc3f34..1da8c4b 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
+@@ -576,7 +576,8 @@ public class OreDictionary
+     {
+         //System.out.println("Baking OreDictionary:");
+         stackToId.clear();
+-        for (int id = 0; id < idToStack.size(); id++)
++        int idToStack_sS=idToStack.size();
++        for (int id = 0; id < idToStack_sS; id++)
+         {
+             List<ItemStack> ores = idToStack.get(id);
+             if (ores == null) continue;
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
-index 100acef..fb419ba 100644
+index 100acef..d7bd5c3 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
 @@ -6,6 +6,10 @@ import java.util.Iterator;
@@ -32560,7 +32724,51 @@ index 100acef..fb419ba 100644
  
      public ShapedOreRecipe(Block     result, Object... recipe){ this(new ItemStack(result), recipe); }
      public ShapedOreRecipe(Item      result, Object... recipe){ this(new ItemStack(result), recipe); }
-@@ -127,6 +133,7 @@ public class ShapedOreRecipe implements IRecipe
+@@ -51,34 +57,39 @@ public class ShapedOreRecipe implements IRecipe
+         if (recipe[idx] instanceof String[])
+         {
+             String[] parts = ((String[])recipe[idx++]);
++            StringBuilder shapeSB = new StringBuilder(shape);
+ 
+             for (String s : parts)
+             {
+                 width = s.length();
+-                shape += s;
++                shapeSB.append(s);
+             }
+ 
++            shape=String.valueOf(shapeSB);
+             height = parts.length;
+         }
+         else
+         {
++            StringBuilder shapeSB = new StringBuilder(shape);
+             while (recipe[idx] instanceof String)
+             {
+                 String s = (String)recipe[idx++];
+-                shape += s;
++                shapeSB.append(s);
+                 width = s.length();
+                 height++;
+             }
++            shape=String.valueOf(shapeSB);
+         }
+ 
+         if (width * height != shape.length())
+         {
+             String ret = "Invalid shaped ore recipe: ";
++            StringBuilder retSB = new StringBuilder(ret);
+             for (Object tmp :  recipe)
+             {
+-                ret += tmp + ", ";
++                retSB.append(tmp).append(", ");
+             }
+-            ret += output;
++            retSB.append(output); ret = String.valueOf(retSB);
+             throw new RuntimeException(ret);
+         }
+ 
+@@ -127,6 +138,7 @@ public class ShapedOreRecipe implements IRecipe
  
      ShapedOreRecipe(ShapedRecipes recipe, Map<ItemStack, String> replacements)
      {
@@ -32568,7 +32776,7 @@ index 100acef..fb419ba 100644
          output = recipe.getRecipeOutput();
          width = recipe.recipeWidth;
          height = recipe.recipeHeight;
-@@ -255,4 +262,13 @@ public class ShapedOreRecipe implements IRecipe
+@@ -255,4 +267,13 @@ public class ShapedOreRecipe implements IRecipe
      {
          return this.input;
      }
@@ -32584,7 +32792,7 @@ index 100acef..fb419ba 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapelessOreRecipe.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapelessOreRecipe.java
-index f4060ed..f1e1845 100644
+index f4060ed..c38e846 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapelessOreRecipe.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapelessOreRecipe.java
 @@ -6,6 +6,10 @@ import java.util.Map;
@@ -32612,7 +32820,22 @@ index f4060ed..f1e1845 100644
  
      public ShapelessOreRecipe(Block result, Object... recipe){ this(new ItemStack(result), recipe); }
      public ShapelessOreRecipe(Item  result, Object... recipe){ this(new ItemStack(result), recipe); }
-@@ -59,6 +65,7 @@ public class ShapelessOreRecipe implements IRecipe
+@@ -46,11 +52,12 @@ public class ShapelessOreRecipe implements IRecipe
+             else
+             {
+                 String ret = "Invalid shapeless ore recipe: ";
++                StringBuilder retSB = new StringBuilder(ret);
+                 for (Object tmp :  recipe)
+                 {
+-                    ret += tmp + ", ";
++                    retSB.append(tmp).append(", ");
+                 }
+-                ret += output;
++                retSB.append(output); ret = String.valueOf(retSB);
+                 throw new RuntimeException(ret);
+             }
+         }
+@@ -59,6 +66,7 @@ public class ShapelessOreRecipe implements IRecipe
      @SuppressWarnings("unchecked")
      ShapelessOreRecipe(ShapelessRecipes recipe, Map<ItemStack, String> replacements)
      {
@@ -32620,7 +32843,7 @@ index f4060ed..f1e1845 100644
          output = recipe.getRecipeOutput();
  
          for(ItemStack ingred : ((List<ItemStack>)recipe.recipeItems))
-@@ -146,4 +153,13 @@ public class ShapelessOreRecipe implements IRecipe
+@@ -146,4 +154,13 @@ public class ShapelessOreRecipe implements IRecipe
      {
          return this.input;
      }

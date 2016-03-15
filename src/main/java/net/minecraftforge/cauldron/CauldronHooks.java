@@ -367,7 +367,8 @@ public class CauldronHooks
                 TObjectIntHashMap<ChunkCoordIntPair> chunkTileCounts = new TObjectIntHashMap<ChunkCoordIntPair>();
                 TObjectIntHashMap<Class> classTileCounts = new TObjectIntHashMap<Class>();
                 writer.name("tiles").beginArray();
-                for (int i = 0; i < world.loadedTileEntityList.size(); i++)
+                int world_loadedTileEntityList_sS=world.loadedTileEntityList.size();
+                for (int i = 0; i < world_loadedTileEntityList_sS; i++)
                 {
                     TileEntity tile = (TileEntity) world.loadedTileEntityList.get(i);
                     if (logAll)

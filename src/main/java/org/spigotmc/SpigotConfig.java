@@ -172,7 +172,7 @@ public class SpigotConfig
         outdatedServerMessage = transform( getString( "messages.outdated-server", outdatedServerMessage ) );
     }
 
-    public static int timeoutTime = 120; // Cauldron - raise to 90
+    public static int timeoutTime = 240; // Cauldron - raise to 90
     public static boolean restartOnCrash = false;
     public static String restartScript = "./start.sh";
     public static String restartMessage;
@@ -271,6 +271,6 @@ public class SpigotConfig
     public static int fullMatchRate;
     private static void fullMatchRate()
     {
-    	fullMatchRate = getInt( "settings.fullMatchRate", 10);
+    	fullMatchRate = getInt( "settings.fullMatchRate", 100);
     }
 }

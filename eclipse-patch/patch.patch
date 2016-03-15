@@ -26145,7 +26145,7 @@ index d358df5..73ae6cc 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..de8c70f 100644
+index c365f90..bc7d073 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -23,9 +25,11 @@ import net.minecraft.command.IEntitySelector;
@@ -26211,7 +26211,7 @@ index c365f90..de8c70f 100644
 +
 +import org.bukkit.block.BlockState;
 +// Cauldron end
-+import org.spigotmc.TickLimiter;
++//import org.spigotmc.TickLimiter; //FFoKC - off as in the past it has been removed tick-limiting patch
 +
  public abstract class World implements IBlockAccess
  {
@@ -26348,8 +26348,8 @@ index c365f90..de8c70f 100644
 +    public ChunkGenerator generator;
 +    public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
 +    public final SpigotTimings.WorldTimingsHandler timings; // Spigot
-+    private org.spigotmc.TickLimiter entityLimiter; // Spigot
-+    private org.spigotmc.TickLimiter tileLimiter; // Spigot
++    //private org.spigotmc.TickLimiter entityLimiter; // Spigot //cleanup
++    //private org.spigotmc.TickLimiter tileLimiter; // Spigot //cleanup
 +    private int tileTickPosition; // Spigot
 +
 +    public CraftWorld getWorld()
@@ -26387,7 +26387,7 @@ index c365f90..de8c70f 100644
 +            org.bukkit.World.Environment env)
 +    {
 +        this.spigotConfig = new org.spigotmc.SpigotWorldConfig(p_i45369_2_); // Spigot
-+        initLimiter(); // Spigot
++        //initLimiter(); // Spigot
 +        // Cauldron start
 +        this.cauldronConfig = new CauldronWorldConfig(p_i45369_2_, MinecraftServer.getServer().cauldronConfig);
 +        this.tileentityConfig = new TileEntityWorldConfig(p_i45369_2_, MinecraftServer.getServer().tileEntityConfig);
@@ -26532,7 +26532,7 @@ index c365f90..de8c70f 100644
 +        if (DimensionManager.getWorld(0) != null)
 +        {
 +            this.spigotConfig = new org.spigotmc.SpigotWorldConfig(p_i45369_2_); // Spigot
-+            initLimiter(); // Spigot
++            //initLimiter(); // Spigot
 +            this.cauldronConfig = new CauldronWorldConfig(p_i45369_2_, MinecraftServer.getServer().cauldronConfig);
 +            this.tileentityConfig = new TileEntityWorldConfig(p_i45369_2_, MinecraftServer.getServer().tileEntityConfig);
 +            this.world = DimensionManager.getWorld(0).getWorld();
@@ -27366,11 +27366,9 @@ index c365f90..de8c70f 100644
                      {
                          throw new ReportedException(crashreport);
 -                    }
-+                    }*/
-                 }
-             }
-+        }}
- 
+-                }
+-            }
+-
 -            if (tileentity.isInvalid())
 -            {
 -                iterator.remove();
@@ -27383,10 +27381,12 @@ index c365f90..de8c70f 100644
 -                    {
 -                        chunk.removeInvalidTileEntity(tileentity.xCoord & 15, tileentity.yCoord, tileentity.zCoord & 15);
 -                    }
--                }
--            }
++                    }*/
+                 }
+             }
 -        }
--
++        }}
+ 
 -        if (!this.field_147483_b.isEmpty())
 -        {
 -            for (Object tile : field_147483_b)
@@ -27659,7 +27659,7 @@ index c365f90..de8c70f 100644
 -            if ((!(entity instanceof EntityLiving) || !((EntityLiving)entity).isNoDespawnRequired()) && p_72907_1_.isAssignableFrom(entity.getClass()))
 +            // CraftBukkit start - Split out persistent check, don't apply it to special persistent mobs
 +            if (entity instanceof EntityLiving)
-+            {
+             {
 +                EntityLiving entityliving = (EntityLiving) entity;
 +
 +                if (entityliving.canDespawn_CB() && entityliving.isNoDespawnRequired())
@@ -27669,7 +27669,7 @@ index c365f90..de8c70f 100644
 +            }
 +
 +            if (p_72907_1_.isAssignableFrom(entity.getClass()))
-             {
++            {
 +                // if ((!(entity instanceof EntityLiving) || !((EntityLiving)entity).isNoDespawnRequired()) && p_72907_1_.isAssignableFrom(entity.getClass()))
 +                // CraftBukkit end
                  ++i;
@@ -27863,10 +27863,10 @@ index c365f90..de8c70f 100644
 +    // Cauldron end
 +    
 +    // Spigot start
-+    private void initLimiter() {
++    /*private void initLimiter() { //FFoKC - off as in the past it has been removed tick-limiting patch
 +        entityLimiter = new TickLimiter(spigotConfig.entityMaxTickTime);
 +        tileLimiter = new TickLimiter(spigotConfig.tileMaxTickTime);
-+    }
++    }*/
 +    // Spigot end
 +    
 +    // Cauldron start

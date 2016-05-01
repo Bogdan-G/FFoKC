@@ -45,7 +45,7 @@ public class CauldronHooks
     public static boolean craftWorldLoading = false;
     public static int tickingDimension = 0;
     public static ChunkCoordIntPair tickingChunk = null;
-    public static Map<Class<? extends TileEntity>, TileEntityCache> tileEntityCache = new HashMap<Class<? extends TileEntity>, TileEntityCache>();
+    public static Map<Class<? extends TileEntity>, TileEntityCache> tileEntityCache = new java.util.concurrent.ConcurrentHashMap<Class<? extends TileEntity>, TileEntityCache>();
 
     private static TObjectLongHashMap<CollisionWarning> recentWarnings = new TObjectLongHashMap<CollisionWarning>();
 

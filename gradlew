@@ -6,11 +6,29 @@
 ##
 ##############################################################################
 
-# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-DEFAULT_JVM_OPTS="-Xms1024m -Xmx1024m -XX:hashCode=5 -XX:+UseStringCache -XX:MaxPermSize=300m -Xnoclassgc -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -XX:+PrintCommandLineFlags -Dawt.useSystemAAFontSettings=lcd -XX:SoftRefLRUPolicyMSPerMB=1000 -DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -XX:ObjectAlignmentInBytes=16"
+# Attempt to set APP_HOME
+# Resolve links: $0 may be a link
+PRG="$0"
+# Need this for relative symlinks.
+while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '/.*' > /dev/null; then
+        PRG="$link"
+    else
+        PRG=`dirname "$PRG"`"/$link"
+    fi
+done
+SAVED="`pwd`"
+cd "`dirname \"$PRG\"`/" >/dev/null
+APP_HOME="`pwd -P`"
+cd "$SAVED" >/dev/null
 
 APP_NAME="Gradle"
 APP_BASE_NAME=`basename "$0"`
+
+# Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
+DEFAULT_JVM_OPTS="-Xms1024m -Xmx1024m -XX:hashCode=5 -XX:+UseStringCache -XX:MaxPermSize=300m -Xnoclassgc -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -XX:+PrintCommandLineFlags -Dawt.useSystemAAFontSettings=lcd -XX:SoftRefLRUPolicyMSPerMB=1000 -DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -XX:ObjectAlignmentInBytes=16 -Dfile.encoding=UTF-8"
 
 # Use the maximum available, or set MAX_FD != -1 to use that value.
 MAX_FD="maximum"
@@ -30,6 +48,7 @@ die ( ) {
 cygwin=false
 msys=false
 darwin=false
+nonstop=false
 case "`uname`" in
   CYGWIN* )
     cygwin=true
@@ -40,25 +59,10 @@ case "`uname`" in
   MINGW* )
     msys=true
     ;;
+  NONSTOP* )
+    nonstop=true
+    ;;
 esac
-
-# Attempt to set APP_HOME
-# Resolve links: $0 may be a link
-PRG="$0"
-# Need this for relative symlinks.
-while [ -h "$PRG" ] ; do
-    ls=`ls -ld "$PRG"`
-    link=`expr "$ls" : '.*-> \(.*\)$'`
-    if expr "$link" : '/.*' > /dev/null; then
-        PRG="$link"
-    else
-        PRG=`dirname "$PRG"`"/$link"
-    fi
-done
-SAVED="`pwd`"
-cd "`dirname \"$PRG\"`/" >/dev/null
-APP_HOME="`pwd -P`"
-cd "$SAVED" >/dev/null
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
@@ -85,7 +89,7 @@ location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if we can.
-if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; then
+if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
     MAX_FD_LIMIT=`ulimit -H -n`
     if [ $? -eq 0 ] ; then
         if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then

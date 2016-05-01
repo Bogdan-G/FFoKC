@@ -51,8 +51,8 @@ ext.buildInfoCached = null;
 def buildInfo(String key) {
     if (!buildInfoCached) {
             buildInfoCached = [
-                    nextBuildNumber: 'test34.17',
-                    version        : 'test34.16'
+                    nextBuildNumber: 'test34.30',
+                    version        : 'test34.29'
             ]
     }
     return key ? buildInfoCached[key] : buildInfoCached;
@@ -81,7 +81,7 @@ def gitInfo(String key) {
     return key ? gitInfoCached[key] : gitInfoCached;
 }
 
-version = "1.7.10-0.test34.17"
+version = "1.7.10-0.test34.30"
 
 launch4j {
     jreMinVersion = '1.6.0'

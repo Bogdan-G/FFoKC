@@ -23,9 +23,9 @@ public class MultipleCommandAliasHelpTopic extends HelpTopic {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < alias.getCommands().length; i++) {
             if (i != 0) {
-                sb.append(ChatColor.GOLD + " > " + ChatColor.WHITE);
+                sb.append(ChatColor.GOLD).append(" > ").append(ChatColor.WHITE);// >> /* https://pmd.github.io/pmd-5.4.1/pmd-java/rules/java/strings.html#InefficientStringBuffering */
             }
-            sb.append("/");
+            sb.append('/');// 1 symbol ~ char
             sb.append(alias.getCommands()[i].getLabel());
         }
         shortText = sb.toString();

@@ -209,7 +209,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
 
         //if (meta.hasEnchants()) { //test changes VVV
         if (meta.enchantments != null) { // Spigot
-            this.enchantments = new HashMap<Enchantment, Integer>(meta.enchantments);
+            this.enchantments = new java.util.concurrent.ConcurrentHashMap<Enchantment, Integer>(meta.enchantments);
         }
 
         this.repairCost = meta.repairCost;
@@ -297,7 +297,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
         }
 
         net.minecraft.nbt.NBTTagList ench = tag.getTagList(key.NBT, 10);
-        Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>(ench.tagCount());
+        Map<Enchantment, Integer> enchantments = new java.util.concurrent.ConcurrentHashMap<Enchantment, Integer>(ench.tagCount());
 
         for (int i = 0; i < ench.tagCount(); i++) {
             int id = 0xffff & ((net.minecraft.nbt.NBTTagCompound) ench.getCompoundTagAt(i)).getShort(ENCHANTMENTS_ID.NBT);
@@ -339,7 +339,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
             return null;
         }
 
-        Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>(ench.size());
+        Map<Enchantment, Integer> enchantments = new java.util.concurrent.ConcurrentHashMap<Enchantment, Integer>(ench.size());
         for (Map.Entry<?, ?> entry : ench.entrySet()) {
             Enchantment enchantment = Enchantment.getByName(entry.getKey().toString());
 
@@ -474,7 +474,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
 
     public boolean addEnchant(Enchantment ench, int level, boolean ignoreRestrictions) {
         if (enchantments == null) {
-            enchantments = new HashMap<Enchantment, Integer>(4);
+            enchantments = new java.util.concurrent.ConcurrentHashMap<Enchantment, Integer>(4);
         }
 
         if (ignoreRestrictions || level >= ench.getStartLevel() && level <= ench.getMaxLevel()) {
@@ -584,7 +584,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
                 clone.lore = new ArrayList<String>(this.lore);
             }
             if (this.enchantments != null) {
-                clone.enchantments = new HashMap<Enchantment, Integer>(this.enchantments);
+                clone.enchantments = new java.util.concurrent.ConcurrentHashMap<Enchantment, Integer>(this.enchantments);
             }
             return clone;
         } catch (CloneNotSupportedException e) {

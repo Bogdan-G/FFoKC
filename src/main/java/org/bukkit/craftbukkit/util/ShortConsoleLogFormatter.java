@@ -41,12 +41,7 @@ public class ShortConsoleLogFormatter extends Formatter {
         StringBuilder builder = new StringBuilder();
         Throwable ex = record.getThrown();
 
-        builder.append(date.format(record.getMillis()));
-        builder.append(" [");
-        builder.append(record.getLevel().getLocalizedName().toUpperCase());
-        builder.append("] ");
-        builder.append(formatMessage(record));
-        builder.append('\n');
+        builder.append(date.format(record.getMillis())).append(" [").append(record.getLevel().getLocalizedName().toUpperCase()).append("] ").append(formatMessage(record)).append('\n');
 
         if (ex != null) {
             StringWriter writer = new StringWriter();

@@ -17,7 +17,7 @@ public class OreDictionaryInterface implements BukkitOreDictionary {
     private Map<String, String> normalizedToCanonicalMap = null;
 
     private void initializeMap() {
-        normalizedToCanonicalMap = new HashMap<String, String>();
+        normalizedToCanonicalMap = new java.util.concurrent.ConcurrentHashMap<String, String>();
 
         for (String str : getAllOreNames()) {
             if (str == null || str.isEmpty()) {

@@ -11,6 +11,8 @@ public class SpigotWorldConfig
     private final String worldName;
     private final YamlConfiguration config;
     private boolean verbose;
+    private final String wsd_text = "world-settings.default.";
+    private final String ws_text = "world-settings.";
 
     public SpigotWorldConfig(String worldName)
     {
@@ -37,37 +39,37 @@ public class SpigotWorldConfig
 
     private void set(String path, Object val)
     {
-        config.set( "world-settings.default." + path, val );
+        config.set( wsd_text + path, val );
     }
 
     private boolean getBoolean(String path, boolean def)
     {
-        config.addDefault( "world-settings.default." + path, def );
-        return config.getBoolean( "world-settings." + worldName + "." + path, config.getBoolean( "world-settings.default." + path ) );
+        config.addDefault( wsd_text + path, def );
+        return config.getBoolean( ws_text + worldName + "." + path, config.getBoolean( wsd_text + path ) );
     }
 
     private double getDouble(String path, double def)
     {
-        config.addDefault( "world-settings.default." + path, def );
-        return config.getDouble( "world-settings." + worldName + "." + path, config.getDouble( "world-settings.default." + path ) );
+        config.addDefault( wsd_text + path, def );
+        return config.getDouble( ws_text + worldName + "." + path, config.getDouble( wsd_text + path ) );
     }
 
     private int getInt(String path, int def)
     {
-        config.addDefault( "world-settings.default." + path, def );
-        return config.getInt( "world-settings." + worldName + "." + path, config.getInt( "world-settings.default." + path ) );
+        config.addDefault( wsd_text + path, def );
+        return config.getInt( ws_text + worldName + "." + path, config.getInt( wsd_text + path ) );
     }
 
     private <T> List getList(String path, T def)
     {
-        config.addDefault( "world-settings.default." + path, def );
-        return (List<T>) config.getList( "world-settings." + worldName + "." + path, config.getList( "world-settings.default." + path ) );
+        config.addDefault( wsd_text + path, def );
+        return (List<T>) config.getList( ws_text + worldName + "." + path, config.getList( wsd_text + path ) );
     }
 
     private String getString(String path, String def)
     {
-        config.addDefault( "world-settings.default." + path, def );
-        return config.getString( "world-settings." + worldName + "." + path, config.getString( "world-settings.default." + path ) );
+        config.addDefault( wsd_text + path, def );
+        return config.getString( ws_text + worldName + "." + path, config.getString( wsd_text + path ) );
     }
 
     public int chunksPerTick;
@@ -231,14 +233,14 @@ public class SpigotWorldConfig
         }
         hiddenBlocks = getList( "anti-xray.hide-blocks", Arrays.asList( new Integer[]
         {
-            14, 15, 16, 21, 48, 49, 54, 56, 73, 74, 82, 129, 130
-        } ) );
+            14
+        } ) );//not need, reduce
         log( "\tHidden Blocks: " + hiddenBlocks );
 
         replaceBlocks = getList( "anti-xray.replace-blocks", Arrays.asList( new Integer[]
         {
-            1, 5
-        } ) );
+            1
+        } ) );//not need, reduce
         log( "\tReplace Blocks: " + replaceBlocks );
 
         antiXrayInstance = new AntiXray( this );
@@ -279,12 +281,12 @@ public class SpigotWorldConfig
         log( "Max Entity Collisions: " + maxCollisionsPerEntity );
     }
     
-    public int tileMaxTickTime;
+    /*public int tileMaxTickTime;//cleanup
     public int entityMaxTickTime;
     private void maxTickTimes()
     {
     	tileMaxTickTime = getInt("max-tick-time.tile", 50000);
     	entityMaxTickTime = getInt("max-tick-time.entity", 50000);
     	log("Tile Max Tick Time: " + tileMaxTickTime + "ms Entity max Tick Time: " + entityMaxTickTime + "ms");
-    }
+    }*/
 }

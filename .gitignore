@@ -16,5 +16,5 @@ fix_bug_comp
 *.rej
 clean_patch
 symlink.bat
-hs_err_pid7636.log
+hs_err_pid*
 dist_builds

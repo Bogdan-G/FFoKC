@@ -216,7 +216,7 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable> {
 
     final CallBackProvider<P, T, C, E> provider;
     final Queue<Task> finished = new ConcurrentLinkedQueue<Task>();
-    final Map<P, Task> tasks = new HashMap<P, Task>();
+    final Map<P, Task> tasks = new java.util.concurrent.ConcurrentHashMap<P, Task>();
     final ThreadPoolExecutor pool;
 
     /**

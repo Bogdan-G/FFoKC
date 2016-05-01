@@ -126,14 +126,14 @@ public class CraftStatistic {
 
     public static EntityType getEntityTypeFromStatistic(net.minecraft.stats.StatBase statistic) {
         String statisticString = statistic.statId;
-        return EntityType.fromName(statisticString.substring(statisticString.lastIndexOf(".") + 1));
+        return EntityType.fromName(statisticString.substring(statisticString.lastIndexOf('.') + 1));
     }
 
     public static Material getMaterialFromStatistic(net.minecraft.stats.StatBase statistic) {
         String statisticString = statistic.statId;
         int id;
         try {
-            id = Integer.valueOf(statisticString.substring(statisticString.lastIndexOf(".") + 1));
+            id = Integer.valueOf(statisticString.substring(statisticString.lastIndexOf('.') + 1));
         } catch (NumberFormatException e) {
             return null;
         }

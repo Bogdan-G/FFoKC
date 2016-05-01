@@ -25,7 +25,7 @@ public class TicksPerSecondCommand extends Command
             return true;
         }
 
-        StringBuilder sb = new StringBuilder( ChatColor.GOLD + "TPS from last 1m, 5m, 15m: " );
+        StringBuilder sb = new StringBuilder(48).append(ChatColor.GOLD).append("TPS from last 1m, 5m, 15m: ");
         for ( double tps : net.minecraft.server.MinecraftServer.getServer().recentTps )
         {
             sb.append( format( tps ) );

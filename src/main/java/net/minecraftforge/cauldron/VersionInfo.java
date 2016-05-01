@@ -21,6 +21,7 @@ import com.google.common.io.OutputSupplier;
 public class VersionInfo {
     public static final VersionInfo INSTANCE = new VersionInfo();
     public final JsonRootNode versionData;
+    private static final String install_text = "install";
 
     public VersionInfo()
     {
@@ -39,16 +40,16 @@ public class VersionInfo {
 
     public static String getProfileName()
     {
-        return INSTANCE.versionData.getStringValue("install","profileName");
+        return INSTANCE.versionData.getStringValue(install_text,"profileName");
     }
 
     public static String getVersionTarget()
     {
-        return INSTANCE.versionData.getStringValue("install","target");
+        return INSTANCE.versionData.getStringValue(install_text,"target");
     }
     public static File getLibraryPath(File root)
     {
-        String path = INSTANCE.versionData.getStringValue("install","path");
+        String path = INSTANCE.versionData.getStringValue(install_text,"path");
         String[] split = Iterables.toArray(Splitter.on(':').omitEmptyStrings().split(path), String.class);
         File dest = root;
         Iterable<String> subSplit = Splitter.on('.').omitEmptyStrings().split(split[0]);
@@ -63,17 +64,17 @@ public class VersionInfo {
 
     public static String getVersion()
     {
-        return INSTANCE.versionData.getStringValue("install","version");
+        return INSTANCE.versionData.getStringValue(install_text,"version");
     }
 
     public static String getWelcomeMessage()
     {
-        return INSTANCE.versionData.getStringValue("install","welcome");
+        return INSTANCE.versionData.getStringValue(install_text,"welcome");
     }
 
     public static String getLogoFileName()
     {
-        return INSTANCE.versionData.getStringValue("install","logo");
+        return INSTANCE.versionData.getStringValue(install_text,"logo");
     }
 
     public static JsonNode getVersionInfo()
@@ -87,7 +88,7 @@ public class VersionInfo {
     }
     public static String getContainedFile()
     {
-        return INSTANCE.versionData.getStringValue("install","filePath");
+        return INSTANCE.versionData.getStringValue(install_text,"filePath");
     }
     public static void extractFile(File path) throws IOException
     {
@@ -104,6 +105,6 @@ public class VersionInfo {
 
     public static String getMinecraftVersion()
     {
-        return INSTANCE.versionData.getStringValue("install","minecraft");
+        return INSTANCE.versionData.getStringValue(install_text,"minecraft");
     }
 }

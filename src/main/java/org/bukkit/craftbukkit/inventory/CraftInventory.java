@@ -1,6 +1,6 @@
 package org.bukkit.craftbukkit.inventory;
 
-import java.util.HashMap;
+import java.util.HashMap;import java.util.Map;
 import java.util.List;
 import java.util.ListIterator;
 

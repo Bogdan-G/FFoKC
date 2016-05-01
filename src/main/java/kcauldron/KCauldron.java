@@ -30,8 +30,8 @@ public class KCauldron {
                 String version = manifest.getProperty("KCauldron-Version");
                 if (version != null) {
                     String path = url.getPath();
-                    String jarFilePath = path.substring(path.indexOf(":") + 1,
-                            path.indexOf("!"));
+                    String jarFilePath = path.substring(path.indexOf(':') + 1,
+                            path.indexOf('!'));
                     jarFilePath = URLDecoder.decode(jarFilePath, "UTF-8");
                     sServerLocation = new File(jarFilePath);
 

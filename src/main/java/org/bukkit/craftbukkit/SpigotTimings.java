@@ -12,7 +12,7 @@ import org.spigotmc.CustomTimingsHandler;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map;import java.util.concurrent.*;
 
 import org.bukkit.craftbukkit.scheduler.CraftTask;
 
@@ -47,9 +47,10 @@ public class SpigotTimings {
     public static final CustomTimingsHandler entityActivationCheckTimer = new CustomTimingsHandler("entityActivationCheck");
     public static final CustomTimingsHandler checkIfActiveTimer = new CustomTimingsHandler("** checkIfActive");
 
-    public static final HashMap<String, CustomTimingsHandler> entityTypeTimingMap = new HashMap<String, CustomTimingsHandler>();
-    public static final HashMap<String, CustomTimingsHandler> tileEntityTypeTimingMap = new HashMap<String, CustomTimingsHandler>();
-    public static final HashMap<String, CustomTimingsHandler> pluginTaskTimingMap = new HashMap<String, CustomTimingsHandler>();
+    public static final Map<String, CustomTimingsHandler> entityTypeTimingMap = new ConcurrentHashMap<String, CustomTimingsHandler>();
+    public static final Map<String, CustomTimingsHandler> tileEntityTypeTimingMap = new ConcurrentHashMap<String, CustomTimingsHandler>();
+    public static final Map<String, CustomTimingsHandler> pluginTaskTimingMap = new ConcurrentHashMap<String, CustomTimingsHandler>();
+    private static final String a2s_text = "** ";
 
     /**
      * Gets a timer associated with a plugins tasks.
@@ -76,7 +77,7 @@ public class SpigotTimings {
         String name = "Task: " + plugin + " Runnable: " + taskname;
         StringBuilder nameSB = new StringBuilder(name);
         if (period > 0) {
-            nameSB.append("(interval:").append(period).append(")");
+            nameSB.append("(interval:").append(period).append(')');
         } else {
             nameSB.append("(Single)");
         }
@@ -150,26 +151,26 @@ public class SpigotTimings {
         public WorldTimingsHandler(World server) {
             String name = server.worldInfo.getWorldName() +" - ";
 
-            mobSpawn = new CustomTimingsHandler("** " + name + "mobSpawn");
-            doChunkUnload = new CustomTimingsHandler("** " + name + "doChunkUnload");
-            doTickPending = new CustomTimingsHandler("** " + name + "doTickPending");
-            doTickTiles = new CustomTimingsHandler("** " + name + "doTickTiles");
-            doVillages = new CustomTimingsHandler("** " + name + "doVillages");
-            doChunkMap = new CustomTimingsHandler("** " + name + "doChunkMap");
-            doSounds = new CustomTimingsHandler("** " + name + "doSounds");
-            doChunkGC = new CustomTimingsHandler("** " + name + "doChunkGC");
-            doPortalForcer = new CustomTimingsHandler("** " + name + "doPortalForcer");
-            entityTick = new CustomTimingsHandler("** " + name + "entityTick");
-            tileEntityTick = new CustomTimingsHandler("** " + name + "tileEntityTick");
-            tileEntityPending = new CustomTimingsHandler("** " + name + "tileEntityPending");
+            mobSpawn = new CustomTimingsHandler(a2s_text + name + "mobSpawn");
+            doChunkUnload = new CustomTimingsHandler(a2s_text + name + "doChunkUnload");
+            doTickPending = new CustomTimingsHandler(a2s_text + name + "doTickPending");
+            doTickTiles = new CustomTimingsHandler(a2s_text + name + "doTickTiles");
+            doVillages = new CustomTimingsHandler(a2s_text + name + "doVillages");
+            doChunkMap = new CustomTimingsHandler(a2s_text + name + "doChunkMap");
+            doSounds = new CustomTimingsHandler(a2s_text + name + "doSounds");
+            doChunkGC = new CustomTimingsHandler(a2s_text + name + "doChunkGC");
+            doPortalForcer = new CustomTimingsHandler(a2s_text + name + "doPortalForcer");
+            entityTick = new CustomTimingsHandler(a2s_text + name + "entityTick");
+            tileEntityTick = new CustomTimingsHandler(a2s_text + name + "tileEntityTick");
+            tileEntityPending = new CustomTimingsHandler(a2s_text + name + "tileEntityPending");
 
-            syncChunkLoadTimer = new CustomTimingsHandler("** " + name + "syncChunkLoad");
-            syncChunkLoadDataTimer = new CustomTimingsHandler("** " + name + "syncChunkLoad - Data");
-            syncChunkLoadStructuresTimer = new CustomTimingsHandler("** " + name + "chunkLoad - Structures");
-            syncChunkLoadEntitiesTimer = new CustomTimingsHandler("** " + name + "chunkLoad - Entities");
-            syncChunkLoadTileEntitiesTimer = new CustomTimingsHandler("** " + name + "chunkLoad - TileEntities");
-            syncChunkLoadTileTicksTimer = new CustomTimingsHandler("** " + name + "chunkLoad - TileTicks");
-            syncChunkLoadPostTimer = new CustomTimingsHandler("** " + name + "chunkLoad - Post");
+            syncChunkLoadTimer = new CustomTimingsHandler(a2s_text + name + "syncChunkLoad");
+            syncChunkLoadDataTimer = new CustomTimingsHandler(a2s_text + name + "syncChunkLoad - Data");
+            syncChunkLoadStructuresTimer = new CustomTimingsHandler(a2s_text + name + "chunkLoad - Structures");
+            syncChunkLoadEntitiesTimer = new CustomTimingsHandler(a2s_text + name + "chunkLoad - Entities");
+            syncChunkLoadTileEntitiesTimer = new CustomTimingsHandler(a2s_text + name + "chunkLoad - TileEntities");
+            syncChunkLoadTileTicksTimer = new CustomTimingsHandler(a2s_text + name + "chunkLoad - TileTicks");
+            syncChunkLoadPostTimer = new CustomTimingsHandler(a2s_text + name + "chunkLoad - Post");
 
 
             tracker = new CustomTimingsHandler(name + "tracker");

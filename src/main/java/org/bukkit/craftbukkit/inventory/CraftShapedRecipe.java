@@ -45,9 +45,10 @@ public class CraftShapedRecipe extends ShapedRecipe implements CraftRecipe {
         datalen += ingred.size() * 2;
         int i = 0;
         data = new Object[datalen];
-        for (; i < shape.length; i++) {
+        /*for (; i < shape.length; i++) {
             data[i] = shape[i];
-        }
+        }*/
+        System.arraycopy(shape, 0, data, 0, shape.length);i=shape.length;//FFoKC
         for (char c : ingred.keySet()) {
             ItemStack mdata = ingred.get(c);
             if (mdata == null) continue;

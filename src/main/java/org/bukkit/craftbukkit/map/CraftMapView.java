@@ -16,7 +16,7 @@ import org.bukkit.map.MapView;
 
 public final class CraftMapView implements MapView {
 
-    private final Map<CraftPlayer, RenderData> renderCache = new HashMap<CraftPlayer, RenderData>();
+    private final Map<CraftPlayer, RenderData> renderCache = new java.util.WeakHashMap<CraftPlayer, RenderData>();
     public final List<MapRenderer> renderers = new ArrayList<MapRenderer>(); // Spigot
     private final Map<MapRenderer, Map<CraftPlayer, CraftMapCanvas>> canvases = new HashMap<MapRenderer, Map<CraftPlayer, CraftMapCanvas>>();
     protected final net.minecraft.world.storage.MapData worldMap;

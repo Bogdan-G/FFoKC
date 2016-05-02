@@ -16,6 +16,9 @@ public class KCauldronConfig extends ConfigBase {
     public IntSetting commonMaxCoordOverworld = new IntSetting(this, "common.MaxCoordinatesInOverworld", 30000000, "Max Coordinates In Overworld (XZ)");
     public DoubleSetting commonMovedTooQuicklyThreshold = new DoubleSetting(this, "common.MovedTooQuicklyThreshold", 250.0D, "Moved too quickly limit configurable");
     public DoubleSetting commonMovedWronglyThreshold = new DoubleSetting(this, "common.MovedWronglyThreshold", 0.1625D, "Moved wrongly limit configurable");
+    public BoolSetting commonFastLeavesDecayEnable = new BoolSetting(this, "common.fastLeavesDecay.enable", false, "Enable fast decaying of leaves, not affects drop chanches /etc");
+    public IntSetting commonFastLeavesDecayMinTickTime = new IntSetting(this, "common.fastLeavesDecay.minTickTime", 5, "Minimal amount of tick between block updates");
+    public IntSetting commonFastLeavesDecayMaxTickTime = new IntSetting(this, "common.fastLeavesDecay.maxTickTime", 10, "Minimal amount of tick between block updates");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
@@ -26,6 +29,9 @@ public class KCauldronConfig extends ConfigBase {
         register(commonMaxCoordOverworld);
         register(commonMovedTooQuicklyThreshold);
         register(commonMovedWronglyThreshold);
+        register(commonFastLeavesDecayEnable);
+        register(commonFastLeavesDecayMinTickTime);
+        register(commonFastLeavesDecayMaxTickTime);
         load();
     }
 

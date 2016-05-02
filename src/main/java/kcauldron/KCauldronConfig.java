@@ -6,7 +6,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.cauldron.configuration.*;
 
 public class KCauldronConfig extends ConfigBase {
-    public BoolSetting commandEnable = new BoolSetting(this, "command.enable", false, "Enable KCauldron command");
+    public final BoolSetting commandEnable = new BoolSetting(this, "command.enable", false, "Enable KCauldron command");
 
     public BoolSetting loggingMaterialInjection = new BoolSetting(this, "logging.materialInjection", true, "Log material injection event");
     public BoolSetting loggingClientModList = new BoolSetting(this, "logging.clientModList", true, "Print client's mod list during attempt to join");
@@ -19,6 +19,7 @@ public class KCauldronConfig extends ConfigBase {
     public BoolSetting commonFastLeavesDecayEnable = new BoolSetting(this, "common.fastLeavesDecay.enable", false, "Enable fast decaying of leaves, not affects drop chanches /etc");
     public IntSetting commonFastLeavesDecayMinTickTime = new IntSetting(this, "common.fastLeavesDecay.minTickTime", 5, "Minimal amount of tick between block updates");
     public IntSetting commonFastLeavesDecayMaxTickTime = new IntSetting(this, "common.fastLeavesDecay.maxTickTime", 10, "Minimal amount of tick between block updates");
+    public BoolSetting ReduceBlockRedstoneTorchONC = new BoolSetting(this, "common.ReduceBlockRedstoneTorchONC", false, "Reduce update block Redstone Torch");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
@@ -32,6 +33,7 @@ public class KCauldronConfig extends ConfigBase {
         register(commonFastLeavesDecayEnable);
         register(commonFastLeavesDecayMinTickTime);
         register(commonFastLeavesDecayMaxTickTime);
+        register(commonReduceBlockRedstoneTorchONC);
         load();
     }
 

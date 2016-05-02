@@ -19,7 +19,7 @@ public class KCauldronConfig extends ConfigBase {
     public BoolSetting commonFastLeavesDecayEnable = new BoolSetting(this, "common.fastLeavesDecay.enable", false, "Enable fast decaying of leaves, not affects drop chanches /etc");
     public IntSetting commonFastLeavesDecayMinTickTime = new IntSetting(this, "common.fastLeavesDecay.minTickTime", 5, "Minimal amount of tick between block updates");
     public IntSetting commonFastLeavesDecayMaxTickTime = new IntSetting(this, "common.fastLeavesDecay.maxTickTime", 10, "Minimal amount of tick between block updates");
-    public BoolSetting ReduceBlockRedstoneTorchONC = new BoolSetting(this, "common.ReduceBlockRedstoneTorchONC", false, "Reduce update block Redstone Torch");
+    public BoolSetting commonReduceBlockRedstoneTorchONC = new BoolSetting(this, "common.ReduceBlockRedstoneTorchONC", false, "Reduce update block Redstone Torch");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");

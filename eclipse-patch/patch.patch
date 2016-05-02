@@ -1958,7 +1958,7 @@ index 35b41b8..b343b72 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockLeaves.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockLeaves.java
-index 1f70587..a1d6d6f 100644
+index 1f70587..92686b1 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockLeaves.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockLeaves.java
 @@ -18,6 +18,8 @@ import net.minecraft.world.IBlockAccess;
@@ -1996,7 +1996,21 @@ index 1f70587..a1d6d6f 100644
          ret.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z) & 3));
          return ret;
      }
-@@ -320,7 +332,7 @@ public abstract class BlockLeaves extends BlockLeavesBase implements IShearable
+@@ -308,6 +320,13 @@ public abstract class BlockLeaves extends BlockLeavesBase implements IShearable
+             world.setBlockMetadataWithNotify(x, y, z, i2 | 8, 4);
+         }
+         world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) | 8, 4);
++        // KCauldron start - fast leaves decay
++        if (net.minecraft.server.MinecraftServer.kcauldronConfig.commonFastLeavesDecayEnable.getValue()) {
++                int min = net.minecraft.server.MinecraftServer.kcauldronConfig.commonFastLeavesDecayMinTickTime.getValue();
++                int max = net.minecraft.server.MinecraftServer.kcauldronConfig.commonFastLeavesDecayMaxTickTime.getValue();
++                world.scheduleBlockUpdate(x, y, z, this, min + world.rand.nextInt(max - min));
++        }
++        // KCauldron end
+     }
+ 
+     @Override
+@@ -320,7 +339,7 @@ public abstract class BlockLeaves extends BlockLeavesBase implements IShearable
      @Override
      public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
      {
@@ -3211,7 +3225,7 @@ index da58173..b2fe0a6 100644
      public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_)
      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneTorch.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
-index 08eb480..f50142d 100644
+index 08eb480..df60a03 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
 @@ -13,11 +13,15 @@ import net.minecraft.item.Item;
@@ -3231,17 +3245,28 @@ index 08eb480..f50142d 100644
  
      private boolean func_150111_a(World p_150111_1_, int p_150111_2_, int p_150111_3_, int p_150111_4_, boolean p_150111_5_)
      {
-@@ -35,7 +39,8 @@ public class BlockRedstoneTorch extends BlockTorch
+@@ -35,6 +39,11 @@ public class BlockRedstoneTorch extends BlockTorch
  
          int l = 0;
  
--        for (int i1 = 0; i1 < list.size(); ++i1)
-+        list_sS=list.size();
-+        for (int i1 = 0; i1 < list_sS; ++i1)
++        if (net.minecraft.server.MinecraftServer.kcauldronConfig.commonReduceBlockRedstoneTorchONC.getValue()) {list_sS=list.size();
++        for (int i1 = 0; i1 < list_sS; ++i1) {
++        BlockRedstoneTorch.Toggle toggle = (BlockRedstoneTorch.Toggle)list.get(i1);
++        if (toggle.field_150847_a == p_150111_2_ && toggle.field_150845_b == p_150111_3_ && toggle.field_150846_c == p_150111_4_) {++l;if (l >= 8){return true;}}}
++        } else {
+         for (int i1 = 0; i1 < list.size(); ++i1)
          {
              BlockRedstoneTorch.Toggle toggle = (BlockRedstoneTorch.Toggle)list.get(i1);
+@@ -48,7 +57,7 @@ public class BlockRedstoneTorch extends BlockTorch
+                     return true;
+                 }
+             }
+-        }
++        }}
  
-@@ -125,10 +130,30 @@ public class BlockRedstoneTorch extends BlockTorch
+         return false;
+     }
+@@ -125,10 +134,30 @@ public class BlockRedstoneTorch extends BlockTorch
              list.remove(0);
          }
  
@@ -3272,7 +3297,7 @@ index 08eb480..f50142d 100644
                  p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, Blocks.unlit_redstone_torch, p_149674_1_.getBlockMetadata(p_149674_2_, p_149674_3_, p_149674_4_), 3);
  
                  if (this.func_150111_a(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, true))
-@@ -147,6 +172,19 @@ public class BlockRedstoneTorch extends BlockTorch
+@@ -147,6 +176,19 @@ public class BlockRedstoneTorch extends BlockTorch
          }
          else if (!flag && !this.func_150111_a(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, false))
          {
@@ -4882,10 +4907,10 @@ index e9c58f9..3a52201 100644
      {
          return this.field_145761_f;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/crash/CrashReport.java ./eclipse/cauldron/src/main/java/net/minecraft/crash/CrashReport.java
-index 0c3bc89..c827891 100644
+index 0c3bc89..f752369 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/crash/CrashReport.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/crash/CrashReport.java
-@@ -15,8 +16,11 @@ import java.util.Date;
+@@ -15,12 +16,18 @@ import java.util.Date;
  import java.util.Iterator;
  import java.util.List;
  import java.util.concurrent.Callable;
@@ -4897,7 +4922,14 @@ index 0c3bc89..c827891 100644
  import org.apache.commons.io.IOUtils;
  import org.apache.commons.lang3.ArrayUtils;
  import org.apache.logging.log4j.LogManager;
-@@ -51,6 +55,12 @@ public class CrashReport
+ import org.apache.logging.log4j.Logger;
++import org.bukkit.Bukkit;
++import org.bukkit.ChatColor;
++import org.bukkit.plugin.Plugin;
+ 
+ public class CrashReport
+ {
+@@ -51,6 +58,26 @@ public class CrashReport
                  return "1.7.10";
              }
          });
@@ -4907,9 +4939,32 @@ index 0c3bc89..c827891 100644
 +                return String.format("%s:%s:%s", KCauldron.getGroup(), KCauldron.getChannel(), KCauldron.getCurrentVersion());
 +            }
 +        });
++        this.theReportCategory.addCrashSectionCallable("Plugins", new Callable<String>() {
++            @Override
++            public String call() throws Exception {
++                StringBuilder pluginList = new StringBuilder();Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
++                for (Plugin plugin : plugins) {if (pluginList.length() > 0) pluginList.append(", ");if (plugin.isEnabled()) pluginList.append(plugin.getDescription().getName());}
++                return pluginList.toString();}
++        });
++        this.theReportCategory.addCrashSectionCallable("Disabled Plugins", new Callable<String>() {
++            @Override
++            public String call() throws Exception {
++                StringBuilder pluginList = new StringBuilder();Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
++                for (Plugin plugin : plugins) {if (pluginList.length() > 0) pluginList.append(", ");if (!plugin.isEnabled()) pluginList.append(plugin.getDescription().getName());}
++                return pluginList.toString();}
++        });
          this.theReportCategory.addCrashSectionCallable("Operating System", new Callable()
          {
              private static final String __OBFID = "CL_00001222";
+@@ -354,7 +381,7 @@ public class CrashReport
+ 
+     private static String getWittyComment()
+     {
+-        String[] astring = new String[] {"Who set us up the TNT?", "Everything\'s going to plan. No, really, that was supposed to happen.", "Uh... Did I do that?", "Oops.", "Why did you do that?", "I feel sad now :(", "My bad.", "I\'m sorry, Dave.", "I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!", "Daisy, daisy...", "Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.", "You should try our sister game, Minceraft!", "Don\'t be sad. I\'ll do better next time, I promise!", "Don\'t be sad, have a hug! <3", "I just don\'t know what went wrong :(", "Shall we play a game?", "Quite honestly, I wouldn\'t worry myself about that.", "I bet Cylons wouldn\'t have this problem.", "Sorry :(", "Surprise! Haha. Well, this is awkward.", "Would you like a cupcake?", "Hi. I\'m Minecraft, and I\'m a crashaholic.", "Ooh. Shiny.", "This doesn\'t make any sense!", "Why is it breaking :(", "Don\'t do that.", "Ouch. That hurt :(", "You\'re mean.", "This is a token for 1 free hug. Redeem at your nearest Mojangsta: [~~HUG~~]", "There are four lights!", "But it works on my machine."};
++        String[] astring = new String[] {"Who set us up the TNT?", "Everything\'s going to plan. No, really, that was supposed to happen.", "Uh... Did I do that?", "Oops.", "Why did you do that?", "I feel sad now :(", "My bad.", "I\'m sorry, Dave.", "I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!", "Daisy, daisy...", "Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.", "You should try our sister game, Minceraft!", "Don\'t be sad. I\'ll do better next time, I promise!", "Don\'t be sad, have a hug! <3", "I just don\'t know what went wrong :(", "Shall we play a game?", "Quite honestly, I wouldn\'t worry myself about that.", "I bet Cylons wouldn\'t have this problem.", "Sorry :(", "Surprise! Haha. Well, this is awkward.", "Would you like a cupcake?", "Hi. I\'m Minecraft, and I\'m a crashaholic.", "Ooh. Shiny.", "This doesn\'t make any sense!", "Why is it breaking :(", "Don\'t do that.", "Ouch. That hurt :(", "You\'re mean.", "This is a token for 1 free hug. Redeem at your nearest Mojangsta: [~~HUG~~]", "There are four lights!", "But it works on my machine.", "Absolutely no memes!", "Ouch!", "Kek time!", "No need bugs, goto bugs!", "Java...", "50 shades of Bug", "My pet hates in Java coding", "No hard? No Minecraft!", "What\'s over that hill? LOST"};
+ 
+         try
+         {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/dispenser/BehaviorDefaultDispenseItem.java ./eclipse/cauldron/src/main/java/net/minecraft/dispenser/BehaviorDefaultDispenseItem.java
 index 80ef9df..25984dc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/dispenser/BehaviorDefaultDispenseItem.java

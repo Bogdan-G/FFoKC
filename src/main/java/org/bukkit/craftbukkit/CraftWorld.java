@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLiving;import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.util.BlockSnapshot;
@@ -1155,7 +1155,13 @@ public class CraftWorld implements World {
             entity = new net.minecraft.entity.item.EntityFireworkRocket(world, x, y, z, null);
         }
 
-        if (entity != null) {
+        if (entity != null) {//Floood text: heh, instanceof does null-check xD, but logic strange in another version CB/SP? so I'll leave it in place
+            // Spigot start
+            if (entity instanceof EntityOcelot)
+            {
+                ( (EntityOcelot) entity ).spawnBonusSP = !net.minecraft.server.MinecraftServer.kcauldronConfig.commonDontspawnbonusocelotswhenpluginsspawnocelots.getValue(); //FFoKC: add configurable
+            }
+            // Spigot end
             if (entity instanceof EntityLiving) {
                 ((EntityLiving) entity).onSpawnWithEgg((IEntityLivingData) null);
             }

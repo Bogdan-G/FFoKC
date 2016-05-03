@@ -20,6 +20,7 @@ public class KCauldronConfig extends ConfigBase {
     public IntSetting commonFastLeavesDecayMinTickTime = new IntSetting(this, "common.fastLeavesDecay.minTickTime", 5, "Minimal amount of tick between block updates");
     public IntSetting commonFastLeavesDecayMaxTickTime = new IntSetting(this, "common.fastLeavesDecay.maxTickTime", 10, "Minimal amount of tick between block updates");
     public BoolSetting commonReduceBlockRedstoneTorchONC = new BoolSetting(this, "common.ReduceBlockRedstoneTorchONC", false, "Reduce update block Redstone Torch");
+    public BoolSetting commonDontspawnbonusocelotswhenpluginsspawnocelots = new BoolSetting(this, "common.Dontspawnbonusocelots", false, "Don't spawn bonus ocelots when plugins spawn ocelots");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
@@ -34,6 +35,7 @@ public class KCauldronConfig extends ConfigBase {
         register(commonFastLeavesDecayMinTickTime);
         register(commonFastLeavesDecayMaxTickTime);
         register(commonReduceBlockRedstoneTorchONC);
+        register(commonDontspawnbonusocelotswhenpluginsspawnocelots);
         load();
     }
 

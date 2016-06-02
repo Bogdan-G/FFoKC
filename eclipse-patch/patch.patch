@@ -29762,7 +29762,7 @@ index 078b73e..4860306 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
-index 65b90b0..657302b 100644
+index 65b90b0..c3605d6 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
 @@ -9,7 +9,7 @@ import java.util.Iterator;
@@ -29861,6 +29861,15 @@ index 65b90b0..657302b 100644
              }
          }
  
+@@ -568,7 +590,7 @@ public class Chunk
+         }
+         else
+         {
+-            ExtendedBlockStorage extendedblockstorage = this.storageArrays[p_150807_2_ >> 4];
++            ExtendedBlockStorage extendedblockstorage = null;try {extendedblockstorage = this.storageArrays[p_150807_2_ >> 4];} catch (ArrayIndexOutOfBoundsException e) { if ((p_150807_2_ >> 4)>15) extendedblockstorage = this.storageArrays[15];}
+             boolean flag = false;
+ 
+             if (extendedblockstorage == null)
 @@ -589,9 +611,10 @@ public class Chunk
  
              if (!this.worldObj.isRemote)
@@ -29873,7 +29882,7 @@ index 65b90b0..657302b 100644
              extendedblockstorage.func_150818_a(p_150807_1_, p_150807_2_ & 15, p_150807_3_, p_150807_4_);
              extendedblockstorage.setExtBlockMetadata(p_150807_1_, p_150807_2_ & 15, p_150807_3_, p_150807_5_); // This line duplicates the one below, so breakBlock fires with valid worldstate
  
-@@ -711,7 +734,7 @@ public class Chunk
+@@ -711,13 +734,13 @@ public class Chunk
  
      public int getSavedLightValue(EnumSkyBlock p_76614_1_, int p_76614_2_, int p_76614_3_, int p_76614_4_)
      {
@@ -29882,6 +29891,13 @@ index 65b90b0..657302b 100644
          return extendedblockstorage == null ? (this.canBlockSeeTheSky(p_76614_2_, p_76614_3_, p_76614_4_) ? p_76614_1_.defaultLightValue : 0) : (p_76614_1_ == EnumSkyBlock.Sky ? (this.worldObj.provider.hasNoSky ? 0 : extendedblockstorage.getExtSkylightValue(p_76614_2_, p_76614_3_ & 15, p_76614_4_)) : (p_76614_1_ == EnumSkyBlock.Block ? extendedblockstorage.getExtBlocklightValue(p_76614_2_, p_76614_3_ & 15, p_76614_4_) : p_76614_1_.defaultLightValue));
      }
  
+     public void setLightValue(EnumSkyBlock p_76633_1_, int p_76633_2_, int p_76633_3_, int p_76633_4_, int p_76633_5_)
+     {
+-        ExtendedBlockStorage extendedblockstorage = this.storageArrays[p_76633_3_ >> 4];
++        ExtendedBlockStorage extendedblockstorage = null;try {extendedblockstorage = this.storageArrays[p_76633_3_ >> 4];} catch (ArrayIndexOutOfBoundsException e) { if ((p_76633_3_ >> 4)>15) extendedblockstorage = this.storageArrays[15];}
+ 
+         if (extendedblockstorage == null)
+         {
 @@ -742,7 +765,7 @@ public class Chunk
  
      public int getBlockLightValue(int p_76629_1_, int p_76629_2_, int p_76629_3_, int p_76629_4_)

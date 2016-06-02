@@ -14,7 +14,7 @@ set APP_BASE_NAME=%~n0
 set APP_HOME=%DIRNAME%
 
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS=-Xms1024m -Xmx1024m -XX:+UseStringCache -XX:MaxPermSize=300m -Xnoclassgc -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -XX:+PrintCommandLineFlags -Dawt.useSystemAAFontSettings=lcd -XX:SoftRefLRUPolicyMSPerMB=1000 -DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -XX:ObjectAlignmentInBytes=16 -Dfile.encoding=UTF-8
+set DEFAULT_JVM_OPTS=-Xms1024m -Xmx1024m -XX:+UseStringCache -XX:MaxPermSize=300m -Xnoclassgc -XX:ConcGCThreads=1 -XX:ParallelGCThreads=1 -XX:+PrintCommandLineFlags -XX:SoftRefLRUPolicyMSPerMB=1000 -DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -Dfile.encoding=UTF-8
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome

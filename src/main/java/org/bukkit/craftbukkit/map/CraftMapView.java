@@ -151,8 +151,8 @@ public final class CraftMapView implements MapView {
                 if (color >= 0 || color <= -113) render.buffer[i] = color;
             }
 
-            int canvas_getCursors_sS=canvas.getCursors().size();
-            for (int i = 0; i < canvas_getCursors_sS; ++i) {
+            //int canvas_getCursors_sS=canvas.getCursors().size();
+            for (int i = 0; i < canvas.getCursors().size()/*canvas_getCursors_sS*/; ++i) {
                 render.cursors.add(canvas.getCursors().getCursor(i));
             }
         }

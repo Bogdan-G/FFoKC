@@ -1460,8 +1460,8 @@ public final class CraftServer implements Server {
 
     public void detectListNameConflict(net.minecraft.entity.player.EntityPlayerMP entityPlayer) {
         // Collisions will make for invisible people
-        int getHandle_playerEntityList_sS=getHandle().playerEntityList.size();
-        for (int i = 0; i < getHandle_playerEntityList_sS; ++i) {
+        //int getHandle_playerEntityList_sS=getHandle().playerEntityList.size();
+        for (int i = 0; i < getHandle().playerEntityList.size()/*getHandle_playerEntityList_sS*/; ++i) {
             net.minecraft.entity.player.EntityPlayerMP testEntityPlayer = (net.minecraft.entity.player.EntityPlayerMP) getHandle().playerEntityList.get(i);
 
             // We have a problem!

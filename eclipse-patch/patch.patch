@@ -6723,7 +6723,7 @@ index 2a3a366..d14c43d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLivingBase.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLivingBase.java
-index 16ebce8..0ed8851 100644
+index 16ebce8..ba7861c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLivingBase.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLivingBase.java
 @@ -2,8 +2,9 @@ package net.minecraft.entity;
@@ -7369,7 +7369,7 @@ index 16ebce8..0ed8851 100644
 +        if (this.canBeCollidedWith() && list != null && !list.isEmpty()) // Spigot: Add this.canBeCollidedWith() condition
          {
 -            for (int i = 0; i < list.size(); ++i)
-+            numCollisions -= worldObj.getSpigotConfig().maxCollisionsPerEntity; // Spigot // Cauldron
++            numCollisions = Math.max(0, numCollisions - worldObj.getSpigotConfig().maxCollisionsPerEntity); // Spigot // Cauldron
 +
 +            list_sS=list.size();
 +            for (int i = 0; i < list_sS; ++i)

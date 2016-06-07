@@ -22,6 +22,8 @@ public class KCauldronConfig extends ConfigBase {
     public BoolSetting commonReduceBlockRedstoneTorchONC = new BoolSetting(this, "common.ReduceBlockRedstoneTorchONC", false, "Reduce update block Redstone Torch");
     public BoolSetting commonDontspawnbonusocelotswhenpluginsspawnocelots = new BoolSetting(this, "common.Dontspawnbonusocelots", false, "Don't spawn bonus ocelots when plugins spawn ocelots");
     public IntSetting commonCapnumberofattemptsatspawningmobs = new IntSetting(this, "common.Capnumberspawnmobs", 50, "Cap limit number of attempts at spawning mobs");
+    public IntSetting commonMinimumLimitforServerThreadSleep = new IntSetting(this, "common.ServerThreadSleep.min", 1, "Minimum limit (ms) for Server Thread sleep");
+    public IntSetting commonMaximumLimitforServerThreadSleep = new IntSetting(this, "common.ServerThreadSleep.max", 1000, "Maximum limit (ms) for Server Thread sleep");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
@@ -38,6 +40,8 @@ public class KCauldronConfig extends ConfigBase {
         register(commonReduceBlockRedstoneTorchONC);
         register(commonDontspawnbonusocelotswhenpluginsspawnocelots);
         register(commonCapnumberofattemptsatspawningmobs);
+        register(commonMinimumLimitforServerThreadSleep);
+        register(commonMaximumLimitforServerThreadSleep);
         load();
     }
 

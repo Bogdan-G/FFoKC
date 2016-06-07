@@ -20437,7 +20437,7 @@ index 4bf8cee..d3542e4 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
-index c23c8fa..abb5729 100644
+index c23c8fa..2c0ab5c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -33,7 +34,10 @@ import java.util.List;
@@ -20521,7 +20521,7 @@ index c23c8fa..abb5729 100644
      @SideOnly(Side.SERVER)
      private String hostname;
      private int serverPort = -1;
-@@ -135,8 +177,43 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -135,8 +177,40 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      private long field_147142_T = 0L;
      private final GameProfileRepository field_152365_W;
      private final PlayerProfileCache field_152366_X;
@@ -20557,15 +20557,12 @@ index c23c8fa..abb5729 100644
 +    public static List<Class<? extends TileEntity>> bannedTileEntityUpdates = new ArrayList<Class<? extends TileEntity>>(100);
 +    // Cauldron end
      private static final String __OBFID = "CL_00001462";
-+    int worlds_sS;
-+    int playerEntityList_sS;
-+    int tickables_sS;
  
 +    // Cauldron start - IntegratedServer requires this
      public MinecraftServer(File p_i45281_1_, Proxy p_i45281_2_)
      {
          this.field_152366_X = new PlayerProfileCache(this, field_152367_a);
-@@ -149,9 +226,69 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -149,9 +223,69 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.field_152364_T = new YggdrasilAuthenticationService(p_i45281_2_, UUID.randomUUID().toString());
          this.field_147143_S = this.field_152364_T.createMinecraftSessionService();
          this.field_152365_W = this.field_152364_T.createProfileRepository();
@@ -20636,7 +20633,7 @@ index c23c8fa..abb5729 100644
  
      protected void convertMapIfNeeded(String p_71237_1_)
      {
-@@ -195,10 +333,17 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -195,10 +330,17 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      protected void loadAllWorlds(String p_71247_1_, String p_71247_2_, long p_71247_3_, WorldType p_71247_5_, String p_71247_6_)
      {
@@ -20656,7 +20653,7 @@ index c23c8fa..abb5729 100644
          WorldSettings worldsettings;
  
          if (worldinfo == null)
-@@ -215,11 +360,79 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -215,11 +357,79 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          {
              worldsettings.enableBonusChest();
          }
@@ -20739,7 +20736,7 @@ index c23c8fa..abb5729 100644
              world.addWorldAccess(new WorldManager(this, world));
  
              if (!this.isSinglePlayer())
-@@ -227,12 +440,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -227,12 +437,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                  world.getWorldInfo().setGameType(this.getGameType());
              }
  
@@ -20757,7 +20754,7 @@ index c23c8fa..abb5729 100644
      }
  
      protected void initialWorldChunkLoad()
-@@ -244,9 +459,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -244,9 +456,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          int i = 0;
          this.setUserMessage("menu.generatingTerrain");
          byte b0 = 0;
@@ -20770,7 +20767,7 @@ index c23c8fa..abb5729 100644
          long j = getSystemTimeMillis();
  
          for (int k = -192; k <= 192 && this.isServerRunning(); k += 16)
-@@ -265,7 +483,8 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -265,7 +480,8 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                  worldserver.theChunkProviderServer.loadChunk(chunkcoordinates.posX + k >> 4, chunkcoordinates.posZ + l >> 4);
              }
          }
@@ -20780,7 +20777,7 @@ index c23c8fa..abb5729 100644
          this.clearCurrentTask();
      }
  
-@@ -292,19 +511,18 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -292,19 +508,18 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      {
          this.currentTask = null;
          this.percentDone = 0;
@@ -20806,7 +20803,7 @@ index c23c8fa..abb5729 100644
  
                  if (worldserver != null)
                  {
-@@ -313,25 +531,41 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -313,25 +528,41 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                          logger.info("Saving chunks for level \'" + worldserver.getWorldInfo().getWorldName() + "\'/" + worldserver.provider.getDimensionName());
                      }
  
@@ -20853,7 +20850,7 @@ index c23c8fa..abb5729 100644
              if (this.func_147137_ag() != null)
              {
                  this.func_147137_ag().terminateEndpoints();
-@@ -347,7 +581,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -347,7 +578,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              if (this.worldServers != null)
              {
                  logger.info("Saving worlds");
@@ -20869,7 +20866,7 @@ index c23c8fa..abb5729 100644
  
                  for (int i = 0; i < this.worldServers.length; ++i)
                  {
-@@ -380,6 +621,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -380,6 +618,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.serverRunning = false;
      }
  
@@ -20883,7 +20880,7 @@ index c23c8fa..abb5729 100644
      public void run()
      {
          try
-@@ -392,45 +640,41 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -392,45 +637,43 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                  this.field_147147_p.func_151315_a(new ChatComponentText(this.motd));
                  this.field_147147_p.func_151321_a(new ServerStatusResponse.MinecraftProtocolVersionIdentifier("1.7.10", 5));
                  this.func_147138_a(this.field_147147_p);
@@ -20891,6 +20888,8 @@ index c23c8fa..abb5729 100644
 +                // Spigot start
 +                Arrays.fill(recentTps, 20);
 +                long lastTick = 0, catchupTime = 0, curTime, wait;
++                try{tsmin_sS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMinimumLimitforServerThreadSleep.getValue()*1000000;}catch (Throwable e) {tsmin_sS = 1000000;};
++                try{tsmax_sS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaximumLimitforServerThreadSleep.getValue()*1000000;}catch (Throwable e) {tsmax_sS = 1000000000;};
  
                  while (this.serverRunning)
                  {
@@ -20905,7 +20904,7 @@ index c23c8fa..abb5729 100644
 -                        logger.warn("Can\'t keep up! Did the system time change, or is the server overloaded? Running {}ms behind, skipping {} tick(s)", new Object[] {Long.valueOf(k), Long.valueOf(k / 50L)});
 -                        k = 2000L;
 -                        this.timeOfLastWarning = i;
-+                        //Thread.sleep(wait / 1000000); // FFoKC - dont Thread sleep
++                        if (wait >= tsmin_sS && wait <= tsmax_sS) {Thread.sleep(wait / 1000000);} // FFoKC - dont Thread sleep //off //add configurable
 +                        catchupTime = 0;
 +                        continue;
                      }
@@ -20950,7 +20949,7 @@ index c23c8fa..abb5729 100644
                  FMLCommonHandler.instance().handleServerStopping();
                  FMLCommonHandler.instance().expectServerStopped(); // has to come before finalTick to avoid race conditions
              }
-@@ -448,6 +692,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -448,6 +691,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          catch (Throwable throwable1)
          {
              logger.error("Encountered an unexpected exception", throwable1);
@@ -20965,7 +20964,7 @@ index c23c8fa..abb5729 100644
              CrashReport crashreport = null;
  
              if (throwable1 instanceof ReportedException)
-@@ -477,6 +729,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -477,6 +728,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          {
              try
              {
@@ -20973,7 +20972,7 @@ index c23c8fa..abb5729 100644
                  this.stopServer();
                  this.serverStopped = true;
              }
-@@ -486,6 +739,16 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -486,6 +738,16 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              }
              finally
              {
@@ -20990,7 +20989,7 @@ index c23c8fa..abb5729 100644
                  FMLCommonHandler.instance().handleServerStopped();
                  this.serverStopped = true;
                  this.systemExitNow();
-@@ -532,8 +795,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -532,8 +794,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public void tick()
      {
@@ -21002,7 +21001,7 @@ index c23c8fa..abb5729 100644
          ++this.tickCounter;
  
          if (this.startProfiling)
-@@ -562,12 +828,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -562,12 +827,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              this.field_147147_p.func_151318_b().func_151330_a(agameprofile);
          }
  
@@ -21026,7 +21025,7 @@ index c23c8fa..abb5729 100644
          }
  
          this.theProfiler.startSection("tallying");
-@@ -575,25 +850,58 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -575,25 +849,58 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.theProfiler.endSection();
          this.theProfiler.startSection("snooper");
  
@@ -21087,7 +21086,7 @@ index c23c8fa..abb5729 100644
          int i;
  
          Integer[] ids = DimensionManager.getIDs(this.tickCounter % 200 == 0);
-@@ -602,19 +910,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -602,19 +909,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              int id = ids[x];
              long j = System.nanoTime();
  
@@ -21112,7 +21111,7 @@ index c23c8fa..abb5729 100644
  
                  this.theProfiler.startSection("tick");
                  FMLCommonHandler.instance().onPreWorldTick(worldserver);
-@@ -622,22 +932,46 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -622,22 +931,46 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
                  try
                  {
@@ -21161,7 +21160,7 @@ index c23c8fa..abb5729 100644
                      worldserver.addWorldInfoToCrashReport(crashreport);
                      throw new ReportedException(crashreport);
                  }
-@@ -645,10 +979,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -645,10 +978,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                  FMLCommonHandler.instance().onPostWorldTick(worldserver);
                  this.theProfiler.endSection();
                  this.theProfiler.startSection("tracker");
@@ -21175,7 +21174,7 @@ index c23c8fa..abb5729 100644
  
              worldTickTimes.get(id)[this.tickCounter % 100] = System.nanoTime() - j;
          }
-@@ -656,15 +992,22 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -656,15 +991,22 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.theProfiler.endStartSection("dim_unloading");
          DimensionManager.unloadWorlds(worldTickTimes);
          this.theProfiler.endStartSection("connection");
@@ -21199,7 +21198,7 @@ index c23c8fa..abb5729 100644
  
          this.theProfiler.endSection();
      }
-@@ -699,6 +1042,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -699,6 +1041,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public WorldServer worldServerForDimension(int p_71218_1_)
      {
@@ -21213,7 +21212,7 @@ index c23c8fa..abb5729 100644
          WorldServer ret = DimensionManager.getWorld(p_71218_1_);
          if (ret == null)
          {
-@@ -784,13 +1134,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -784,13 +1133,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public List getPossibleCompletions(ICommandSender p_71248_1_, String p_71248_2_)
      {
@@ -21232,7 +21231,7 @@ index c23c8fa..abb5729 100644
  
              if (list != null)
              {
-@@ -798,40 +1149,25 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -798,40 +1148,25 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
                  while (iterator.hasNext())
                  {
@@ -21281,7 +21280,7 @@ index c23c8fa..abb5729 100644
      }
  
      public static MinecraftServer getServer()
-@@ -1034,7 +1370,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1034,7 +1369,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public boolean isServerInOnlineMode()
      {
@@ -21290,7 +21289,7 @@ index c23c8fa..abb5729 100644
      }
  
      public void setOnlineMode(boolean p_71229_1_)
-@@ -1124,7 +1460,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1124,7 +1459,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public NetworkSystem func_147137_ag()
      {
@@ -21299,7 +21298,7 @@ index c23c8fa..abb5729 100644
      }
  
      @SideOnly(Side.CLIENT)
-@@ -1259,8 +1595,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1259,8 +1594,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      {
          Bootstrap.func_151354_b();
  
@@ -21311,7 +21310,7 @@ index c23c8fa..abb5729 100644
              boolean flag = true;
              String s = null;
              String s1 = ".";
-@@ -1356,16 +1695,34 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1356,16 +1694,34 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              {
                  dedicatedserver.setGuiEnabled();
              }
@@ -21352,7 +21351,7 @@ index c23c8fa..abb5729 100644
          }
          catch (Exception exception)
          {
-@@ -1400,15 +1757,70 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1400,15 +1756,70 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      @SideOnly(Side.SERVER)
      public String getPlugins()
      {
@@ -21428,7 +21427,7 @@ index c23c8fa..abb5729 100644
      }
  
      @SideOnly(Side.SERVER)
-@@ -1455,9 +1867,213 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1455,9 +1866,215 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          return this.serverStopped;
      }
  
@@ -21641,6 +21640,8 @@ index c23c8fa..abb5729 100644
 +        return logger;
 +    }
 +    // CraftBukkit end
++    int worlds_sS, playerEntityList_sS, tickables_sS;
++    long tsmin_sS, tsmax_sS;
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/ServerEula.java ./eclipse/cauldron/src/main/java/net/minecraft/server/ServerEula.java
@@ -21674,7 +21675,7 @@ index fa9629c..489a9d2 100644
              flag = Boolean.parseBoolean(properties.getProperty("eula", "false"));
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 7526a8d..eccface 100644
+index 7526a8d..79fe1c3 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -34,17 +34,27 @@ import net.minecraft.world.EnumDifficulty;
@@ -21729,17 +21730,11 @@ index 7526a8d..eccface 100644
              public void run()
              {
 -                while (true)
-+                /*while (true) // FFoKC - off sleep
++                while (true) // FFoKC - off sleep //off
                  {
                      try
                      {
-@@ -77,36 +90,82 @@ public class DedicatedServer extends MinecraftServer implements IServer
-                     {
-                         ;
-                     }
--                }
-+                }*/
-             }
+@@ -82,31 +95,77 @@ public class DedicatedServer extends MinecraftServer implements IServer
          };
      }
  
@@ -21866,15 +21861,15 @@ index 7526a8d..eccface 100644
  
 -            if (this.func_152368_aE())
 +            try
-+            {
+             {
+-                this.func_152358_ax().func_152658_c();
 +                if (this.func_152368_aE())
 +                {
 +                    this.func_152358_ax().func_152658_c();
 +                }
 +            }
 +            catch (IOException e)
-             {
--                this.func_152358_ax().func_152658_c();
++            {
 +                e.printStackTrace();
              }
  
@@ -22093,7 +22088,7 @@ index ec7735a..65f7c72 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java ./eclipse/cauldron/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
-index 3b9f4d0..5aa8b51 100644
+index 3b9f4d0..c917aa9 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/gui/MinecraftServerGui.java
 @@ -65,7 +65,7 @@ public class MinecraftServerGui extends JComponent
@@ -22101,19 +22096,10 @@ index 3b9f4d0..5aa8b51 100644
                  p_120016_0_.initiateShutdown();
  
 -                while (!p_120016_0_.isServerStopped())
-+                /*while (!p_120016_0_.isServerStopped()) // FFoKC - off sleep
++                while (!p_120016_0_.isServerStopped()) // FFoKC - off sleep//off
                  {
                      try
                      {
-@@ -75,7 +75,7 @@ public class MinecraftServerGui extends JComponent
-                     {
-                         interruptedexception.printStackTrace();
-                     }
--                }
-+                }*/
- 
-                 System.exit(0);
-             }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/integrated/IntegratedServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/integrated/IntegratedServer.java
 index 9be9989..0df8624 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/integrated/IntegratedServer.java

@@ -72,7 +72,7 @@ public class CraftWorld implements World {
     private int chunkLoadCount = 0;
     private int chunkGCTickCount;
 
-    private static final Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+    private static final Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
 
     public CraftWorld(net.minecraft.world.WorldServer world, ChunkGenerator gen, Environment env) {
         this.world = world;

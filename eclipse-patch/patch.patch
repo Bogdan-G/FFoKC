@@ -1040,7 +1040,7 @@ index 989ea2c..6cc3b6b 100644
          if (p_150062_5_ != i1)
          {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockBrewingStand.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockBrewingStand.java
-index db74e19..485a947 100644
+index db74e19..1e6bfe5 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockBrewingStand.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockBrewingStand.java
 @@ -20,10 +20,11 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
@@ -1052,7 +1052,7 @@ index db74e19..485a947 100644
  public class BlockBrewingStand extends BlockContainer
  {
 -    private Random field_149961_a = new Random();
-+    private Random field_149961_a = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private Random field_149961_a = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      @SideOnly(Side.CLIENT)
      private IIcon iconBrewingStandBase;
      private static final String __OBFID = "CL_00000207";
@@ -1228,7 +1228,7 @@ index 958f8d9..b988b12 100644
  
              if (l >= 6)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockChest.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockChest.java
-index 0cc9293..b70169f 100644
+index 0cc9293..933e757 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockChest.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockChest.java
 @@ -28,7 +28,7 @@ import static net.minecraftforge.common.util.ForgeDirection.*;
@@ -1236,7 +1236,7 @@ index 0cc9293..b70169f 100644
  public class BlockChest extends BlockContainer
  {
 -    private final Random field_149955_b = new Random();
-+    private final Random field_149955_b = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private final Random field_149955_b = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      public final int field_149956_a;
      private static final String __OBFID = "CL_00000214";
  
@@ -1321,7 +1321,7 @@ index 3de2177..120bd23 100644
              }
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockDispenser.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockDispenser.java
-index 0c0f0eb..a95713d 100644
+index 0c0f0eb..8c8bde8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockDispenser.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockDispenser.java
 @@ -29,7 +29,8 @@ import net.minecraft.world.World;
@@ -1329,7 +1329,7 @@ index 0c0f0eb..a95713d 100644
  {
      public static final IRegistry dispenseBehaviorRegistry = new RegistryDefaulted(new BehaviorDefaultDispenseItem());
 -    protected Random field_149942_b = new Random();
-+    protected Random field_149942_b = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    protected Random field_149942_b = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
 +    public static boolean eventFired = false; // CraftBukkit
      @SideOnly(Side.CLIENT)
      protected IIcon field_149944_M;
@@ -1875,7 +1875,7 @@ index ad5c214..fc96b63 100644
              else
              {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockFurnace.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockFurnace.java
-index 80bafbc..5d1f75e 100644
+index 80bafbc..46f7b38 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockFurnace.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockFurnace.java
 @@ -22,7 +22,7 @@ import net.minecraft.world.World;
@@ -1883,7 +1883,7 @@ index 80bafbc..5d1f75e 100644
  public class BlockFurnace extends BlockContainer
  {
 -    private final Random field_149933_a = new Random();
-+    private final Random field_149933_a = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private final Random field_149933_a = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      private final boolean field_149932_b;
      private static boolean field_149934_M;
      @SideOnly(Side.CLIENT)
@@ -1954,7 +1954,7 @@ index 681c491..6e8e5b9 100644
                  }
              }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockHopper.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockHopper.java
-index cee2fd1..f5ee6ea 100644
+index cee2fd1..0e6dfbc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockHopper.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockHopper.java
 @@ -22,10 +22,11 @@ import net.minecraft.util.Facing;
@@ -1966,7 +1966,7 @@ index cee2fd1..f5ee6ea 100644
  public class BlockHopper extends BlockContainer
  {
 -    private final Random field_149922_a = new Random();
-+    private final Random field_149922_a = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private final Random field_149922_a = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      @SideOnly(Side.CLIENT)
      private IIcon field_149921_b;
      @SideOnly(Side.CLIENT)
@@ -2123,7 +2123,7 @@ index 8ecce96..185a175 100644
              p_149727_1_.playSoundEffect((double)p_149727_2_ + 0.5D, (double)p_149727_3_ + 0.5D, (double)p_149727_4_ + 0.5D, "random.click", 0.3F, k1 > 0 ? 0.6F : 0.5F);
              p_149727_1_.notifyBlocksOfNeighborChange(p_149727_2_, p_149727_3_, p_149727_4_, this);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockLiquid.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockLiquid.java
-index 8aeef26..85dec5f 100644
+index 8aeef26..6aeee1b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockLiquid.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockLiquid.java
 @@ -509,7 +509,7 @@ public abstract class BlockLiquid extends Block
@@ -2135,8 +2135,17 @@ index 8aeef26..85dec5f 100644
                      {
                          p_149805_1_.setBlock(p_149805_2_, p_149805_3_, p_149805_4_, Blocks.cobblestone);
                      }
+@@ -526,7 +526,7 @@ public abstract class BlockLiquid extends Block
+ 
+         for (int l = 0; l < 8; ++l)
+         {
+-            p_149799_1_.spawnParticle("largesmoke", (double)p_149799_2_ + Math.random(), (double)p_149799_3_ + 1.2D, (double)p_149799_4_ + Math.random(), 0.0D, 0.0D, 0.0D);
++            p_149799_1_.spawnParticle("largesmoke", (double)p_149799_2_ + (new org.bogdang.modifications.random.XSTR()).nextDouble(), (double)p_149799_3_ + 1.2D, (double)p_149799_4_ + (new org.bogdang.modifications.random.XSTR()).nextDouble(), 0.0D, 0.0D, 0.0D);//FFoKC: XSTR, speedup 30-46%
+         }
+     }
+ 
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockMobSpawner.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockMobSpawner.java
-index 69067ae..ee72f7d 100644
+index 69067ae..167bf42 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockMobSpawner.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockMobSpawner.java
 @@ -39,7 +39,7 @@ public class BlockMobSpawner extends BlockContainer
@@ -2144,7 +2153,7 @@ index 69067ae..ee72f7d 100644
      }
  
 -    private Random rand = new Random();
-+    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      @Override
      public int getExpDrop(IBlockAccess world, int metadata, int fortune)
      {
@@ -2325,7 +2334,7 @@ index 0d6a08f..1f842a4 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockOre.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockOre.java
-index 3710b5b..093057d 100644
+index 3710b5b..b7a6431 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockOre.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockOre.java
 @@ -54,7 +54,7 @@ public class BlockOre extends Block
@@ -2333,7 +2342,7 @@ index 3710b5b..093057d 100644
      }
  
 -    private Random rand = new Random();
-+    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      @Override
      public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_)
      {
@@ -3240,7 +3249,7 @@ index 332dd36..4f62282 100644
          }
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneOre.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneOre.java
-index da58173..b2fe0a6 100644
+index da58173..e16e288 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneOre.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneOre.java
 @@ -13,6 +13,8 @@ import net.minecraft.item.ItemStack;
@@ -3290,7 +3299,7 @@ index da58173..b2fe0a6 100644
      }
  
 -    private Random rand = new Random();
-+    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      @Override // World, meta, fortune
      public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_)
      {
@@ -4637,7 +4646,7 @@ index be34d1f..020d70a 100644
      private static String[] dropFirstString(String[] p_71559_0_)
      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/command/CommandSpreadPlayers.java ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandSpreadPlayers.java
-index 829d321..f5d6318 100644
+index 829d321..f3eba79 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/command/CommandSpreadPlayers.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandSpreadPlayers.java
 @@ -9,7 +9,7 @@ import java.util.HashMap;
@@ -4649,6 +4658,15 @@ index 829d321..f5d6318 100644
  import net.minecraft.block.material.Material;
  import net.minecraft.entity.EntityLivingBase;
  import net.minecraft.entity.player.EntityPlayer;
+@@ -100,7 +100,7 @@ public class CommandSpreadPlayers extends CommandBase
+ 
+     private void func_110669_a(ICommandSender p_110669_1_, List p_110669_2_, CommandSpreadPlayers.Position p_110669_3_, double p_110669_4_, double p_110669_6_, World p_110669_8_, boolean p_110669_9_)
+     {
+-        Random random = new Random();
++        Random random = new org.bogdang.modifications.random.XSTR();//FFoKC: XSTR, speedup 30-46%
+         double d2 = p_110669_3_.field_111101_a - p_110669_6_;
+         double d3 = p_110669_3_.field_111100_b - p_110669_6_;
+         double d4 = p_110669_3_.field_111101_a + p_110669_6_;
 @@ -231,7 +231,7 @@ public class CommandSpreadPlayers extends CommandBase
      {
          double d0 = 0.0D;
@@ -4658,6 +4676,19 @@ index 829d321..f5d6318 100644
  
          for (int j = 0; j < p_110671_1_.size(); ++j)
          {
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/command/CommandWeather.java ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandWeather.java
+index 5f43143..d528d74 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/command/CommandWeather.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/command/CommandWeather.java
+@@ -29,7 +29,7 @@ public class CommandWeather extends CommandBase
+     {
+         if (p_71515_2_.length >= 1 && p_71515_2_.length <= 2)
+         {
+-            int i = (300 + (new Random()).nextInt(600)) * 20;
++            int i = (300 + (new org.bogdang.modifications.random.XSTR()).nextInt(600)) * 20;//FFoKC: XSTR, speedup 30-46%
+ 
+             if (p_71515_2_.length >= 2)
+             {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/command/PlayerSelector.java ./eclipse/cauldron/src/main/java/net/minecraft/command/PlayerSelector.java
 index a231885..f921b76 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/command/PlayerSelector.java
@@ -5212,7 +5243,7 @@ index f4180aa..f9e53e0 100644
  
      public int getWeight()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java ./eclipse/cauldron/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java
-index 2e1f419..b79627b 100644
+index 2e1f419..34108ab 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/enchantment/EnchantmentHelper.java
 @@ -21,7 +21,7 @@ import net.minecraft.util.WeightedRandom;
@@ -5220,7 +5251,7 @@ index 2e1f419..b79627b 100644
  public class EnchantmentHelper
  {
 -    private static final Random enchantmentRand = new Random();
-+    private static final Random enchantmentRand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private static final Random enchantmentRand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      private static final EnchantmentHelper.ModifierDamage enchantmentModifierDamage = new EnchantmentHelper.ModifierDamage(null);
      private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
      private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
@@ -5249,7 +5280,7 @@ index 6221188..903d6e7 100644
      private ReadWriteLock lock = new ReentrantReadWriteLock();
      private static final String __OBFID = "CL_00001559";
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
-index e114a23..abd6b42 100644
+index e114a23..911ddec 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
 @@ -4,7 +4,7 @@ import cpw.mods.fml.common.FMLLog;
@@ -5366,7 +5397,7 @@ index e114a23..abd6b42 100644
          this.height = 1.8F;
          this.nextStepDistance = 1;
 -        this.rand = new Random();
-+        this.rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++        this.rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
          this.fireResistance = 1;
          this.firstUpdate = true;
 -        this.entityUniqueID = UUID.randomUUID();
@@ -6723,7 +6754,7 @@ index 2a3a366..d14c43d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLivingBase.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLivingBase.java
-index 16ebce8..ba7861c 100644
+index 16ebce8..06efc87 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLivingBase.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLivingBase.java
 @@ -2,8 +2,9 @@ package net.minecraft.entity;
@@ -6788,7 +6819,7 @@ index 16ebce8..ba7861c 100644
      protected boolean isJumping;
      public float moveStrafing;
      public float moveForward;
-@@ -104,21 +122,27 @@ public abstract class EntityLivingBase extends Entity
+@@ -104,26 +122,32 @@ public abstract class EntityLivingBase extends Entity
      protected double newPosZ;
      protected double newRotationYaw;
      protected double newRotationPitch;
@@ -6817,8 +6848,16 @@ index 16ebce8..ba7861c 100644
 +        // CraftBukkit - this.setHealth(getMaxHealth()) inlined and simplified to skip the instanceof check for EntityPlayer, as getBukkitEntity() is not initialized in constructor
 +        this.dataWatcher.updateObject(6, (float) this.getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue());
          this.preventEntitySpawning = true;
-         this.field_70770_ap = (float)(Math.random() + 1.0D) * 0.01F;
+-        this.field_70770_ap = (float)(Math.random() + 1.0D) * 0.01F;
++        this.field_70770_ap = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() + 1.0D) * 0.01F;//FFoKC: XSTR, speedup 30-46%
          this.setPosition(this.posX, this.posY, this.posZ);
+-        this.field_70769_ao = (float)Math.random() * 12398.0F;
+-        this.rotationYaw = (float)(Math.random() * Math.PI * 2.0D);
++        this.field_70769_ao = (new org.bogdang.modifications.random.XSTR()).nextFloat() * 12398.0F;//FFoKC
++        this.rotationYaw = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * Math.PI * 2.0D);//FFoKC
+         this.rotationYawHead = this.rotationYaw;
+         this.stepHeight = 0.5F;
+     }
 @@ -173,7 +197,18 @@ public abstract class EntityLivingBase extends Entity
              }
              else if (!this.worldObj.isRemote && this.fallDistance > 3.0F)
@@ -7057,6 +7096,37 @@ index 16ebce8..ba7861c 100644
                      this.hurtTime = this.maxHurtTime = 10;
                  }
  
+@@ -827,9 +953,9 @@ public abstract class EntityLivingBase extends Entity
+                         double d1 = entity.posX - this.posX;
+                         double d0;
+ 
+-                        for (d0 = entity.posZ - this.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D)
+-                        {
+-                            d1 = (Math.random() - Math.random()) * 0.01D;
++                        for (d0 = entity.posZ - this.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = ((new org.bogdang.modifications.random.XSTR()).nextDouble() - (new org.bogdang.modifications.random.XSTR()).nextDouble()) * 0.01D)
++                        {//FFoKC: XSTR, speedup 30-46%
++                            d1 = ((new org.bogdang.modifications.random.XSTR()).nextDouble() - (new org.bogdang.modifications.random.XSTR()).nextDouble()) * 0.01D;//FFoKC
+                         }
+ 
+                         this.attackedAtYaw = (float)(Math.atan2(d0, d1) * 180.0D / Math.PI) - this.rotationYaw;
+@@ -837,7 +963,7 @@ public abstract class EntityLivingBase extends Entity
+                     }
+                     else
+                     {
+-                        this.attackedAtYaw = (float)((int)(Math.random() * 2.0D) * 180);
++                        this.attackedAtYaw = (float)((int)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 2.0D) * 180);//FFoKC
+                     }
+                 }
+ 
+@@ -875,7 +1001,7 @@ public abstract class EntityLivingBase extends Entity
+ 
+         for (int i = 0; i < 5; ++i)
+         {
+-            Vec3 vec3 = Vec3.createVectorHelper(((double)this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
++            Vec3 vec3 = Vec3.createVectorHelper(((double)this.rand.nextFloat() - 0.5D) * 0.1D, (new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.1D + 0.1D, 0.0D);
+             vec3.rotateAroundX(-this.rotationPitch * (float)Math.PI / 180.0F);
+             vec3.rotateAroundY(-this.rotationYaw * (float)Math.PI / 180.0F);
+             Vec3 vec31 = Vec3.createVectorHelper(((double)this.rand.nextFloat() - 0.5D) * 0.3D, (double)(-this.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
 @@ -938,6 +1064,22 @@ public abstract class EntityLivingBase extends Entity
  
              if (!ForgeHooks.onLivingDrops(this, p_70645_1_, capturedDrops, i, recentlyHit > 0, j))
@@ -9430,7 +9500,7 @@ index 2026a38..d478e1e 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItem.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItem.java
-index bd62c94..126cb80 100644
+index bd62c94..3da5c08 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItem.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItem.java
 @@ -22,6 +22,11 @@ import org.apache.logging.log4j.Logger;
@@ -9453,7 +9523,24 @@ index bd62c94..126cb80 100644
      private static final String __OBFID = "CL_00001669";
  
      /**
-@@ -55,6 +61,15 @@ public class EntityItem extends Entity
+@@ -42,19 +48,28 @@ public class EntityItem extends Entity
+     {
+         super(p_i1709_1_);
+         this.health = 5;
+-        this.hoverStart = (float)(Math.random() * Math.PI * 2.0D);
++        this.hoverStart = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * Math.PI * 2.0D);//FFoKC: XSTR, speedup 30-46%
+         this.setSize(0.25F, 0.25F);
+         this.yOffset = this.height / 2.0F;
+         this.setPosition(p_i1709_2_, p_i1709_4_, p_i1709_6_);
+-        this.rotationYaw = (float)(Math.random() * 360.0D);
+-        this.motionX = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D));
++        this.rotationYaw = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 360.0D);//FFoKC
++        this.motionX = (double)((float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.20000000298023224D - 0.10000000149011612D));//FFoKC
+         this.motionY = 0.20000000298023224D;
+-        this.motionZ = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D));
++        this.motionZ = (double)((float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.20000000298023224D - 0.10000000149011612D));//FFoKC
+     }
+ 
      public EntityItem(World p_i1710_1_, double p_i1710_2_, double p_i1710_4_, double p_i1710_6_, ItemStack p_i1710_8_)
      {
          this(p_i1710_1_, p_i1710_2_, p_i1710_4_, p_i1710_6_);        
@@ -9468,6 +9555,15 @@ index bd62c94..126cb80 100644
 +
          this.setEntityItemStack(p_i1710_8_);
          this.lifespan = (p_i1710_8_.getItem() == null ? 6000 : p_i1710_8_.getItem().getEntityLifespan(p_i1710_8_, p_i1710_1_));
+     }
+@@ -68,7 +83,7 @@ public class EntityItem extends Entity
+     {
+         super(p_i1711_1_);
+         this.health = 5;
+-        this.hoverStart = (float)(Math.random() * Math.PI * 2.0D);
++        this.hoverStart = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * Math.PI * 2.0D);//FFoKC: XSTR, speedup 30-46%
+         this.setSize(0.25F, 0.25F);
+         this.yOffset = this.height / 2.0F;
      }
 @@ -81,6 +96,10 @@ public class EntityItem extends Entity
      public void onUpdate()
@@ -10116,7 +10212,7 @@ index 7bbe2b5..2d2b75f 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityTNTPrimed.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityTNTPrimed.java
-index ad14ce4..69e28e0 100644
+index ad14ce4..8bcc0d1 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityTNTPrimed.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityTNTPrimed.java
 @@ -7,11 +7,15 @@ import net.minecraft.entity.EntityLivingBase;
@@ -10135,6 +10231,15 @@ index ad14ce4..69e28e0 100644
  
      public EntityTNTPrimed(World p_i1729_1_)
      {
+@@ -25,7 +29,7 @@ public class EntityTNTPrimed extends Entity
+     {
+         this(p_i1730_1_);
+         this.setPosition(p_i1730_2_, p_i1730_4_, p_i1730_6_);
+-        float f = (float)(Math.random() * Math.PI * 2.0D);
++        float f = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * Math.PI * 2.0D);//FFoKC: XSTR, speedup 30-46%
+         this.motionX = (double)(-((float)Math.sin((double)f)) * 0.02F);
+         this.motionY = 0.20000000298023224D;
+         this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
 @@ -68,12 +72,14 @@ public class EntityTNTPrimed extends Entity
  
          if (this.fuse-- <= 0)
@@ -10188,7 +10293,7 @@ index ad14ce4..69e28e0 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityXPOrb.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityXPOrb.java
-index 084150a..d6ae7f2 100644
+index 084150a..132ee59 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityXPOrb.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityXPOrb.java
 @@ -12,13 +12,19 @@ import net.minecraft.world.World;
@@ -10212,6 +10317,21 @@ index 084150a..d6ae7f2 100644
      private EntityPlayer closestPlayer;
      private int xpTargetColor;
      private static final String __OBFID = "CL_00001544";
+@@ -29,10 +35,10 @@ public class EntityXPOrb extends Entity
+         this.setSize(0.5F, 0.5F);
+         this.yOffset = this.height / 2.0F;
+         this.setPosition(p_i1585_2_, p_i1585_4_, p_i1585_6_);
+-        this.rotationYaw = (float)(Math.random() * 360.0D);
+-        this.motionX = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
+-        this.motionY = (double)((float)(Math.random() * 0.2D) * 2.0F);
+-        this.motionZ = (double)((float)(Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
++        this.rotationYaw = (float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 360.0D);//FFoKC start: XSTR, speedup 30-46%
++        this.motionX = (double)((float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
++        this.motionY = (double)((float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.2D) * 2.0F);
++        this.motionZ = (double)((float)((new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);//FFoKC end
+         this.xpValue = p_i1585_8_;
+     }
+ 
 @@ -115,18 +121,27 @@ public class EntityXPOrb extends Entity
  
          if (this.closestPlayer != null)
@@ -11552,7 +11672,7 @@ index d77be48..4423e3a 100644
  
      public boolean func_142018_a(EntityLivingBase p_142018_1_, EntityLivingBase p_142018_2_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayer.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayer.java
-index c01b6d5..d0b2941 100644
+index c01b6d5..0463281 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayer.java
 @@ -8,7 +8,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -11632,6 +11752,15 @@ index c01b6d5..d0b2941 100644
      public int experienceLevel;
      public int experienceTotal;
      public float experience;
+@@ -389,7 +417,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
+         {
+             for (int j = 0; j < p_71010_2_; ++j)
+             {
+-                Vec3 vec3 = Vec3.createVectorHelper(((double)this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
++                Vec3 vec3 = Vec3.createVectorHelper(((double)this.rand.nextFloat() - 0.5D) * 0.1D, (new org.bogdang.modifications.random.XSTR()).nextDouble() * 0.1D + 0.1D, 0.0D);//FFoKC: XSTR, speedup 30-46%
+                 vec3.rotateAroundX(-this.rotationPitch * (float)Math.PI / 180.0F);
+                 vec3.rotateAroundY(-this.rotationYaw * (float)Math.PI / 180.0F);
+                 Vec3 vec31 = Vec3.createVectorHelper(((double)this.rand.nextFloat() - 0.5D) * 0.3D, (double)(-this.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
 @@ -416,6 +444,42 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
          {
              this.updateItemUse(this.itemInUse, 16);
@@ -15124,7 +15253,7 @@ index 8e0c0d9..d536995 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/inventory/ContainerEnchantment.java ./eclipse/cauldron/src/main/java/net/minecraft/inventory/ContainerEnchantment.java
-index 11d615a..2c336eb 100644
+index 11d615a..dc24b49 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/inventory/ContainerEnchantment.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/inventory/ContainerEnchantment.java
 @@ -4,6 +4,8 @@ import cpw.mods.fml.relauncher.Side;
@@ -15136,7 +15265,7 @@ index 11d615a..2c336eb 100644
  import net.minecraft.enchantment.EnchantmentData;
  import net.minecraft.enchantment.EnchantmentHelper;
  import net.minecraft.entity.player.EntityPlayer;
-@@ -14,21 +16,22 @@ import net.minecraft.item.ItemStack;
+@@ -14,28 +16,33 @@ import net.minecraft.item.ItemStack;
  import net.minecraft.world.World;
  import net.minecraftforge.common.ForgeHooks;
  
@@ -15172,8 +15301,9 @@ index 11d615a..2c336eb 100644
      private World worldPointer;
      private int posX;
      private int posY;
-@@ -36,6 +39,10 @@ public class ContainerEnchantment extends Container
-     private Random rand = new Random();
+     private int posZ;
+-    private Random rand = new Random();
++    private Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: XSTR, speedup 30-46%
      public long nameSeed;
      public int[] enchantLevels = new int[3];
 +    // CraftBukkit start
@@ -16179,7 +16309,7 @@ index e74dd18..7260ea1 100644
      public int slotNumber;
      public int xDisplayPosition;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/inventory/SlotFurnace.java ./eclipse/cauldron/src/main/java/net/minecraft/inventory/SlotFurnace.java
-index 3c043ca..d10cb1c 100644
+index 3c043ca..fae9883 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/inventory/SlotFurnace.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/inventory/SlotFurnace.java
 @@ -9,6 +9,12 @@ import net.minecraft.item.crafting.FurnaceRecipes;
@@ -16195,7 +16325,17 @@ index 3c043ca..d10cb1c 100644
  public class SlotFurnace extends Slot
  {
      private EntityPlayer thePlayer;
-@@ -74,6 +80,20 @@ public class SlotFurnace extends Slot
+@@ -66,14 +72,28 @@ public class SlotFurnace extends Slot
+             {
+                 j = MathHelper.floor_float((float)i * f);
+ 
+-                if (j < MathHelper.ceiling_float_int((float)i * f) && (float)Math.random() < (float)i * f - (float)j)
+-                {
++                if (j < MathHelper.ceiling_float_int((float)i * f) && (float)(new org.bogdang.modifications.random.XSTR()).nextDouble() < (float)i * f - (float)j)
++                {//FFoKC: XSTR, speedup 30-46%
+                     ++j;
+                 }
+ 
                  i = j;
              }
  
@@ -16217,7 +16357,7 @@ index 3c043ca..d10cb1c 100644
              {
                  j = EntityXPOrb.getXPSplit(i);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/Item.java ./eclipse/cauldron/src/main/java/net/minecraft/item/Item.java
-index 8a249dd..778a780 100644
+index 8a249dd..1526d55 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/Item.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/Item.java
 @@ -54,6 +54,7 @@ import net.minecraft.util.Vec3;
@@ -16233,7 +16373,7 @@ index 8a249dd..778a780 100644
      protected static final UUID field_111210_e = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
      private CreativeTabs tabToDisplayOn;
 -    protected static Random itemRand = new Random();
-+    protected static Random itemRand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    protected static Random itemRand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      protected int maxStackSize = 64;
      private int maxDamage;
      protected boolean bFull3D;
@@ -16339,7 +16479,7 @@ index 4a80dd2..4070b42 100644
          }
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemBucket.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemBucket.java
-index e362672..11bbd31 100644
+index e362672..1a8c83c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemBucket.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemBucket.java
 @@ -12,6 +12,13 @@ import cpw.mods.fml.common.eventhandler.Event;
@@ -16488,6 +16628,15 @@ index e362672..11bbd31 100644
          }
      }
  
+@@ -190,7 +250,7 @@ public class ItemBucket extends Item
+ 
+                     for (int l = 0; l < 8; ++l)
+                     {
+-                        p_77875_1_.spawnParticle("largesmoke", (double)p_77875_2_ + Math.random(), (double)p_77875_3_ + Math.random(), (double)p_77875_4_ + Math.random(), 0.0D, 0.0D, 0.0D);
++                        p_77875_1_.spawnParticle("largesmoke", (double)p_77875_2_ + (new org.bogdang.modifications.random.XSTR()).nextDouble(), (double)p_77875_3_ + (new org.bogdang.modifications.random.XSTR()).nextDouble(), (double)p_77875_4_ + (new org.bogdang.modifications.random.XSTR()).nextDouble(), 0.0D, 0.0D, 0.0D);//FFoKC: XSTR, speedup 30-46%
+                     }
+                 }
+                 else
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemDoor.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemDoor.java
 index a76982a..2c6984e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemDoor.java
@@ -16916,7 +17065,7 @@ index f14cbb5..34b2870 100644
      @SideOnly(Side.CLIENT)
      private IIcon field_94591_c;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemShears.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemShears.java
-index e6dd15d..85d5b9a 100644
+index e6dd15d..3e96db7 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemShears.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemShears.java
 @@ -3,6 +3,8 @@ package net.minecraft.item;
@@ -16946,7 +17095,7 @@ index e6dd15d..85d5b9a 100644
                          EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, itemstack));
  
 -                Random rand = new Random();
-+                Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++                Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
                  for(ItemStack stack : drops)
                  {
                      EntityItem ent = entity.entityDropItem(stack, 1.0F);
@@ -16955,7 +17104,7 @@ index e6dd15d..85d5b9a 100644
                  ArrayList<ItemStack> drops = target.onSheared(itemstack, player.worldObj, x, y, z,
                          EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, itemstack));
 -                Random rand = new Random();
-+                Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++                Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
  
                  for(ItemStack stack : drops)
                  {
@@ -17590,7 +17739,7 @@ index 0454b1a..8e3aff4 100644
              ((NBTBase)this.tagList.get(i)).write(p_74734_1_);
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
-index 82678d5..775a70d 100644
+index 82678d5..413b839 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 @@ -13,6 +13,7 @@ import java.util.Date;
@@ -17694,9 +17843,12 @@ index 82678d5..775a70d 100644
  
  public class NetHandlerPlayServer implements INetHandlerPlayServer
  {
-@@ -107,14 +166,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -105,16 +164,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+     private boolean field_147366_g;
+     private int field_147378_h;
      private long field_147379_i;
-     private static Random field_147376_j = new Random();
+-    private static Random field_147376_j = new Random();
++    private static Random field_147376_j = new org.bogdang.modifications.random.XSTR();//FFoKC: XSTR, speedup 30-46%
      private long field_147377_k;
 -    private int chatSpamThresholdCount;
 +    private volatile int chatSpamThresholdCount; // Cauldron - set to volatile to fix multithreaded issues
@@ -20137,7 +20289,7 @@ index 68a78aa..2944941 100644
  
      private void cleanClientThreadsMap()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/rcon/RConThreadQuery.java ./eclipse/cauldron/src/main/java/net/minecraft/network/rcon/RConThreadQuery.java
-index 39235ef..e554d12 100644
+index 39235ef..7ae35e5 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/rcon/RConThreadQuery.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/rcon/RConThreadQuery.java
 @@ -82,7 +82,7 @@ public class RConThreadQuery extends RConThreadBase
@@ -20148,6 +20300,15 @@ index 39235ef..e554d12 100644
 +        this.queryClients = new java.util.concurrent.ConcurrentHashMap();
          this.time = (new Date()).getTime();
      }
+ 
+@@ -370,7 +370,7 @@ public class RConThreadQuery extends RConThreadBase
+             this.requestId[2] = abyte[5];
+             this.requestId[3] = abyte[6];
+             this.requestIdAsString = new String(this.requestId);
+-            this.randomChallenge = (new Random()).nextInt(16777216);
++            this.randomChallenge = (new org.bogdang.modifications.random.XSTR()).nextInt(16777216);//FFoKC: XSTR, speedup 30-46%
+             this.challengeValue = String.format("\t%s%d\u0000", new Object[] {this.requestIdAsString, Integer.valueOf(this.randomChallenge)}).getBytes();
+         }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/potion/Potion.java ./eclipse/cauldron/src/main/java/net/minecraft/potion/Potion.java
 index 3adda09..014cfb0 100644
@@ -20437,7 +20598,7 @@ index 4bf8cee..d3542e4 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
-index c23c8fa..2c0ab5c 100644
+index c23c8fa..903835d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -33,7 +34,10 @@ import java.util.List;
@@ -20517,7 +20678,7 @@ index c23c8fa..2c0ab5c 100644
 +    private NetworkSystem field_147144_o; // Spigot
      private final ServerStatusResponse field_147147_p = new ServerStatusResponse();
 -    private final Random field_147146_q = new Random();
-+    private final Random field_147146_q = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private final Random field_147146_q = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      @SideOnly(Side.SERVER)
      private String hostname;
      private int serverPort = -1;
@@ -24704,10 +24865,10 @@ index 083195f..64d3f20 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntityDispenser.java ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntityDispenser.java
-index ee86cd8..3e94eea 100644
+index ee86cd8..1e55139 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntityDispenser.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntityDispenser.java
-@@ -7,6 +7,13 @@ import net.minecraft.item.ItemStack;
+@@ -7,13 +7,50 @@ import net.minecraft.item.ItemStack;
  import net.minecraft.nbt.NBTTagCompound;
  import net.minecraft.nbt.NBTTagList;
  
@@ -24721,7 +24882,8 @@ index ee86cd8..3e94eea 100644
  public class TileEntityDispenser extends TileEntity implements IInventory
  {
      private ItemStack[] field_146022_i = new ItemStack[9];
-@@ -14,6 +21,36 @@ public class TileEntityDispenser extends TileEntity implements IInventory
+-    private Random field_146021_j = new Random();
++    private Random field_146021_j = new org.bogdang.modifications.random.XSTR();//FFoKC: XSTR, speedup 30-46%
      protected String field_146020_a;
      private static final String __OBFID = "CL_00000352";
  
@@ -24811,6 +24973,19 @@ index c2994aa..5246a1a 100644
 +    // Cauldron end
  }
 \ No newline at end of file
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntityEnchantmentTable.java ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntityEnchantmentTable.java
+index ad1bb4a..f9278be 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntityEnchantmentTable.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntityEnchantmentTable.java
+@@ -16,7 +16,7 @@ public class TileEntityEnchantmentTable extends TileEntity
+     public float field_145928_o;
+     public float field_145925_p;
+     public float field_145924_q;
+-    private static Random field_145923_r = new Random();
++    private static Random field_145923_r = new org.bogdang.modifications.random.XSTR();//FFoKC: XSTR, speedup 30-46%
+     private String field_145922_s;
+     private static final String __OBFID = "CL_00000354";
+ 
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntityEndPortal.java ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntityEndPortal.java
 index 609a509..8bc5142 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntityEndPortal.java
@@ -25500,7 +25675,7 @@ index 5fe0ace..bc3f13c 100644
              CombatEntry combatentry2 = (CombatEntry)this.combatEntries.get(i);
              CombatEntry combatentry3 = i > 0 ? (CombatEntry)this.combatEntries.get(i - 1) : null;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/util/EnchantmentNameParts.java ./eclipse/cauldron/src/main/java/net/minecraft/util/EnchantmentNameParts.java
-index 24c4667..ca4c677 100644
+index 24c4667..37c640e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/util/EnchantmentNameParts.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/util/EnchantmentNameParts.java
 @@ -8,7 +8,7 @@ import java.util.Random;
@@ -25508,7 +25683,7 @@ index 24c4667..ca4c677 100644
  {
      public static final EnchantmentNameParts instance = new EnchantmentNameParts();
 -    private Random rand = new Random();
-+    private Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      private String[] namePartsArray = "the elder scrolls klaatu berata niktu xyzzy bless curse light darkness fire air earth water hot dry cold wet ignite snuff embiggen twist shorten stretch fiddle destroy imbue galvanize enchant free limited range of towards inside sphere cube self other ball mental physical grow shrink demon elemental spirit animal creature beast humanoid undead fresh stale ".split(" ");
      private static final String __OBFID = "CL_00000756";
  
@@ -25883,7 +26058,7 @@ index a4ae42b..3ad9d4a 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/Explosion.java ./eclipse/cauldron/src/main/java/net/minecraft/world/Explosion.java
-index 004ba3b..b20b085 100644
+index 004ba3b..f5d5016 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/Explosion.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/Explosion.java
 @@ -15,25 +16,34 @@ import net.minecraft.entity.EntityLivingBase;
@@ -25909,7 +26084,7 @@ index 004ba3b..b20b085 100644
      public boolean isSmoking = true;
      private int field_77289_h = 16;
 -    private Random explosionRNG = new Random();
-+    private Random explosionRNG = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private Random explosionRNG = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      private World worldObj;
      public double explosionX;
      public double explosionY;
@@ -26169,7 +26344,7 @@ index bbabd3e..84a12ca 100644
                          }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/Teleporter.java ./eclipse/cauldron/src/main/java/net/minecraft/world/Teleporter.java
-index d358df5..ce5f388 100644
+index d358df5..0ba0c7d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/Teleporter.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/Teleporter.java
 @@ -12,108 +12,186 @@ import net.minecraft.util.Direction;
@@ -26197,7 +26372,7 @@ index d358df5..ce5f388 100644
 -        this.worldServerInstance = p_i1963_1_;
 -        this.random = new Random(p_i1963_1_.getSeed());
 +        this.worldServerInstance = par1WorldServer;
-+        this.random = new Random(par1WorldServer.getSeed());
++        this.random = new org.bogdang.modifications.random.XSTR(par1WorldServer.getSeed());//FFoKC: XSTR, speedup 30-46%
      }
  
 -    public void placeInPortal(Entity p_77185_1_, double p_77185_2_, double p_77185_4_, double p_77185_6_, float p_77185_8_)
@@ -26961,7 +27136,7 @@ index d358df5..ce5f388 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..d5511df 100644
+index c365f90..a3d9487 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -2,7 +2,8 @@ package net.minecraft.world;
@@ -27084,7 +27259,7 @@ index c365f90..d5511df 100644
 -    public final WorldProvider provider;
 -    protected List worldAccesses = new ArrayList();
 -    protected IChunkProvider chunkProvider;
-+    public Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    public Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
 +    protected int updateLCG = this.rand.nextInt();
 +    public WorldProvider provider; // CraftBukkit - remove final
 +    protected List worldAccesses = new ArrayList(25);
@@ -28766,7 +28941,7 @@ index fb62dd3..2f77f8c 100644
  
      public int getActualHeight()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
-index 055597f..be87440 100644
+index 055597f..96eedf7 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
 @@ -11,6 +13,7 @@ import java.util.List;
@@ -29276,14 +29451,20 @@ index 055597f..be87440 100644
          return arraylist;
      }
  
-@@ -733,7 +956,28 @@ public class WorldServer extends World
+@@ -728,12 +951,33 @@ public class WorldServer extends World
+             this.findingSpawnPoint = true;
+             WorldChunkManager worldchunkmanager = this.provider.worldChunkMgr;
+             List list = worldchunkmanager.getBiomesToSpawnIn();
+-            Random random = new Random(this.getSeed());
++            Random random = new org.bogdang.modifications.random.XSTR(this.getSeed());//FFoKC: XSTR, speedup 30-46%
+             ChunkPosition chunkposition = worldchunkmanager.findBiomePosition(0, 0, 256, list, random);
              int i = 0;
              int j = this.provider.getAverageGroundLevel();
              int k = 0;
 +            // CraftBukkit start
 +            if (this.generator != null)
 +            {
-+                Random rand = new Random(this.getSeed());
++                Random rand = new org.bogdang.modifications.random.XSTR(this.getSeed());//FFoKC: XSTR, speedup 30-46%
 +                org.bukkit.Location spawn = this.generator.getFixedSpawnLocation(((WorldServer) this).getWorld(), rand);
  
 +                if (spawn != null)
@@ -29716,7 +29897,7 @@ index dac10c8..9c5cb3c 100644
          if (i <= 1)
              return 0;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeGenBase.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeGenBase.java
-index affe68a..68203b5 100644
+index affe68a..b308ef6 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeGenBase.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeGenBase.java
 @@ -146,10 +146,10 @@ public abstract class BiomeGenBase
@@ -29743,6 +29924,39 @@ index affe68a..68203b5 100644
  
      public BiomeDecorator getModdedBiomeDecorator(BiomeDecorator original)
      {
+@@ -621,8 +621,8 @@ public abstract class BiomeGenBase
+         explorationBiomesList.remove(sky);
+         explorationBiomesList.remove(frozenOcean);
+         explorationBiomesList.remove(extremeHillsEdge);
+-        temperatureNoise = new NoiseGeneratorPerlin(new Random(1234L), 1);
+-        plantNoise = new NoiseGeneratorPerlin(new Random(2345L), 1);
++        temperatureNoise = new NoiseGeneratorPerlin(new org.bogdang.modifications.random.XSTR(1234L), 1);//FFoKC: XSTR, speedup 30-46%
++        plantNoise = new NoiseGeneratorPerlin(new org.bogdang.modifications.random.XSTR(2345L), 1);//FFoKC
+         genTallFlowers = new WorldGenDoublePlant();
+     }
+ 
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeGenMesa.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeGenMesa.java
+index 2bd67ad..fe39b67 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeGenMesa.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeGenMesa.java
+@@ -65,7 +65,7 @@ public class BiomeGenMesa extends BiomeGenBase
+ 
+         if (this.field_150623_aE == null || this.field_150624_aF == null || this.field_150622_aD != p_150573_1_.getSeed())
+         {
+-            Random random1 = new Random(this.field_150622_aD);
++            Random random1 = new org.bogdang.modifications.random.XSTR(this.field_150622_aD);//FFoKC: XSTR, speedup 30-46%
+             this.field_150623_aE = new NoiseGeneratorPerlin(random1, 4);
+             this.field_150624_aF = new NoiseGeneratorPerlin(random1, 1);
+         }
+@@ -248,7 +248,7 @@ public class BiomeGenMesa extends BiomeGenBase
+     {
+         this.field_150621_aC = new byte[64];
+         Arrays.fill(this.field_150621_aC, (byte)16);
+-        Random random = new Random(p_150619_1_);
++        Random random = new org.bogdang.modifications.random.XSTR(p_150619_1_);//FFoKC: XSTR, speedup 30-46%
+         this.field_150625_aG = new NoiseGeneratorPerlin(random, 1);
+         int j;
+ 
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/WorldChunkManager.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/WorldChunkManager.java
 index 078b73e..4860306 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/WorldChunkManager.java
@@ -31557,7 +31771,7 @@ index 32a619c..dd1bc84 100644
          this.field_151537_a = p_i45467_2_;
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenBase.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenBase.java
-index 8ad6ae5..a64369f 100644
+index 8ad6ae5..3075c75 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenBase.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenBase.java
 @@ -8,7 +8,7 @@ import net.minecraft.world.chunk.IChunkProvider;
@@ -31565,12 +31779,51 @@ index 8ad6ae5..a64369f 100644
  {
      protected int range = 8;
 -    protected Random rand = new Random();
-+    protected Random rand = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    protected Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
      protected World worldObj;
      private static final String __OBFID = "CL_00000394";
  
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenCaves.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenCaves.java
+index 285582b..f6a0331 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenCaves.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenCaves.java
+@@ -22,7 +22,7 @@ public class MapGenCaves extends MapGenBase
+         double d5 = (double)(p_151541_4_ * 16 + 8);
+         float f3 = 0.0F;
+         float f4 = 0.0F;
+-        Random random = new Random(p_151541_1_);
++        Random random = new org.bogdang.modifications.random.XSTR(p_151541_1_);//FFoKC: XSTR, speedup 30-46%
+ 
+         if (p_151541_16_ <= 0)
+         {
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenCavesHell.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenCavesHell.java
+index b26a0eb..326f412 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenCavesHell.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenCavesHell.java
+@@ -21,7 +21,7 @@ public class MapGenCavesHell extends MapGenBase
+         double d5 = (double)(p_151543_4_ * 16 + 8);
+         float f3 = 0.0F;
+         float f4 = 0.0F;
+-        Random random = new Random(p_151543_1_);
++        Random random = new org.bogdang.modifications.random.XSTR(p_151543_1_);//FFoKC: XSTR, speedup 30-46%
+ 
+         if (p_151543_16_ <= 0)
+         {
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenRavine.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenRavine.java
+index d67e962..587c061 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/MapGenRavine.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/MapGenRavine.java
+@@ -14,7 +14,7 @@ public class MapGenRavine extends MapGenBase
+ 
+     protected void func_151540_a(long p_151540_1_, int p_151540_3_, int p_151540_4_, Block[] p_151540_5_, double p_151540_6_, double p_151540_8_, double p_151540_10_, float p_151540_12_, float p_151540_13_, float p_151540_14_, int p_151540_15_, int p_151540_16_, double p_151540_17_)
+     {
+-        Random random = new Random(p_151540_1_);
++        Random random = new org.bogdang.modifications.random.XSTR(p_151540_1_);//FFoKC: XSTR, speedup 30-46%
+         double d4 = (double)(p_151540_3_ * 16 + 8);
+         double d5 = (double)(p_151540_4_ * 16 + 8);
+         float f3 = 0.0F;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java
-index 2fb87c7..f730678 100644
+index 2fb87c7..c3eb13b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorImproved.java
 @@ -17,7 +17,7 @@ public class NoiseGeneratorImproved extends NoiseGenerator
@@ -31578,12 +31831,12 @@ index 2fb87c7..f730678 100644
      public NoiseGeneratorImproved()
      {
 -        this(new Random());
-+        this(new thermos.thermite.ThermiteRandom());//FFoKC: parse Thermos modification
++        this(new org.bogdang.modifications.random.XSTR());//FFoKC: parse Thermos modification; replace in XSTR
      }
  
      public NoiseGeneratorImproved(Random p_i45469_1_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java
-index cafca4d..32c844b 100644
+index cafca4d..5d3b059 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/NoiseGeneratorSimplex.java
 @@ -16,7 +16,7 @@ public class NoiseGeneratorSimplex
@@ -31591,10 +31844,23 @@ index cafca4d..32c844b 100644
      public NoiseGeneratorSimplex()
      {
 -        this(new Random());
-+        this(new thermos.thermite.ThermiteRandom());//FFoKC: parse Thermos modification
++        this(new org.bogdang.modifications.random.XSTR());//FFoKC: parse Thermos modification; replace in XSTR
      }
  
      public NoiseGeneratorSimplex(Random p_i45471_1_)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/feature/WorldGenBigTree.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/feature/WorldGenBigTree.java
+index b5f9ebe..37b4e9c 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/feature/WorldGenBigTree.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/feature/WorldGenBigTree.java
+@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.ForgeDirection;
+ public class WorldGenBigTree extends WorldGenAbstractTree
+ {
+     static final byte[] otherCoordPairs = new byte[] {(byte)2, (byte)0, (byte)0, (byte)1, (byte)2, (byte)1};
+-    Random rand = new Random();
++    Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: XSTR, speedup 30-46%
+     World worldObj;
+     int[] basePos = new int[] {0, 0, 0};
+     int heightLimit;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/feature/WorldGenIceSpike.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/feature/WorldGenIceSpike.java
 index 9197bd4..3c5c029 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/feature/WorldGenIceSpike.java
@@ -31690,7 +31956,7 @@ index b41eebc..e9c0490 100644
  
      public static synchronized int[] getIntCache(int p_76445_0_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java
-index 21b1ccc..ec716d2 100644
+index 21b1ccc..98b8f9a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/MapGenStronghold.java
 @@ -82,7 +82,7 @@ public class MapGenStronghold extends MapGenStructure
@@ -31698,7 +31964,7 @@ index 21b1ccc..ec716d2 100644
          if (!this.ranBiomeCheck)
          {
 -            Random random = new Random();
-+            Random random = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++            Random random = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
              random.setSeed(this.worldObj.getSeed());
              double d0 = random.nextDouble() * Math.PI * 2.0D;
              int l = 1;
@@ -31772,6 +32038,19 @@ index fe492d7..040f34a 100644
      private static final String __OBFID = "CL_00000509";
  
      public static void registerStructure(Class p_143034_0_, String p_143034_1_)
+diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/StructureNetherBridgePieces.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/StructureNetherBridgePieces.java
+index 59e1552..54eddf6 100644
+--- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/StructureNetherBridgePieces.java
++++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/StructureNetherBridgePieces.java
+@@ -664,7 +664,7 @@ public class StructureNetherBridgePieces
+ 
+             public boolean addComponentParts(World p_74875_1_, Random p_74875_2_, StructureBoundingBox p_74875_3_)
+             {
+-                Random random1 = new Random((long)this.fillSeed);
++                Random random1 = new org.bogdang.modifications.random.XSTR((long)this.fillSeed);//FFoKC: XSTR, speedup 30-46%
+                 int i;
+                 int j;
+                 int k;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/StructureStart.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/structure/StructureStart.java
 index 5a9db1e..7adb0e2 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/structure/StructureStart.java
@@ -36482,7 +36761,7 @@ index 7cf37f5..e57aa38 100644
  /**
   * Class containing file utilities
 diff --git ./eclipse/Clean/src/main/java/org/bukkit/util/Vector.java ./eclipse/cauldron/src/main/java/org/bukkit/util/Vector.java
-index bc53db7..5a4a656 100644
+index bc53db7..2ec73ff 100644
 --- ./eclipse/Clean/src/main/java/org/bukkit/util/Vector.java
 +++ ./eclipse/cauldron/src/main/java/org/bukkit/util/Vector.java
 @@ -18,7 +18,7 @@ import org.bukkit.configuration.serialization.SerializableAs;
@@ -36490,7 +36769,7 @@ index bc53db7..5a4a656 100644
      private static final long serialVersionUID = -2657651106777219169L;
  
 -    private static Random random = new Random();
-+    private static Random random = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
++    private static Random random = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
  
      /**
       * Threshold for fuzzy equals().

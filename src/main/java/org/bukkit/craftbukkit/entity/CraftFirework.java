@@ -16,7 +16,7 @@ import java.util.Random;
 public class CraftFirework extends CraftEntity implements Firework {
     private static final int FIREWORK_ITEM_INDEX = 8;
 
-    private final Random random = new thermos.thermite.ThermiteRandom();//FFoKC: parse Thermos modification
+    private final Random random = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
     private final CraftItemStack item;
 
     public CraftFirework(CraftServer server, EntityFireworkRocket entity) {

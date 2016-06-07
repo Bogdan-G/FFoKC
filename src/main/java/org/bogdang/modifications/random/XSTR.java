@@ -1,4 +1,4 @@
-package thermos.thermite;
+package org.bogdang.modifications.random;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -26,10 +26,23 @@ import java.util.concurrent.atomic.AtomicLong;
  * This code is released under the GNU Lesser General Public License Version 3
  * http://www.gnu.org/licenses/lgpl-3.0.txt
  */
-public class ThermiteRandom extends Random {
+ 
+ /**
+ * XSTR - Xorshift ThermiteRandom
+ * Modified by Bogdan-G
+ * 03.06.2016
+ * version 0.0.4
+ */
+public class XSTR extends Random {
 
     private static final long serialVersionUID = 6208727693524452904L;
     private long seed;
+    private long last;
+    private static final long GAMMA = 0x9e3779b97f4a7c15L;
+    private static final int PROBE_INCREMENT = 0x9e3779b9;
+    private static final long SEEDER_INCREMENT = 0xbb67ae8584caa73bL;
+    private static final double DOUBLE_UNIT = 0x1.0p-53;  // 1.0  / (1L << 53)
+    private static final float  FLOAT_UNIT  = 0x1.0p-24f; // 1.0f / (1 << 24)
 
     /*
      MODIFIED BY: Robotia
@@ -40,7 +53,7 @@ public class ThermiteRandom extends Random {
      * the current time, as if by
      * <code>setSeed(System.currentTimeMillis());</code>.
      */
-    public ThermiteRandom() {
+    public XSTR() {
         this(seedUniquifier() ^ System.nanoTime());
     }
     private static final AtomicLong seedUniquifier
@@ -64,13 +77,12 @@ public class ThermiteRandom extends Random {
      *
      * @param seed the initial seed
      */
-    public ThermiteRandom(long seed) {
+    public XSTR(long seed) {
         this.seed = seed;
     }
     public boolean nextBoolean() {
         return next(1) != 0;
     }
-    private static final double DOUBLE_UNIT = 0x1.0p-53; // 1.0 / (1L << 53)
     
     public double nextDouble() {
         return (((long)(next(26)) << 27) + next(27)) * DOUBLE_UNIT;
@@ -99,8 +111,8 @@ public class ThermiteRandom extends Random {
      * @return Returns an XSRandom object with the same state as the original
      */
     @Override
-    public ThermiteRandom clone() {
-        return new ThermiteRandom(getSeed());
+    public XSTR clone() {
+        return new XSTR(getSeed());
     }
 
     /**
@@ -196,11 +208,11 @@ public class ThermiteRandom extends Random {
      * @since 1.2
      */
     public int nextInt(int bound) {
-        if (bound <= 0) {
-            throw new RuntimeException("BadBound");
-        }
+        //if (bound <= 0) {
+            //throw new RuntimeException("BadBound");
+        //}
 
-        int r = next(31);
+        /*int r = next(31);
         int m = bound - 1;
         if ((bound & m) == 0) // i.e., bound is a power of 2
         {
@@ -211,9 +223,33 @@ public class ThermiteRandom extends Random {
                     u = next(31))
                 ;
         }
-        return r;
+        return r;*/
+        //speedup, new nextInt ~+40%
+        last = seed ^ (seed << 21);
+        last ^= (last >>> 35);
+        last ^= (last << 4);
+        seed = last;
+        int out = (int) last % bound;
+        return (out < 0) ? -out : out;
     }
     public int nextInt() {
         return next(32);
-    }    
+    }
+
+    public float nextFloat() {
+        return next(24) * FLOAT_UNIT;
+     }
+
+    public long nextLong() {
+        // it's okay that the bottom word remains signed.
+        return ((long)(next(32)) << 32) + next(32);
+    }
+
+    public void nextBytes(byte[] bytes_arr) {
+        for (int iba = 0, lenba = bytes_arr.length; iba < lenba; )
+                for (int rndba = nextInt(),
+                                nba = Math.min(lenba - iba, Integer.SIZE/Byte.SIZE);
+                        nba-- > 0; rndba >>= Byte.SIZE)
+                        bytes_arr[iba++] = (byte)rndba;
+        }
 }

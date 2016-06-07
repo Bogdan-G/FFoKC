@@ -25836,9 +25836,18 @@ index 0d6225d..712fa8e 100644
              entityzombie.setHomeArea(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, this.theVillage.getVillageRadius());
              return true;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/ChunkCache.java ./eclipse/cauldron/src/main/java/net/minecraft/world/ChunkCache.java
-index a4ae42b..c912f55 100644
+index a4ae42b..3ad9d4a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/ChunkCache.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/ChunkCache.java
+@@ -36,7 +36,7 @@ public class ChunkCache implements IBlockAccess
+         {
+             for (k2 = this.chunkZ; k2 <= i2; ++k2)
+             {
+-                chunk = p_i1964_1_.getChunkFromChunkCoords(j2, k2);
++                chunk = p_i1964_1_.chunkExists(j2, k2) ? p_i1964_1_.getChunkFromChunkCoords(j2, k2) : null;//Paper; FFoKC: test, add check
+ 
+                 if (chunk != null)
+                 {
 @@ -160,7 +160,7 @@ public class ChunkCache implements IBlockAccess
              p_72810_3_ = 255;
          }
@@ -30916,10 +30925,23 @@ index 43cb3a9..820296d 100644
      @SideOnly(Side.CLIENT)
      public NibbleArray createBlockMSBArray()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
-index a54d157..966dad5 100644
+index a54d157..70634d3 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
-@@ -43,15 +43,8 @@ public class RegionFile
+@@ -5,9 +5,12 @@ import java.io.ByteArrayInputStream;
+ import java.io.ByteArrayOutputStream;
+ import java.io.DataInputStream;
+ import java.io.DataOutputStream;
++import java.io.EOFException;
+ import java.io.File;
+ import java.io.IOException;
+ import java.io.RandomAccessFile;
++import java.nio.ByteBuffer;
++import java.nio.IntBuffer;
+ import java.util.ArrayList;
+ import java.util.zip.DeflaterOutputStream;
+ import java.util.zip.GZIPInputStream;
+@@ -43,15 +46,8 @@ public class RegionFile
  
              if (this.dataFile.length() < 4096L)
              {
@@ -30937,7 +30959,33 @@ index a54d157..966dad5 100644
  
                  this.sizeDelta += 8192;
              }
-@@ -209,7 +202,7 @@ public class RegionFile
+@@ -78,9 +74,15 @@ public class RegionFile
+             this.dataFile.seek(0L);
+             int k;
+ 
++            // Paper Start
++            ByteBuffer header = ByteBuffer.allocate(8192);
++            while (header.hasRemaining())  {if (this.dataFile.getChannel().read(header) == -1) throw new EOFException();}
++            header.clear();
++            IntBuffer headerAsInts = header.asIntBuffer();
++            // Paper End
+             for (j = 0; j < 1024; ++j)
+             {
+-                k = this.dataFile.readInt();
++                k = headerAsInts.get(); // Paper //k = this.dataFile.readInt();
+                 this.offsets[j] = k;
+ 
+                 if (k != 0 && (k >> 8) + (k & 255) <= this.sectorFree.size())
+@@ -94,7 +96,7 @@ public class RegionFile
+ 
+             for (j = 0; j < 1024; ++j)
+             {
+-                k = this.dataFile.readInt();
++                k = headerAsInts.get(); // Paper //k = this.dataFile.readInt();
+                 this.chunkTimestamps[j] = k;
+             }
+         }
+@@ -209,7 +211,7 @@ public class RegionFile
  
      public DataOutputStream getChunkDataOutputStream(int p_76710_1_, int p_76710_2_)
      {
@@ -30946,7 +30994,7 @@ index a54d157..966dad5 100644
      }
  
      protected synchronized void write(int p_76706_1_, int p_76706_2_, byte[] p_76706_3_, int p_76706_4_)
-@@ -345,11 +338,12 @@ public class RegionFile
+@@ -345,11 +347,12 @@ public class RegionFile
          this.dataFile.writeInt(p_76713_3_);
      }
  

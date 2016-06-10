@@ -27136,7 +27136,7 @@ index d358df5..0ba0c7d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..a3d9487 100644
+index c365f90..1da68a7 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -2,7 +2,8 @@ package net.minecraft.world;
@@ -27649,6 +27649,15 @@ index c365f90..a3d9487 100644
          {
              Chunk chunk = null;
  
+@@ -351,7 +688,7 @@ public abstract class World implements IBlockAccess
+                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Requested block coordinates");
+                 crashreportcategory.addCrashSection("Found chunk", Boolean.valueOf(chunk == null));
+                 crashreportcategory.addCrashSection("Location", CrashReportCategory.getLocationInfo(p_147439_1_, p_147439_2_, p_147439_3_));
+-                throw new ReportedException(crashreport);
++                FMLLog.warning(String.valueOf(crashreport));return Blocks.air;//throw new ReportedException(crashreport); //FFoKC
+             }
+         }
+         else
 @@ -368,7 +705,7 @@ public abstract class World implements IBlockAccess
  
      public boolean blockExists(int p_72899_1_, int p_72899_2_, int p_72899_3_)
@@ -29731,7 +29740,7 @@ index 80b2854..b42be82 100644
                  BiomeCache.Block block = (BiomeCache.Block)this.cache.get(k);
                  long l = i - block.lastAccessTime;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeDecorator.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeDecorator.java
-index dac10c8..9c5cb3c 100644
+index dac10c8..d7df7bc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeDecorator.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeDecorator.java
 @@ -24,6 +24,14 @@ import static net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.Ev
@@ -29757,6 +29766,15 @@ index dac10c8..9c5cb3c 100644
      private static final String __OBFID = "CL_00000164";
  
      public BiomeDecorator()
+@@ -94,7 +103,7 @@ public class BiomeDecorator
+     {
+         if (this.currentWorld != null)
+         {
+-            throw new RuntimeException("Already decorating!!");
++            cpw.mods.fml.common.FMLLog.warning("Already decorating!!");//throw new RuntimeException("Already decorating!!"); //FFoKC
+         }
+         else
+         {
 @@ -194,7 +203,7 @@ public class BiomeDecorator
          {
              k = this.chunk_X + this.randomGenerator.nextInt(16) + 8;

@@ -84,7 +84,7 @@ public class RestartCommand extends Command
                     {
                         try
                         {
-                            String os = System.getProperty( "os.name" ).toLowerCase();
+                            String os = System.getProperty( "os.name" ).toLowerCase(java.util.Locale.ENGLISH);
                             if ( os.contains( "win" ) )
                             {
                                 Runtime.getRuntime().exec( "cmd /c start " + file.getPath() );

@@ -31,7 +31,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
         this.world = (net.minecraft.world.WorldServer) world;
         this.generator = generator;
 
-        this.random = new Random(seed);
+        this.random = new org.bogdang.modifications.random.XSTR(seed);
     }
 
     /**

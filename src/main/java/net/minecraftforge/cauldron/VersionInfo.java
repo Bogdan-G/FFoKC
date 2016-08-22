@@ -97,10 +97,16 @@ public class VersionInfo {
 
     private void doFileExtract(File path) throws IOException
     {
-        InputStream inputStream = getClass().getResourceAsStream("/"+getContainedFile());
-        FileOutputStream outputStream = new FileOutputStream(path);
+        InputStream inputStream = null;java.io.OutputStream outputStream = null;
+        try {
+        inputStream = new java.io.BufferedInputStream(getClass().getResourceAsStream("/"+getContainedFile()));
+        outputStream = new java.io.BufferedOutputStream(new FileOutputStream(path));
         System.out.println("doFileExtract path = " + path.getAbsolutePath() + ", inputStream = " + inputStream + ", outputStream = " + outputStream);
         ByteStreams.copy(inputStream, outputStream);
+        } finally {
+        try {if(inputStream!=null)inputStream.close();} catch (IOException ex) {}
+        try {if(outputStream!=null)outputStream.close();} catch (IOException ex) {}
+        }
     }
 
     public static String getMinecraftVersion()

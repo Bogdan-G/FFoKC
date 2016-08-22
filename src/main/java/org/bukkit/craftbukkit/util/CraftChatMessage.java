@@ -49,7 +49,7 @@ public final class CraftChatMessage {
                 appendNewComponent(matcher.start(groupId));
                 switch (groupId) {
                 case 1:
-                    net.minecraft.util.EnumChatFormatting format = formatMap.get(match.toLowerCase().charAt(1));
+                    net.minecraft.util.EnumChatFormatting format = formatMap.get(match.toLowerCase(java.util.Locale.ROOT).charAt(1));
                     if (format == net.minecraft.util.EnumChatFormatting.RESET) {
                         modifier = new net.minecraft.util.ChatStyle();
                     } else if (format.isFancyStyling()) {

@@ -23,8 +23,8 @@ public class WeightedRandomFishable {
      * @param damageFraction low boundary for random distribution
      * @return this WeightedRandomFishable, for chaining
      */
-    public final WeightedRandomFishable withDamageFraction(float damageFraction) {
-        damageFraction = damageFraction;
+    public final WeightedRandomFishable withDamageFraction(float damageFraction1) {
+        damageFraction = damageFraction1;
         return this;
     }
 

@@ -41,7 +41,7 @@ public class SimpleHelpMap implements HelpMap {
         registerHelpTopicFactory(MultipleCommandAlias.class, new MultipleCommandAliasHelpTopicFactory());
     }
 
-    public synchronized HelpTopic getHelpTopic(String topicName) {
+    public/* synchronized*/ HelpTopic getHelpTopic(String topicName) {
         if (topicName.length() == 0) {//if (topicName.equals(""))
             return defaultTopic;
         }
@@ -75,7 +75,7 @@ public class SimpleHelpMap implements HelpMap {
     /**
      * Reads the general topics from help.yml and adds them to the help index.
      */
-    public synchronized void initializeGeneralTopics() {
+    public/* synchronized*/ void initializeGeneralTopics() {
         yaml = new HelpYamlReader(server);
 
         // Initialize general help topics from the help.yml file
@@ -96,7 +96,7 @@ public class SimpleHelpMap implements HelpMap {
     /**
      * Processes all the commands registered in the server and creates help topics for them.
      */
-    public synchronized void initializeCommands() {
+    public/* synchronized*/ void initializeCommands() {
         // ** Load topics from highest to lowest priority order **
         Set<String> ignoredPlugins = new HashSet<String>(yaml.getIgnoredPlugins());
 
@@ -112,14 +112,14 @@ public class SimpleHelpMap implements HelpMap {
             }
 
             // Register a topic
-            for (Class c : topicFactoryMap.keySet()) {
-                if (c.isAssignableFrom(command.getClass())) {
-                    HelpTopic t = topicFactoryMap.get(c).createTopic(command);
+            for (java.util.Map.Entry<Class, HelpTopicFactory<Command>> c : topicFactoryMap.entrySet()) {
+                if ((c.getKey()).isAssignableFrom(command.getClass())) {
+                    HelpTopic t = (c.getValue()).createTopic(command);
                     if (t != null) addTopic(t);
                     continue outer;
                 }
-                if (command instanceof PluginCommand && c.isAssignableFrom(((PluginCommand)command).getExecutor().getClass())) {
-                    HelpTopic t = topicFactoryMap.get(c).createTopic(command);
+                if (command instanceof PluginCommand && (c.getKey()).isAssignableFrom(((PluginCommand)command).getExecutor().getClass())) {
+                    HelpTopic t = (c.getValue()).createTopic(command);
                     if (t != null) addTopic(t);
                     continue outer;
                 }
@@ -210,7 +210,7 @@ public class SimpleHelpMap implements HelpMap {
         topicFactoryMap.put(commandClass, factory);
     }
 
-    private class IsCommandTopicPredicate implements Predicate<HelpTopic> {
+    private static class IsCommandTopicPredicate implements Predicate<HelpTopic> {
 
         public boolean apply(HelpTopic topic) {
             return topic.getName().charAt(0) == '/';

@@ -257,7 +257,7 @@ public class TLR extends Random {
             s = v1 * v1 + v2 * v2;
         } while (s >= 1 || s == 0);
         double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s)/s);
-        nextLocalGaussian.set(new Double(v2 * multiplier));
+        nextLocalGaussian.set(Double.valueOf(v2 * multiplier));
         return v1 * multiplier;
     }
 

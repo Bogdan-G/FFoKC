@@ -184,7 +184,7 @@ public final class CraftServer implements Server {
     private final List<CraftPlayer> playerView;
     private final String mc_text_0 = "minecraft";
 
-    private final class BooleanWrapper {
+    private final static class BooleanWrapper {
         private boolean value = true;
     }
 
@@ -464,10 +464,10 @@ public final class CraftServer implements Server {
         Validate.notNull(name, "Name cannot be null");
 
         Player found = null;
-        String lowerName = name.toLowerCase();
+        String lowerName = name.toLowerCase(java.util.Locale.ROOT);
         int delta = Integer.MAX_VALUE;
         for (Player player : getOnlinePlayers()) {
-            if (player.getName().toLowerCase().startsWith(lowerName)) {
+            if (player.getName().toLowerCase(java.util.Locale.ROOT).startsWith(lowerName)) {
                 int curDelta = player.getName().length() - lowerName.length();
                 if (curDelta < delta) {
                     found = player;
@@ -484,7 +484,7 @@ public final class CraftServer implements Server {
     public Player getPlayerExact(String name) {
         Validate.notNull(name, "Name cannot be null");
 
-        String lname = name.toLowerCase();
+        String lname = name.toLowerCase(java.util.Locale.ROOT);
 
         for (Player player : getOnlinePlayers()) {
             if (player.getName().equalsIgnoreCase(lname)) {
@@ -532,7 +532,7 @@ public final class CraftServer implements Server {
                 matchedPlayers.add(iterPlayer);
                 break;
             }
-            if (iterPlayerName.toLowerCase().contains(partialName.toLowerCase())) {
+            if (iterPlayerName.toLowerCase(java.util.Locale.ROOT).contains(partialName.toLowerCase(java.util.Locale.ROOT))) {
                 // Partial match
                 matchedPlayers.add(iterPlayer);
             }
@@ -1012,7 +1012,7 @@ public final class CraftServer implements Server {
             }
         }
         MinecraftForge.EVENT_BUS.post(new WorldEvent.Unload(handle)); // Cauldron - fire unload event before removing world
-        worlds.remove(world.getName().toLowerCase());
+        worlds.remove(world.getName().toLowerCase(java.util.Locale.ROOT));
         DimensionManager.setWorld(handle.provider.dimensionId, null); // Cauldron - remove world from DimensionManager
         return true;
     }
@@ -1025,7 +1025,7 @@ public final class CraftServer implements Server {
     public World getWorld(String name) {
         Validate.notNull(name, "Name cannot be null");
 
-        return worlds.get(name.toLowerCase());
+        return worlds.get(name.toLowerCase(java.util.Locale.ROOT));
     }
 
     @Override
@@ -1044,7 +1044,7 @@ public final class CraftServer implements Server {
             System.out.println("World " + world.getName() + " is a duplicate of another world and has been prevented from loading. Please delete the uid.dat file from " + world.getName() + "'s world directory if you want to be able to load the duplicate world.");
             return;
         }
-        worlds.put(world.getName().toLowerCase(), world);
+        worlds.put(world.getName().toLowerCase(java.util.Locale.ROOT), world);
     }
 
     @Override

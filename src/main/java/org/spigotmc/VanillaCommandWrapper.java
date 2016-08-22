@@ -49,7 +49,7 @@ public class VanillaCommandWrapper
         if ( pos == -1 )
         {
             List<String> completions = new ArrayList<String>();
-            commandLine = commandLine.toLowerCase();
+            commandLine = commandLine.toLowerCase(java.util.Locale.ENGLISH);
             for ( String command : allowedCommands )
             {
                 if ( command.startsWith( commandLine ) && sender.hasPermission( "bukkit.command." + command ) )

@@ -77,7 +77,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
         String as[] = s.split(" ");
         as = dropFirstArgument(as);
         int i = getPlayerListSize(as);
-        int j = 0;
+        int j = 0;int counter_cycle_sS = 0;
         // Some commands use the worldserver variable but we leave it full of null values,
         // so we must temporarily populate it with the world of the commandsender
         net.minecraft.world.WorldServer[] prev = net.minecraft.server.MinecraftServer.getServer().worldServers;
@@ -89,12 +89,13 @@ public final class VanillaCommandWrapper extends VanillaCommand {
                     String s2 = as[i];
                     net.minecraft.entity.player.EntityPlayerMP aentityplayer1[] = aentityplayer;
                     int k = aentityplayer1.length;
-                    for (int l = 0; l < k;) {
+                    for (int l = 0; l < k;counter_cycle_sS++) {
                         net.minecraft.entity.player.EntityPlayerMP entityplayer = aentityplayer1[l];
                         as[i] = entityplayer.getCommandSenderName();
                         try {
                             vanillaCommand.processCommand(icommandlistener, as);
                             j++;
+                            if (counter_cycle_sS > 1000) break;//fix Infinity Loop
                             continue;
                         } catch (net.minecraft.command.CommandException commandexception1) {
                             net.minecraft.util.ChatComponentTranslation chatmessage4 = new net.minecraft.util.ChatComponentTranslation(commandexception1.getMessage(), commandexception1.getErrorOjbects());

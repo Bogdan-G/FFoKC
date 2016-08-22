@@ -8,10 +8,19 @@ buildscript {
             name 'forge'
             url 'http://files.minecraftforge.net/maven'
         }
+        maven {
+            name 'spigot'
+            url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        }
+        maven {
+           name 'maven2'
+           url 'http://repo1.maven.org/maven/'
+        }
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT-2'
     }
 }
 
@@ -32,6 +41,14 @@ repositories {
         name 'minecraft'
         url 'https://libraries.minecraft.net/'
     }
+    maven {
+        name 'spigot'
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name 'maven2'
+        url 'http://repo1.maven.org/maven/'
+    }
     mavenCentral()
 }
 
@@ -51,8 +68,8 @@ ext.buildInfoCached = null;
 def buildInfo(String key) {
     if (!buildInfoCached) {
             buildInfoCached = [
-                    nextBuildNumber: 'test34.42',
-                    version        : 'test34.41'
+                    nextBuildNumber: 'test34.47',
+                    version        : 'test34.46'
             ]
     }
     return key ? buildInfoCached[key] : buildInfoCached;
@@ -81,7 +98,7 @@ def gitInfo(String key) {
     return key ? gitInfoCached[key] : gitInfoCached;
 }
 
-version = "1.7.10-0.test34.42"
+version = "1.7.10-0.test34.47"
 
 launch4j {
     jreMinVersion = '1.6.0'

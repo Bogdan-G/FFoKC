@@ -133,7 +133,7 @@ public class CraftStatistic {
         String statisticString = statistic.statId;
         int id;
         try {
-            id = Integer.valueOf(statisticString.substring(statisticString.lastIndexOf('.') + 1));
+            id = Integer.parseInt(statisticString.substring(statisticString.lastIndexOf('.') + 1));
         } catch (NumberFormatException e) {
             return null;
         }

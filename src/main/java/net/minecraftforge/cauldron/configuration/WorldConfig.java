@@ -9,14 +9,14 @@ public class WorldConfig
     private final String worldName;
     public ConfigBase baseConfig;
     private boolean verbose;
-    private final String wsd_text = "world-settings.default.";
-    private final String ws_text = "world-settings.";
+    private final static String wsd_text = "world-settings.default.";
+    private final static String ws_text = "world-settings.";
 
     public WorldConfig(String worldName, ConfigBase configFile)
     {
-        this.worldName = worldName.toLowerCase();
+        this.worldName = worldName.toLowerCase(java.util.Locale.ENGLISH);
         this.baseConfig = configFile;
-        if (worldName.toLowerCase().contains("dummy")) return;
+        if (worldName.toLowerCase(java.util.Locale.ENGLISH).contains("dummy")) return;
     }
 
     public void save()

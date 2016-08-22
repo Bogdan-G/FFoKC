@@ -35,7 +35,7 @@ public class CraftSimpleCommandMap extends SimpleCommandMap {
             return false;
         }
 
-        String sentCommandLabel = args[0].toLowerCase();
+        String sentCommandLabel = args[0].toLowerCase(java.util.Locale.ROOT);
         Command target = getCommand(sentCommandLabel);
 
         if (target == null) {

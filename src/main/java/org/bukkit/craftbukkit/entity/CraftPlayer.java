@@ -960,7 +960,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     @Override
     public int hashCode() {
         if (hash == 0 || hash == 485) {
-            hash = 97 * 5 + (this.getName() != null ? this.getName().toLowerCase().hashCode() : 0);
+            hash = 97 * 5 + (this.getName() != null ? this.getName().toLowerCase(java.util.Locale.ROOT).hashCode() : 0);
         }
         return hash;
     }
@@ -1174,7 +1174,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     public void setFlySpeed(float value) {
         validateSpeed(value);
         net.minecraft.entity.player.EntityPlayerMP player = getHandle();
-        player.capabilities.flySpeed = Math.max( value, 0.0001f ) / 2f; // Spigot
+        player.capabilities.flySpeed = value / 2f;//Math.max( value, 0.0001f ) / 2f; // Spigot
         player.sendPlayerAbilities();
 
     }
@@ -1182,7 +1182,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     public void setWalkSpeed(float value) {
         validateSpeed(value);
         net.minecraft.entity.player.EntityPlayerMP player = getHandle();
-        player.capabilities.walkSpeed = Math.max( value, 0.0001f ) / 2f; // Spigot
+        player.capabilities.walkSpeed = value / 2f;//Math.max( value, 0.0001f ) / 2f; // Spigot
         player.sendPlayerAbilities();
     }
 
@@ -1229,9 +1229,9 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         if (playerConnection == null) {
             throw new IllegalStateException("Cannot set scoreboard yet");
         }
-        if (playerConnection.isDisconnected()) {
+        //if (playerConnection.isDisconnected()) {
             // throw new IllegalStateException("Cannot set scoreboard for invalid CraftPlayer"); // Spigot - remove this as Mojang's semi asynchronous Netty implementation can lead to races
-        }
+        //}
 
         this.server.getScoreboardManager().setPlayerBoard(this, scoreboard);
     }

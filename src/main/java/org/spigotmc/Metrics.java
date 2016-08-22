@@ -425,18 +425,24 @@ public class Metrics {
 
         connection.setDoOutput(true);
 
+        OutputStreamWriter writer = null;BufferedReader reader = null;String response = "";
+        try {
         // Write the data
-        final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+        writer = new OutputStreamWriter(connection.getOutputStream());
         writer.write(data.toString());
         writer.flush();
 
         // Now read the response
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        final String response = reader.readLine();
+        reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        response = reader.readLine();
 
         // close resources
         writer.close();
         reader.close();
+        } finally {
+        try{if(writer != null)writer.close();} catch (IOException ex) {}
+        try{if(reader != null)reader.close();} catch (IOException ex) {}
+        }
 
         if (response == null || response.startsWith("ERR")) {
             throw new IOException(response); //Throw the exception

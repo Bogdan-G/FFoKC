@@ -93,7 +93,7 @@ public class SpigotWorldConfig
     public int wheatModifier;
     private int getAndValidateGrowth(String crop)
     {
-        int modifier = getInt( "growth." + crop.toLowerCase() + "-modifier", 100 );
+        int modifier = getInt( "growth." + crop.toLowerCase(java.util.Locale.ENGLISH) + "-modifier", 100 );
         if ( modifier == 0 )
         {
             log( "Cannot set " + crop + " growth to zero, defaulting to 100" );

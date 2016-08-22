@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class TileEntityConfig extends ConfigBase
 {
-    private final String HEADER = "This is the main configuration file for TileEntities.\n"
+    private final static String HEADER = "This is the main configuration file for TileEntities.\n"
             + "\n"
             + "If you need help with the configuration or have any questions related to Cauldron,\n"
             + "join us at the IRC or drop by our forums and leave a post.\n"

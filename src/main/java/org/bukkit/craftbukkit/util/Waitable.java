@@ -34,9 +34,11 @@ public abstract class Waitable<T> implements Runnable {
 
     protected abstract T evaluate();
 
-    public synchronized T get() throws InterruptedException, ExecutionException {
+    public/* synchronized*/ T get() throws InterruptedException, ExecutionException {
+        synchronized (status) {
         while (status != Status.FINISHED) {
             this.wait();
+        }
         }
         if (t != null) {
             throw new ExecutionException(t);

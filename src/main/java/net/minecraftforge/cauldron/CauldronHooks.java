@@ -264,7 +264,7 @@ public class CauldronHooks
         @Override
         public boolean equals(Object otherObj)
         {
-            if (!(otherObj instanceof CollisionWarning) || (otherObj == null)) return false;
+            if (!(otherObj instanceof CollisionWarning)/* || (otherObj == null)*/) return false;
             CollisionWarning other = (CollisionWarning) otherObj;
             return (other.dimensionId == this.dimensionId) && other.chunkCoords.equals(this.chunkCoords);
         }
@@ -286,7 +286,7 @@ public class CauldronHooks
             {
                 String teConfigPath = tileEntity.getClass().getName().replace(".", "-");
                 teConfigPath = teConfigPath.replaceAll("[^A-Za-z0-9\\-]", ""); // Fix up odd class names to prevent YAML errors
-                teCache = new TileEntityCache(tileEntity.getClass(), world.getWorldInfo().getWorldName().toLowerCase(), teConfigPath, world.tileentityConfig.getBoolean(teConfigPath + ".tick-no-players", false), world.tileentityConfig.getInt(teConfigPath + ".tick-interval", 1));
+                teCache = new TileEntityCache(tileEntity.getClass(), world.getWorldInfo().getWorldName().toLowerCase(java.util.Locale.ENGLISH), teConfigPath, world.tileentityConfig.getBoolean(teConfigPath + ".tick-no-players", false), world.tileentityConfig.getInt(teConfigPath + ".tick-interval", 1));
                 tileEntityCache.put(tileEntity.getClass(), teCache);
             }
 

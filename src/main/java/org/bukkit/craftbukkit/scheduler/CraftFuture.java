@@ -45,7 +45,7 @@ class CraftFuture<T> extends CraftTask implements Future<T> {
         }
     }
 
-    public/* synchronized*/ T get(long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+    public synchronized T get(long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         timeout = unit.toMillis(timeout);
         long period = this.getPeriod();
         long timestamp = timeout > 0 ? System.currentTimeMillis() : 0l;
@@ -84,16 +84,14 @@ class CraftFuture<T> extends CraftTask implements Future<T> {
                 return;
             }
             setPeriod(-3l);
-        }
         try {
             value = callable.call();
         } catch (final Exception e) {
             exception = e;
         } finally {
-            synchronized (this) {
                 setPeriod(-4l);
                 this.notifyAll();
-            }
+        }
         }
     }
 

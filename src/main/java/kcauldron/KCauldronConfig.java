@@ -24,6 +24,8 @@ public class KCauldronConfig extends ConfigBase {
     public IntSetting commonCapnumberofattemptsatspawningmobs = new IntSetting(this, "common.Capnumberspawnmobs", 50, "Cap limit number of attempts at spawning mobs");
     public IntSetting commonMinimumLimitforServerThreadSleep = new IntSetting(this, "common.ServerThreadSleep.min", 1, "Minimum limit (ms) for Server Thread sleep");
     public IntSetting commonMaximumLimitforServerThreadSleep = new IntSetting(this, "common.ServerThreadSleep.max", 1000, "Maximum limit (ms) for Server Thread sleep");
+    public BoolSetting commonEntityItemUpdateReduce = new BoolSetting(this, "common.EntityItemUpdateReduce.enable", false, "If enable recude calls onUpdate() in EntityItem");
+    public IntSetting commonEntityItemUpdateReduceCount = new IntSetting(this, "common.EntityItemUpdateReduce.count", 5, "how to skip calls onUpdate() in EntityItem");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
@@ -42,6 +44,8 @@ public class KCauldronConfig extends ConfigBase {
         register(commonCapnumberofattemptsatspawningmobs);
         register(commonMinimumLimitforServerThreadSleep);
         register(commonMaximumLimitforServerThreadSleep);
+        register(commonEntityItemUpdateReduce);
+        register(commonEntityItemUpdateReduceCount);
         load();
     }
 

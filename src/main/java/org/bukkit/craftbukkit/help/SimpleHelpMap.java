@@ -41,7 +41,7 @@ public class SimpleHelpMap implements HelpMap {
         registerHelpTopicFactory(MultipleCommandAlias.class, new MultipleCommandAliasHelpTopicFactory());
     }
 
-    public/* synchronized*/ HelpTopic getHelpTopic(String topicName) {
+    public synchronized HelpTopic getHelpTopic(String topicName) {
         if (topicName.length() == 0) {//if (topicName.equals(""))
             return defaultTopic;
         }
@@ -68,14 +68,14 @@ public class SimpleHelpMap implements HelpMap {
         helpTopics.clear();
     }
 
-    public List<String> getIgnoredPlugins() {
+    public synchronized List<String> getIgnoredPlugins() {
         return yaml.getIgnoredPlugins();
     }
 
     /**
      * Reads the general topics from help.yml and adds them to the help index.
      */
-    public/* synchronized*/ void initializeGeneralTopics() {
+    public synchronized void initializeGeneralTopics() {
         yaml = new HelpYamlReader(server);
 
         // Initialize general help topics from the help.yml file
@@ -96,7 +96,7 @@ public class SimpleHelpMap implements HelpMap {
     /**
      * Processes all the commands registered in the server and creates help topics for them.
      */
-    public/* synchronized*/ void initializeCommands() {
+    public synchronized void initializeCommands() {
         // ** Load topics from highest to lowest priority order **
         Set<String> ignoredPlugins = new HashSet<String>(yaml.getIgnoredPlugins());
 

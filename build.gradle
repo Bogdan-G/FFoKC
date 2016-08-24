@@ -50,7 +50,11 @@ repositories {
         url 'http://repo1.maven.org/maven/'
     }
     mavenCentral()
+    mavenLocal()
 }
+
+//sourceCompatibility = '1.7'
+//targetCompatibility = '1.7'
 
 minecraft {
     version = '1.7.10'
@@ -68,8 +72,8 @@ ext.buildInfoCached = null;
 def buildInfo(String key) {
     if (!buildInfoCached) {
             buildInfoCached = [
-                    nextBuildNumber: 'test34.47',
-                    version        : 'test34.46'
+                    nextBuildNumber: 'test34.53',
+                    version        : 'test34.52'
             ]
     }
     return key ? buildInfoCached[key] : buildInfoCached;
@@ -98,7 +102,7 @@ def gitInfo(String key) {
     return key ? gitInfoCached[key] : gitInfoCached;
 }
 
-version = "1.7.10-0.test34.47"
+version = "1.7.10-0.test34.53"
 
 launch4j {
     jreMinVersion = '1.6.0'
@@ -139,6 +143,13 @@ dependencies {
     libraries 'net.minecraft:server:1.7.10'
     libraries 'pw.prok:KImagine:0.1.12@jar'
     libraries 'org.apache.httpcomponents:httpclient:4.4.1'
+    //libraries 'org.eclipse.collections:eclipse-collections-api:7.1.0'
+    //libraries 'org.eclipse.collections:eclipse-collections:7.1.0'
+    libraries fileTree(dir: "libs", include: "*.jar")
+    //libraries 'com.koloboke:koloboke-impl-jdk8:1.0.0'
+    //libraries 'colt:colt:1.2.0'
+
+
 }
 
 packageUniversal {
@@ -222,7 +233,16 @@ repositories {
         name 'minecraft'
         url 'https://libraries.minecraft.net/'
     }
+    maven {
+        name 'spigot'
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name 'maven2'
+        url 'http://repo1.maven.org/maven/'
+    }
     mavenCentral()
+    mavenLocal()
 }
 dependencies {
 ''')

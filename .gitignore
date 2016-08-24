@@ -18,3 +18,4 @@ clean_patch
 symlink.bat
 hs_err_pid*
 dist_builds
+libs

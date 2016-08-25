@@ -31565,7 +31565,7 @@ index fb62dd3..2f77f8c 100644
  
      public int getActualHeight()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
-index 055597f..96eedf7 100644
+index 055597f..e05bd8d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
 @@ -11,6 +13,7 @@ import java.util.List;
@@ -31640,6 +31640,21 @@ index 055597f..96eedf7 100644
          this.mcServer = p_i45284_1_;
          this.theEntityTracker = new EntityTracker(this);
          this.thePlayerManager = new PlayerManager(this);
+@@ -106,12 +129,12 @@ public class WorldServer extends World
+ 
+         if (this.pendingTickListEntriesHashSet == null)
+         {
+-            this.pendingTickListEntriesHashSet = new HashSet();
++            this.pendingTickListEntriesHashSet = new org.eclipse.collections.impl.set.mutable.UnifiedSet();
+         }
+ 
+         if (this.pendingTickListEntriesTreeSet == null)
+         {
+-            this.pendingTickListEntriesTreeSet = new TreeSet();
++            this.pendingTickListEntriesTreeSet = new org.eclipse.collections.impl.set.sorted.mutable.TreeSortedSet();
+         }
+ 
+         this.worldTeleporter = new Teleporter(this);
 @@ -124,6 +147,47 @@ public class WorldServer extends World
              this.mapStorage.setData("scoreboard", scoreboardsavedata);
          }
@@ -31667,12 +31682,12 @@ index 055597f..96eedf7 100644
 +
 +        if (this.pendingTickListEntriesHashSet == null)
 +        {
-+            this.pendingTickListEntriesHashSet = new HashSet();
++            this.pendingTickListEntriesHashSet = new org.eclipse.collections.impl.set.mutable.UnifiedSet();
 +        }
 +
 +        if (this.pendingTickListEntriesTreeSet == null)
 +        {
-+            this.pendingTickListEntriesTreeSet = new TreeSet();
++            this.pendingTickListEntriesTreeSet = new org.eclipse.collections.impl.set.sorted.mutable.TreeSortedSet();
 +        }
 +
 +        this.worldTeleporter = new org.bukkit.craftbukkit.CraftTravelAgent(this); // CraftBukkit

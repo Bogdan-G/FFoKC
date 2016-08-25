@@ -128,6 +128,10 @@ public class LongHashSet {
     }
 
     public void remove(int msw, int lsw) {
+        remove(LongHash.toLong(msw, lsw));
+    }
+
+    public boolean remove(long value) {
         int hash = hash(value);
         int index = (hash & 0x7FFFFFFF) % values.length;
         int offset = 1;

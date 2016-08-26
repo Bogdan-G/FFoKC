@@ -26,6 +26,7 @@ public class KCauldronConfig extends ConfigBase {
     public IntSetting commonMaximumLimitforServerThreadSleep = new IntSetting(this, "common.ServerThreadSleep.max", 1000, "Maximum limit (ms) for Server Thread sleep");
     public BoolSetting commonEntityItemUpdateReduce = new BoolSetting(this, "common.EntityItemUpdateReduce.enable", false, "If enable recude calls onUpdate() in EntityItem");
     public IntSetting commonEntityItemUpdateReduceCount = new IntSetting(this, "common.EntityItemUpdateReduce.count", 5, "how to skip calls onUpdate() in EntityItem");
+    public BoolSetting commonOffspamBukkitJavaPluginLoader = new BoolSetting(this, "common.OffspamBPL", true, "Off parts throw in Bukkit:JavaPluginLoader, decrease spam events in plugins");
     
     public KCauldronConfig() {
         super("kcauldron.yml", "kc");
@@ -46,6 +47,7 @@ public class KCauldronConfig extends ConfigBase {
         register(commonMaximumLimitforServerThreadSleep);
         register(commonEntityItemUpdateReduce);
         register(commonEntityItemUpdateReduceCount);
+        register(commonOffspamBukkitJavaPluginLoader);
         load();
     }
 

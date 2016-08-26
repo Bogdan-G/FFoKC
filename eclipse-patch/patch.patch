@@ -11574,7 +11574,7 @@ index 2026a38..d478e1e 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItem.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItem.java
-index bd62c94..c417438 100644
+index bd62c94..fd3d236 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItem.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItem.java
 @@ -22,6 +22,11 @@ import org.apache.logging.log4j.Logger;
@@ -11639,14 +11639,9 @@ index bd62c94..c417438 100644
          this.setSize(0.25F, 0.25F);
          this.yOffset = this.height / 2.0F;
      }
-@@ -80,7 +95,15 @@ public class EntityItem extends Entity
- 
+@@ -81,6 +96,10 @@ public class EntityItem extends Entity
      public void onUpdate()
      {
-+        try{ruc_sS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonEntityItemUpdateReduce.getValue();}catch (Throwable e) {ruc_sS = false;};
-+        try{rucC_sS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonEntityItemUpdateReduceCount.getValue();}catch (Throwable e) {rucC_sS = 5;};
-+        if (!ruc_sS || (ruc_sS && count_rucC_sS == rucC_sS)) {
-+        count_rucC_sS = 0;
          ItemStack stack = this.getDataWatcher().getWatchableObjectItemStack(10);
 +        if (stack == null || stack.stackSize == 0) {
 +            setDead();
@@ -11655,7 +11650,7 @@ index bd62c94..c417438 100644
          if (stack != null && stack.getItem() != null)
          {
              if (stack.getItem().onEntityItemUpdate(this))
-@@ -89,93 +112,104 @@ public class EntityItem extends Entity
+@@ -89,93 +108,103 @@ public class EntityItem extends Entity
              }
          }
  
@@ -11804,7 +11799,6 @@ index bd62c94..c417438 100644
 +        {
 +            this.setDead();
 +        }
-+        } else {if(ruc_sS)count_rucC_sS++;}
      }
  
      private void searchForOtherItemsNearby()
@@ -11817,7 +11811,7 @@ index bd62c94..c417438 100644
  
          while (iterator.hasNext())
          {
-@@ -225,11 +259,13 @@ public class EntityItem extends Entity
+@@ -225,11 +254,13 @@ public class EntityItem extends Entity
              }
              else
              {
@@ -11836,7 +11830,7 @@ index bd62c94..c417438 100644
                  return true;
              }
          }
-@@ -316,8 +352,27 @@ public class EntityItem extends Entity
+@@ -316,8 +347,27 @@ public class EntityItem extends Entity
          }
  
          NBTTagCompound nbttagcompound1 = p_70037_1_.getCompoundTag("Item");
@@ -11865,7 +11859,7 @@ index bd62c94..c417438 100644
          ItemStack item = getDataWatcher().getWatchableObjectItemStack(10);
  
          if (item == null || item.stackSize <= 0)
-@@ -350,6 +405,31 @@ public class EntityItem extends Entity
+@@ -350,6 +400,31 @@ public class EntityItem extends Entity
              ItemStack itemstack = this.getEntityItem();
              int i = itemstack.stackSize;
  
@@ -11897,7 +11891,7 @@ index bd62c94..c417438 100644
              if (this.delayBeforeCanPickup <= 0 && (this.field_145802_g == null || lifespan - this.age <= 200 || this.field_145802_g.equals(p_70100_1_.getCommandSenderName())) && (event.getResult() == Result.ALLOW || i <= 0 || p_70100_1_.inventory.addItemStackToInventory(itemstack)))
              {
                  if (itemstack.getItem() == Item.getItemFromBlock(Blocks.log))
-@@ -423,7 +503,7 @@ public class EntityItem extends Entity
+@@ -423,7 +498,7 @@ public class EntityItem extends Entity
      public ItemStack getEntityItem()
      {
          ItemStack itemstack = this.getDataWatcher().getWatchableObjectItemStack(10);
@@ -11906,7 +11900,7 @@ index bd62c94..c417438 100644
      }
  
      public void setEntityItemStack(ItemStack p_92058_1_)
-@@ -451,4 +531,11 @@ public class EntityItem extends Entity
+@@ -451,4 +526,10 @@ public class EntityItem extends Entity
      {
          this.field_145801_f = p_145799_1_;
      }
@@ -11916,7 +11910,6 @@ index bd62c94..c417438 100644
 +        ItemStack stack = getDataWatcher().getWatchableObjectItemStack(10);
 +        return stack != null && stack.getItem() != null && stack.stackSize > 0;
 +    }
-+    private int count_rucC_sS=0;private boolean ruc_sS = false;private int rucC_sS=0;
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItemFrame.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItemFrame.java
@@ -39784,7 +39777,7 @@ index 1a46e8f..029721c 100644
  
      @Override
 diff --git ./eclipse/Clean/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java ./eclipse/cauldron/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index bb0948c..d627b94 100644
+index bb0948c..42728f6 100644
 --- ./eclipse/Clean/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ ./eclipse/cauldron/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 @@ -1,5 +1,15 @@
@@ -39823,17 +39816,16 @@ index bb0948c..d627b94 100644
  /**
   * Represents a Java plugin loader, allowing plugins in the form of .jar
   */
-@@ -49,6 +63,9 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -49,6 +63,8 @@ public final class JavaPluginLoader implements PluginLoader {
      private final Pattern[] fileFilters = new Pattern[] { Pattern.compile("\\.jar$"), };
      private final Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
      private final Map<String, PluginClassLoader> loaders = new LinkedHashMap<String, PluginClassLoader>();
 +    public static final CustomTimingsHandler pluginParentTimer = new CustomTimingsHandler("** Plugins"); // Spigot
-+    private InvocationTargetException ITE_cache_sS = null;private int ITE_count_sS = 0;
-+    private Throwable T_cache_sS = null;private int T_count_sS = 0;
++    private int ITE_count_sS = 0;private int T_count_sS = 0;
  
      /**
       * This class was not meant to be constructed explicitly
-@@ -59,43 +76,41 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -59,43 +75,41 @@ public final class JavaPluginLoader implements PluginLoader {
          server = instance;
      }
  
@@ -39887,7 +39879,7 @@ index bb0948c..d627b94 100644
                  file,
                  oldDataFolder,
                  dataFolder
-@@ -104,14 +119,19 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -104,14 +118,19 @@ public final class JavaPluginLoader implements PluginLoader {
  
          if (dataFolder.exists() && !dataFolder.isDirectory()) {
              throw new InvalidPluginException(String.format(
@@ -39910,7 +39902,7 @@ index bb0948c..d627b94 100644
              if (loaders == null) {
                  throw new UnknownDependencyException(pluginName);
              }
-@@ -122,7 +142,7 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -122,7 +141,7 @@ public final class JavaPluginLoader implements PluginLoader {
              }
          }
  
@@ -39919,7 +39911,7 @@ index bb0948c..d627b94 100644
          try {
              loader = new PluginClassLoader(this, getClass().getClassLoader(), description, dataFolder, file);
          } catch (InvalidPluginException ex) {
-@@ -136,6 +156,26 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -136,6 +155,26 @@ public final class JavaPluginLoader implements PluginLoader {
          return loader.plugin;
      }
  
@@ -39946,7 +39938,7 @@ index bb0948c..d627b94 100644
      public PluginDescriptionFile getPluginDescription(File file) throws InvalidDescriptionException {
          Validate.notNull(file, "File cannot be null");
  
-@@ -184,8 +224,8 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -184,8 +223,8 @@ public final class JavaPluginLoader implements PluginLoader {
          if (cachedClass != null) {
              return cachedClass;
          } else {
@@ -39957,7 +39949,7 @@ index bb0948c..d627b94 100644
  
                  try {
                      cachedClass = loader.findClass(name, false);
-@@ -283,25 +323,33 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -283,25 +322,35 @@ public final class JavaPluginLoader implements PluginLoader {
                  }
              }
  
@@ -39976,12 +39968,14 @@ index bb0948c..d627b94 100644
 +                        // Spigot end
                      } catch (InvocationTargetException ex) {
 -                        throw new EventException(ex.getCause());
-+                        if(ITE_cache_sS ==null) ITE_cache_sS = ex;
-+                        if (ITE_cache_sS != ex) {cpw.mods.fml.common.FMLLog.info("Bukkit:JavaPluginLoader: repetitions of the last exception: %s", ITE_count_sS);ITE_count_sS=0;throw new EventException(ex.getCause());} else {ITE_count_sS++;}
++                        try {if (!net.minecraft.server.MinecraftServer.kcauldronConfig.commonOffspamBukkitJavaPluginLoader.getValue()) {throw new EventException(ex.getCause());} else {ITE_count_sS++;
++                        if (ITE_count_sS == 10000000 || ITE_count_sS == 1000000 || ITE_count_sS == 100000 || ITE_count_sS == 10000 || ITE_count_sS == 1000 || ITE_count_sS == 100) cpw.mods.fml.common.FMLLog.info("Bukkit:JavaPluginLoader: repetitions InvocationTargetException: %s", ITE_count_sS);
++                        if (ITE_count_sS / 1000000000 == 0) cpw.mods.fml.common.FMLLog.info("WARNING!!! Bukkit:JavaPluginLoader: billion InvocationTargetException, do something, it's not funny anymore!");}} catch (Throwable er1) {}
                      } catch (Throwable t) {
 -                        throw new EventException(t);
-+                        if(T_cache_sS ==null) T_cache_sS = t;
-+                        if (T_cache_sS != t) {cpw.mods.fml.common.FMLLog.info("Bukkit:JavaPluginLoader: repetitions of the last exception: %s", T_count_sS);T_count_sS=0;throw new EventException(t);} else {T_count_sS++;}
++                        try {if (!net.minecraft.server.MinecraftServer.kcauldronConfig.commonOffspamBukkitJavaPluginLoader.getValue()) {throw new EventException(t);} else {T_count_sS++;
++                        if (T_count_sS == 10000000 || ITE_count_sS == 1000000 || T_count_sS == 100000 || T_count_sS == 10000 || T_count_sS == 1000 || T_count_sS == 100) cpw.mods.fml.common.FMLLog.info("Bukkit:JavaPluginLoader: repetitions Throwable: %s", T_count_sS);
++                        if (T_count_sS / 1000000000 == 0) cpw.mods.fml.common.FMLLog.info("WARNING!!! Bukkit:JavaPluginLoader: billion Throwable, do something, it's not funny anymore!");}} catch (Throwable er2) {}
                      }
                  }
              };
@@ -39997,7 +39991,7 @@ index bb0948c..d627b94 100644
          }
          return ret;
      }
-@@ -362,4 +410,44 @@ public final class JavaPluginLoader implements PluginLoader {
+@@ -362,4 +411,44 @@ public final class JavaPluginLoader implements PluginLoader {
              }
          }
      }

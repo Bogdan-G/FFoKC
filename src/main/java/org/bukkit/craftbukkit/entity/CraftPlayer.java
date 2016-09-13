@@ -198,7 +198,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
         // Collisions will make for invisible people
         //int server_getHandle_playerEntityList_sS=server.getHandle().playerEntityList.size();
-        for (int i = 0; i < server.getHandle().playerEntityList.size()/*server_getHandle_playerEntityList_sS*/; ++i) {
+        for (int i = 0; i < server.getHandle().playerEntityList.size(); ++i) {
             if (((net.minecraft.entity.player.EntityPlayerMP) server.getHandle().playerEntityList.get(i)).listName.equals(name)) {
                 throw new IllegalArgumentException(name + " is already assigned as a player list name for someone");
             }
@@ -210,7 +210,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         net.minecraft.network.play.server.S38PacketPlayerListItem oldpacket = new net.minecraft.network.play.server.S38PacketPlayerListItem(oldName, false, 9999);
         net.minecraft.network.play.server.S38PacketPlayerListItem packet = new net.minecraft.network.play.server.S38PacketPlayerListItem(name, true, getHandle().ping);
         //server_getHandle_playerEntityList_sS=server.getHandle().playerEntityList.size();
-        for (int i = 0; i < server.getHandle().playerEntityList.size()/*server_getHandle_playerEntityList_sS*/; ++i) {
+        for (int i = 0; i < server.getHandle().playerEntityList.size(); ++i) {
             net.minecraft.entity.player.EntityPlayerMP entityplayer = (net.minecraft.entity.player.EntityPlayerMP) server.getHandle().playerEntityList.get(i);
             if (entityplayer.playerNetServerHandler == null) continue;
 

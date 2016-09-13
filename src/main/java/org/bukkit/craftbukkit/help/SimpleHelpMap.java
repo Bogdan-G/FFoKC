@@ -112,14 +112,14 @@ public class SimpleHelpMap implements HelpMap {
             }
 
             // Register a topic
-            for (java.util.Map.Entry<Class, HelpTopicFactory<Command>> c : topicFactoryMap.entrySet()) {
-                if ((c.getKey()).isAssignableFrom(command.getClass())) {
-                    HelpTopic t = (c.getValue()).createTopic(command);
+            for (Class c : topicFactoryMap.keySet()) {
+                if (c.isAssignableFrom(command.getClass())) {
+                    HelpTopic t = topicFactoryMap.get(c).createTopic(command);
                     if (t != null) addTopic(t);
                     continue outer;
                 }
-                if (command instanceof PluginCommand && (c.getKey()).isAssignableFrom(((PluginCommand)command).getExecutor().getClass())) {
-                    HelpTopic t = (c.getValue()).createTopic(command);
+                if (command instanceof PluginCommand && c.isAssignableFrom(((PluginCommand)command).getExecutor().getClass())) {
+                    HelpTopic t = topicFactoryMap.get(c).createTopic(command);
                     if (t != null) addTopic(t);
                     continue outer;
                 }

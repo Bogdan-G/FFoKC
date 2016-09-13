@@ -152,7 +152,7 @@ public final class CraftMapView implements MapView {
             }
 
             //int canvas_getCursors_sS=canvas.getCursors().size();
-            for (int i = 0; i < canvas.getCursors().size()/*canvas_getCursors_sS*/; ++i) {
+            for (int i = 0; i < canvas.getCursors().size(); ++i) {
                 render.cursors.add(canvas.getCursors().getCursor(i));
             }
         }

@@ -95,7 +95,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
                         try {
                             vanillaCommand.processCommand(icommandlistener, as);
                             j++;
-                            if (counter_cycle_sS > 1000) break;//fix Infinity Loop
+                            if (counter_cycle_sS > 100000) break;//fix Infinity Loop
                             continue;
                         } catch (net.minecraft.command.CommandException commandexception1) {
                             net.minecraft.util.ChatComponentTranslation chatmessage4 = new net.minecraft.util.ChatComponentTranslation(commandexception1.getMessage(), commandexception1.getErrorOjbects());

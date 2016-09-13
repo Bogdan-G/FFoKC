@@ -39,6 +39,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 import com.google.gson.stream.JsonWriter;
 
+import org.eclipse.collections.impl.map.mutable.primitive.ObjectIntHashMap;
+
 public class CauldronHooks
 {
     // Some mods such as Twilight Forest listen for specific events as their WorldProvider loads to hotload its dimension. This prevents this from happening so MV can create worlds using the same provider without issue.
@@ -337,17 +339,17 @@ public class CauldronHooks
                 writer.name("entities").value(world.loadedEntityList.size());
                 writer.name("tiles").value(world.loadedTileEntityList.size());
 
-                TObjectIntHashMap<ChunkCoordIntPair> chunkEntityCounts = new TObjectIntHashMap<ChunkCoordIntPair>();
-                TObjectIntHashMap<Class> classEntityCounts = new TObjectIntHashMap<Class>();
-                TObjectIntHashMap<Entity> entityCollisionCounts = new TObjectIntHashMap<Entity>();
+                ObjectIntHashMap<ChunkCoordIntPair> chunkEntityCounts = new ObjectIntHashMap<ChunkCoordIntPair>();
+                ObjectIntHashMap<Class> classEntityCounts = new ObjectIntHashMap<Class>();
+                ObjectIntHashMap<Entity> entityCollisionCounts = new ObjectIntHashMap<Entity>();
                 List<ChunkCoordinates> collidingCoords = new ArrayList<ChunkCoordinates>();
-                int world_loadedEntityList_sS=world.loadedEntityList.size();
-                for (int i = 0; i < world_loadedEntityList_sS; i++)
+                //int world_loadedEntityList_sS=world.loadedEntityList.size();//FFoKC: revert -> search mods bugs
+                for (int i = 0; i < world.loadedEntityList.size(); i++)
                 {
                     Entity entity = (Entity) world.loadedEntityList.get(i);
                     ChunkCoordIntPair chunkCoords = new ChunkCoordIntPair((int) entity.posX >> 4, (int) entity.posZ >> 4);
-                    chunkEntityCounts.adjustOrPutValue(chunkCoords, 1, 1);
-                    classEntityCounts.adjustOrPutValue(entity.getClass(), 1, 1);
+                    chunkEntityCounts.addToValue(chunkCoords, 1);
+                    classEntityCounts.addToValue(entity.getClass(), 1);
                     if ((entity.boundingBox != null) && logAll)
                     {
                         ChunkCoordinates coords = new ChunkCoordinates((int)Math.floor(entity.posX), (int)Math.floor(entity.posY), (int)Math.floor(entity.posZ));
@@ -364,11 +366,11 @@ public class CauldronHooks
                     }
                 }
 
-                TObjectIntHashMap<ChunkCoordIntPair> chunkTileCounts = new TObjectIntHashMap<ChunkCoordIntPair>();
-                TObjectIntHashMap<Class> classTileCounts = new TObjectIntHashMap<Class>();
+                ObjectIntHashMap<ChunkCoordIntPair> chunkTileCounts = new ObjectIntHashMap<ChunkCoordIntPair>();
+                ObjectIntHashMap<Class> classTileCounts = new ObjectIntHashMap<Class>();
                 writer.name("tiles").beginArray();
-                int world_loadedTileEntityList_sS=world.loadedTileEntityList.size();
-                for (int i = 0; i < world_loadedTileEntityList_sS; i++)
+                //int world_loadedTileEntityList_sS=world.loadedTileEntityList.size();//FFoKC: revert -> search mods bugs
+                for (int i = 0; i < world.loadedTileEntityList.size(); i++)
                 {
                     TileEntity tile = (TileEntity) world.loadedTileEntityList.get(i);
                     if (logAll)
@@ -384,8 +386,8 @@ public class CauldronHooks
                         writer.endObject();
                     }
                     ChunkCoordIntPair chunkCoords = new ChunkCoordIntPair(tile.xCoord >> 4, tile.zCoord >> 4);
-                    chunkTileCounts.adjustOrPutValue(chunkCoords, 1, 1);
-                    classTileCounts.adjustOrPutValue(tile.getClass(), 1, 1);
+                    chunkTileCounts.addToValue(chunkCoords, 1);
+                    classTileCounts.addToValue(tile.getClass(), 1);
                 }
                 writer.endArray();
 
@@ -411,12 +413,12 @@ public class CauldronHooks
         }
     }
 
-    private static <T> void writeChunkCounts(JsonWriter writer, String name, final TObjectIntHashMap<T> map) throws IOException
+    private static <T> void writeChunkCounts(JsonWriter writer, String name, final ObjectIntHashMap<T> map) throws IOException
     {
         writeChunkCounts(writer, name, map, 0);
     }
 
-    private static <T> void writeChunkCounts(JsonWriter writer, String name, final TObjectIntHashMap<T> map, int max) throws IOException
+    private static <T> void writeChunkCounts(JsonWriter writer, String name, final ObjectIntHashMap<T> map, int max) throws IOException
     {
         List<T> sortedCoords = new ArrayList<T>(map.keySet());
         Collections.sort(sortedCoords, new Comparator<T>()

@@ -48,7 +48,7 @@ public class SpigotConfig
         config.options().header( HEADER );
         config.options().copyDefaults( true );
 
-        commands = new java.util.concurrent.ConcurrentHashMap<String, Command>();
+        commands = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, Command>();
 
         version = getInt( "config-version", 5 );
         set( "config-version", 5 );
@@ -172,7 +172,7 @@ public class SpigotConfig
         outdatedServerMessage = transform( getString( "messages.outdated-server", outdatedServerMessage ) );
     }
 
-    public static int timeoutTime = 240; // Cauldron - raise to 90
+    public static int timeoutTime = 900; // Cauldron - raise to 90 //FFoKC: meh, -> 900
     public static boolean restartOnCrash = false;
     public static String restartScript = "./start.sh";
     public static String restartMessage;

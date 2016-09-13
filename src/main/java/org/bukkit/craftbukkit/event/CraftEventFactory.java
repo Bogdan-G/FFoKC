@@ -117,7 +117,7 @@ public class CraftEventFactory {
 
         boolean canBuild = true;
         //int blockStates_sS=blockStates.size();
-        for (int i = 0; i < blockStates.size()/*blockStates_sS*/; i++) {
+        for (int i = 0; i < blockStates.size(); i++) {
             if (!canBuild(craftWorld, player, blockStates.get(i).getX(), blockStates.get(i).getZ())) {
                 canBuild = false;
                 break;

@@ -339,17 +339,16 @@ public class CauldronHooks
                 writer.name("entities").value(world.loadedEntityList.size());
                 writer.name("tiles").value(world.loadedTileEntityList.size());
 
-                ObjectIntHashMap<ChunkCoordIntPair> chunkEntityCounts = new ObjectIntHashMap<ChunkCoordIntPair>();
-                ObjectIntHashMap<Class> classEntityCounts = new ObjectIntHashMap<Class>();
-                ObjectIntHashMap<Entity> entityCollisionCounts = new ObjectIntHashMap<Entity>();
+                TObjectIntHashMap<ChunkCoordIntPair> chunkEntityCounts = new TObjectIntHashMap<ChunkCoordIntPair>();
+                TObjectIntHashMap<Class> classEntityCounts = new TObjectIntHashMap<Class>();
+                TObjectIntHashMap<Entity> entityCollisionCounts = new TObjectIntHashMap<Entity>();
                 List<ChunkCoordinates> collidingCoords = new ArrayList<ChunkCoordinates>();
-                //int world_loadedEntityList_sS=world.loadedEntityList.size();//FFoKC: revert -> search mods bugs
                 for (int i = 0; i < world.loadedEntityList.size(); i++)
                 {
                     Entity entity = (Entity) world.loadedEntityList.get(i);
                     ChunkCoordIntPair chunkCoords = new ChunkCoordIntPair((int) entity.posX >> 4, (int) entity.posZ >> 4);
-                    chunkEntityCounts.addToValue(chunkCoords, 1);
-                    classEntityCounts.addToValue(entity.getClass(), 1);
+                    chunkEntityCounts.adjustOrPutValue(chunkCoords, 1, 1);
+                    classEntityCounts.adjustOrPutValue(entity.getClass(), 1, 1);
                     if ((entity.boundingBox != null) && logAll)
                     {
                         ChunkCoordinates coords = new ChunkCoordinates((int)Math.floor(entity.posX), (int)Math.floor(entity.posY), (int)Math.floor(entity.posZ));
@@ -366,10 +365,9 @@ public class CauldronHooks
                     }
                 }
 
-                ObjectIntHashMap<ChunkCoordIntPair> chunkTileCounts = new ObjectIntHashMap<ChunkCoordIntPair>();
-                ObjectIntHashMap<Class> classTileCounts = new ObjectIntHashMap<Class>();
+                TObjectIntHashMap<ChunkCoordIntPair> chunkTileCounts = new TObjectIntHashMap<ChunkCoordIntPair>();
+                TObjectIntHashMap<Class> classTileCounts = new TObjectIntHashMap<Class>();
                 writer.name("tiles").beginArray();
-                //int world_loadedTileEntityList_sS=world.loadedTileEntityList.size();//FFoKC: revert -> search mods bugs
                 for (int i = 0; i < world.loadedTileEntityList.size(); i++)
                 {
                     TileEntity tile = (TileEntity) world.loadedTileEntityList.get(i);
@@ -386,8 +384,8 @@ public class CauldronHooks
                         writer.endObject();
                     }
                     ChunkCoordIntPair chunkCoords = new ChunkCoordIntPair(tile.xCoord >> 4, tile.zCoord >> 4);
-                    chunkTileCounts.addToValue(chunkCoords, 1);
-                    classTileCounts.addToValue(tile.getClass(), 1);
+                    chunkTileCounts.adjustOrPutValue(chunkCoords, 1, 1);
+                    classTileCounts.adjustOrPutValue(tile.getClass(), 1, 1);
                 }
                 writer.endArray();
 
@@ -413,12 +411,12 @@ public class CauldronHooks
         }
     }
 
-    private static <T> void writeChunkCounts(JsonWriter writer, String name, final ObjectIntHashMap<T> map) throws IOException
+    private static <T> void writeChunkCounts(JsonWriter writer, String name, final TObjectIntHashMap<T> map) throws IOException
     {
         writeChunkCounts(writer, name, map, 0);
     }
 
-    private static <T> void writeChunkCounts(JsonWriter writer, String name, final ObjectIntHashMap<T> map, int max) throws IOException
+    private static <T> void writeChunkCounts(JsonWriter writer, String name, final TObjectIntHashMap<T> map, int max) throws IOException
     {
         List<T> sortedCoords = new ArrayList<T>(map.keySet());
         Collections.sort(sortedCoords, new Comparator<T>()

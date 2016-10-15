@@ -68,7 +68,7 @@ public class SimpleHelpMap implements HelpMap {
         helpTopics.clear();
     }
 
-    public synchronized List<String> getIgnoredPlugins() {
+    public List<String> getIgnoredPlugins() {
         return yaml.getIgnoredPlugins();
     }
 

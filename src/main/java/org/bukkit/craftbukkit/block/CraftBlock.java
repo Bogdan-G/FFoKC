@@ -359,7 +359,7 @@ public class CraftBlock implements Block {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if (!(o.getClass() == CraftBlock.class.getClass())) return false;//if (!(o.getClass().equals(CraftBlock.class))) return false;
+        if (!(o.getClass().equals(CraftBlock.class))) return false;
         CraftBlock other = (CraftBlock) o;
 
         return this.x == other.x && this.y == other.y && this.z == other.z && this.getWorld().equals(other.getWorld());

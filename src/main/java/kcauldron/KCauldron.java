@@ -106,7 +106,7 @@ public class KCauldron {
         RestartCommand.restart(true);
     }
     
-    private static int sForgeRevision = 0;
+    private static int sForgeRevision = 1614;//based by 1614
 
     public static int lookupForgeRevision() {
         return sForgeRevision;

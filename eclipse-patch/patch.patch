@@ -7646,7 +7646,7 @@ index 2e1f419..34108ab 100644
      private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
      private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/DataWatcher.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/DataWatcher.java
-index 6221188..4502f51 100644
+index 6221188..8ce15a2 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/DataWatcher.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/DataWatcher.java
 @@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
@@ -7664,13 +7664,13 @@ index 6221188..4502f51 100644
      private boolean isBlank = true;
 -    private static final HashMap dataTypes = new HashMap();
 -    private final Map watchedObjects = new HashMap();
-+    private static final Map dataTypes = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//FFoKC: kek-time
-+    private final Map watchedObjects = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
++    private static final Map dataTypes = new HashMap/*org.eclipse.collections.impl.map.mutable.UnifiedMap*/();//FFoKC: kek-time
++    private final Map watchedObjects = new HashMap/*org.eclipse.collections.impl.map.mutable.UnifiedMap*/();
      private boolean objectChanged;
      private ReadWriteLock lock = new ReentrantReadWriteLock();
      private static final String __OBFID = "CL_00001559";
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
-index e114a23..2de3bf6 100644
+index e114a23..7329b07 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
 @@ -4,7 +4,7 @@ import cpw.mods.fml.common.FMLLog;
@@ -7809,10 +7809,8 @@ index e114a23..2de3bf6 100644
  
 +        // Spigot end
          this.dataWatcher = new DataWatcher(this);
--        this.dataWatcher.addObject(0, Byte.valueOf((byte)0));
--        this.dataWatcher.addObject(1, Short.valueOf((short)300));
-+        this.dataWatcher.addObject(0, (byte)0);
-+        this.dataWatcher.addObject(1, (short)300);
+         this.dataWatcher.addObject(0, Byte.valueOf((byte)0));
+         this.dataWatcher.addObject(1, Short.valueOf((short)300));
          this.entityInit();
  
 -        extendedProperties = new HashMap<String, IExtendedEntityProperties>();
@@ -8976,26 +8974,18 @@ index 24764a3..92a9d60 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityList.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityList.java
-index df1b66a..905ede4 100644
+index df1b66a..fd31a69 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityList.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityList.java
-@@ -74,11 +74,11 @@ import cpw.mods.fml.common.FMLLog;
+@@ -74,7 +74,7 @@ import cpw.mods.fml.common.FMLLog;
  public class EntityList
  {
      private static final Logger logger = LogManager.getLogger();
 -    public static Map stringToClassMapping = new HashMap();
--    public static Map classToStringMapping = new HashMap();
--    public static Map IDtoClassMapping = new HashMap();
--    private static Map classToIDMapping = new HashMap();
--    private static Map stringToIDMapping = new HashMap();
-+    public static Map stringToClassMapping = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//FFoKC: xD
-+    public static Map classToStringMapping = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
-+    public static Map IDtoClassMapping = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
-+    private static Map classToIDMapping = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
-+    private static Map stringToIDMapping = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
-     public static HashMap entityEggs = new LinkedHashMap();
-     private static final String __OBFID = "CL_00001538";
- 
++    public static Map stringToClassMapping = new HashMap();//FFoKC: xD
+     public static Map classToStringMapping = new HashMap();
+     public static Map IDtoClassMapping = new HashMap();
+     private static Map classToIDMapping = new HashMap();
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLiving.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLiving.java
 index 2a3a366..d14c43d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLiving.java
@@ -9169,7 +9159,7 @@ index 2a3a366..d14c43d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLivingBase.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLivingBase.java
-index 16ebce8..bedfa8d 100644
+index 16ebce8..380b910 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityLivingBase.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityLivingBase.java
 @@ -2,8 +2,9 @@ package net.minecraft.entity;
@@ -9212,7 +9202,7 @@ index 16ebce8..bedfa8d 100644
 -    private final CombatTracker _combatTracker = new CombatTracker(this);
 -    private final HashMap activePotionsMap = new HashMap();
 +    public CombatTracker _combatTracker = new CombatTracker(this); // CraftBukkit - private -> public, remove final
-+    public final Map activePotionsMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap(); // CraftBukkit - protected -> public //FFoKC: xD
++    public final HashMap activePotionsMap = new HashMap(); // CraftBukkit - protected -> public //FFoKC: xD
      private final ItemStack[] previousEquipment = new ItemStack[5];
      public boolean isSwingInProgress;
      public int swingProgressInt;
@@ -9234,7 +9224,7 @@ index 16ebce8..bedfa8d 100644
      protected boolean isJumping;
      public float moveStrafing;
      public float moveForward;
-@@ -104,36 +122,42 @@ public abstract class EntityLivingBase extends Entity
+@@ -104,33 +122,39 @@ public abstract class EntityLivingBase extends Entity
      protected double newPosZ;
      protected double newRotationYaw;
      protected double newRotationPitch;
@@ -9277,16 +9267,10 @@ index 16ebce8..bedfa8d 100644
      protected void entityInit()
      {
 -        this.dataWatcher.addObject(7, Integer.valueOf(0));
--        this.dataWatcher.addObject(8, Byte.valueOf((byte)0));
--        this.dataWatcher.addObject(9, Byte.valueOf((byte)0));
--        this.dataWatcher.addObject(6, Float.valueOf(1.0F));
-+        this.dataWatcher.addObject(7, (int)0);
-+        this.dataWatcher.addObject(8, (byte)0);
-+        this.dataWatcher.addObject(9, (byte)0);
-+        this.dataWatcher.addObject(6, 1.0F);
-     }
- 
-     protected void applyEntityAttributes()
++        this.dataWatcher.addObject(7, Integer.valueOf((int)0));
+         this.dataWatcher.addObject(8, Byte.valueOf((byte)0));
+         this.dataWatcher.addObject(9, Byte.valueOf((byte)0));
+         this.dataWatcher.addObject(6, Float.valueOf(1.0F));
 @@ -173,7 +197,18 @@ public abstract class EntityLivingBase extends Entity
              }
              else if (!this.worldObj.isRemote && this.fallDistance > 3.0F)
@@ -9969,7 +9953,7 @@ index b62d4bc..135b10b 100644
      private static final String __OBFID = "CL_00001672";
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
-index 480af9d..4ec6003 100644
+index 480af9d..d7a9575 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
 @@ -1,6 +1,6 @@
@@ -9994,7 +9978,7 @@ index 480af9d..4ec6003 100644
      private final WorldServer theWorld;
 -    private Set trackedEntities = new HashSet();
 -    private IntHashMap trackedEntityIDs = new IntHashMap();
-+    private Set<EntityTrackerEntry> trackedEntities = new org.eclipse.collections.impl.set.mutable.UnifiedSet<EntityTrackerEntry>(100);//FFoKC - HashSet -> ArrayList//revert for test, periodically players disappear?
++    private Set trackedEntities = new org.eclipse.collections.impl.set.mutable.UnifiedSet(32, 0.90F);//FFoKC - HashSet -> ArrayList//revert for test, periodically players disappear?
 +    public IntHashMap trackedEntityIDs = new IntHashMap(); // CraftBukkit - private -> public
      private int entityViewDistance;
      private static final String __OBFID = "CL_00001431";
@@ -10062,12 +10046,12 @@ index 480af9d..4ec6003 100644
  
      public void updateTrackedEntities()
      {
-+        if(theWorld.playerEntities.size() == 0) return;
-         ArrayList arraylist = new ArrayList();
+-        ArrayList arraylist = new ArrayList();
++        //if(theWorld.playerEntities.size() == 0) return;
++        org.eclipse.collections.impl.list.mutable.FastList/*ArrayList*/ arraylist = new org.eclipse.collections.impl.list.mutable.FastList();//ArrayList();
          Iterator iterator = this.trackedEntities.iterator();
  
--        while (iterator.hasNext())
-+       while (iterator.hasNext())
+         while (iterator.hasNext())
          {
              EntityTrackerEntry entitytrackerentry = (EntityTrackerEntry)iterator.next();
 +            if (entitytrackerentry != null) {
@@ -10097,15 +10081,15 @@ index 480af9d..4ec6003 100644
          EntityTrackerEntry entry = (EntityTrackerEntry) trackedEntityIDs.lookup(entity.getEntityId());
          if (entry == null)
 -            return java.util.Collections.emptySet();
-+            return com.google.common.collect.Sets.newHashSet();//null;
++            return (new org.eclipse.collections.impl.set.mutable.UnifiedSet());//com.google.common.collect.Sets.newHashSet();//null;
          else
 -            return java.util.Collections.unmodifiableSet(entry.trackingPlayers);
-+            return entry.trackingPlayers;
++            return (new org.eclipse.collections.impl.set.mutable.UnifiedSet(entry.trackingPlayers));
      }
      
      /* ======================================== FORGE END   =====================================*/
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTrackerEntry.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
-index 8e64ad6..9041960 100644
+index 8e64ad6..74e812c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTrackerEntry.java
 @@ -1,7 +1,7 @@
@@ -10138,7 +10122,7 @@ index 8e64ad6..9041960 100644
      private boolean ridingEntity;
      public boolean playerEntitiesUpdated;
 -    public Set trackingPlayers = new HashSet();
-+    public Set<EntityPlayer> trackingPlayers = new org.eclipse.collections.impl.set.mutable.UnifiedSet<EntityPlayer>(8);//FFoKC HashSet -> ArrayList//revert for test, periodically players disappear?
++    public Set trackingPlayers = new HashSet();//FFoKC HashSet -> ArrayList//revert for test, periodically players disappear?
      private static final String __OBFID = "CL_00001443";
  
      public EntityTrackerEntry(Entity p_i1525_1_, int p_i1525_2_, int p_i1525_3_, boolean p_i1525_4_)
@@ -10180,10 +10164,10 @@ index 8e64ad6..9041960 100644
  
              this.sendMetadataToAllAssociatedPlayers();
          }
-+        else if(trackingPlayers.size() == 0) 
++        /*else if(trackingPlayers.size() == 0) 
 +        { 
 +        // No players - no tracking
-+        }
++        }*/
          else if (this.ticks % this.updateFrequency == 0 || this.myEntity.isAirBorne || this.myEntity.getDataWatcher().hasChanges())
          {
              int i;
@@ -11964,7 +11948,7 @@ index 2026a38..d478e1e 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItem.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItem.java
-index bd62c94..fd3d236 100644
+index bd62c94..ff83a3e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/item/EntityItem.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/item/EntityItem.java
 @@ -22,6 +22,11 @@ import org.apache.logging.log4j.Logger;
@@ -12056,7 +12040,7 @@ index bd62c94..fd3d236 100644
 +        this.lastTick = MinecraftServer.currentTick;
 +        // CraftBukkit end
 +
-+        boolean forceUpdate = this.ticksExisted > 0 && this.ticksExisted % 50 == 0; // Cauldron - optimize item tick updates//FFoKC: EntityItem still frequently updated
++        boolean forceUpdate = this.ticksExisted > 0 && this.ticksExisted % 25 == 0; // Cauldron - optimize item tick updates//FFoKC: EntityItem still frequently updated//rev
 +        this.prevPosX = this.posX;
 +        this.prevPosY = this.posY;
 +        this.prevPosZ = this.posZ;
@@ -12073,7 +12057,7 @@ index bd62c94..fd3d236 100644
 +        boolean flag = (int)this.prevPosX != (int)this.posX || (int)this.prevPosY != (int)this.posY || (int)this.prevPosZ != (int)this.posZ;
  
 -            if (this.delayBeforeCanPickup > 0)
-+        if ((flag && this.ticksExisted % 10 == 0) || forceUpdate) // Cauldron - if forced//FFoKC
++        if ((flag && this.ticksExisted % 5 == 0) || forceUpdate) // Cauldron - if forced//FFoKC//rev
 +        {
 +            if (this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ)).getMaterial() == Material.lava)
              {
@@ -14320,7 +14304,7 @@ index d77be48..4c147fc 100644
  
      public boolean func_142018_a(EntityLivingBase p_142018_1_, EntityLivingBase p_142018_2_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayer.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayer.java
-index c01b6d5..7fef9d9 100644
+index c01b6d5..39c8e1e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayer.java
 @@ -8,7 +8,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -14332,7 +14316,7 @@ index c01b6d5..7fef9d9 100644
  import java.util.Iterator;
  import java.util.List;
  import java.util.UUID;
-@@ -92,17 +92,33 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+@@ -92,6 +92,22 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
  import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
  import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
  
@@ -14355,12 +14339,7 @@ index c01b6d5..7fef9d9 100644
  public abstract class EntityPlayer extends EntityLivingBase implements ICommandSender
  {
      public static final String PERSISTED_NBT_TAG = "PlayerPersisted";
--    private HashMap<Integer, ChunkCoordinates> spawnChunkMap = new HashMap<Integer, ChunkCoordinates>();
--    private HashMap<Integer, Boolean> spawnForcedMap = new HashMap<Integer, Boolean>();
-+    private Map<Integer, ChunkCoordinates> spawnChunkMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap<Integer, ChunkCoordinates>();
-+    private Map<Integer, Boolean> spawnForcedMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap<Integer, Boolean>();
- 
-     public InventoryPlayer inventory = new InventoryPlayer(this);
+@@ -102,7 +118,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
      private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
      public Container inventoryContainer;
      public Container openContainer;
@@ -14864,7 +14843,7 @@ index c01b6d5..7fef9d9 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
-index bd354f1..75996ff 100644
+index bd354f1..5208551 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
 @@ -83,6 +84,7 @@ import net.minecraft.tileentity.TileEntityDropper;
@@ -14905,8 +14884,8 @@ index bd354f1..75996ff 100644
      public double managedPosZ;
 -    public final List loadedChunks = new LinkedList();
 -    private final List destroyedItemsNetCache = new LinkedList();
-+    public final List loadedChunks = new org.eclipse.collections.impl.list.mutable.FastList(50);
-+    public final List destroyedItemsNetCache = new org.eclipse.collections.impl.list.mutable.FastList(96);
++    public final List loadedChunks = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(50);
++    public final List destroyedItemsNetCache = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(96);
      private final StatisticsFile field_147103_bO;
      private float field_130068_bO = Float.MIN_VALUE;
      private float lastHealth = -1.0E8F;
@@ -14973,7 +14952,7 @@ index bd354f1..75996ff 100644
      }
  
      public void readEntityFromNBT(NBTTagCompound p_70037_1_)
-@@ -170,14 +226,57 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+@@ -170,13 +226,56 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
                  this.theItemInWorldManager.setGameType(WorldSettings.GameType.getByID(p_70037_1_.getInteger("playerGameType")));
              }
          }
@@ -14986,8 +14965,8 @@ index bd354f1..75996ff 100644
          super.writeEntityToNBT(p_70014_1_);
          p_70014_1_.setInteger("playerGameType", this.theItemInWorldManager.getGameType().getID());
 +        this.getBukkitEntity().setExtraData(p_70014_1_); // CraftBukkit
-     }
- 
++    }
++
 +    // CraftBukkit start - World fallback code, either respawn location or global spawn
 +
 +    /**
@@ -15025,32 +15004,12 @@ index bd354f1..75996ff 100644
 +
 +        this.dimension = ((WorldServer) this.worldObj).provider.dimensionId;
 +        this.theItemInWorldManager.setWorld((WorldServer) world);
-+    }
+     }
 +    // CraftBukkit end
-+
+ 
      public void addExperienceLevel(int p_82242_1_)
      {
-         super.addExperienceLevel(p_82242_1_);
-@@ -221,10 +320,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
-         {
-             int i = Math.min(this.destroyedItemsNetCache.size(), 127);
-             int[] aint = new int[i];
--            Iterator iterator = this.destroyedItemsNetCache.iterator();
-             int j = 0;
-+            Iterator iterator = this.destroyedItemsNetCache.iterator();
- 
--            while (iterator.hasNext() && j < i)
-+             while (iterator.hasNext() && j < i)
-             {
-                 aint[j++] = ((Integer)iterator.next()).intValue();
-                 iterator.remove();
-@@ -235,12 +334,12 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
- 
-         if (!this.loadedChunks.isEmpty())
-         {
--            ArrayList arraylist = new ArrayList();
-+            ArrayList arraylist = new ArrayList(10);
-             Iterator iterator1 = this.loadedChunks.iterator();
+@@ -240,7 +339,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
              ArrayList arraylist1 = new ArrayList();
              Chunk chunk;
  
@@ -15148,11 +15107,11 @@ index bd354f1..75996ff 100644
 +        {
 +            return;
 +        }
- 
--        if (!this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
++
 +        java.util.List<org.bukkit.inventory.ItemStack> loot = new java.util.ArrayList<org.bukkit.inventory.ItemStack>(64);
 +        boolean keepInventory = this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory");
-+
+ 
+-        if (!this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
 +        if (!keepInventory)
          {
 +            // Cauldron start - rework CraftBukkit logic to support Forge better
@@ -15169,12 +15128,12 @@ index bd354f1..75996ff 100644
 +            }
 +            // Cauldron end
 +        } else { keepInventoryOnClone = true; }
- 
++
 +        IChatComponent chatmessage = this.func_110142_aN().func_151521_b();
 +        String deathmessage = chatmessage.getUnformattedText();
 +        org.bukkit.event.entity.PlayerDeathEvent event = CraftEventFactory.callPlayerDeathEvent(this, loot, deathmessage, keepInventory);
 +        String deathMessage = event.getDeathMessage();
-+
+ 
 +        if (deathMessage != null && deathMessage.length() > 0)
 +        {
 +            if (deathMessage.equals(deathmessage))
@@ -17261,7 +17220,7 @@ index 75e6144..d04ba82 100644
      public AnimalChest(String p_i1797_1_, boolean p_i1797_2_, int p_i1797_3_)
      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/inventory/Container.java ./eclipse/cauldron/src/main/java/net/minecraft/inventory/Container.java
-index dc74325..40fb5b3 100644
+index dc74325..f99c0db 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/inventory/Container.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/inventory/Container.java
 @@ -13,20 +15,76 @@ import net.minecraft.item.Item;
@@ -17294,16 +17253,14 @@ index dc74325..40fb5b3 100644
      private short transactionID;
      private int field_94535_f = -1;
 -    private int field_94536_g;
--    private final Set field_94537_h = new HashSet();
--    protected List crafters = new ArrayList();
--    private Set playerList = new HashSet();
 +    public int field_94536_g; // CraftBukkit - private -> public
-+    private final Set field_94537_h = new org.eclipse.collections.impl.set.mutable.UnifiedSet();
+     private final Set field_94537_h = new HashSet();
+-    protected List crafters = new ArrayList();
 +    public InventoryView bukkitView = null; // Cauldron
 +    private int tickCount = 0; // Spigot
 +    private final int fullMatchRate = SpigotConfig.fullMatchRate; // Spigot
 +    protected List crafters = new ArrayList(64);
-+    private Set playerList = new org.eclipse.collections.impl.set.mutable.UnifiedSet();
+     private Set playerList = new HashSet();
      private static final String __OBFID = "CL_00001730";
  
 +    // CraftBukkit start
@@ -20243,7 +20200,7 @@ index c1ed2f6..bb88739 100644
      {
          return this.recipeOutput;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/nbt/JsonToNBT.java ./eclipse/cauldron/src/main/java/net/minecraft/nbt/JsonToNBT.java
-index 33d2676..56f0ec2 100644
+index 33d2676..7f91807 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/nbt/JsonToNBT.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/nbt/JsonToNBT.java
 @@ -41,7 +41,7 @@ public class JsonToNBT
@@ -20251,7 +20208,7 @@ index 33d2676..56f0ec2 100644
          int i = 0;
          boolean flag = false;
 -        Stack stack = new Stack();
-+        org.eclipse.collections.impl.stack.mutable.ArrayStack stack = new org.eclipse.collections.impl.stack.mutable.ArrayStack();//FFoKC: testing
++        Stack stack = new Stack();//FFoKC: testing
  
          for (int j = 0; j < p_150310_0_.length(); ++j)
          {
@@ -22611,7 +22568,7 @@ index f483992..8fe0afa 100644
  
      public S05PacketSpawnPosition() {}
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/play/server/S21PacketChunkData.java ./eclipse/cauldron/src/main/java/net/minecraft/network/play/server/S21PacketChunkData.java
-index 1513e4e..2ffd736 100644
+index 1513e4e..f394ec2 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/play/server/S21PacketChunkData.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/play/server/S21PacketChunkData.java
 @@ -45,7 +45,7 @@ public class S21PacketChunkData extends Packet
@@ -22619,7 +22576,7 @@ index 1513e4e..2ffd736 100644
      private void deflate()
      {
 -        Deflater deflater = new Deflater(-1);
-+        Deflater deflater = new Deflater(4);
++        Deflater deflater = new Deflater(1);
          try
          {
              deflater.setInput(this.field_149278_f, 0, this.field_149278_f.length);
@@ -22676,7 +22633,7 @@ index 1513e4e..2ffd736 100644
              }
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/play/server/S26PacketMapChunkBulk.java ./eclipse/cauldron/src/main/java/net/minecraft/network/play/server/S26PacketMapChunkBulk.java
-index f156d1e..f9cd2e1 100644
+index f156d1e..f3d5d3a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/play/server/S26PacketMapChunkBulk.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/play/server/S26PacketMapChunkBulk.java
 @@ -24,10 +24,18 @@ public class S26PacketMapChunkBulk extends Packet
@@ -22695,7 +22652,7 @@ index f156d1e..f9cd2e1 100644
 +        protected Deflater initialValue()
 +        {
 +            // Don't use higher compression level, slows things down too much
-+            return new Deflater(4);
++            return new Deflater(1);
 +        }
 +    };
 +    // CraftBukkit end
@@ -23082,7 +23039,7 @@ index f519ca3..9c14518 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/potion/PotionHelper.java ./eclipse/cauldron/src/main/java/net/minecraft/potion/PotionHelper.java
-index 5b106a4..5bfe0f5 100644
+index 5b106a4..a264d91 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/potion/PotionHelper.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/potion/PotionHelper.java
 @@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
@@ -23094,17 +23051,6 @@ index 5b106a4..5bfe0f5 100644
  import java.util.Iterator;
  import java.util.List;
  
-@@ -23,8 +23,8 @@ public class PotionHelper
-     public static final String gunpowderEffect;
-     public static final String goldenCarrotEffect;
-     public static final String field_151423_m;
--    private static final HashMap potionRequirements = new HashMap();
--    private static final HashMap potionAmplifiers = new HashMap();
-+    private static final Map potionRequirements = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
-+    private static final Map potionAmplifiers = new org.eclipse.collections.impl.map.mutable.UnifiedMap();
-     private static final HashMap field_77925_n;
-     private static final String[] potionPrefixes;
-     private static final String __OBFID = "CL_00000078";
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/profiler/Profiler.java ./eclipse/cauldron/src/main/java/net/minecraft/profiler/Profiler.java
 index e764f2c..570fa38 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/profiler/Profiler.java
@@ -24961,7 +24907,7 @@ index 3b9f4d0..c917aa9 100644
                      try
                      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/integrated/IntegratedServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/integrated/IntegratedServer.java
-index 9be9989..0ae76e1 100644
+index 9be9989..a510d8d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/integrated/IntegratedServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/integrated/IntegratedServer.java
 @@ -13,9 +13,11 @@ import net.minecraft.client.multiplayer.ThreadLanServerPing;
@@ -24981,7 +24927,7 @@ index 9be9989..0ae76e1 100644
          this.setDemo(p_i1317_1_.isDemo());
          this.canCreateBonusChest(p_i1317_4_.isBonusChestEnabled());
 -        this.setBuildLimit(256);
-+        this.setBuildLimit(999);//256
++        this.setBuildLimit(256);//256//999
          this.func_152361_a(new IntegratedPlayerList(this));
          this.mc = p_i1317_1_;
          this.theWorldSettings = p_i1317_4_;
@@ -27119,7 +27065,7 @@ index 52dff90..8653a5f 100644
  
              for (int i = 0; i < nbttaglist.tagCount(); ++i)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntity.java ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntity.java
-index 62b757b..aadbcb5 100644
+index 62b757b..a78716b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntity.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntity.java
 @@ -22,18 +22,23 @@ import org.apache.logging.log4j.Level;
@@ -27135,8 +27081,8 @@ index 62b757b..aadbcb5 100644
 -    private static Map nameToClassMap = new HashMap();
 -    private static Map classToNameMap = new HashMap();
 -    protected World worldObj;
-+    private static Map nameToClassMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//FFoKC: testing
-+    public static Map classToNameMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap(); // Cauldron - private -> public
++    private static Map nameToClassMap = new HashMap/*org.eclipse.collections.impl.map.mutable.UnifiedMap*/();//FFoKC: testing
++    public static Map classToNameMap = new HashMap/*org.eclipse.collections.impl.map.mutable.UnifiedMap*/(); // Cauldron - private -> public
 +    public World worldObj; // CraftBukkit - protected -> public
 +    private boolean GC = false;
      public int xCoord;
@@ -29896,7 +29842,7 @@ index d358df5..0ba0c7d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..871d702 100644
+index c365f90..89d7467 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -2,7 +2,8 @@ package net.minecraft.world;
@@ -29998,13 +29944,13 @@ index c365f90..871d702 100644
 -    private List field_147483_b = new ArrayList();
 -    public List playerEntities = new ArrayList();
 -    public List weatherEffects = new ArrayList();
-+    public List loadedEntityList = new org.eclipse.collections.impl.list.mutable.FastList(8);//FFoKC: testing
-+    public List unloadedEntityList = new org.eclipse.collections.impl.list.mutable.FastList(8); // Cauldron
-+    public List loadedTileEntityList = new org.eclipse.collections.impl.list.mutable.FastList(8);
-+    private List addedTileEntityList = new org.eclipse.collections.impl.list.mutable.FastList(8);
-+    public List field_147483_b = new org.eclipse.collections.impl.list.mutable.FastList(8); // Cauldron
-+    public List playerEntities = new org.eclipse.collections.impl.list.mutable.FastList(8);
-+    public List weatherEffects = new org.eclipse.collections.impl.list.mutable.FastList(8);
++    public List loadedEntityList = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8);//FFoKC: testing
++    public List unloadedEntityList = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8); // Cauldron
++    public List loadedTileEntityList = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8);
++    private List addedTileEntityList = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8);
++    public List field_147483_b = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8); // Cauldron
++    public List playerEntities = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8);
++    public List weatherEffects = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8);
      private long cloudColour = 16777215L;
      public int skylightSubtracted;
 -    protected int updateLCG = (new Random()).nextInt();
@@ -30022,7 +29968,7 @@ index c365f90..871d702 100644
 +    public Random rand = new org.bogdang.modifications.random.XSTR();//FFoKC: parse Thermos modification; replace in XSTR
 +    protected int updateLCG = this.rand.nextInt();
 +    public WorldProvider provider; // CraftBukkit - remove final
-+    protected List worldAccesses = new org.eclipse.collections.impl.list.mutable.FastList(8);
++    protected List worldAccesses = new ArrayList/*org.eclipse.collections.impl.list.mutable.FastList*/(8);
 +    public IChunkProvider chunkProvider; // CraftBukkit - public
      protected final ISaveHandler saveHandler;
 -    protected WorldInfo worldInfo;
@@ -30046,7 +29992,7 @@ index c365f90..871d702 100644
 +    public boolean populating;
 +    private int tickPosition;
 +    // CraftBukkit end
-+    public Set activeChunkSet = new org.eclipse.collections.impl.set.mutable.UnifiedSet(); // Cauldron - protected -> public
++    public Set activeChunkSet = new HashSet/*org.eclipse.collections.impl.set.mutable.UnifiedSet*/(/*16, 0.80F*/); // Cauldron - protected -> public
      private int ambientTickCountdown;
 -    protected boolean spawnHostileMobs;
 -    protected boolean spawnPeacefulMobs;
@@ -30950,7 +30896,7 @@ index c365f90..871d702 100644
  
 -        for (i = 0; i < this.weatherEffects.size(); ++i)
 +        weatherEffects_sS=this.weatherEffects.size();
-+        for (i = 0; i < weatherEffects_sS; i++)
++        for (i = 0; i < this.weatherEffects.size()/*weatherEffects_sS*/; i++)
          {
              entity = (Entity)this.weatherEffects.get(i);
  
@@ -31000,13 +30946,13 @@ index c365f90..871d702 100644
  
          this.theProfiler.endStartSection("remove");
 -        this.loadedEntityList.removeAll(this.unloadedEntityList);
-+        if(unloadedEntityList.size() != 0) this.loadedEntityList.removeAll(new org.eclipse.collections.impl.set.mutable.UnifiedSet(unloadedEntityList));
++        /*if(unloadedEntityList.size() != 0) */this.loadedEntityList.removeAll(new HashSet(unloadedEntityList));
          int j;
          int l;
  
 -        for (i = 0; i < this.unloadedEntityList.size(); ++i)
 +        unloadedEntityList_sS=this.unloadedEntityList.size();
-+        for (i = 0; i < unloadedEntityList_sS; ++i)
++        for (i = 0; i < this.unloadedEntityList.size()/*unloadedEntityList_sS*/; ++i)
          {
              entity = (Entity)this.unloadedEntityList.get(i);
              j = entity.chunkCoordX;
@@ -31020,7 +30966,7 @@ index c365f90..871d702 100644
 -        for (i = 0; i < this.loadedEntityList.size(); ++i)
 -        {
 +        loadedEntityList_sS=this.loadedEntityList.size();
-+        for (i = 0; i < loadedEntityList_sS; i++) {
++        for (i = 0; i < this.loadedEntityList.size()/*loadedEntityList_sS*/; i++) {
              entity = (Entity)this.loadedEntityList.get(i);
 -
 +            if (entity == null)
@@ -31112,7 +31058,7 @@ index c365f90..871d702 100644
              
 -        while (iterator.hasNext())
 +        loadedTileEntityList_sS=this.loadedTileEntityList.size();
-+        for (i = 0; i < loadedTileEntityList_sS; i++)
++        for (i = 0; i < this.loadedTileEntityList.size()/*loadedTileEntityList_sS*/; i++)
          {
 -            TileEntity tileentity = (TileEntity)iterator.next();
 +            TileEntity tileentity = (TileEntity) this.loadedTileEntityList.get(i);
@@ -31208,7 +31154,7 @@ index c365f90..871d702 100644
          {
 -            for (int k = 0; k < this.addedTileEntityList.size(); ++k)
 +            addedTileEntityList_sS=this.addedTileEntityList.size();
-+            for (int k = 0; k < addedTileEntityList_sS; ++k)
++            for (int k = 0; k < this.addedTileEntityList.size()/*addedTileEntityList_sS*/; ++k)
              {
                  TileEntity tileentity1 = (TileEntity)this.addedTileEntityList.get(k);
  
@@ -31710,7 +31656,7 @@ index fb62dd3..fc43d34 100644
  
      public int getActualHeight()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
-index 055597f..fedc909 100644
+index 055597f..e05bd8d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/WorldServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldServer.java
 @@ -11,6 +13,7 @@ import java.util.List;
@@ -31771,9 +31717,8 @@ index 055597f..fedc909 100644
      private static final String __OBFID = "CL_00001437";
  
      /** Stores the recently processed (lighting) chunks */
--    protected Set<ChunkCoordIntPair> doneChunks = new HashSet<ChunkCoordIntPair>();
+     protected Set<ChunkCoordIntPair> doneChunks = new HashSet<ChunkCoordIntPair>();
 -    public List<Teleporter> customTeleporters = new ArrayList<Teleporter>();
-+    protected Set<ChunkCoordIntPair> doneChunks = new org.eclipse.collections.impl.set.mutable.UnifiedSet<ChunkCoordIntPair>();
 +    public List<Teleporter> customTeleporters = new ArrayList<Teleporter>(10);
 +
 +    // CraftBukkit start
@@ -32205,13 +32150,13 @@ index 055597f..fedc909 100644
 +                Chunk chunk = getChunkFromChunkCoords(chunkX, chunkZ);
 +
 +                if (chunk == null)
-+                {
+                 {
+-                    for(Object obj : chunk.chunkTileEntityMap.values())
 +                    continue;
 +                }
 +
 +                for (Object te : chunk.chunkTileEntityMap.values())
-                 {
--                    for(Object obj : chunk.chunkTileEntityMap.values())
++                {
 +                    TileEntity tileentity = (TileEntity) te;
 +
 +                    if ((tileentity.xCoord >= p_147486_1_) && (tileentity.yCoord >= p_147486_2_) && (tileentity.zCoord >= p_147486_3_)
@@ -32236,15 +32181,6 @@ index 055597f..fedc909 100644
          return arraylist;
      }
  
-@@ -704,7 +927,7 @@ public class WorldServer extends World
- 
-         if (this.pendingTickListEntriesHashSet == null)
-         {
--            this.pendingTickListEntriesHashSet = new HashSet();
-+            this.pendingTickListEntriesHashSet = new org.eclipse.collections.impl.set.mutable.UnifiedSet();
-         }
- 
-         if (this.pendingTickListEntriesTreeSet == null)
 @@ -728,12 +951,33 @@ public class WorldServer extends World
              this.findingSpawnPoint = true;
              WorldChunkManager worldchunkmanager = this.provider.worldChunkMgr;
@@ -32500,7 +32436,7 @@ index 8b18f86..dcbec3d 100644
  
      public String getWorldTypeName()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeCache.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeCache.java
-index 80b2854..89c92ab 100644
+index 80b2854..33cf03c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeCache.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeCache.java
 @@ -10,7 +10,7 @@ public class BiomeCache
@@ -32508,7 +32444,7 @@ index 80b2854..89c92ab 100644
      private long lastCleanupTime;
      private LongHashMap cacheMap = new LongHashMap();
 -    private List cache = new ArrayList();
-+    private List cache = new org.eclipse.collections.impl.list.mutable.FastList(128);
++    private List cache = new org.eclipse.collections.impl.list.mutable.FastList(64);
      private static final String __OBFID = "CL_00000162";
  
      public BiomeCache(WorldChunkManager p_i1973_1_)
@@ -32517,7 +32453,7 @@ index 80b2854..89c92ab 100644
          long j = i - this.lastCleanupTime;
  
 -        if (j > 7500L || j < 0L)
-+        if (j > 10500L || j < 0L)//FFoKC, old: j > 7500L || j < 0L
++        if (j > 7500L || j < 0L)//FFoKC, old: j > 7500L || j < 0L
          {
              this.lastCleanupTime = i;
  
@@ -32526,7 +32462,7 @@ index 80b2854..89c92ab 100644
                  long l = i - block.lastAccessTime;
  
 -                if (l > 30000L || l < 0L)
-+                if (l > 25000L || l < 0L)//FFoKC, old: l > 30000L || l < 0L
++                if (l > 30000L || l < 0L)//FFoKC, old: l > 30000L || l < 0L
                  {
                      this.cache.remove(k--);
                      long i1 = (long)block.xPosition & 4294967295L | ((long)block.zPosition & 4294967295L) << 32;
@@ -32817,7 +32753,7 @@ index 078b73e..f85560a 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
-index 65b90b0..83b115d 100644
+index 65b90b0..1168d28 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
 @@ -9,7 +9,7 @@ import java.util.Iterator;
@@ -32862,7 +32798,7 @@ index 65b90b0..83b115d 100644
          this.updateSkylightColumns = new boolean[256];
 -        this.chunkTileEntityMap = new HashMap();
 -        this.queuedLightChecks = 4096;
-+        this.chunkTileEntityMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap/*ConcurrentHashMap*/();//FFoKC
++        this.chunkTileEntityMap = new HashMap/*org.eclipse.collections.impl.map.mutable.UnifiedMapConcurrentHashMap*/();//FFoKC
 +        this.queuedLightChecks = 15984;//FFoKC: goto 999 height light
          this.entityLists = new List[16];
          this.worldObj = p_i1995_1_;
@@ -33464,7 +33400,7 @@ index 1eb8072..001e3c7 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
-index 37d5ddc..16f6bf3 100644
+index 37d5ddc..3d41292 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
 @@ -33,14 +33,22 @@ import org.apache.logging.log4j.LogManager;
@@ -33483,12 +33419,11 @@ index 37d5ddc..16f6bf3 100644
  {
      private static final Logger logger = LogManager.getLogger();
 -    private List chunksToRemove = new ArrayList();
--    private Set pendingAnvilChunksCoordinates = new HashSet();
-+    private List chunksToRemove = new org.eclipse.collections.impl.list.mutable.FastList(100);//FFoKC: testing
-+    private Set pendingAnvilChunksCoordinates = new org.eclipse.collections.impl.set.mutable.UnifiedSet();
++    private List chunksToRemove = new ArrayList(32);//FFoKC: testing
+     private Set pendingAnvilChunksCoordinates = new HashSet();
      private Object syncLockObject = new Object();
      public final File chunkSaveLocation;
-+    private List checkedTileEntities = new org.eclipse.collections.impl.list.mutable.FastList(100); // Cauldron
++    private List checkedTileEntities = new ArrayList(32); // Cauldron
      private static final String __OBFID = "CL_00000384";
  
      public AnvilChunkLoader(File p_i2003_1_)
@@ -33695,32 +33630,6 @@ index 37d5ddc..16f6bf3 100644
  
          // return chunk;
      }
-diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveConverter.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveConverter.java
-index 384ea08..380f694 100644
---- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveConverter.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveConverter.java
-@@ -49,7 +49,7 @@ public class AnvilSaveConverter extends SaveFormatOld
-     {
-         if (this.savesDirectory != null && this.savesDirectory.exists() && this.savesDirectory.isDirectory())
-         {
--            ArrayList arraylist = new ArrayList();
-+            /*Array*/List arraylist = new org.eclipse.collections.impl.list.mutable.FastList();
-             File[] afile = this.savesDirectory.listFiles();
-             File[] afile1 = afile;
-             int i = afile.length;
-@@ -118,9 +118,9 @@ public class AnvilSaveConverter extends SaveFormatOld
-     public boolean convertMapFormat(String p_75805_1_, IProgressUpdate p_75805_2_)
-     {
-         p_75805_2_.setLoadingProgress(0);
--        ArrayList arraylist = new ArrayList();
--        ArrayList arraylist1 = new ArrayList();
--        ArrayList arraylist2 = new ArrayList();
-+        /*Array*/List arraylist = new org.eclipse.collections.impl.list.mutable.FastList();
-+        /*Array*/List arraylist1 = new org.eclipse.collections.impl.list.mutable.FastList();
-+        /*Array*/List arraylist2 = new org.eclipse.collections.impl.list.mutable.FastList();
-         File file1 = new File(this.savesDirectory, p_75805_1_);
-         File file2 = new File(file1, "DIM-1");
-         File file3 = new File(file1, "DIM1");
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveHandler.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveHandler.java
 index e9f0c31..a1d17d3 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilSaveHandler.java
@@ -34000,7 +33909,7 @@ index 43cb3a9..820296d 100644
      @SideOnly(Side.CLIENT)
      public NibbleArray createBlockMSBArray()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
-index a54d157..7ac6633 100644
+index a54d157..4154600 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
 @@ -5,9 +5,12 @@ import java.io.ByteArrayInputStream;
@@ -34016,15 +33925,6 @@ index a54d157..7ac6633 100644
  import java.util.ArrayList;
  import java.util.zip.DeflaterOutputStream;
  import java.util.zip.GZIPInputStream;
-@@ -21,7 +24,7 @@ public class RegionFile
-     private RandomAccessFile dataFile;
-     private final int[] offsets = new int[1024];
-     private final int[] chunkTimestamps = new int[1024];
--    private ArrayList sectorFree;
-+    private /*Array*/java.util.List sectorFree;
-     private int sizeDelta;
-     private long lastModified;
-     private static final String __OBFID = "CL_00000381";
 @@ -43,15 +46,8 @@ public class RegionFile
  
              if (this.dataFile.length() < 4096L)
@@ -34043,13 +33943,7 @@ index a54d157..7ac6633 100644
  
                  this.sizeDelta += 8192;
              }
-@@ -65,36 +61,42 @@ public class RegionFile
-             }
- 
-             i = (int)this.dataFile.length() / 4096;
--            this.sectorFree = new ArrayList(i);
-+            this.sectorFree = new org.eclipse.collections.impl.list.mutable.FastList(i);
-             int j;
+@@ -70,31 +66,37 @@ public class RegionFile
  
              for (j = 0; j < i; ++j)
              {
@@ -39599,27 +39493,9 @@ index 2578921..eeaead4 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/org/bukkit/conversations/Conversation.java ./eclipse/cauldron/src/main/java/org/bukkit/conversations/Conversation.java
-index 92f4d53..dfdcebd 100644
+index 92f4d53..0eca093 100644
 --- ./eclipse/Clean/src/main/java/org/bukkit/conversations/Conversation.java
 +++ ./eclipse/cauldron/src/main/java/org/bukkit/conversations/Conversation.java
-@@ -179,7 +179,7 @@ public class Conversation {
-      * Displays the first prompt of this conversation and begins redirecting
-      * the user's chat responses.
-      */
--    public void begin() {
-+    public synchronized void begin() {
-         if (currentPrompt == null) {
-             abandoned = false;
-             currentPrompt = firstPrompt;
-@@ -192,7 +192,7 @@ public class Conversation {
-      *
-      * @return The current state of the conversation.
-      */
--    public ConversationState getState() {
-+    public synchronized ConversationState getState() {
-         if (currentPrompt != null) {
-             return ConversationState.STARTED;
-         } else if (abandoned) {
 @@ -209,6 +209,7 @@ public class Conversation {
       * @param input The user's chat text.
       */

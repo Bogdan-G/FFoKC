@@ -48,7 +48,7 @@ public class SpigotConfig
         config.options().header( HEADER );
         config.options().copyDefaults( true );
 
-        commands = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, Command>();
+        commands = new java.util.concurrent.ConcurrentHashMap<String, Command>();
 
         version = getInt( "config-version", 5 );
         set( "config-version", 5 );

@@ -4973,7 +4973,7 @@ index da58173..e16e288 100644
      public int getExpDrop(IBlockAccess p_149690_1_, int p_149690_5_, int p_149690_7_)
      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneTorch.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
-index 08eb480..ec6e929 100644
+index 08eb480..0253cb1 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneTorch.java
 @@ -13,11 +13,15 @@ import net.minecraft.item.Item;
@@ -4986,7 +4986,7 @@ index 08eb480..ec6e929 100644
  {
      private boolean field_150113_a;
 -    private static Map field_150112_b = new HashMap();
-+    private static Map field_150112_b = new java.util.WeakHashMap(); // Spigot
++    private static Map field_150112_b = new java.util.WeakHashMap(); // Spigot // - fix vanilla MC-101233
      private static final String __OBFID = "CL_00000298";
 +    int list_sS;
 +    int arraylist_sS;
@@ -32553,7 +32553,7 @@ index 078b73e..26c1e3f 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
-index 65b90b0..31dbaf7 100644
+index 65b90b0..316fbf8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
 @@ -9,7 +9,7 @@ import java.util.Iterator;
@@ -32583,10 +32583,12 @@ index 65b90b0..31dbaf7 100644
  public class Chunk
  {
      private static final Logger logger = LogManager.getLogger();
-@@ -62,6 +73,8 @@ public class Chunk
+@@ -61,7 +72,9 @@ public class Chunk
+     public boolean sendUpdates;
      public int heightMapMinimum;
      public long inhabitedTime;
-     private int queuedLightChecks;
+-    private int queuedLightChecks;
++    private int queuedLightChecks;public final long chunkKey; // Forge
 +    public gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot (Cauldron protected -> public)
 +    public int lastAccessedTick; // Cauldron track last time the chunk was accessed
      private static final String __OBFID = "CL_00000373";
@@ -32601,8 +32603,9 @@ index 65b90b0..31dbaf7 100644
          this.entityLists = new List[16];
          this.worldObj = p_i1995_1_;
          this.xPosition = p_i1995_2_;
-         this.zPosition = p_i1995_3_;
+-        this.zPosition = p_i1995_3_;
 -        this.heightMap = new int[256];
++        this.zPosition = p_i1995_3_;this.chunkKey = org.bukkit.craftbukkit.util.LongHash.toLong(p_i1995_2_, p_i1995_3_); // Forge
 +        this.heightMap = new int[999];
  
          for (int k = 0; k < this.entityLists.length; ++k)
@@ -33953,7 +33956,7 @@ index b247e1b..ad080ad 100644
                  Block block = Blocks.netherrack;
                  Block block1 = Blocks.netherrack;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java
-index 66d147a..d124ad8 100644
+index 66d147a..047a031 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java
 @@ -32,23 +32,42 @@ import net.minecraftforge.common.chunkio.ChunkIOExecutor;
@@ -33991,11 +33994,11 @@ index 66d147a..d124ad8 100644
 -    public List loadedChunks = new ArrayList();
 +    public boolean loadChunkOnProvideRequest = MinecraftServer.getServer().cauldronConfig.loadChunkOnRequest.getValue(); // Cauldron - if true, allows mods to force load chunks. to disable, set load-chunk-on-request in cauldron.yml to false
 +    public int initialTick; // Cauldron counter to keep track of when this loader was created
-+    public cern.colt.map.OpenLongObjectHashMap loadedChunkHashMap_KC = new cern.colt.map.OpenLongObjectHashMap();//FFoKC: testing
++    public cern.colt.map.OpenLongObjectHashMap loadedChunkHashMap_KC = new cern.colt.map.OpenLongObjectHashMap(){private static final long serialVersionUID = 1L;public Chunk lastChunkByPos = null;public Chunk get(long key){if (lastChunkByPos != null && key == lastChunkByPos.chunkKey) {return lastChunkByPos;}return lastChunkByPos = (Chunk)super.get(key);}public boolean removeKey(long key){if (lastChunkByPos != null && key == lastChunkByPos.chunkKey) {lastChunkByPos = null;}return super.removeKey(key);}};//FFoKC
 +    public List loadedChunks = new ArrayList(100); // Cauldron - vanilla compatibility
      public WorldServer worldObj;
 -    private Set<Long> loadingChunks = com.google.common.collect.Sets.newHashSet();
-+    private Set<Long> loadingChunks = new HashSet<Long>();
++    private Set<Long> loadingChunks = new org.eclipse.collections.impl.set.mutable.UnifiedSet<Long>();//FFoKC
 +    public LongObjectHashMap loadedChunkHashMap =  new LongObjectHashMap(); // KCauldron - vanilla/mystcraft compatibility
      private static final String __OBFID = "CL_00001436";
 +     private boolean mUnloading;
@@ -35550,7 +35553,7 @@ index 5951732..40d8c2d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
-index 08bd913..2e01a60 100644
+index 08bd913..d1016bb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
 @@ -39,7 +39,7 @@ public class ClientCommandHandler extends CommandHandler
@@ -35562,7 +35565,14 @@ index 08bd913..2e01a60 100644
          {
              message = message.substring(1);
          }
-@@ -119,14 +119,16 @@ public class ClientCommandHandler extends CommandHandler
+@@ -113,20 +113,22 @@ public class ClientCommandHandler extends CommandHandler
+             Minecraft mc = FMLClientHandler.instance().getClient();
+             if (mc.currentScreen instanceof GuiChat)
+             {
+-                @SuppressWarnings("unchecked")
++                //@//SuppressWarnings("unchecked")
+                 List<String> commands = getPossibleCommands(mc.thePlayer, leftOfCursor);
+                 if (commands != null && !commands.isEmpty())
                  {
                      if (leftOfCursor.indexOf(' ') == -1)
                      {
@@ -35719,7 +35729,7 @@ index dc5b48d..c0252d6 100644
                      GroupObject group = parseGroupObject(currentLine, lineCount);
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/model/techne/TechneModel.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/model/techne/TechneModel.java
-index 211f14a..5a75e47 100644
+index 211f14a..e66a0fe 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/model/techne/TechneModel.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/model/techne/TechneModel.java
 @@ -4,11 +4,8 @@ import java.awt.Dimension;
@@ -35836,7 +35846,7 @@ index 211f14a..5a75e47 100644
 +                    if (parts.containsKey(shapeName))
                      {
 -                        cube.setTextureSize((int)textureDims.getWidth(), (int)textureDims.getHeight());
-+                        throw new ModelFormatException("Model contained duplicate part name: '" + shapeName + "' node #" + i);
++                        FMLLog.warning("Model contained duplicate part name: '" + shapeName + "' node #" + i);//throw new ModelFormatException("Model contained duplicate part name: '" + shapeName + "' node #" + i);
                      }
  
                      parts.put(shapeName, cube);
@@ -36866,20 +36876,152 @@ index d796c77..68dba7b 100644
          return result.toString();
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/ConfigCategory.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/ConfigCategory.java
-index 15913d5..53362e8 100644
+index 15913d5..4eed4ec 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/ConfigCategory.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/ConfigCategory.java
-@@ -31,8 +31,8 @@ public class ConfigCategory implements Map<String, Property>
-     private String name;
-     private String comment;
-     private String languagekey;
+@@ -23,16 +23,17 @@ import com.google.common.base.Splitter;
+ import com.google.common.collect.ImmutableList;
+ import com.google.common.collect.ImmutableMap;
+ import com.google.common.collect.ImmutableSet;
++import org.io.Gzip;
+ 
+ import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
+ 
+ public class ConfigCategory implements Map<String, Property>
+ {
+-    private String name;
+-    private String comment;
+-    private String languagekey;
 -    private ArrayList<ConfigCategory> children = new ArrayList<ConfigCategory>();
 -    private Map<String, Property> properties = new TreeMap<String, Property>();
++    private byte[] name;
++    private byte[] comment;
++    private byte[] languagekey;
 +    private /*Array*/List<ConfigCategory> children = new org.eclipse.collections.impl.list.mutable.FastList<ConfigCategory>();
 +    private Map<String, Property> properties = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, Property>();//TreeSortedMap
      private int propNumber = 0;
      public final ConfigCategory parent;
      private boolean changed = false;
+@@ -49,7 +50,7 @@ public class ConfigCategory implements Map<String, Property>
+ 
+     public ConfigCategory(String name, ConfigCategory parent)
+     {
+-        this.name = name;
++        this.name = Gzip.compress(name);
+         this.parent = parent;
+         if (parent != null)
+         {
+@@ -63,7 +64,7 @@ public class ConfigCategory implements Map<String, Property>
+         if (obj instanceof ConfigCategory)
+         {
+             ConfigCategory cat = (ConfigCategory)obj;
+-            return name.equals(cat.name) && children.equals(cat.children);
++            return (Gzip.decompress(name)).equals(Gzip.decompress(cat.name)) && children.equals(cat.children);
+         }
+ 
+         return false;
+@@ -71,12 +72,12 @@ public class ConfigCategory implements Map<String, Property>
+ 
+     public String getName()
+     {
+-        return name;
++        return Gzip.decompress(name);
+     }
+ 
+     public String getQualifiedName()
+     {
+-        return getQualifiedName(name, parent);
++        return getQualifiedName(Gzip.decompress(name), parent);
+     }
+ 
+     public static String getQualifiedName(String name, ConfigCategory parent)
+@@ -127,26 +128,26 @@ public class ConfigCategory implements Map<String, Property>
+ 
+     public ConfigCategory setLanguageKey(String languagekey)
+     {
+-        this.languagekey = languagekey;
++        this.languagekey = Gzip.compress(languagekey);
+         return this;
+     }
+ 
+     public String getLanguagekey()
+     {
+         if (this.languagekey != null)
+-            return this.languagekey;
++            return Gzip.decompress(this.languagekey);
+         else
+             return getQualifiedName();
+     }
+ 
+     public void setComment(String comment)
+     {
+-        this.comment = comment;
++        this.comment = Gzip.compress(comment);
+     }
+ 
+     public String getComment()
+     {
+-        return this.comment;
++        return Gzip.decompress(this.comment);
+     }
+ 
+     /**
+@@ -255,15 +256,17 @@ public class ConfigCategory implements Map<String, Property>
+         String pad0 = getIndent(indent);
+         String pad1 = getIndent(indent + 1);
+         String pad2 = getIndent(indent + 2);
++        String temp = Gzip.decompress(name);
++        String temp2 = Gzip.decompress(comment);
+ 
+-        if (comment != null && !comment.isEmpty())
++        if (temp2 != null && !temp2.isEmpty())
+         {
+             write(out, pad0, COMMENT_SEPARATOR);
+-            write(out, pad0, "# ", name);
++            write(out, pad0, "# ", temp);
+             write(out, pad0, "#--------------------------------------------------------------------------------------------------------#");
+             Splitter splitter = Splitter.onPattern("\r?\n");
+ 
+-            for (String line : splitter.split(comment))
++            for (String line : splitter.split(temp2))
+             {
+                 write(out, pad0, "# ", line);
+             }
+@@ -271,11 +274,11 @@ public class ConfigCategory implements Map<String, Property>
+             write(out, pad0, COMMENT_SEPARATOR, NEW_LINE);
+         }
+ 
+-        String displayName = name;
++        String displayName = temp;
+ 
+-        if (!allowedProperties.matchesAllOf(name))
++        if (!allowedProperties.matchesAllOf(temp))
+         {
+-            displayName = '"' + name + '"';
++            displayName = '"' + temp + '"';
+         }
+ 
+         write(out, pad0, displayName, " {");
+@@ -285,8 +288,9 @@ public class ConfigCategory implements Map<String, Property>
+         for (int x = 0; x < props.length; x++)
+         {
+             Property prop = props[x];
++            String temp2temp = prop.comment;
+ 
+-            if (prop.comment != null && !prop.comment.isEmpty())
++            if (temp2temp != null && !temp2temp.isEmpty())
+             {
+                 if (x != 0)
+                 {
+@@ -294,7 +298,7 @@ public class ConfigCategory implements Map<String, Property>
+                 }
+ 
+                 Splitter splitter = Splitter.onPattern("\r?\n");
+-                for (String commentLine : splitter.split(prop.comment))
++                for (String commentLine : splitter.split(temp2temp))
+                 {
+                     write(out, pad1, "# ", commentLine);
+                 }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/ConfigElement.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/ConfigElement.java
 index 7dd641c..6b9f728 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/ConfigElement.java
@@ -36991,7 +37133,7 @@ index 7dd641c..6b9f728 100644
              }
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
-index 849986d..06929bd 100644
+index 849986d..f5ec081 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
 @@ -15,6 +15,8 @@ import java.io.BufferedWriter;
@@ -37032,50 +37174,369 @@ index 849986d..06929bd 100644
                          continue;
                      }
                      else if (end.matches())
-@@ -860,9 +862,9 @@ public class Configuration
+@@ -860,7 +862,7 @@ public class Configuration
                      int nameStart = -1, nameEnd = -1;
                      boolean skip = false;
                      boolean quoted = false;
 -                    boolean isFirstNonWhitespaceCharOnLine = true;
-+                    boolean isFirstNonWhitespaceCharOnLine = true;int line_sS=line.length();
++                    boolean isFirstNonWhitespaceCharOnLine = true;//int line_sS=line.length();
  
--                    for (int i = 0; i < line.length() && !skip; ++i)
-+                    for (int i = 0; i < line_sS && !skip; ++i)
+                     for (int i = 0; i < line.length() && !skip; ++i)
                      {
-                         if (Character.isLetterOrDigit(line.charAt(i)) || ALLOWED_CHARS.indexOf(line.charAt(i)) != -1 || (quoted && line.charAt(i) != '"'))
-                         {
 @@ -942,7 +944,7 @@ public class Configuration
                                      }
  
                                      Property prop = new Property(name, line.substring(i + 1), type, true);
 -                                    i = line.length();
-+                                    i = line.length();line_sS=line.length();
++                                    i = line.length();//line_sS=line.length();
  
                                      currentCat.put(name, prop);
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Property.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Property.java
-index 8616986..e2d27bb 100644
+index 8616986..fedbaec 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Property.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Property.java
-@@ -7,7 +7,7 @@ package net.minecraftforge.common.config;
- 
+@@ -8,9 +8,11 @@ package net.minecraftforge.common.config;
  import java.util.ArrayList;
  import java.util.Arrays;
--import java.util.regex.Pattern;
-+import java.util.regex.Pattern;import java.util.Locale;
+ import java.util.regex.Pattern;
++import java.util.Locale;
  
  import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
  import cpw.mods.fml.client.config.GuiEditArrayEntries.IArrayEntry;
-@@ -761,7 +761,7 @@ public class Property
++import org.io.Gzip;
+ 
+ public class Property
+ {
+@@ -42,16 +44,16 @@ public class Property
+         }
+     }
+ 
+-    private String name;
+-    private String value;
+-    private String defaultValue;
++    private byte[] name;
++    private byte[] value;
++    private byte[] defaultValue;
+     public String comment;
+     private String[] values;
+     private String[] defaultValues;
+     private String[] validValues;
+-    private String langKey;
+-    private String minValue;
+-    private String maxValue;
++    private byte[] langKey;
++    private byte[] minValue;
++    private byte[] maxValue;
+ 
+     private Class<? extends IConfigEntry> configEntryClass = null;
+     private Class<? extends IArrayEntry> arrayEntryClass = null;
+@@ -100,19 +102,19 @@ public class Property
+     Property(String name, String value, Type type, boolean read, String[] validValues, String langKey)
+     {
+         setName(name);
+-        this.value = value;
++        this.value = Gzip.compress(value);
+         this.values = new String[0];
+         this.type  = type;
+         wasRead    = read;
+         isList     = false;
+-        this.defaultValue = value;
++        this.defaultValue = Gzip.compress(value);
+         this.defaultValues = new String[0];
+         this.validValues = validValues;
+         this.isListLengthFixed = false;
+         this.maxListLength = -1;
+-        this.minValue = String.valueOf(Integer.MIN_VALUE);
+-        this.maxValue = String.valueOf(Integer.MAX_VALUE);
+-        this.langKey = langKey;
++        this.minValue = Gzip.compress(String.valueOf(Integer.MIN_VALUE));
++        this.maxValue = Gzip.compress(String.valueOf(Integer.MAX_VALUE));
++        this.langKey = Gzip.compress(langKey);
+         this.comment = "";
+     }
+ 
+@@ -143,18 +145,25 @@ public class Property
+         this.values = Arrays.copyOf(values, values.length);
+         wasRead     = read;
+         isList      = true;
+-        this.value = "";
+-        this.defaultValue = "";
+-        for (String s : values)
+-            this.defaultValue += ", [" + s + "]";
+-        this.defaultValue = this.defaultValue.replaceFirst(", ", "");
++        this.value = Gzip.compress("");
++        String temp = "";
++        StringBuilder tempSB = new StringBuilder(temp);
++        //this.defaultValue = "";
++        for (String s : values) {
++            //this.defaultValue += ", [" + s + "]";
++            tempSB.append(", [").append(s).append("]");
++         }
++        temp = String.valueOf(tempSB);
++        //this.defaultValue = this.defaultValue.replaceFirst(", ", "");
++        temp = temp.replaceFirst(", ", "");
++        this.defaultValue = Gzip.compress(temp);
+         this.defaultValues = Arrays.copyOf(values, values.length);
+         this.validValues = validValues;
+         this.isListLengthFixed = false;
+         this.maxListLength = -1;
+-        this.minValue = String.valueOf(Integer.MIN_VALUE);
+-        this.maxValue = String.valueOf(Integer.MAX_VALUE);
+-        this.langKey = langKey;
++        this.minValue = Gzip.compress(String.valueOf(Integer.MIN_VALUE));
++        this.maxValue = Gzip.compress(String.valueOf(Integer.MAX_VALUE));
++        this.langKey = Gzip.compress(langKey);
+         this.comment = "";
+     }
+ 
+@@ -222,15 +231,15 @@ public class Property
+         }
+ 
+         if (this.type == Type.BOOLEAN && this.isBooleanValue())
+-            return Boolean.parseBoolean(value) == Boolean.parseBoolean(defaultValue);
++            return Boolean.parseBoolean(Gzip.decompress(value)) == Boolean.parseBoolean(Gzip.decompress(defaultValue));
+ 
+         if (this.type == Type.INTEGER && this.isIntValue())
+-            return Integer.parseInt(value) == Integer.parseInt(defaultValue);
++            return Integer.parseInt(Gzip.decompress(value)) == Integer.parseInt(Gzip.decompress(defaultValue));
+ 
+         if (this.type == Type.DOUBLE && this.isDoubleValue())
+-            return Double.parseDouble(value) == Double.parseDouble(defaultValue);
++            return Double.parseDouble(Gzip.decompress(value)) == Double.parseDouble(Gzip.decompress(defaultValue));
+ 
+-        return value.equals(defaultValue);
++        return value.equals(Gzip.decompress(defaultValue));
+     }
+ 
+     /**
+@@ -238,7 +247,7 @@ public class Property
+      */
+     public Property setToDefault()
+     {
+-        this.value = this.defaultValue;
++        this.value = this.defaultValue;//Gzip.decompress(this.defaultValue);
+         this.values = Arrays.copyOf(this.defaultValues, this.defaultValues.length);
+         return this;
+     }
+@@ -250,7 +259,7 @@ public class Property
+      */
+     public String getDefault()
+     {
+-        return defaultValue;
++        return Gzip.decompress(defaultValue);
+     }
+ 
+     /**
+@@ -448,7 +457,7 @@ public class Property
+      */
+     public Property setLanguageKey(String langKey)
+     {
+-        this.langKey = langKey;
++        this.langKey = Gzip.compress(langKey);
+         return this;
+     }
+ 
+@@ -459,7 +468,7 @@ public class Property
+      */
+     public String getLanguageKey()
+     {
+-        return this.langKey;
++        return Gzip.decompress(this.langKey);
+     }
+ 
+     /**
+@@ -469,7 +478,7 @@ public class Property
+      */
+     public Property setDefaultValue(String defaultValue)
+     {
+-        this.defaultValue = defaultValue;
++        this.defaultValue = Gzip.compress(defaultValue);
+         return this;
+     }
+ 
+@@ -480,10 +489,17 @@ public class Property
+      */
+     public Property setDefaultValues(String[] defaultValues)
+     {
+-        this.defaultValue = "";
+-        for (String s : defaultValues)
+-            this.defaultValue += ", [" + s + "]";
+-        this.defaultValue = this.defaultValue.replaceFirst(", ", "");
++        //this.defaultValue = "";
++        String temp = "";
++        StringBuilder tempSB = new StringBuilder(temp);
++        for (String s : defaultValues) {
++            //this.defaultValue += ", [" + s + "]";
++            tempSB.append(", [").append(s).append("]");
++        }
++        temp = String.valueOf(tempSB);
++        temp = temp.replaceFirst(", ", "");
++        //this.defaultValue = this.defaultValue.replaceFirst(", ", "");
++        this.defaultValue = Gzip.compress(temp);
+         this.defaultValues = Arrays.copyOf(defaultValues, defaultValues.length);
+         return this;
+     }
+@@ -573,7 +589,7 @@ public class Property
+      */
+     public Property setMinValue(int minValue)
+     {
+-        this.minValue = Integer.toString(minValue);
++        this.minValue = Gzip.compress(Integer.toString(minValue));
+         return this;
+     }
+ 
+@@ -584,7 +600,7 @@ public class Property
+      */
+     public Property setMaxValue(int maxValue)
+     {
+-        this.maxValue = Integer.toString(maxValue);
++        this.maxValue = Gzip.compress(Integer.toString(maxValue));
+         return this;
+     }
+ 
+@@ -595,7 +611,7 @@ public class Property
+      */
+     public Property setMinValue(double minValue)
+     {
+-        this.minValue = Double.toString(minValue);
++        this.minValue = Gzip.compress(Double.toString(minValue));
+         return this;
+     }
+ 
+@@ -606,7 +622,7 @@ public class Property
+      */
+     public Property setMaxValue(double maxValue)
+     {
+-        this.maxValue = Double.toString(maxValue);
++        this.maxValue = Gzip.compress(Double.toString(maxValue));
+         return this;
+     }
+ 
+@@ -617,7 +633,7 @@ public class Property
+      */
+     public String getMinValue()
+     {
+-        return minValue;
++        return Gzip.decompress(minValue);
+     }
+ 
+     /**
+@@ -627,7 +643,7 @@ public class Property
+      */
+     public String getMaxValue()
+     {
+-        return maxValue;
++        return Gzip.decompress(maxValue);
+     }
+ 
+     /**
+@@ -637,7 +653,7 @@ public class Property
+      */
+     public String getString()
+     {
+-        return value;
++        return Gzip.decompress(value);
+     }
+ 
+     /**
+@@ -672,11 +688,11 @@ public class Property
+     {
+         try
+         {
+-            return Integer.parseInt(value);
++            return Integer.parseInt(Gzip.decompress(value));
+         }
+         catch (NumberFormatException e)
+         {
+-            return Integer.parseInt(defaultValue);
++            return Integer.parseInt(Gzip.decompress(defaultValue));
+         }
+     }
+ 
+@@ -692,7 +708,7 @@ public class Property
+     {
+         try
+         {
+-            return Integer.parseInt(value);
++            return Integer.parseInt(Gzip.decompress(value));
+         }
+         catch (NumberFormatException e)
+         {
+@@ -708,7 +724,7 @@ public class Property
+     {
+         try
+         {
+-            Integer.parseInt(value);
++            Integer.parseInt(Gzip.decompress(value));
+             return true;
+         }
+         catch (NumberFormatException e)
+@@ -729,7 +745,7 @@ public class Property
+     {
+         if (isBooleanValue())
+         {
+-            return Boolean.parseBoolean(value);
++            return Boolean.parseBoolean(Gzip.decompress(value));
+         }
+         else
+         {
+@@ -746,11 +762,11 @@ public class Property
+     {
+         if (isBooleanValue())
+         {
+-            return Boolean.parseBoolean(value);
++            return Boolean.parseBoolean(Gzip.decompress(value));
+         }
+         else
+         {
+-            return Boolean.parseBoolean(defaultValue);
++            return Boolean.parseBoolean(Gzip.decompress(defaultValue));
+         }
+     }
+ 
+@@ -761,7 +777,7 @@ public class Property
       */
      public boolean isBooleanValue()
      {
 -        return ("true".equals(value.toLowerCase()) || "false".equals(value.toLowerCase()));
-+        return ("true".equals(value.toLowerCase(Locale.ENGLISH)) || "false".equals(value.toLowerCase(Locale.ENGLISH)));
++        return ("true".equals((Gzip.decompress(value)).toLowerCase(Locale.ENGLISH)) || "false".equals((Gzip.decompress(value)).toLowerCase(Locale.ENGLISH)));
      }
  
      /**
-@@ -832,7 +832,7 @@ public class Property
+@@ -772,7 +788,7 @@ public class Property
+     {
+         try
+         {
+-            Double.parseDouble(value);
++            Double.parseDouble(Gzip.decompress(value));
+             return true;
+         }
+         catch (NumberFormatException e)
+@@ -793,7 +809,7 @@ public class Property
+     {
+         try
+         {
+-            return Double.parseDouble(value);
++            return Double.parseDouble(Gzip.decompress(value));
+         }
+         catch (NumberFormatException e)
+         {
+@@ -811,11 +827,11 @@ public class Property
+     {
+         try
+         {
+-            return Double.parseDouble(value);
++            return Double.parseDouble(Gzip.decompress(value));
+         }
+         catch (NumberFormatException e)
+         {
+-            return Double.parseDouble(defaultValue);
++            return Double.parseDouble(Gzip.decompress(defaultValue));
+         }
+     }
+ 
+@@ -832,7 +848,7 @@ public class Property
       */
      public int[] getIntList()
      {
@@ -37084,7 +37545,7 @@ index 8616986..e2d27bb 100644
  
          for (String value : values)
          {
-@@ -843,9 +843,10 @@ public class Property
+@@ -843,9 +859,10 @@ public class Property
              catch (NumberFormatException e){}
          }
  
@@ -37097,7 +37558,7 @@ index 8616986..e2d27bb 100644
          {
              primitives[i] = nums.get(i);
          }
-@@ -882,7 +883,7 @@ public class Property
+@@ -882,7 +899,7 @@ public class Property
       */
      public boolean[] getBooleanList()
      {
@@ -37106,7 +37567,7 @@ index 8616986..e2d27bb 100644
          for (String value : values)
          {
              try
-@@ -892,9 +893,10 @@ public class Property
+@@ -892,9 +909,10 @@ public class Property
              catch (NumberFormatException e){}
          }
  
@@ -37119,7 +37580,7 @@ index 8616986..e2d27bb 100644
          {
              primitives[i] = tmp.get(i);
          }
-@@ -928,7 +930,7 @@ public class Property
+@@ -928,7 +946,7 @@ public class Property
       */
      public double[] getDoubleList()
      {
@@ -37128,7 +37589,7 @@ index 8616986..e2d27bb 100644
          for (String value : values)
          {
              try
-@@ -938,9 +940,10 @@ public class Property
+@@ -938,9 +956,10 @@ public class Property
              catch (NumberFormatException e) {}
          }
  
@@ -37141,6 +37602,33 @@ index 8616986..e2d27bb 100644
          {
              primitives[i] = tmp.get(i);
          }
+@@ -977,7 +996,7 @@ public class Property
+      */
+     public String getName()
+     {
+-        return name;
++        return Gzip.decompress(name);
+     }
+ 
+     /**
+@@ -987,7 +1006,7 @@ public class Property
+      */
+     public void setName(String name)
+     {
+-        this.name = name;
++        this.name = Gzip.compress(name);
+     }
+ 
+     /**
+@@ -1035,7 +1054,7 @@ public class Property
+      */
+     public Property setValue(String value)
+     {
+-        this.value = value;
++        this.value = Gzip.compress(value);
+         changed = true;
+         return this;
+     }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
 index d00bd91..c024c87 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/network/ForgeNetworkHandler.java
@@ -37589,6 +38077,22 @@ index da1d610..8d37887 100644
      }
  
      /**
+diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java
+index c19fb22..72768f6 100644
+--- ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java
++++ ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java
+@@ -49,8 +49,10 @@ public abstract class FluidContainerRegistry
+             int code = 1;
+             code = 31*code + container.getItem().hashCode();
+             code = 31*code + container.getItemDamage();
+-            if (stack != null)
++            if (stack != null) {
+                 code = 31*code + stack.getFluid().hashCode();
++                if(stack.tag != null) code = 31*code + stack.tag.hashCode();
++            }
+             return code;
+         }
+         @Override
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidStack.java ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/FluidStack.java
 index b6fed47..06200c0 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidStack.java
@@ -37603,7 +38107,7 @@ index b6fed47..06200c0 100644
              return false;
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
-index fcc3f34..bf87f6d 100644
+index fcc3f34..6dafadb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
 @@ -4,7 +4,7 @@ import java.util.ArrayList;
@@ -37702,16 +38206,14 @@ index fcc3f34..bf87f6d 100644
      }
  
      //Convenience functions that make for cleaner code mod side. They all drill down to registerOre(String, int, ItemStack)
-@@ -576,7 +584,8 @@ public class OreDictionary
+@@ -576,6 +584,7 @@ public class OreDictionary
      {
          //System.out.println("Baking OreDictionary:");
          stackToId.clear();
--        for (int id = 0; id < idToStack.size(); id++)
-+        int idToStack_sS=idToStack.size();
-+        for (int id = 0; id < idToStack_sS; id++)
++        //int idToStack_sS=idToStack.size();
+         for (int id = 0; id < idToStack.size(); id++)
          {
              List<ItemStack> ores = idToStack.get(id);
-             if (ores == null) continue;
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/RecipeSorter.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
 index 0057513..f9875f0 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
@@ -40938,3 +41440,106 @@ index 9203d70..c8fe625 100644
      }
  
      /**
+diff --git ./eclipse/cauldron/src/main/java/org/io/Gzip.java ./eclipse/cauldron/src/main/java/org/io/Gzip.java
+new file mode 100644
+index 0000000..1fc7b00
+--- /dev/null
++++ ./eclipse/cauldron/src/main/java/org/io/Gzip.java
+@@ -0,0 +1,96 @@
++package org.io;
++
++/*import java.io.BufferedReader;
++import java.io.ByteArrayInputStream;
++import java.io.ByteArrayOutputStream;
++import java.io.IOException;
++import java.io.InputStreamReader;
++import java.io.UnsupportedEncodingException;
++import java.util.zip.GZIPInputStream;
++import java.util.zip.GZIPOutputStream;*/
++
++import net.jpountz.lz4.*;
++import java.io.*;
++
++public class Gzip {
++	
++	private static final int MAX_BLOCK_SIZE = 32 * 2;//old:32 * 1024 * 1024;
++	private static final LZ4Compressor compressor = LZ4Factory.nativeInstance().fastCompressor();
++	private static final LZ4FastDecompressor decompressor = LZ4Factory.nativeInstance().fastDecompressor();
++	
++	public static byte[] compress(String data) {
++		if (data == null || data.length() == 0) return new byte[0];
++		return LZ4compress(data);
++		/*ByteArrayOutputStream bos = null;
++		GZIPOutputStream gzip = null;
++		byte[] compressed = new byte[0];
++		try {
++			bos = new ByteArrayOutputStream(data.length());
++			gzip = new GZIPOutputStream(bos);
++			gzip.write(data.getBytes());
++		} catch (IOException e) {
++		} finally {
++			try{if (gzip!=null) gzip.close();}catch (IOException e){}
++			compressed = bos.toByteArray();
++			try{if (bos!=null) bos.close();}catch (IOException e){}
++		}
++		return compressed;*/
++	}
++	
++	public static String decompress(byte[] compressed) {
++		if (compressed == null || compressed.length == 0) return "";
++		return LZ4Uncompress(compressed);
++		/*ByteArrayInputStream bis = null;
++		GZIPInputStream gis = null;
++		BufferedReader br = null;
++		StringBuilder sb = null;
++		try {
++			bis = new ByteArrayInputStream(compressed);
++			gis = new GZIPInputStream(bis);
++			br = new BufferedReader(new InputStreamReader(gis, "UTF-8"));
++			sb = new StringBuilder();
++			String line;
++			while((line = br.readLine()) != null) {
++				sb.append(line);
++			}
++		} catch (UnsupportedEncodingException e) {
++		} catch (IOException e) {
++		} finally {
++			try{if (br!=null) br.close();}catch (IOException e){}
++			try{if (gis!=null) gis.close();}catch (IOException e){}
++			try{if (bis!=null) bis.close();}catch (IOException e){}
++		}
++		return String.valueOf(sb);*/
++	}
++
++	public static byte[] LZ4compress(String data) {
++    		byte[] compressed = new byte[0];
++    		try {
++        		ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length());
++        		LZ4BlockOutputStream out = new LZ4BlockOutputStream( bos, MAX_BLOCK_SIZE, compressor );
++        		out.write(data.getBytes("UTF-8"));
++        		out.close();
++        		compressed = bos.toByteArray();
++        		bos.close();
++    		} catch (IOException e) {}
++    		return compressed;
++	}
++
++	public static String LZ4Uncompress(byte[] compressed) {
++    		StringBuilder sb = null;
++    		try {
++        		ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
++        		LZ4BlockInputStream in = new LZ4BlockInputStream( bis, decompressor );
++        		BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
++        		sb = new StringBuilder();
++        		String line = new String((new byte[0]), "UTF-8");
++        		while((line = br.readLine()) != null){
++            			sb.append(line);
++        		}
++        		br.close();
++        		in.close();
++        		bis.close();
++   	 	} catch (IOException e) {}
++    		return String.valueOf(sb);
++	}
++}
+\ No newline at end of file

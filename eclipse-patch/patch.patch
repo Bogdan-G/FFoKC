@@ -1001,7 +1001,7 @@ index c3604e2..6d418c8 100644
                              FMLRelaunchLog.warning("=============================================================");
                              FMLRelaunchLog.warning("MOD HAS DIRECT REFERENCE Runtime.halt() THIS IS NOT ALLOWED REROUTING TO FML!");
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java
-index 0e0b0b3..99ff575 100644
+index 0e0b0b3..41d0008 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/deobf/FMLDeobfuscatingRemapper.java
 @@ -14,6 +14,8 @@ package cpw.mods.fml.common.asm.transformers.deobf;
@@ -1013,7 +1013,7 @@ index 0e0b0b3..99ff575 100644
  import java.io.IOException;
  import java.io.InputStream;
  import java.util.Arrays;
-@@ -75,7 +77,7 @@ public class FMLDeobfuscatingRemapper extends Remapper {
+@@ -75,11 +77,11 @@ public class FMLDeobfuscatingRemapper extends Remapper {
          try
          {
              File mapData = new File(deobfFileName);
@@ -1021,25 +1021,61 @@ index 0e0b0b3..99ff575 100644
 +            LZMAInputSupplier zis = new LZMAInputSupplier(new BufferedInputStream(new FileInputStream(mapData)));
              CharSource srgSource = zis.asCharSource(Charsets.UTF_8);
              List<String> srgList = srgSource.readLines();
-             rawMethodMaps = Maps.newHashMap();
-@@ -103,7 +105,7 @@ public class FMLDeobfuscatingRemapper extends Remapper {
+-            rawMethodMaps = Maps.newHashMap();
+-            rawFieldMaps = Maps.newHashMap();
++            rawMethodMaps = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//Maps.newHashMap();
++            rawFieldMaps = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//Maps.newHashMap();
+             Builder<String, String> builder = ImmutableBiMap.<String,String>builder();
+             Splitter splitter = Splitter.on(CharMatcher.anyOf(": ")).omitEmptyStrings().trimResults();
+             for (String line : srgList)
+@@ -103,10 +105,10 @@ public class FMLDeobfuscatingRemapper extends Remapper {
          }
          catch (IOException ioe)
          {
 -            FMLRelaunchLog.log(Level.ERROR, "An error occurred loading the deobfuscation map data", ioe);
 +            if (DEBUG_REMAPPING) FMLRelaunchLog.log(Level.ERROR, "An error occurred loading the deobfuscation map data", ioe);
          }
-         methodNameMaps = Maps.newHashMapWithExpectedSize(rawMethodMaps.size());
-         fieldNameMaps = Maps.newHashMapWithExpectedSize(rawFieldMaps.size());
-@@ -143,7 +145,7 @@ public class FMLDeobfuscatingRemapper extends Remapper {
+-        methodNameMaps = Maps.newHashMapWithExpectedSize(rawMethodMaps.size());
+-        fieldNameMaps = Maps.newHashMapWithExpectedSize(rawFieldMaps.size());
++        methodNameMaps = org.eclipse.collections.impl.map.mutable.UnifiedMap.newMap((int) ((float) rawMethodMaps.size() / 0.95F + 1.0F), 0.95F);//Maps.newHashMapWithExpectedSize(rawMethodMaps.size());
++        fieldNameMaps = org.eclipse.collections.impl.map.mutable.UnifiedMap.newMap((int) ((float) rawFieldMaps.size() / 0.95F + 1.0F), 0.95F);//Maps.newHashMapWithExpectedSize(rawFieldMaps.size());
+ 
+     }
+     public void setup(File mcDir, LaunchClassLoader classLoader, String deobfFileName)
+@@ -118,8 +120,8 @@ public class FMLDeobfuscatingRemapper extends Remapper {
+             LZMAInputSupplier zis = new LZMAInputSupplier(classData);
+             CharSource srgSource = zis.asCharSource(Charsets.UTF_8);
+             List<String> srgList = srgSource.readLines();
+-            rawMethodMaps = Maps.newHashMap();
+-            rawFieldMaps = Maps.newHashMap();
++            rawMethodMaps = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//Maps.newHashMap();
++            rawFieldMaps = new org.eclipse.collections.impl.map.mutable.UnifiedMap();//Maps.newHashMap();
+             Builder<String, String> builder = ImmutableBiMap.<String,String>builder();
+             Splitter splitter = Splitter.on(CharMatcher.anyOf(": ")).omitEmptyStrings().trimResults();
+             for (String line : srgList)
+@@ -143,10 +145,10 @@ public class FMLDeobfuscatingRemapper extends Remapper {
          }
          catch (IOException ioe)
          {
 -            FMLRelaunchLog.log(Level.ERROR, ioe, "An error occurred loading the deobfuscation map data");
 +            if (DEBUG_REMAPPING) FMLRelaunchLog.log(Level.ERROR, ioe, "An error occurred loading the deobfuscation map data");
          }
-         methodNameMaps = Maps.newHashMapWithExpectedSize(rawMethodMaps.size());
-         fieldNameMaps = Maps.newHashMapWithExpectedSize(rawFieldMaps.size());
+-        methodNameMaps = Maps.newHashMapWithExpectedSize(rawMethodMaps.size());
+-        fieldNameMaps = Maps.newHashMapWithExpectedSize(rawFieldMaps.size());
++        methodNameMaps = org.eclipse.collections.impl.map.mutable.UnifiedMap.newMap((int) ((float) rawMethodMaps.size() / 0.95F + 1.0F), 0.95F);//Maps.newHashMapWithExpectedSize(rawMethodMaps.size());
++        fieldNameMaps = org.eclipse.collections.impl.map.mutable.UnifiedMap.newMap((int) ((float) rawFieldMaps.size() / 0.95F + 1.0F), 0.95F);//Maps.newHashMapWithExpectedSize(rawFieldMaps.size());
+     }
+ 
+     public boolean isRemappedClass(String className)
+@@ -198,7 +200,7 @@ public class FMLDeobfuscatingRemapper extends Remapper {
+                 ClassReader cr = new ClassReader(classBytes);
+                 ClassNode classNode = new ClassNode();
+                 cr.accept(classNode, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+-                Map<String,String> resMap = Maps.newHashMap();
++                Map<String,String> resMap = org.eclipse.collections.impl.map.mutable.UnifiedMap.newMap(16, 0.95F);//Maps.newHashMap();
+                 for (FieldNode fieldNode : (List<FieldNode>) classNode.fields) {
+                     resMap.put(fieldNode.name, fieldNode.desc);
+                 }
 @@ -207,7 +209,7 @@ public class FMLDeobfuscatingRemapper extends Remapper {
              }
              catch (IOException e)
@@ -7454,7 +7490,7 @@ index 2e1f419..34108ab 100644
      private static final EnchantmentHelper.ModifierLiving enchantmentModifierLiving = new EnchantmentHelper.ModifierLiving(null);
      private static final EnchantmentHelper.HurtIterator field_151388_d = new EnchantmentHelper.HurtIterator(null);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/DataWatcher.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/DataWatcher.java
-index 6221188..8bf5a95 100644
+index 6221188..504b554 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/DataWatcher.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/DataWatcher.java
 @@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
@@ -7471,7 +7507,7 @@ index 6221188..8bf5a95 100644
      private final Entity field_151511_a;
      private boolean isBlank = true;
 -    private static final HashMap dataTypes = new HashMap();
-+    private static final Map dataTypes = new HashMap();//FFoKC: kek-time
++    private static final Map dataTypes = new HashMap();
      private final Map watchedObjects = new HashMap();
      private boolean objectChanged;
      private ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -9687,7 +9723,7 @@ index b62d4bc..135b10b 100644
      private static final String __OBFID = "CL_00001672";
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
-index 480af9d..b45d0f0 100644
+index 480af9d..6099e33 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityTracker.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityTracker.java
 @@ -1,6 +1,6 @@
@@ -9720,7 +9756,7 @@ index 480af9d..b45d0f0 100644
          if (p_72786_1_ instanceof EntityPlayerMP)
          {
 -            this.addEntityToTracker(p_72786_1_, 512, 2);
-+            this.addEntityToTracker(p_72786_1_, 512, 4);
++            this.addEntityToTracker(p_72786_1_, 512, 1);
              EntityPlayerMP entityplayermp = (EntityPlayerMP)p_72786_1_;
              Iterator iterator = this.trackedEntities.iterator();
  
@@ -14454,7 +14490,7 @@ index c01b6d5..39c8e1e 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
-index bd354f1..fb0cb10 100644
+index bd354f1..b14528e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/player/EntityPlayerMP.java
 @@ -83,6 +84,7 @@ import net.minecraft.tileentity.TileEntityDropper;
@@ -14805,6 +14841,15 @@ index bd354f1..fb0cb10 100644
              this.lastExperience = -1;
              this.lastHealth = -1.0F;
              this.lastFoodLevel = -1;
+@@ -549,7 +708,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
+     public void onItemPickup(Entity p_71001_1_, int p_71001_2_)
+     {
+         super.onItemPickup(p_71001_1_, p_71001_2_);
+-        this.openContainer.detectAndSendChanges();
++//        this.openContainer.detectAndSendChanges();
+     }
+ 
+     public EntityPlayer.EnumStatus sleepInBedAt(int p_71018_1_, int p_71018_2_, int p_71018_3_)
 @@ -569,6 +728,11 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
  
      public void wakeUpPlayer(boolean p_70999_1_, boolean p_70999_2_, boolean p_70999_3_)
@@ -26837,7 +26882,7 @@ index 52dff90..8653a5f 100644
  
              for (int i = 0; i < nbttaglist.tagCount(); ++i)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntity.java ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntity.java
-index 62b757b..fdf65d3 100644
+index 62b757b..b293dff 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/tileentity/TileEntity.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/tileentity/TileEntity.java
 @@ -22,18 +22,23 @@ import org.apache.logging.log4j.Level;
@@ -26850,10 +26895,9 @@ index 62b757b..fdf65d3 100644
  public class TileEntity
  {
      private static final Logger logger = LogManager.getLogger();
--    private static Map nameToClassMap = new HashMap();
+     private static Map nameToClassMap = new HashMap();
 -    private static Map classToNameMap = new HashMap();
 -    protected World worldObj;
-+    private static Map nameToClassMap = new HashMap();//FFoKC: testing
 +    public static Map classToNameMap = new HashMap(); // Cauldron - private -> public
 +    public World worldObj; // CraftBukkit - protected -> public
 +    private boolean GC = false;
@@ -33909,7 +33953,7 @@ index b247e1b..ad080ad 100644
                  Block block = Blocks.netherrack;
                  Block block1 = Blocks.netherrack;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java
-index 66d147a..393d885 100644
+index 66d147a..d124ad8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/ChunkProviderServer.java
 @@ -32,23 +32,42 @@ import net.minecraftforge.common.chunkio.ChunkIOExecutor;
@@ -33951,7 +33995,7 @@ index 66d147a..393d885 100644
 +    public List loadedChunks = new ArrayList(100); // Cauldron - vanilla compatibility
      public WorldServer worldObj;
 -    private Set<Long> loadingChunks = com.google.common.collect.Sets.newHashSet();
-+    private Set<Long> loadingChunks = new HashSet<Long>();//FFoKC: testing
++    private Set<Long> loadingChunks = new HashSet<Long>();
 +    public LongObjectHashMap loadedChunkHashMap =  new LongObjectHashMap(); // KCauldron - vanilla/mystcraft compatibility
      private static final String __OBFID = "CL_00001436";
 +     private boolean mUnloading;
@@ -36822,15 +36866,17 @@ index d796c77..68dba7b 100644
          return result.toString();
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/ConfigCategory.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/ConfigCategory.java
-index 15913d5..e8ddb3e 100644
+index 15913d5..53362e8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/ConfigCategory.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/ConfigCategory.java
-@@ -32,7 +32,7 @@ public class ConfigCategory implements Map<String, Property>
+@@ -31,8 +31,8 @@ public class ConfigCategory implements Map<String, Property>
+     private String name;
      private String comment;
      private String languagekey;
-     private ArrayList<ConfigCategory> children = new ArrayList<ConfigCategory>();
+-    private ArrayList<ConfigCategory> children = new ArrayList<ConfigCategory>();
 -    private Map<String, Property> properties = new TreeMap<String, Property>();
-+    private Map<String, Property> properties = new TreeMap<String, Property>();//TreeSortedMap
++    private /*Array*/List<ConfigCategory> children = new org.eclipse.collections.impl.list.mutable.FastList<ConfigCategory>();
++    private Map<String, Property> properties = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, Property>();//TreeSortedMap
      private int propNumber = 0;
      public final ConfigCategory parent;
      private boolean changed = false;
@@ -36945,7 +36991,7 @@ index 7dd641c..6b9f728 100644
              }
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
-index 849986d..e74c0b6 100644
+index 849986d..06929bd 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Configuration.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Configuration.java
 @@ -15,6 +15,8 @@ import java.io.BufferedWriter;
@@ -36957,6 +37003,17 @@ index 849986d..e74c0b6 100644
  import java.io.IOException;
  import java.io.InputStream;
  import java.io.InputStreamReader;
+@@ -61,8 +63,8 @@ public class Configuration
+ 
+     File file;
+ 
+-    private Map<String, ConfigCategory> categories = new TreeMap<String, ConfigCategory>();
+-    private Map<String, Configuration> children = new TreeMap<String, Configuration>();
++    private Map<String, ConfigCategory> categories = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, ConfigCategory>();
++    private Map<String, Configuration> children = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, Configuration>();
+ 
+     private boolean caseSensitiveCustomCategories;
+     public String defaultEncoding = DEFAULT_ENCODING;
 @@ -815,7 +817,7 @@ public class Configuration
  
              if (file.canRead())
@@ -36971,7 +37028,7 @@ index 849986d..e74c0b6 100644
                      {
                          fileName = start.group(1);
 -                        categories = new TreeMap<String, ConfigCategory>();
-+                        categories = new org.eclipse.collections.impl.map.sorted.mutable.TreeSortedMap<String, ConfigCategory>();
++                        categories = new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, ConfigCategory>();
                          continue;
                      }
                      else if (end.matches())
@@ -37322,7 +37379,7 @@ index 5f0ec8a..e3e069e 100644
      {
          if (!isSetup)
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/FakePlayer.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/FakePlayer.java
-index de67b0b..9abded3 100644
+index de67b0b..11e854a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/FakePlayer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/FakePlayer.java
 @@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
@@ -37337,8 +37394,8 @@ index de67b0b..9abded3 100644
      @Override public void onUpdate(){ return; }
      @Override public void travelToDimension(int dim){ return; }
      @Override public void func_147100_a(C15PacketClientSettings pkt){ return; }
-+    //@//Override protected void onNewPotionEffect(PotionEffect potionEffect){ return; }
-+    //@//Override public void addPotionEffect(PotionEffect par1PotionEffect){ return; }
++    @Override protected void onNewPotionEffect(PotionEffect potionEffect){ return; }
++    @Override public void addPotionEffect(PotionEffect par1PotionEffect){ return; }
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/FakePlayerFactory.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/FakePlayerFactory.java
@@ -37546,7 +37603,7 @@ index b6fed47..06200c0 100644
              return false;
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
-index fcc3f34..8fca0ef 100644
+index fcc3f34..bf87f6d 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
 @@ -4,7 +4,7 @@ import java.util.ArrayList;
@@ -37558,11 +37615,21 @@ index fcc3f34..8fca0ef 100644
  import java.util.HashSet;
  import java.util.Iterator;
  import java.util.List;
-@@ -43,7 +43,7 @@ public class OreDictionary
-     private static List<ArrayList<ItemStack>> idToStack = Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
-     private static List<ArrayList<ItemStack>> idToStackUn = Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
-     private static Map<Integer, List<Integer>> stackToId = Maps.newHashMapWithExpectedSize(96); // Calculated from 128 * 0.75
+@@ -38,12 +38,12 @@ import cpw.mods.fml.common.registry.GameData;
+ public class OreDictionary
+ {
+     private static boolean hasInit = false;
+-    private static List<String>          idToName = new ArrayList<String>();
+-    private static Map<String, Integer>  nameToId = new HashMap<String, Integer>(128);
+-    private static List<ArrayList<ItemStack>> idToStack = Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
+-    private static List<ArrayList<ItemStack>> idToStackUn = Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
+-    private static Map<Integer, List<Integer>> stackToId = Maps.newHashMapWithExpectedSize(96); // Calculated from 128 * 0.75
 -    public static final ArrayList<ItemStack> EMPTY_LIST = new UnmodifiableArrayList(Lists.newArrayList()); //ToDo: Unqualify to List when possible {1.8}
++    private static List<String>          idToName = new org.eclipse.collections.impl.list.mutable.FastList();//new ArrayList<String>();
++    private static Map<String, Integer>  nameToId = new org.eclipse.collections.impl.map.mutable.UnifiedMap(128, 0.90F);//HashMap<String, Integer>(128);
++    private static List<ArrayList<ItemStack>> idToStack = new org.eclipse.collections.impl.list.mutable.FastList();//Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
++    private static List<ArrayList<ItemStack>> idToStackUn = new org.eclipse.collections.impl.list.mutable.FastList();//Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
++    private static Map<Integer, List<Integer>> stackToId = new org.eclipse.collections.impl.map.mutable.UnifiedMap(128, 0.90F);//Maps.newHashMapWithExpectedSize(96); // Calculated from 128 * 0.75
 +    public static final ArrayList<ItemStack> EMPTY_LIST = Lists.newArrayList(); //ToDo: Unqualify to List when possible {1.8}
  
      /**
@@ -37576,7 +37643,16 @@ index fcc3f34..8fca0ef 100644
          }
          return val;
      }
-@@ -351,15 +351,24 @@ public class OreDictionary
+@@ -335,8 +335,6 @@ public class OreDictionary
+     {
+         if (stack == null || stack.getItem() == null) return new int[0];
+ 
+-        Set<Integer> set = new HashSet<Integer>();
+-
+         // HACK: use the registry name's ID. It is unique and it knows about substitutions. Fallback to a -1 value (what Item.getIDForItem would have returned) in the case where the registry is not aware of the item yet
+         // IT should be noted that -1 will fail the gate further down, if an entry already exists with value -1 for this name. This is what is broken and being warned about.
+         // APPARENTLY it's quite common to do this. OreDictionary should be considered alongside Recipes - you can't make them properly until you've registered with the game.
+@@ -351,15 +349,25 @@ public class OreDictionary
          {
              id = GameData.getItemRegistry().getId(registryName);
          }
@@ -37589,6 +37665,7 @@ index fcc3f34..8fca0ef 100644
 -        int[] ret = new int[tmp.length];
 -        for (int x = 0; x < tmp.length; x++)
 -            ret[x] = tmp[x];
++        Set<Integer> set = new org.eclipse.collections.impl.set.mutable.UnifiedSet();//new HashSet<Integer>();
 +        int count = 0, r0_int = 0;
 +        List<Integer> ids = null;
 +        if (stackToId.get(id) != null) {
@@ -37610,7 +37687,7 @@ index fcc3f34..8fca0ef 100644
          return ret;
      }
  
-@@ -488,10 +497,10 @@ public class OreDictionary
+@@ -488,10 +496,10 @@ public class OreDictionary
  
      public static boolean itemMatches(ItemStack target, ItemStack input, boolean strict)
      {
@@ -37625,7 +37702,7 @@ index fcc3f34..8fca0ef 100644
      }
  
      //Convenience functions that make for cleaner code mod side. They all drill down to registerOre(String, int, ItemStack)
-@@ -576,7 +585,8 @@ public class OreDictionary
+@@ -576,7 +584,8 @@ public class OreDictionary
      {
          //System.out.println("Baking OreDictionary:");
          stackToId.clear();
@@ -37636,7 +37713,7 @@ index fcc3f34..8fca0ef 100644
              List<ItemStack> ores = idToStack.get(id);
              if (ores == null) continue;
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/RecipeSorter.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
-index 0057513..1c2accb 100644
+index 0057513..f9875f0 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
 @@ -2,9 +2,9 @@ package net.minecraftforge.oredict;
@@ -37661,7 +37738,19 @@ index 0057513..1c2accb 100644
  {
      public enum Category
      {
-@@ -53,7 +53,7 @@ public class RecipeSorter implements Comparator<IRecipe>
+@@ -40,9 +40,8 @@ public class RecipeSorter implements Comparator<IRecipe>
+         private String name;
+         private Class<?> cls;
+         private Category cat;
+-        List<String> before = Lists.newArrayList();
+-        List<String> after = Lists.newArrayList();
+-
++        List<String> before = new org.eclipse.collections.impl.list.mutable.FastList();//Lists.newArrayList();
++        List<String> after = new org.eclipse.collections.impl.list.mutable.FastList();//Lists.newArrayList();
+         private SortEntry(String name, Class<?> cls, Category cat, String deps)
+         {
+             this.name = name;
+@@ -53,7 +52,7 @@ public class RecipeSorter implements Comparator<IRecipe>
  
          private void parseDepends(String deps)
          {
@@ -37670,7 +37759,21 @@ index 0057513..1c2accb 100644
              for (String dep : deps.split(" "))
              {
                  if (dep.startsWith("before:"))
-@@ -136,7 +136,7 @@ public class RecipeSorter implements Comparator<IRecipe>
+@@ -99,10 +98,10 @@ public class RecipeSorter implements Comparator<IRecipe>
+         }
+     };
+ 
+-    private static Map<Class, Category>     categories = Maps.newHashMap();
++    private static Map<Class, Category>     categories = new org.eclipse.collections.impl.map.mutable.UnifiedMap(16, 0.90F);//Maps.newHashMap();
+     //private static Map<String, Class>       types = Maps.newHashMap();
+-    private static Map<String, SortEntry>   entries = Maps.newHashMap();
+-    private static Map<Class, Integer>      priorities = Maps.newHashMap();
++    private static Map<String, SortEntry>   entries = new org.eclipse.collections.impl.map.mutable.UnifiedMap(16, 0.90F);//Maps.newHashMap();
++    private static Map<Class, Integer>      priorities = new org.eclipse.collections.impl.map.mutable.UnifiedMap(16, 0.90F);//Maps.newHashMap();
+ 
+     public static RecipeSorter INSTANCE = new RecipeSorter();
+     private static boolean isDirty = true;
+@@ -136,7 +135,7 @@ public class RecipeSorter implements Comparator<IRecipe>
          return getPriority(r2) - getPriority(r1); // high priority value first! 
      }
  
@@ -37680,7 +37783,7 @@ index 0057513..1c2accb 100644
      public static void sortCraftManager()
      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
-index 100acef..9a12a87 100644
+index 100acef..a207dc0 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/ShapedOreRecipe.java
 @@ -4,7 +4,11 @@ import java.util.ArrayList;
@@ -37712,7 +37815,7 @@ index 100acef..9a12a87 100644
  
      public ShapedOreRecipe(Block     result, Object... recipe){ this(new ItemStack(result), recipe); }
      public ShapedOreRecipe(Item      result, Object... recipe){ this(new ItemStack(result), recipe); }
-@@ -51,34 +57,39 @@ public class ShapedOreRecipe implements IRecipe
+@@ -51,38 +57,43 @@ public class ShapedOreRecipe implements IRecipe
          if (recipe[idx] instanceof String[])
          {
              String[] parts = ((String[])recipe[idx++]);
@@ -37756,6 +37859,11 @@ index 100acef..9a12a87 100644
              throw new RuntimeException(ret);
          }
  
+-        HashMap<Character, Object> itemMap = new HashMap<Character, Object>();
++        /*Hash*/Map<Character, Object> itemMap = new org.eclipse.collections.impl.map.mutable.UnifiedMap(16, 0.90F);//HashMap<Character, Object>();
+ 
+         for (; idx < recipe.length; idx += 2)
+         {
 @@ -108,11 +119,12 @@ public class ShapedOreRecipe implements IRecipe
              else
              {

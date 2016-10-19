@@ -99,19 +99,6 @@ index 4fbe53e..84cd8c8 100644
              
              // Top Level Settings
              list.add(new DummyConfigElement<Boolean>("imABoolean", true, ConfigGuiType.BOOLEAN, "fml.config.sample.imABoolean").setRequiresMcRestart(true));
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/GuiScrollingList.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/GuiScrollingList.java
-index 6fbbedd..1477e28 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/GuiScrollingList.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/GuiScrollingList.java
-@@ -250,7 +250,7 @@ public abstract class GuiScrollingList
-                     {
-                         var16 = -1;
-                     }
--                    else if (var16 < 0)
-+                    else/* if (var16 < 0)*/
-                     {
-                         var16 = 1;
-                     }
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/SplashProgress.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/SplashProgress.java
 index d61e086..9160abf 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/SplashProgress.java
@@ -144,7 +131,7 @@ index d61e086..9160abf 100644
                  setColor(fontColor);
                  glScalef(2, 2, 1);
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/config/GuiConfigEntries.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/config/GuiConfigEntries.java
-index 6d33b87..3ac85f3 100644
+index 6d33b87..f0db285 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/config/GuiConfigEntries.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/config/GuiConfigEntries.java
 @@ -812,9 +812,9 @@ public class GuiConfigEntries extends GuiListExtended
@@ -180,15 +167,6 @@ index 6d33b87..3ac85f3 100644
          }
  
          @Override
-@@ -1001,7 +1001,7 @@ public class GuiConfigEntries extends GuiListExtended
-                 String validChars = "0123456789";
-                 String before = this.textFieldValue.getText();
-                 if (validChars.contains(String.valueOf(eventChar))
--                        || (!before.startsWith("-") && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-+                        || (before.charAt(0) != '-'/*startsWith("-")*/ && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-                         || eventKey == Keyboard.KEY_BACK || eventKey == Keyboard.KEY_DELETE
-                         || eventKey == Keyboard.KEY_LEFT || eventKey == Keyboard.KEY_RIGHT || eventKey == Keyboard.KEY_HOME || eventKey == Keyboard.KEY_END)
-                     this.textFieldValue.textboxKeyTyped((enabled() ? eventChar : Keyboard.CHAR_NONE), eventKey);
 @@ -1011,7 +1011,7 @@ public class GuiConfigEntries extends GuiListExtended
                      try
                      {
@@ -207,15 +185,6 @@ index 6d33b87..3ac85f3 100644
                              this.configElement.set(configElement.getMinValue());
                          else
                              this.configElement.set(configElement.getMaxValue());
-@@ -1108,7 +1108,7 @@ public class GuiConfigEntries extends GuiListExtended
-                 String validChars = "0123456789";
-                 String before = this.textFieldValue.getText();
-                 if (validChars.contains(String.valueOf(eventChar)) ||
--                        (!before.startsWith("-") && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-+                        (before.charAt(0) != '-'/*startsWith("-")*/ && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-                         || (!before.contains(".") && eventChar == '.')
-                         || eventKey == Keyboard.KEY_BACK || eventKey == Keyboard.KEY_DELETE || eventKey == Keyboard.KEY_LEFT || eventKey == Keyboard.KEY_RIGHT
-                         || eventKey == Keyboard.KEY_HOME || eventKey == Keyboard.KEY_END)
 @@ -1119,7 +1119,7 @@ public class GuiConfigEntries extends GuiListExtended
                      try
                      {
@@ -247,7 +216,7 @@ index 6d33b87..3ac85f3 100644
                          EnumChatFormatting.AQUA + I18n.format("fml.configgui.tooltip.defaultNumeric", configElement.getMinValue(), configElement.getMaxValue(), configElement.getDefault()), 300));
              else if (configElement.getType() != ConfigGuiType.CONFIG_CATEGORY)
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/config/GuiEditArrayEntries.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/config/GuiEditArrayEntries.java
-index ddabd56..ff6fa99 100644
+index ddabd56..c103e17 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/config/GuiEditArrayEntries.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/config/GuiEditArrayEntries.java
 @@ -88,7 +88,7 @@ public class GuiEditArrayEntries extends GuiListExtended
@@ -259,27 +228,14 @@ index ddabd56..ff6fa99 100644
          else if (configElement.isList() && configElement.getType().equals(ConfigGuiType.INTEGER))
              for (Object value : currentValues)
                  listEntries.add(new IntegerEntry(this.owningGui, this, configElement, Integer.parseInt(value.toString())));
-@@ -134,7 +134,7 @@ public class GuiEditArrayEntries extends GuiListExtended
-     public void addNewEntry(int index)
-     {
-         if (configElement.isList() && configElement.getType() == ConfigGuiType.BOOLEAN)
--            listEntries.add(index, new BooleanEntry(this.owningGui, this, this.configElement, Boolean.valueOf(true)));
-+            listEntries.add(index, new BooleanEntry(this.owningGui, this, this.configElement, /*Boolean.valueOf*/(true)));
-         else if (configElement.isList() && configElement.getType() == ConfigGuiType.INTEGER)
-             listEntries.add(index, new IntegerEntry(this.owningGui, this, this.configElement, 0));
-         else if (configElement.isList() && configElement.getType() == ConfigGuiType.DOUBLE)
-@@ -233,8 +233,9 @@ public class GuiEditArrayEntries extends GuiListExtended
+@@ -233,6 +233,7 @@ public class GuiEditArrayEntries extends GuiListExtended
              ArrayEntry entry = (ArrayEntry) ((GuiConfig) owningGui.parentScreen).entryList.getListEntry(owningGui.slotIndex);
  
              Object[] ao = new Object[listLength];
--            for (int i = 0; i < listLength; i++)
--                ao[i] = listEntries.get(i).getValue();
-+            System.arraycopy(listEntries.toArray(), 0, ao, 0, listLength);
-+            /*for (int i = 0; i < listLength; i++)
-+                ao[i] = listEntries.get(i).getValue();*/
++            //System.arraycopy(listEntries.toArray(), 0, ao, 0, listLength);
+             for (int i = 0; i < listLength; i++)
+                 ao[i] = listEntries.get(i).getValue();
  
-             entry.setListFromChildScreen(ao);
-         }
 @@ -243,32 +244,36 @@ public class GuiEditArrayEntries extends GuiListExtended
              if (configElement.isList() && configElement.getType() == ConfigGuiType.BOOLEAN)
              {
@@ -325,15 +281,6 @@ index ddabd56..ff6fa99 100644
  
                  configElement.set(as);
              }
-@@ -302,7 +307,7 @@ public class GuiEditArrayEntries extends GuiListExtended
-                 String validChars = "0123456789";
-                 String before = this.textFieldValue.getText();
-                 if (validChars.contains(String.valueOf(eventChar)) ||
--                        (!before.startsWith("-") && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-+                        (before.charAt(0) != '-'/*startsWith("-")*/ && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-                         || (!before.contains(".") && eventChar == '.')
-                         || eventKey == Keyboard.KEY_BACK || eventKey == Keyboard.KEY_DELETE || eventKey == Keyboard.KEY_LEFT || eventKey == Keyboard.KEY_RIGHT
-                         || eventKey == Keyboard.KEY_HOME || eventKey == Keyboard.KEY_END)
 @@ -313,7 +318,7 @@ public class GuiEditArrayEntries extends GuiListExtended
                      try
                      {
@@ -352,15 +299,6 @@ index ddabd56..ff6fa99 100644
              }
              catch (Throwable e)
              {
-@@ -359,7 +364,7 @@ public class GuiEditArrayEntries extends GuiListExtended
-                 String validChars = "0123456789";
-                 String before = this.textFieldValue.getText();
-                 if (validChars.contains(String.valueOf(eventChar))
--                        || (!before.startsWith("-") && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-+                        || (before.charAt(0) != '-'/*startsWith("-")*/ && this.textFieldValue.getCursorPosition() == 0 && eventChar == '-')
-                         || eventKey == Keyboard.KEY_BACK || eventKey == Keyboard.KEY_DELETE
-                         || eventKey == Keyboard.KEY_LEFT || eventKey == Keyboard.KEY_RIGHT || eventKey == Keyboard.KEY_HOME || eventKey == Keyboard.KEY_END)
-                     this.textFieldValue.textboxKeyTyped((owningScreen.enabled ? eventChar : Keyboard.CHAR_NONE), eventKey);
 @@ -369,7 +374,7 @@ public class GuiEditArrayEntries extends GuiListExtended
                      try
                      {
@@ -379,15 +317,6 @@ index ddabd56..ff6fa99 100644
              }
              catch (Throwable e)
              {
-@@ -526,7 +531,7 @@ public class GuiEditArrayEntries extends GuiListExtended
-         @Override
-         public Object getValue()
-         {
--            return Boolean.valueOf(value);
-+            return /*Boolean.valueOf*/(value);
-         }
-     }
- 
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/client/config/GuiSelectStringEntries.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/client/config/GuiSelectStringEntries.java
 index b4640a1..56d6fc4 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/client/config/GuiSelectStringEntries.java
@@ -558,7 +487,7 @@ index cf1fb72..2ccd915 100644
  
      @Override
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/LoadController.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/LoadController.java
-index ec68694..af4be67 100644
+index ec68694..9863b9b 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/LoadController.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/LoadController.java
 @@ -194,7 +194,7 @@ public class LoadController
@@ -579,28 +508,10 @@ index ec68694..af4be67 100644
      }
  
      public ImmutableBiMap<ModContainer, Object> buildModObjectList()
-@@ -347,7 +347,7 @@ public class LoadController
-     }
-     private FMLSecurityManager accessibleManager = new FMLSecurityManager();
- 
--    class FMLSecurityManager extends SecurityManager
-+    static class FMLSecurityManager extends SecurityManager
-     {
-         Class<?>[] getStackClasses()
-         {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/Loader.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/Loader.java
-index 8d8c7f0..bc6fd18 100644
+index 8d8c7f0..9b58297 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/Loader.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/Loader.java
-@@ -368,7 +368,7 @@ public class Loader
-         return discoverer;
-     }
- 
--    private class ModIdComparator implements Comparator<ModContainer>
-+    private static class ModIdComparator implements Comparator<ModContainer>
-     {
-         @Override
-         public int compare(ModContainer o1, ModContainer o2)
 @@ -574,16 +574,16 @@ public class Loader
          Properties forcedModListProperties = new Properties();
          if (forcedModFile.exists() && forcedModFile.isFile())
@@ -621,20 +532,6 @@ index 8d8c7f0..bc6fd18 100644
          }
          modStates.putAll(Maps.fromProperties(forcedModListProperties));
          modStates.putAll(sysPropertyStateList);
-@@ -635,10 +635,10 @@ public class Loader
-         List<String> branding = FMLCommonHandler.instance().getBrandings(false);
- 
-         Joiner.on(' ').skipNulls().appendTo(ret, branding);
--        if (modController != null)
--        {
-+        //if (modController != null)
-+        //{
-             modController.printModStates(ret);
--        }
-+        //}
-         return ret.toString();
-     }
- 
 @@ -672,7 +672,7 @@ public class Loader
              }
              String instruction = depparts.get(0);
@@ -712,19 +609,6 @@ index 8d8c7f0..bc6fd18 100644
          FMLLog.getLogger().log(Level.DEBUG, "Loaded {} injected dependencies on modIds: {}", injectedBefore.size(), injectedBefore.keySet());
      }
  
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/MissingModsException.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/MissingModsException.java
-index af1d3e2..e1d89b0 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/MissingModsException.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/MissingModsException.java
-@@ -19,7 +19,7 @@ import cpw.mods.fml.common.versioning.ArtifactVersion;
- public class MissingModsException extends EnhancedRuntimeException
- {
-     private static final long serialVersionUID = 1L;
--    public final Set<ArtifactVersion> missingMods;
-+    public transient final Set<ArtifactVersion> missingMods;
- 
-     public MissingModsException(Set<ArtifactVersion> missingMods)
-     {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/ModContainerFactory.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/ModContainerFactory.java
 index 34a7407..205c9dc 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/ModContainerFactory.java
@@ -738,25 +622,6 @@ index 34a7407..205c9dc 100644
      private static ModContainerFactory INSTANCE = new ModContainerFactory();
      
      private ModContainerFactory() {
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/ProxyInjector.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/ProxyInjector.java
-index a029169..791538a 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/ProxyInjector.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/ProxyInjector.java
-@@ -41,12 +41,12 @@ public class ProxyInjector
-             {
-                 Class<?> proxyTarget = Class.forName(targ.getClassName(), true, mcl);
-                 Field target = proxyTarget.getDeclaredField(targ.getObjectName());
--                if (target == null)
-+                /*if (target == null)
-                 {
-                     // Impossible?
-                     FMLLog.severe("Attempted to load a proxy type into %s.%s but the field was not found", targ.getClassName(), targ.getObjectName());
-                     throw new LoaderException(String.format("Attempted to load a proxy type into %s.%s but the field was not found", targ.getClassName(), targ.getObjectName()));
--                }
-+                }*/
-                 target.setAccessible(true);
- 
-                 SidedProxy annotation = target.getAnnotation(SidedProxy.class);
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/WrongMinecraftVersionException.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/WrongMinecraftVersionException.java
 index b936d7b..82ce52d 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/WrongMinecraftVersionException.java
@@ -871,41 +736,6 @@ index df08d6e..b9171df 100644
          return null;
      }
  
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/AccessTransformer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/AccessTransformer.java
-index 5357623..bb60541 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/AccessTransformer.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/AccessTransformer.java
-@@ -60,7 +60,7 @@ import cpw.mods.fml.relauncher.FMLRelaunchLog;
- public class AccessTransformer implements IClassTransformer
- {
-     private static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("fml.debugAccessTransformer", "false"));
--    class Modifier
-+    static class Modifier
-     {
-         public String name = "";
-         public String desc = "";
-@@ -443,7 +443,7 @@ public class AccessTransformer implements IClassTransformer
- 
-                 String entryName = entry.getName();
- 
--                if (entryName.endsWith(".class") && !entryName.startsWith("."))
-+                if (entryName.endsWith(".class") && entryName.charAt(0) != '.'/*startsWith(".")*/)
-                 {
-                     ClassNode cls = new ClassNode();
-                     ClassReader rdr = new ClassReader(entryData);
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/MarkerTransformer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/MarkerTransformer.java
-index 88e90f9..8a205a5 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/MarkerTransformer.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/MarkerTransformer.java
-@@ -242,7 +242,7 @@ public class MarkerTransformer implements IClassTransformer
- 
-                 String entryName = entry.getName();
- 
--                if (entryName.endsWith(".class") && !entryName.startsWith("."))
-+                if (entryName.endsWith(".class") && entryName.charAt(0) != '.'/*startsWith(".")*/)
-                 {
-                     ClassNode cls = new ClassNode();
-                     ClassReader rdr = new ClassReader(entryData);
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/ModAPITransformer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/asm/transformers/ModAPITransformer.java
 index d79fdd4..8b6bc8b 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/asm/transformers/ModAPITransformer.java
@@ -1109,19 +939,6 @@ index 0e0b0b3..41d0008 100644
      }
  
      public Set<String> getObfedClasses()
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/ContainerType.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/discovery/ContainerType.java
-index 7cc526b..f6b91d6 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/ContainerType.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/discovery/ContainerType.java
-@@ -23,7 +23,7 @@ public enum ContainerType
-     JAR(JarDiscoverer.class),
-     DIR(DirectoryDiscoverer.class);
- 
--    private ITypeDiscoverer discoverer;
-+    private transient ITypeDiscoverer discoverer;
- 
-     private ContainerType(Class<? extends ITypeDiscoverer> discovererClass)
-     {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/DirectoryDiscoverer.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/discovery/DirectoryDiscoverer.java
 index 76a9dc5..9b1a8d6 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/DirectoryDiscoverer.java
@@ -1196,32 +1013,6 @@ index da4088a..5104c00 100644
          return modList;
      }
  
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/asm/ModAnnotation.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/discovery/asm/ModAnnotation.java
-index 866cbc6..e78ebf1 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/discovery/asm/ModAnnotation.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/discovery/asm/ModAnnotation.java
-@@ -25,7 +25,7 @@ import cpw.mods.fml.common.discovery.asm.ASMModParser.AnnotationType;
- 
- public class ModAnnotation
- {
--    public class EnumHolder
-+    public static class EnumHolder
-     {
-         @SuppressWarnings("unused")
-         private String desc;
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLModIdMappingEvent.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/event/FMLModIdMappingEvent.java
-index 5f1b317..1d1b9f7 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLModIdMappingEvent.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/event/FMLModIdMappingEvent.java
-@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
- 
- public class FMLModIdMappingEvent extends FMLEvent {
-     public static enum RemapTarget { BLOCK, ITEM }
--    public class ModRemapping
-+    public static class ModRemapping
-     {
-         public final int oldId;
-         public final int newId;
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLServerStartingEvent.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/event/FMLServerStartingEvent.java
 index 7999048..1f33b11 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/event/FMLServerStartingEvent.java
@@ -1276,7 +1067,7 @@ index a15d266..954399f 100644
      private IEventExceptionHandler exceptionHandler;
  
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/eventhandler/ListenerList.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/eventhandler/ListenerList.java
-index a2231cc..bbc43f2 100644
+index a2231cc..736ab4e 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/eventhandler/ListenerList.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/eventhandler/ListenerList.java
 @@ -60,10 +60,11 @@ public class ListenerList
@@ -1293,15 +1084,6 @@ index a2231cc..bbc43f2 100644
          for(; x < max; x++)
          {
              if (parent != null)
-@@ -114,7 +115,7 @@ public class ListenerList
-         }
-     }
- 
--    private class ListenerListInst
-+    private static class ListenerListInst
-     {
-         private boolean rebuild = true;
-         private IEventListener[] listeners;
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/launcher/FMLDeobfTweaker.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/launcher/FMLDeobfTweaker.java
 index 3f79c4d..78ee809 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/launcher/FMLDeobfTweaker.java
@@ -1330,21 +1112,8 @@ index 3f79c4d..78ee809 100644
          }
          catch (Exception e)
          {
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/launcher/FMLTweaker.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/launcher/FMLTweaker.java
-index cbcd1e0..cc20c17 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/launcher/FMLTweaker.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/launcher/FMLTweaker.java
-@@ -58,7 +58,7 @@ public class FMLTweaker implements ITweaker {
- 
-         for (String arg : args)
-         {
--            if (arg.startsWith("-"))
-+            if (arg.charAt(0) == '-'/*startsWith("-")*/)
-             {
-                 if (classifier != null)
-                 {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/network/ByteBufUtils.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/network/ByteBufUtils.java
-index ca55ee0..8cdc64d 100644
+index ca55ee0..94adb76 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/network/ByteBufUtils.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/network/ByteBufUtils.java
 @@ -214,7 +214,7 @@ public class ByteBufUtils {
@@ -1361,7 +1130,7 @@ index ca55ee0..8cdc64d 100644
                  for (j = i - 16; j < i; j++)
                  {
 -                    if (buffer.getByte(j) < 0x20 || buffer.getByte(j) > 0x7F)
-+                    if (buffer.getByte(j) < 0x20/* || buffer.getByte(j) > 0x7F*/)//FB:INT - INT_BAD_COMPARISON_WITH_SIGNED_BYT
++                    if (buffer.getByte(j) < 0x20 || buffer.getByte(j) > 0x7F)//FB:INT - INT_BAD_COMPARISON_WITH_SIGNED_BYT
                          returnString.append('.');
                      else
                          returnString.append((char) buffer.getByte(j));
@@ -1377,15 +1146,7 @@ index ca55ee0..8cdc64d 100644
          }
  
          // Add padding spaces if it's not a multiple of 16
-@@ -267,15 +266,14 @@ public class ByteBufUtils {
- 
-         for (; i >= 0 && j < i; j++)
-         {
--            if (buffer.getByte(j) < 0x20 || buffer.getByte(j) > 0x7F)
-+            if (buffer.getByte(j) < 0x20/* || buffer.getByte(j) > 0x7F*/)
-                 returnString.append('.');
-             else
-                 returnString.append((char) buffer.getByte(j));
+@@ -274,8 +273,7 @@ public class ByteBufUtils {
          }
  
          // Finally, tidy it all up with a newline
@@ -2024,30 +1785,8 @@ index 21314b3..fefeb49 100644
      }
  
      private void searchDirForLanguages(File source, String path, Side side) throws IOException
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/toposort/ModSortingException.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/toposort/ModSortingException.java
-index 00f621d..daca6b8 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/toposort/ModSortingException.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/toposort/ModSortingException.java
-@@ -18,7 +18,7 @@ public class ModSortingException extends RuntimeException
- {
-     private static final long serialVersionUID = 1L;
- 
--    public class SortingExceptionData<T>
-+    public static class SortingExceptionData<T>
-     {
-         public SortingExceptionData(T node, Set<T> visitedNodes)
-         {
-@@ -39,7 +39,7 @@ public class ModSortingException extends RuntimeException
-         }
-     }
- 
--    private SortingExceptionData<?> sortingExceptionData;
-+    private transient SortingExceptionData<?> sortingExceptionData;
- 
-     public <T> ModSortingException(String string, T node, Set<T> visitedNodes)
-     {
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/versioning/ComparableVersion.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/versioning/ComparableVersion.java
-index c8b8b59..d22ef75 100644
+index c8b8b59..5e7ee00 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/versioning/ComparableVersion.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/versioning/ComparableVersion.java
 @@ -98,7 +98,7 @@ public class ComparableVersion
@@ -2059,30 +1798,8 @@ index c8b8b59..d22ef75 100644
  
          private final BigInteger value;
  
-@@ -489,7 +489,7 @@ public class ComparableVersion
-     @Override
-     public boolean equals( Object o )
-     {
--        return ( o.getClass().equals(ComparableVersion.class) ) && canonical.equals( ( (ComparableVersion) o ).canonical );
-+        return o != null && ( o.getClass() == ComparableVersion.class.getClass() ) && canonical.equals( ( (ComparableVersion) o ).canonical );
-     }
- 
-     @Override
-diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/versioning/DefaultArtifactVersion.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/versioning/DefaultArtifactVersion.java
-index 65cb073..89a57cf 100644
---- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/versioning/DefaultArtifactVersion.java
-+++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/versioning/DefaultArtifactVersion.java
-@@ -46,7 +46,7 @@ public class DefaultArtifactVersion implements ArtifactVersion
-     @Override
-     public boolean equals(Object obj)
-     {
--        return ((DefaultArtifactVersion)obj).containsVersion(this);
-+        return obj != null && ((DefaultArtifactVersion)obj).containsVersion(this);
-     }
- 
-     @Override
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/common/versioning/VersionRange.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/versioning/VersionRange.java
-index 5a71589..a5976a4 100644
+index 5a71589..4d89862 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/common/versioning/VersionRange.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/common/versioning/VersionRange.java
 @@ -163,7 +163,7 @@ public class VersionRange
@@ -2103,15 +1820,6 @@ index 5a71589..a5976a4 100644
          boolean upperBoundInclusive = spec.endsWith( "]" );
  
          String process = spec.substring( 1, spec.length() - 1 ).trim();
-@@ -539,7 +539,7 @@ public class VersionRange
-         {
-             return true;
-         }//warning: , instanceof -> getClass().equals()
--        if ( !( obj.getClass().equals(VersionRange.class) ) )
-+        if ( obj == null || !(obj.getClass() == VersionRange.class.getClass()))
-         {
-             return false;
-         }
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java
 index 2297276..ca19598 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/relauncher/CoreModManager.java
@@ -2392,7 +2100,7 @@ index 78410b3..5c5a596 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/Delta.java ./eclipse/cauldron/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/Delta.java
-index 0caca41..7a26925 100644
+index 0caca41..300898d 100644
 --- ./eclipse/Clean/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/Delta.java
 +++ ./eclipse/cauldron/src/main/java/cpw/mods/fml/repackage/com/nothome/delta/Delta.java
 @@ -229,8 +229,8 @@ public class Delta {
@@ -2426,7 +2134,7 @@ index 0caca41..7a26925 100644
                  int val = bb.get();
 -                if (val > 32 && val < 127)
 -                    sb.append(" ").append((char)val);
-+                if (val > 32/* && val < 127*/)//FB:INT - INT_BAD_COMPARISON_WITH_SIGNED_BYTE
++                if (val > 32 && val < 127)//FB:INT - INT_BAD_COMPARISON_WITH_SIGNED_BYTE
 +                    sb.append(' ').append((char)val);
                  else
                      append(sb, val);
@@ -2477,62 +2185,6 @@ index 747a38f..e6b0f4a 100644
  
                          if (cmd.equals("/fml confirm"))
                          {
-diff --git ./eclipse/Clean/src/main/java/ibxm/Channel.java ./eclipse/cauldron/src/main/java/ibxm/Channel.java
-index d5c6122..63aa54d 100644
---- ./eclipse/Clean/src/main/java/ibxm/Channel.java
-+++ ./eclipse/cauldron/src/main/java/ibxm/Channel.java
-@@ -202,6 +202,11 @@ public class Channel {
- 				break;
- 			case 0x05:
- 				/* Tone Portamento + Volume Slide.*/
-+				//set_volume_slide_param( effect_param );
-+				//volume_slide();
-+				//break;
-+			case 0x0A:
-+				/* Volume Slide.*/
- 				set_volume_slide_param( effect_param );
- 				volume_slide();
- 				break;
-@@ -225,11 +230,11 @@ public class Channel {
- 				/* Set Sample Index.*/
- 				set_sample_index( effect_param << 8 );
- 				break;
--			case 0x0A:
-+			/*case 0x0A:
- 				/* Volume Slide.*/
--				set_volume_slide_param( effect_param );
-+				/*set_volume_slide_param( effect_param );
- 				volume_slide();
--				break;
-+				break;*/
- 			case 0x0B:
- 				/* Pattern Jump.*/
- 				break;
-@@ -252,6 +257,10 @@ public class Channel {
- 				break;
- 			case 0x11:
- 				/* global Volume Slide.*/
-+				//set_volume_slide_param( effect_param );
-+				//break;
-+			case 0x19:
-+				/* Panning Slide.*/
- 				set_volume_slide_param( effect_param );
- 				break;
- 			case 0x14:
-@@ -264,10 +273,10 @@ public class Channel {
- 				/* Set Envelope Tick.*/
- 				set_envelope_tick( effect_param );
- 				break;
--			case 0x19:
-+			/*case 0x19:
- 				/* Panning Slide.*/
--				set_volume_slide_param( effect_param );
--				break;
-+				/*set_volume_slide_param( effect_param );
-+				break;*/
- 			case 0x1B:
- 				/* Retrig + Volume Slide.*/
- 				set_retrig_param( effect_param );
 diff --git ./eclipse/Clean/src/main/java/ibxm/Player.java ./eclipse/cauldron/src/main/java/ibxm/Player.java
 index 0e18307..fe43424 100644
 --- ./eclipse/Clean/src/main/java/ibxm/Player.java
@@ -2547,7 +2199,7 @@ index 0e18307..fe43424 100644
  		player.set_module( Player.load_module( file_input_stream ) );
  		file_input_stream.close();
 diff --git ./eclipse/Clean/src/main/java/ibxm/ProTracker.java ./eclipse/cauldron/src/main/java/ibxm/ProTracker.java
-index 85684c3..4bd28d7 100644
+index 85684c3..68b2920 100644
 --- ./eclipse/Clean/src/main/java/ibxm/ProTracker.java
 +++ ./eclipse/cauldron/src/main/java/ibxm/ProTracker.java
 @@ -72,7 +72,7 @@ public class ProTracker {
@@ -2555,7 +2207,7 @@ index 85684c3..4bd28d7 100644
  	private static int calculate_num_channels( byte[] module_header ) {
  		int num_channels;
 -		switch( ( module_header[ 1082 ] << 8 ) | module_header[ 1083 ] ) {
-+		switch( ( module_header[ 1082 ] << 8 ) | module_header[ 1083 ] & module_header[ 1083 ] ) {//FB:BIT - BIT_IOR_OF_SIGNED_BYTE
++		switch( ( module_header[ 1082 ] << 8 ) | module_header[ 1083 ] /*& module_header[ 1083 ] */) {//FB:BIT - BIT_IOR_OF_SIGNED_BYTE
  			case 0x4b2e: /* M.K. */
  			case 0x4b21: /* M!K! */
  			case 0x542e: /* N.T. */
@@ -35592,7 +35244,7 @@ index 08bd913..d1016bb 100644
                              commands.set(i, GRAY + commands.get(i) + RESET);
                          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/GuiIngameForge.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/GuiIngameForge.java
-index 87d31b4..0635238 100644
+index 87d31b4..3975183 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/GuiIngameForge.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/GuiIngameForge.java
 @@ -125,7 +125,7 @@ public class GuiIngameForge extends GuiIngame
@@ -35604,15 +35256,6 @@ index 87d31b4..0635238 100644
  
              if (renderCrosshairs) renderCrosshairs(width, height);
              if (renderBossHealth) renderBossHealth();
-@@ -337,7 +337,7 @@ public class GuiIngameForge extends GuiIngame
-         mc.mcProfiler.startSection("health");
-         GL11.glEnable(GL11.GL_BLEND);
- 
--        boolean highlight = mc.thePlayer.hurtResistantTime / 3 % 2 == 1;
-+        boolean highlight = ((mc.thePlayer.hurtResistantTime / 3) & 1) == 1;
- 
-         if (mc.thePlayer.hurtResistantTime < 10)
-         {
 @@ -353,7 +353,7 @@ public class GuiIngameForge extends GuiIngame
          int healthRows = MathHelper.ceiling_float_int((healthMax + absorb) / 2.0F / 10.0F);
          int rowHeight = Math.max(10 - (healthRows - 2), 3);
@@ -35676,7 +35319,7 @@ index 2b5e719..d78ba6e 100644
                      ForgeChunkManager.addConfigProperty(modObject, "maximumTicketCount", String.valueOf(maxTickets), Property.Type.INTEGER);
                      ForgeChunkManager.addConfigProperty(modObject, "maximumChunksPerTicket", String.valueOf(maxChunks), Property.Type.INTEGER);
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java
-index dc5b48d..c0252d6 100644
+index dc5b48d..cccea1e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/model/obj/WavefrontObject.java
 @@ -26,14 +26,14 @@ import cpw.mods.fml.relauncher.SideOnly;
@@ -35711,17 +35354,9 @@ index dc5b48d..c0252d6 100644
                  {
                      continue;
                  }
-@@ -121,12 +121,12 @@ public class WavefrontObject implements IModelCustom
- 
-                     Face face = parseFace(currentLine, lineCount);
- 
--                    if (face != null)
--                    {
-+                    //if (face != null)
-+                    //{
+@@ -126,7 +126,7 @@ public class WavefrontObject implements IModelCustom
                          currentGroupObject.faces.add(face);
--                    }
-+                    //}
+                     }
                  }
 -                else if (currentLine.startsWith("g ") | currentLine.startsWith("o "))
 +                else if (currentLine.startsWith("g ") || currentLine.startsWith("o "))
@@ -37644,32 +37279,6 @@ index d00bd91..c024c87 100644
 +    }
  }
 \ No newline at end of file
-diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/BlockSnapshot.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/BlockSnapshot.java
-index 91f7606..696444a 100644
---- ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/BlockSnapshot.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/BlockSnapshot.java
-@@ -32,7 +32,7 @@ public class BlockSnapshot implements Serializable
-     public int flag;
-     private final NBTTagCompound nbt;
-     public transient World world;
--    public final UniqueIdentifier blockIdentifier;
-+    public transient final UniqueIdentifier blockIdentifier;
- 
-     public BlockSnapshot(World world, int x, int y, int z, Block block, int meta)
-     {
-diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/ChunkCoordComparator.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/ChunkCoordComparator.java
-index bb87e90..83cf441 100644
---- ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/ChunkCoordComparator.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/ChunkCoordComparator.java
-@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
- import net.minecraft.world.ChunkCoordIntPair;
- 
- // Sorter to load nearby chunks first
--public class ChunkCoordComparator implements java.util.Comparator<ChunkCoordIntPair>
-+public class ChunkCoordComparator implements java.util.Comparator<ChunkCoordIntPair>, java.io.Serializable
- {
-     private int x;
-     private int z;
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/EnumHelper.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/util/EnumHelper.java
 index 5f0ec8a..e3e069e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/util/EnumHelper.java
@@ -38064,19 +37673,6 @@ index 2c8e01e..9c66d5a 100644
          }
      }
  
-diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/Fluid.java ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/Fluid.java
-index da1d610..8d37887 100644
---- ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/Fluid.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/Fluid.java
-@@ -199,7 +199,7 @@ public class Fluid
-     public String getLocalizedName()
-     {
-         String s = this.getUnlocalizedName();
--        return s == null ? "" : StatCollector.translateToLocal(s);
-+        return /*s == null ? "" : */StatCollector.translateToLocal(s);
-     }
- 
-     /**
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java
 index c19fb22..72768f6 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidContainerRegistry.java
@@ -38093,19 +37689,6 @@ index c19fb22..72768f6 100644
              return code;
          }
          @Override
-diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidStack.java ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/FluidStack.java
-index b6fed47..06200c0 100644
---- ./eclipse/Clean/src/main/java/net/minecraftforge/fluids/FluidStack.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraftforge/fluids/FluidStack.java
-@@ -229,7 +229,7 @@ public class FluidStack
-     @Override
-     public final boolean equals(Object o)
-     {
--        if (!(o.getClass().equals(FluidStack.class)))
-+        if (o == null || !(o.getClass() == FluidStack.class.getClass()))
-         {
-             return false;
-         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/OreDictionary.java
 index fcc3f34..6dafadb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/OreDictionary.java
@@ -38215,7 +37798,7 @@ index fcc3f34..6dafadb 100644
          {
              List<ItemStack> ores = idToStack.get(id);
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/RecipeSorter.java ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
-index 0057513..f9875f0 100644
+index 0057513..cba9fdf 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/oredict/RecipeSorter.java
 @@ -2,9 +2,9 @@ package net.minecraftforge.oredict;
@@ -38231,15 +37814,6 @@ index 0057513..f9875f0 100644
  
  import com.google.common.base.Joiner;
  import com.google.common.collect.Lists;
-@@ -26,7 +26,7 @@ import net.minecraft.item.crafting.ShapelessRecipes;
- import static net.minecraftforge.oredict.RecipeSorter.Category.*;
- 
- @SuppressWarnings("rawtypes")
--public class RecipeSorter implements Comparator<IRecipe>
-+public class RecipeSorter implements Comparator<IRecipe>, java.io.Serializable
- {
-     public enum Category
-     {
 @@ -40,9 +40,8 @@ public class RecipeSorter implements Comparator<IRecipe>
          private String name;
          private Class<?> cls;

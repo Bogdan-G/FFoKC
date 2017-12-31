@@ -23,10 +23,10 @@ public class TrackingRange
     {
         SpigotWorldConfig config = entity.worldObj.getSpigotConfig(); // Cauldron
         int range = defaultRange;
-        if ( entity.getClass().equals(EntityPlayerMP.class) )
+        if ( entity instanceof EntityPlayerMP )
         {
             range = config.playerTrackingRange;
-        } else if ( entity.defaultActivationState || entity.getClass().equals(EntityGhast.class) )
+        } else if ( entity.defaultActivationState || entity instanceof EntityGhast )
         {
             range = defaultRange;
         } else if ( entity.activationType == 1 )
@@ -35,7 +35,7 @@ public class TrackingRange
         } else if ( entity.activationType == 2 )
         {
             range = config.animalTrackingRange;
-        } else if ( entity.getClass().equals(EntityItemFrame.class) || entity.getClass().equals(EntityPainting.class) || entity.getClass().equals(EntityItem.class) || entity.getClass().equals(EntityXPOrb.class) )
+        } else if ( entity instanceof EntityItemFrame || entity instanceof EntityPainting || entity instanceof EntityItem || entity instanceof EntityXPOrb )
         {
             range = config.miscTrackingRange;
         }

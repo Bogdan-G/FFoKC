@@ -4881,7 +4881,7 @@ index 08eb480..0253cb1 100644
          }
      }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneWire.java ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneWire.java
-index 11bb1cb..d4bc170 100644
+index 11bb1cb..7c553a3 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/block/BlockRedstoneWire.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/block/BlockRedstoneWire.java
 @@ -18,6 +18,8 @@ import net.minecraft.world.ChunkPosition;
@@ -4901,15 +4901,7 @@ index 11bb1cb..d4bc170 100644
  
      public BlockRedstoneWire()
      {
-@@ -75,6 +78,7 @@ public class BlockRedstoneWire extends Block
-         ArrayList arraylist = new ArrayList(this.field_150179_b);
-         this.field_150179_b.clear();
- 
-+        //arraylist_sS=arraylist.size();
-         for (int l = 0; l < arraylist.size(); ++l)
-         {
-             ChunkPosition chunkposition = (ChunkPosition)arraylist.get(l);
-@@ -159,6 +163,15 @@ public class BlockRedstoneWire extends Block
+@@ -159,6 +162,15 @@ public class BlockRedstoneWire extends Block
              i3 = l1;
          }
  
@@ -4925,7 +4917,7 @@ index 11bb1cb..d4bc170 100644
          if (k1 != i3)
          {
              p_150175_1_.setBlockMetadataWithNotify(p_150175_2_, p_150175_3_, p_150175_4_, i3, 2);
-@@ -294,7 +307,8 @@ public class BlockRedstoneWire extends Block
+@@ -294,7 +306,8 @@ public class BlockRedstoneWire extends Block
          }
      }
  
@@ -6286,70 +6278,6 @@ index 214a729..92d1824 100644
              return AbstractResourcePack.readMetadata(p_135058_1_, fileinputstream, p_135058_2_);
          }
          catch (RuntimeException runtimeexception)
-diff --git ./eclipse/Clean/src/main/java/net/minecraft/client/shader/ShaderManager.java ./eclipse/cauldron/src/main/java/net/minecraft/client/shader/ShaderManager.java
-index 0d4cc00..2de33e1 100644
---- ./eclipse/Clean/src/main/java/net/minecraft/client/shader/ShaderManager.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraft/client/shader/ShaderManager.java
-@@ -51,6 +51,7 @@ public class ShaderManager
-     private final ShaderLoader field_148013_s;
-     private final ShaderLoader field_148012_t;
-     private static final String __OBFID = "CL_00001040";
-+    int sF_cf;
- 
-     public ShaderManager(IResourceManager p_i45087_1_, String p_i45087_2_) throws JsonException
-     {
-@@ -188,7 +189,8 @@ public class ShaderManager
-         staticShaderManager = null;
-         field_148000_e = true;
- 
--        for (int i = 0; i < this.field_148010_h.size(); ++i)
-+        sF_cf=this.field_148010_h.size();
-+        for (int i = 0; i < sF_cf; ++i)
-         {
-             if (this.field_147997_f.get(this.field_147998_g.get(i)) != null)
-             {
-@@ -224,7 +226,8 @@ public class ShaderManager
-             }
-         }
- 
--        for (int i = 0; i < this.field_148010_h.size(); ++i)
-+        sF_cf=this.field_148010_h.size();
-+        for (int i = 0; i < sF_cf; ++i)
-         {
-             if (this.field_147997_f.get(this.field_147998_g.get(i)) != null)
-             {
-@@ -284,7 +287,8 @@ public class ShaderManager
-         String s;
-         int k;
- 
--        for (int j = 0; i < this.field_147998_g.size(); ++j)
-+        sF_cf=this.field_147998_g.size();
-+        for (int j = 0; i < sF_cf; ++j)
-         {
-             s = (String)this.field_147998_g.get(i);
-             k = OpenGlHelper.func_153194_a(this.field_148006_l, s);
-diff --git ./eclipse/Clean/src/main/java/net/minecraft/client/stream/BroadcastController.java ./eclipse/cauldron/src/main/java/net/minecraft/client/stream/BroadcastController.java
-index 7896bb1..fcbabce 100644
---- ./eclipse/Clean/src/main/java/net/minecraft/client/stream/BroadcastController.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraft/client/stream/BroadcastController.java
-@@ -74,6 +74,7 @@ public class BroadcastController implements IStatCallbacks, IStreamCallbacks
-     protected IngestServerTester field_152860_A;
-     private ErrorCode field_152864_E;
-     private static final String __OBFID = "CL_00001822";
-+    int sF_cf;
- 
-     public void requestAuthTokenCallback(ErrorCode p_requestAuthTokenCallback_1_, AuthToken p_requestAuthTokenCallback_2_)
-     {
-@@ -955,7 +956,8 @@ public class BroadcastController implements IStatCallbacks, IStreamCallbacks
- 
-     protected void func_152831_M()
-     {
--        for (int i = 0; i < this.field_152874_j.size(); ++i)
-+        sF_cf=this.field_152874_j.size();
-+        for (int i = 0; i < sF_cf; ++i)
-         {
-             FrameBuffer framebuffer = (FrameBuffer)this.field_152874_j.get(i);
-             framebuffer.free();
 diff --git ./eclipse/cauldron/src/main/java/net/minecraft/client/stream/Metadata.java.rtf ./eclipse/cauldron/src/main/java/net/minecraft/client/stream/Metadata.java.rtf
 new file mode 100644
 index 0000000..92758b9
@@ -10433,7 +10361,7 @@ index 53f2b4d..d54abdf 100644
  import java.util.Map;
  import java.util.Set;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/boss/EntityDragon.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/boss/EntityDragon.java
-index 53cf67e..989bf83 100644
+index 53cf67e..c523c0b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/boss/EntityDragon.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/boss/EntityDragon.java
 @@ -22,6 +22,19 @@ import net.minecraft.util.Vec3;
@@ -10494,17 +10422,7 @@ index 53cf67e..989bf83 100644
              }
          }
  
-@@ -412,7 +438,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
- 
-     private void attackEntitiesInList(List p_70971_1_)
-     {
--        for (int i = 0; i < p_70971_1_.size(); ++i)
-+        sF_cf=p_70971_1_.size();
-+        for (int i = 0; i < sF_cf; ++i)
-         {
-             Entity entity = (Entity)p_70971_1_.get(i);
- 
-@@ -429,7 +456,24 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -429,7 +455,24 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
  
          if (this.rand.nextInt(2) == 0 && !this.worldObj.playerEntities.isEmpty())
          {
@@ -10530,7 +10448,7 @@ index 53cf67e..989bf83 100644
          }
          else
          {
-@@ -468,6 +512,10 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -468,6 +511,10 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
          int j1 = MathHelper.floor_double(p_70972_1_.maxZ);
          boolean flag = false;
          boolean flag1 = false;
@@ -10541,7 +10459,7 @@ index 53cf67e..989bf83 100644
  
          for (int k1 = i; k1 <= l; ++k1)
          {
-@@ -481,7 +529,11 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -481,7 +528,11 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
                      {
                          if (block.canEntityDestroy(worldObj, k1, l1, i2, this) && this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
                          {
@@ -10554,7 +10472,7 @@ index 53cf67e..989bf83 100644
                          }
                          else
                          {
-@@ -494,6 +546,52 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -494,6 +545,52 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
  
          if (flag1)
          {
@@ -10607,7 +10525,7 @@ index 53cf67e..989bf83 100644
              double d1 = p_70972_1_.minX + (p_70972_1_.maxX - p_70972_1_.minX) * (double)this.rand.nextFloat();
              double d2 = p_70972_1_.minY + (p_70972_1_.maxY - p_70972_1_.minY) * (double)this.rand.nextFloat();
              double d0 = p_70972_1_.minZ + (p_70972_1_.maxZ - p_70972_1_.minZ) * (double)this.rand.nextFloat();
-@@ -531,13 +629,18 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -531,13 +628,18 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
          return false;
      }
  
@@ -10627,7 +10545,7 @@ index 53cf67e..989bf83 100644
          ++this.deathTicks;
  
          if (this.deathTicks >= 180 && this.deathTicks <= 200)
-@@ -555,7 +658,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -555,7 +657,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
          {
              if (this.deathTicks > 150 && this.deathTicks % 5 == 0)
              {
@@ -10636,7 +10554,7 @@ index 53cf67e..989bf83 100644
  
                  while (i > 0)
                  {
-@@ -576,7 +679,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -576,7 +678,7 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
  
          if (this.deathTicks == 200 && !this.worldObj.isRemote)
          {
@@ -10645,7 +10563,7 @@ index 53cf67e..989bf83 100644
  
              while (i > 0)
              {
-@@ -595,6 +698,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -595,6 +697,8 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
          byte b0 = 64;
          BlockEndPortal.field_149948_a = true;
          byte b1 = 4;
@@ -10654,7 +10572,7 @@ index 53cf67e..989bf83 100644
  
          for (int k = b0 - 1; k <= b0 + 32; ++k)
          {
-@@ -641,6 +746,35 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -641,6 +745,35 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
          this.worldObj.setBlock(p_70975_1_, b0 + 2, p_70975_2_ + 1, Blocks.torch);
          this.worldObj.setBlock(p_70975_1_, b0 + 3, p_70975_2_, Blocks.bedrock);
          this.worldObj.setBlock(p_70975_1_, b0 + 4, p_70975_2_, Blocks.dragon_egg);
@@ -10690,7 +10608,7 @@ index 53cf67e..989bf83 100644
          BlockEndPortal.field_149948_a = false;
      }
  
-@@ -675,4 +809,13 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
+@@ -675,4 +808,13 @@ public class EntityDragon extends EntityLiving implements IBossDisplayData, IEnt
      {
          return 5.0F;
      }
@@ -15363,7 +15281,7 @@ index 615f239..8f36f70 100644
  
      public void writeCapabilitiesToNBT(NBTTagCompound p_75091_1_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityArrow.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityArrow.java
-index fff1f2c..6b3765e 100644
+index fff1f2c..60bd6bb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityArrow.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityArrow.java
 @@ -2,7 +2,9 @@ package net.minecraft.entity.projectile;
@@ -15391,7 +15309,7 @@ index fff1f2c..6b3765e 100644
  public class EntityArrow extends Entity implements IProjectile
  {
      private int field_145791_d = -1;
-@@ -30,15 +40,16 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -30,14 +40,14 @@ public class EntityArrow extends Entity implements IProjectile
      private int field_145789_f = -1;
      private Block field_145790_g;
      private int inData;
@@ -15406,11 +15324,9 @@ index fff1f2c..6b3765e 100644
 -    private int knockbackStrength;
 +    public int knockbackStrength; // CraftBukkit - private -> public
      private static final String __OBFID = "CL_00001715";
-+    int list_sS;
  
      public EntityArrow(World p_i1753_1_)
-     {
-@@ -61,6 +72,7 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -61,6 +71,7 @@ public class EntityArrow extends Entity implements IProjectile
          super(p_i1755_1_);
          this.renderDistanceWeight = 10.0D;
          this.shootingEntity = p_i1755_2_;
@@ -15418,7 +15334,7 @@ index fff1f2c..6b3765e 100644
  
          if (p_i1755_2_ instanceof EntityPlayer)
          {
-@@ -91,6 +103,7 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -91,6 +102,7 @@ public class EntityArrow extends Entity implements IProjectile
          super(p_i1756_1_);
          this.renderDistanceWeight = 10.0D;
          this.shootingEntity = p_i1756_2_;
@@ -15426,7 +15342,7 @@ index fff1f2c..6b3765e 100644
  
          if (p_i1756_2_ instanceof EntityPlayer)
          {
-@@ -199,7 +212,7 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -199,7 +211,7 @@ public class EntityArrow extends Entity implements IProjectile
              {
                  ++this.ticksInGround;
  
@@ -15435,17 +15351,7 @@ index fff1f2c..6b3765e 100644
                  {
                      this.setDead();
                  }
-@@ -234,7 +247,8 @@ public class EntityArrow extends Entity implements IProjectile
-             int i;
-             float f1;
- 
--            for (i = 0; i < list.size(); ++i)
-+            list_sS=list.size();
-+            for (i = 0; i < list_sS; ++i)
-             {
-                 Entity entity1 = (Entity)list.get(i);
- 
-@@ -246,7 +260,7 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -246,7 +258,7 @@ public class EntityArrow extends Entity implements IProjectile
  
                      if (movingobjectposition1 != null)
                      {
@@ -15454,7 +15360,7 @@ index fff1f2c..6b3765e 100644
  
                          if (d1 < d0 || d0 == 0.0D)
                          {
-@@ -277,6 +291,8 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -277,6 +289,8 @@ public class EntityArrow extends Entity implements IProjectile
  
              if (movingobjectposition != null)
              {
@@ -15463,7 +15369,7 @@ index fff1f2c..6b3765e 100644
                  if (movingobjectposition.entityHit != null)
                  {
                      f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-@@ -298,13 +314,23 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -298,13 +312,23 @@ public class EntityArrow extends Entity implements IProjectile
                          damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
                      }
  
@@ -15492,7 +15398,7 @@ index fff1f2c..6b3765e 100644
                          if (movingobjectposition.entityHit instanceof EntityLivingBase)
                          {
                              EntityLivingBase entitylivingbase = (EntityLivingBase)movingobjectposition.entityHit;
-@@ -487,6 +513,23 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -487,6 +511,23 @@ public class EntityArrow extends Entity implements IProjectile
      {
          if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0)
          {
@@ -15516,7 +15422,7 @@ index fff1f2c..6b3765e 100644
              boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
  
              if (this.canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(Items.arrow, 1)))
-@@ -553,4 +596,18 @@ public class EntityArrow extends Entity implements IProjectile
+@@ -553,4 +594,18 @@ public class EntityArrow extends Entity implements IProjectile
          byte b0 = this.dataWatcher.getWatchableObjectByte(16);
          return (b0 & 1) != 0;
      }
@@ -15627,7 +15533,7 @@ index c8eb986..df9f43b 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityFireball.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityFireball.java
-index 4bf84a9..cfc7f83 100644
+index 4bf84a9..6bbcd07 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityFireball.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityFireball.java
 @@ -2,7 +2,9 @@ package net.minecraft.entity.projectile;
@@ -15649,18 +15555,16 @@ index 4bf84a9..cfc7f83 100644
  public abstract class EntityFireball extends Entity
  {
      private int field_145795_e = -1;
-@@ -28,7 +32,10 @@ public abstract class EntityFireball extends Entity
+@@ -28,6 +32,8 @@ public abstract class EntityFireball extends Entity
      public double accelerationX;
      public double accelerationY;
      public double accelerationZ;
 +    public float bukkitYield = 1; // CraftBukkit
 +    public boolean isIncendiary = true; // CraftBukkit
      private static final String __OBFID = "CL_00001717";
-+    int list_sS;
  
      public EntityFireball(World p_i1759_1_)
-     {
-@@ -62,11 +69,19 @@ public abstract class EntityFireball extends Entity
+@@ -62,11 +68,19 @@ public abstract class EntityFireball extends Entity
      {
          super(p_i1761_1_);
          this.shootingEntity = p_i1761_2_;
@@ -15680,17 +15584,7 @@ index 4bf84a9..cfc7f83 100644
          p_i1761_3_ += this.rand.nextGaussian() * 0.4D;
          p_i1761_5_ += this.rand.nextGaussian() * 0.4D;
          p_i1761_7_ += this.rand.nextGaussian() * 0.4D;
-@@ -128,7 +143,8 @@ public abstract class EntityFireball extends Entity
-             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
-             double d0 = 0.0D;
- 
--            for (int i = 0; i < list.size(); ++i)
-+            list_sS=list.size();
-+            for (int i = 0; i < list_sS; ++i)
-             {
-                 Entity entity1 = (Entity)list.get(i);
- 
-@@ -140,7 +156,7 @@ public abstract class EntityFireball extends Entity
+@@ -140,7 +154,7 @@ public abstract class EntityFireball extends Entity
  
                      if (movingobjectposition1 != null)
                      {
@@ -15699,7 +15593,7 @@ index 4bf84a9..cfc7f83 100644
  
                          if (d1 < d0 || d0 == 0.0D)
                          {
-@@ -159,6 +175,14 @@ public abstract class EntityFireball extends Entity
+@@ -159,6 +173,14 @@ public abstract class EntityFireball extends Entity
              if (movingobjectposition != null)
              {
                  this.onImpact(movingobjectposition);
@@ -15714,7 +15608,7 @@ index 4bf84a9..cfc7f83 100644
              }
  
              this.posX += this.motionX;
-@@ -227,6 +251,8 @@ public abstract class EntityFireball extends Entity
+@@ -227,6 +249,8 @@ public abstract class EntityFireball extends Entity
          p_70014_1_.setShort("zTile", (short)this.field_145794_g);
          p_70014_1_.setByte("inTile", (byte)Block.getIdFromBlock(this.field_145796_h));
          p_70014_1_.setByte("inGround", (byte)(this.inGround ? 1 : 0));
@@ -15723,7 +15617,7 @@ index 4bf84a9..cfc7f83 100644
          p_70014_1_.setTag("direction", this.newDoubleNBTList(new double[] {this.motionX, this.motionY, this.motionZ}));
      }
  
-@@ -238,7 +264,16 @@ public abstract class EntityFireball extends Entity
+@@ -238,7 +262,16 @@ public abstract class EntityFireball extends Entity
          this.field_145796_h = Block.getBlockById(p_70037_1_.getByte("inTile") & 255);
          this.inGround = p_70037_1_.getByte("inGround") == 1;
  
@@ -15741,7 +15635,7 @@ index 4bf84a9..cfc7f83 100644
          {
              NBTTagList nbttaglist = p_70037_1_.getTagList("direction", 6);
              this.motionX = nbttaglist.func_150309_d(0);
-@@ -273,6 +308,13 @@ public abstract class EntityFireball extends Entity
+@@ -273,6 +306,13 @@ public abstract class EntityFireball extends Entity
  
              if (p_70097_1_.getEntity() != null)
              {
@@ -15755,7 +15649,7 @@ index 4bf84a9..cfc7f83 100644
                  Vec3 vec3 = p_70097_1_.getEntity().getLookVec();
  
                  if (vec3 != null)
-@@ -288,6 +330,7 @@ public abstract class EntityFireball extends Entity
+@@ -288,6 +328,7 @@ public abstract class EntityFireball extends Entity
                  if (p_70097_1_.getEntity() instanceof EntityLivingBase)
                  {
                      this.shootingEntity = (EntityLivingBase)p_70097_1_.getEntity();
@@ -15763,7 +15657,7 @@ index 4bf84a9..cfc7f83 100644
                  }
  
                  return true;
-@@ -315,4 +358,11 @@ public abstract class EntityFireball extends Entity
+@@ -315,4 +356,11 @@ public abstract class EntityFireball extends Entity
      {
          return 15728880;
      }
@@ -15777,7 +15671,7 @@ index 4bf84a9..cfc7f83 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityFishHook.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityFishHook.java
-index 6a8c742..0a3718c 100644
+index 6a8c742..4ffa8c1 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityFishHook.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityFishHook.java
 @@ -27,6 +27,12 @@ import net.minecraft.util.WeightedRandomFishable;
@@ -15793,25 +15687,7 @@ index 6a8c742..0a3718c 100644
  public class EntityFishHook extends Entity
  {
      public static final List field_146039_d = Arrays.asList(new WeightedRandomFishable[] {(new WeightedRandomFishable(new ItemStack(Items.leather_boots), 10)).func_150709_a(0.9F), new WeightedRandomFishable(new ItemStack(Items.leather), 10), new WeightedRandomFishable(new ItemStack(Items.bone), 10), new WeightedRandomFishable(new ItemStack(Items.potionitem), 10), new WeightedRandomFishable(new ItemStack(Items.string), 5), (new WeightedRandomFishable(new ItemStack(Items.fishing_rod), 2)).func_150709_a(0.9F), new WeightedRandomFishable(new ItemStack(Items.bowl), 10), new WeightedRandomFishable(new ItemStack(Items.stick), 5), new WeightedRandomFishable(new ItemStack(Items.dye, 10, 0), 1), new WeightedRandomFishable(new ItemStack(Blocks.tripwire_hook), 10), new WeightedRandomFishable(new ItemStack(Items.rotten_flesh), 10)});
-@@ -59,6 +65,7 @@ public class EntityFishHook extends Entity
-     @SideOnly(Side.CLIENT)
-     private double field_146053_aJ;
-     private static final String __OBFID = "CL_00001663";
-+    int list_sS;
- 
-     public EntityFishHook(World p_i1764_1_)
-     {
-@@ -246,7 +253,8 @@ public class EntityFishHook extends Entity
-             double d0 = 0.0D;
-             double d2;
- 
--            for (int i = 0; i < list.size(); ++i)
-+            list_sS=list.size();
-+            for (int i = 0; i < list_sS; ++i)
-             {
-                 Entity entity1 = (Entity)list.get(i);
- 
-@@ -258,7 +266,7 @@ public class EntityFishHook extends Entity
+@@ -258,7 +264,7 @@ public class EntityFishHook extends Entity
  
                      if (movingobjectposition1 != null)
                      {
@@ -15820,7 +15696,7 @@ index 6a8c742..0a3718c 100644
  
                          if (d2 < d0 || d0 == 0.0D)
                          {
-@@ -276,6 +284,8 @@ public class EntityFishHook extends Entity
+@@ -276,6 +282,8 @@ public class EntityFishHook extends Entity
  
              if (movingobjectposition != null)
              {
@@ -15829,7 +15705,7 @@ index 6a8c742..0a3718c 100644
                  if (movingobjectposition.entityHit != null)
                  {
                      if (movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.field_146042_b), 0.0F))
-@@ -509,6 +519,16 @@ public class EntityFishHook extends Entity
+@@ -509,6 +517,16 @@ public class EntityFishHook extends Entity
  
              if (this.field_146043_c != null)
              {
@@ -15846,7 +15722,7 @@ index 6a8c742..0a3718c 100644
                  double d0 = this.field_146042_b.posX - this.posX;
                  double d2 = this.field_146042_b.posY - this.posY;
                  double d4 = this.field_146042_b.posZ - this.posZ;
-@@ -522,6 +542,17 @@ public class EntityFishHook extends Entity
+@@ -522,6 +540,17 @@ public class EntityFishHook extends Entity
              else if (this.field_146045_ax > 0)
              {
                  EntityItem entityitem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, this.func_146033_f());
@@ -15864,7 +15740,7 @@ index 6a8c742..0a3718c 100644
                  double d1 = this.field_146042_b.posX - this.posX;
                  double d3 = this.field_146042_b.posY - this.posY;
                  double d5 = this.field_146042_b.posZ - this.posZ;
-@@ -531,15 +562,37 @@ public class EntityFishHook extends Entity
+@@ -531,15 +560,37 @@ public class EntityFishHook extends Entity
                  entityitem.motionY = d3 * d9 + (double)MathHelper.sqrt_double(d7) * 0.08D;
                  entityitem.motionZ = d5 * d9;
                  this.worldObj.spawnEntityInWorld(entityitem);
@@ -15903,7 +15779,7 @@ index 6a8c742..0a3718c 100644
              this.setDead();
              this.field_146042_b.fishEntity = null;
              return b0;
-@@ -551,13 +604,13 @@ public class EntityFishHook extends Entity
+@@ -551,13 +602,13 @@ public class EntityFishHook extends Entity
          float f = this.worldObj.rand.nextFloat();
          int i = EnchantmentHelper.func_151386_g(this.field_146042_b);
          int j = EnchantmentHelper.func_151387_h(this.field_146042_b);
@@ -15921,7 +15797,7 @@ index 6a8c742..0a3718c 100644
          float f2 = 0.05F + (float)i * 0.01F - (float)j * 0.01F;
          f1 = MathHelper.clamp_float(f1, 0.0F, 1.0F);
          f2 = MathHelper.clamp_float(f2, 0.0F, 1.0F);
-@@ -580,9 +633,9 @@ public class EntityFishHook extends Entity
+@@ -580,9 +631,9 @@ public class EntityFishHook extends Entity
              {
                  float f3 = f - f2;
                  this.field_146042_b.addStat(StatList.fishCaughtStat, 1);
@@ -15933,7 +15809,7 @@ index 6a8c742..0a3718c 100644
      }
  
      public void setDead()
-@@ -594,4 +647,11 @@ public class EntityFishHook extends Entity
+@@ -594,4 +645,11 @@ public class EntityFishHook extends Entity
              this.field_146042_b.fishEntity = null;
          }
      }
@@ -16184,10 +16060,10 @@ index ea33159..fe532a3 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityThrowable.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityThrowable.java
-index e6c5059..50a01a4 100644
+index e6c5059..94c1dea 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/projectile/EntityThrowable.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/projectile/EntityThrowable.java
-@@ -24,11 +24,12 @@ public abstract class EntityThrowable extends Entity implements IProjectile
+@@ -24,8 +24,8 @@ public abstract class EntityThrowable extends Entity implements IProjectile
      private Block field_145785_f;
      protected boolean inGround;
      public int throwableShake;
@@ -16198,11 +16074,7 @@ index e6c5059..50a01a4 100644
      private int ticksInGround;
      private int ticksInAir;
      private static final String __OBFID = "CL_00001723";
-+    int list_sS;
- 
-     public EntityThrowable(World p_i1776_1_)
-     {
-@@ -50,6 +51,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
+@@ -50,6 +50,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
      {
          super(p_i1777_1_);
          this.thrower = p_i1777_2_;
@@ -16210,17 +16082,7 @@ index e6c5059..50a01a4 100644
          this.setSize(0.25F, 0.25F);
          this.setLocationAndAngles(p_i1777_2_.posX, p_i1777_2_.posY + (double)p_i1777_2_.getEyeHeight(), p_i1777_2_.posZ, p_i1777_2_.rotationYaw, p_i1777_2_.rotationPitch);
          this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-@@ -175,7 +177,8 @@ public abstract class EntityThrowable extends Entity implements IProjectile
-             double d0 = 0.0D;
-             EntityLivingBase entitylivingbase = this.getThrower();
- 
--            for (int j = 0; j < list.size(); ++j)
-+            list_sS=list.size();
-+            for (int j = 0; j < list_sS; ++j)
-             {
-                 Entity entity1 = (Entity)list.get(j);
- 
-@@ -187,7 +190,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
+@@ -187,7 +188,7 @@ public abstract class EntityThrowable extends Entity implements IProjectile
  
                      if (movingobjectposition1 != null)
                      {
@@ -16229,7 +16091,7 @@ index e6c5059..50a01a4 100644
  
                          if (d1 < d0 || d0 == 0.0D)
                          {
-@@ -213,6 +216,14 @@ public abstract class EntityThrowable extends Entity implements IProjectile
+@@ -213,6 +214,14 @@ public abstract class EntityThrowable extends Entity implements IProjectile
              else
              {
                  this.onImpact(movingobjectposition);
@@ -16838,10 +16700,10 @@ index 75e6144..d04ba82 100644
      public AnimalChest(String p_i1797_1_, boolean p_i1797_2_, int p_i1797_3_)
      {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/inventory/Container.java ./eclipse/cauldron/src/main/java/net/minecraft/inventory/Container.java
-index dc74325..6c3e9bc 100644
+index dc74325..f99c0db 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/inventory/Container.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/inventory/Container.java
-@@ -2,30 +2,91 @@ package net.minecraft.inventory;
+@@ -2,31 +2,89 @@ package net.minecraft.inventory;
  
  import cpw.mods.fml.relauncher.Side;
  import cpw.mods.fml.relauncher.SideOnly;
@@ -16893,10 +16755,7 @@ index dc74325..6c3e9bc 100644
 +    protected List crafters = new ArrayList(64);
      private Set playerList = new HashSet();
      private static final String __OBFID = "CL_00001730";
-+    int list_sS;
-+    int inventorySlots_sS;
-+    int crafters_sS;
-+
+ 
 +    // CraftBukkit start
 +    public boolean checkReachable = true;
 +    public InventoryView getBukkitView() { return bukkitView; } // Cauldron
@@ -16934,10 +16793,11 @@ index dc74325..6c3e9bc 100644
 +        // Cauldron end
 +    }
 +    // CraftBukkit end
- 
++
      protected Slot addSlotToContainer(Slot p_75146_1_)
      {
-@@ -39,7 +100,11 @@ public abstract class Container
+         p_75146_1_.slotNumber = this.inventorySlots.size();
+@@ -39,7 +97,11 @@ public abstract class Container
      {
          if (this.crafters.contains(p_75132_1_))
          {
@@ -16950,24 +16810,7 @@ index dc74325..6c3e9bc 100644
          }
          else
          {
-@@ -53,7 +118,8 @@ public abstract class Container
-     {
-         ArrayList arraylist = new ArrayList();
- 
--        for (int i = 0; i < this.inventorySlots.size(); ++i)
-+        inventorySlots_sS=this.inventorySlots.size();
-+        for (int i = 0; i < inventorySlots_sS; ++i)
-         {
-             arraylist.add(((Slot)this.inventorySlots.get(i)).getStack());
-         }
-@@ -69,22 +135,25 @@ public abstract class Container
- 
-     public void detectAndSendChanges()
-     {
--        for (int i = 0; i < this.inventorySlots.size(); ++i)
-+        inventorySlots_sS=this.inventorySlots.size();
-+        for (int i = 0; i < inventorySlots_sS; ++i)
-         {
+@@ -74,7 +136,7 @@ public abstract class Container
              ItemStack itemstack = ((Slot)this.inventorySlots.get(i)).getStack();
              ItemStack itemstack1 = (ItemStack)this.inventoryItemStacks.get(i);
  
@@ -16976,12 +16819,7 @@ index dc74325..6c3e9bc 100644
              {
                  itemstack1 = itemstack == null ? null : itemstack.copy();
                  this.inventoryItemStacks.set(i, itemstack1);
- 
--                for (int j = 0; j < this.crafters.size(); ++j)
-+                crafters_sS=this.crafters.size();
-+                for (int j = 0; j < crafters_sS; ++j)
-                 {
-                     ((ICrafting)this.crafters.get(j)).sendSlotContents(this, i, itemstack1);
+@@ -85,6 +147,7 @@ public abstract class Container
                  }
              }
          }
@@ -16989,17 +16827,7 @@ index dc74325..6c3e9bc 100644
      }
  
      public boolean enchantItem(EntityPlayer p_75140_1_, int p_75140_2_)
-@@ -94,7 +163,8 @@ public abstract class Container
- 
-     public Slot getSlotFromInventory(IInventory p_75147_1_, int p_75147_2_)
-     {
--        for (int j = 0; j < this.inventorySlots.size(); ++j)
-+        inventorySlots_sS=this.inventorySlots.size();
-+        for (int j = 0; j < inventorySlots_sS; ++j)
-         {
-             Slot slot = (Slot)this.inventorySlots.get(j);
- 
-@@ -109,6 +179,10 @@ public abstract class Container
+@@ -109,6 +172,10 @@ public abstract class Container
  
      public Slot getSlot(int p_75139_1_)
      {
@@ -17010,7 +16838,7 @@ index dc74325..6c3e9bc 100644
          return (Slot)this.inventorySlots.get(p_75139_1_);
      }
  
-@@ -168,6 +242,7 @@ public abstract class Container
+@@ -168,6 +235,7 @@ public abstract class Container
                      itemstack3 = inventoryplayer.getItemStack().copy();
                      i1 = inventoryplayer.getItemStack().stackSize;
                      Iterator iterator = this.field_94537_h.iterator();
@@ -17018,7 +16846,7 @@ index dc74325..6c3e9bc 100644
  
                      while (iterator.hasNext())
                      {
-@@ -190,18 +265,55 @@ public abstract class Container
+@@ -190,18 +258,55 @@ public abstract class Container
                              }
  
                              i1 -= itemstack1.stackSize - j1;
@@ -17079,7 +16907,7 @@ index dc74325..6c3e9bc 100644
                  }
  
                  this.func_94533_d();
-@@ -235,10 +347,17 @@ public abstract class Container
+@@ -235,10 +340,17 @@ public abstract class Container
  
                          if (p_75144_2_ == 1)
                          {
@@ -17098,7 +16926,7 @@ index dc74325..6c3e9bc 100644
                                  inventoryplayer.setItemStack((ItemStack)null);
                              }
                          }
-@@ -730,4 +849,10 @@ public abstract class Container
+@@ -730,4 +842,10 @@ public abstract class Container
              return MathHelper.floor_float(f * 14.0F) + (i > 0 ? 1 : 0);
          }
      }
@@ -17175,7 +17003,7 @@ index b43275e..098a3cd 100644
      {
          private static final String __OBFID = "CL_00001736";
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/inventory/ContainerBrewingStand.java ./eclipse/cauldron/src/main/java/net/minecraft/inventory/ContainerBrewingStand.java
-index 51a14c5..b0bc1c3 100644
+index 51a14c5..0615d68 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/inventory/ContainerBrewingStand.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/inventory/ContainerBrewingStand.java
 @@ -10,15 +10,25 @@ import net.minecraft.item.ItemStack;
@@ -17204,17 +17032,7 @@ index 51a14c5..b0bc1c3 100644
          this.tileBrewingStand = p_i1805_2_;
          this.addSlotToContainer(new ContainerBrewingStand.Potion(p_i1805_1_.player, p_i1805_2_, 0, 56, 46));
          this.addSlotToContainer(new ContainerBrewingStand.Potion(p_i1805_1_.player, p_i1805_2_, 1, 79, 53));
-@@ -50,7 +60,8 @@ public class ContainerBrewingStand extends Container
-     {
-         super.detectAndSendChanges();
- 
--        for (int i = 0; i < this.crafters.size(); ++i)
-+        crafters_sS=this.crafters.size();
-+        for (int i = 0; i < crafters_sS; ++i)
-         {
-             ICrafting icrafting = (ICrafting)this.crafters.get(i);
- 
-@@ -74,6 +85,13 @@ public class ContainerBrewingStand extends Container
+@@ -74,6 +84,13 @@ public class ContainerBrewingStand extends Container
  
      public boolean canInteractWith(EntityPlayer p_75145_1_)
      {
@@ -17228,7 +17046,7 @@ index 51a14c5..b0bc1c3 100644
          return this.tileBrewingStand.isUseableByPlayer(p_75145_1_);
      }
  
-@@ -152,6 +170,20 @@ public class ContainerBrewingStand extends Container
+@@ -152,6 +169,20 @@ public class ContainerBrewingStand extends Container
          return itemstack;
      }
  
@@ -18593,28 +18411,10 @@ index 1bb56e7..63521f0 100644
  
      public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemBoat.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemBoat.java
-index a14d26c..8ac2a3f 100644
+index a14d26c..766f252 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemBoat.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemBoat.java
-@@ -15,6 +15,7 @@ import net.minecraft.world.World;
- public class ItemBoat extends Item
- {
-     private static final String __OBFID = "CL_00001774";
-+    int list_sS;
- 
-     public ItemBoat()
-     {
-@@ -53,7 +54,8 @@ public class ItemBoat extends Item
-             List list = p_77659_2_.getEntitiesWithinAABBExcludingEntity(p_77659_3_, p_77659_3_.boundingBox.addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand((double)f9, (double)f9, (double)f9));
-             int i;
- 
--            for (i = 0; i < list.size(); ++i)
-+            list_sS=list.size();
-+            for (i = 0; i < list_sS; ++i)
-             {
-                 Entity entity = (Entity)list.get(i);
- 
-@@ -80,6 +82,15 @@ public class ItemBoat extends Item
+@@ -80,6 +80,15 @@ public class ItemBoat extends Item
                      i = movingobjectposition.blockX;
                      int j = movingobjectposition.blockY;
                      int k = movingobjectposition.blockZ;
@@ -18919,28 +18719,6 @@ index 7e9fa56..f0e3725 100644
                      p_77648_3_.playSoundEffect((double)p_77648_4_ + 0.5D, (double)p_77648_5_ + 0.5D, (double)p_77648_6_ + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
                      p_77648_3_.setBlock(p_77648_4_, p_77648_5_, p_77648_6_, Blocks.fire);
                  }
-diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemFirework.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemFirework.java
-index 1e7bc2a..90d0991 100644
---- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemFirework.java
-+++ ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemFirework.java
-@@ -14,6 +14,7 @@ import net.minecraft.world.World;
- public class ItemFirework extends Item
- {
-     private static final String __OBFID = "CL_00000031";
-+    int arraylist_sS;
- 
-     public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
-     {
-@@ -61,7 +62,8 @@ public class ItemFirework extends Item
- 
-                         if (arraylist.size() > 0)
-                         {
--                            for (int j = 1; j < arraylist.size(); ++j)
-+                            arraylist_sS=arraylist.size();
-+                            for (int j = 1; j < arraylist_sS; ++j)
-                             {
-                                 arraylist.set(j, "  " + (String)arraylist.get(j));
-                             }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/ItemFishingRod.java ./eclipse/cauldron/src/main/java/net/minecraft/item/ItemFishingRod.java
 index 694c831..52e1f04 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/ItemFishingRod.java
@@ -19491,7 +19269,7 @@ index 1270e5d..60ea663 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/item/crafting/CraftingManager.java ./eclipse/cauldron/src/main/java/net/minecraft/item/crafting/CraftingManager.java
-index 4c5813a..9527dca 100644
+index 4c5813a..3f7bec0 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/item/crafting/CraftingManager.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/item/crafting/CraftingManager.java
 @@ -3,7 +3,7 @@ package net.minecraft.item.crafting;
@@ -19503,7 +19281,7 @@ index 4c5813a..9527dca 100644
  import java.util.List;
  import net.minecraft.block.Block;
  import net.minecraft.init.Blocks;
-@@ -13,18 +13,27 @@ import net.minecraft.item.Item;
+@@ -13,10 +13,17 @@ import net.minecraft.item.Item;
  import net.minecraft.item.ItemStack;
  import net.minecraft.world.World;
  
@@ -19520,10 +19298,9 @@ index 4c5813a..9527dca 100644
 +    public org.bukkit.inventory.InventoryView lastCraftView;
 +    // CraftBukkit end
      private static final String __OBFID = "CL_00000090";
-+    int recipes_sS;
  
      public static final CraftingManager getInstance()
-     {
+@@ -24,7 +31,8 @@ public class CraftingManager
          return instance;
      }
  
@@ -19533,7 +19310,7 @@ index 4c5813a..9527dca 100644
      {
          (new RecipesTools()).addRecipes(this);
          (new RecipesWeapons()).addRecipes(this);
-@@ -152,6 +161,23 @@ public class CraftingManager
+@@ -152,6 +160,23 @@ public class CraftingManager
          this.addShapelessRecipe(new ItemStack(Items.fire_charge, 3), new Object[] {Items.gunpowder, Items.blaze_powder, new ItemStack(Items.coal, 1, 1)});
          this.addRecipe(new ItemStack(Blocks.daylight_detector), new Object[] {"GGG", "QQQ", "WWW", 'G', Blocks.glass, 'Q', Items.quartz, 'W', Blocks.wooden_slab});
          this.addRecipe(new ItemStack(Blocks.hopper), new Object[] {"I I", "ICI", " I ", 'I', Items.iron_ingot, 'C', Blocks.chest});
@@ -19557,7 +19334,7 @@ index 4c5813a..9527dca 100644
          Collections.sort(this.recipes, new Comparator()
          {
              private static final String __OBFID = "CL_00000091";
-@@ -196,9 +222,9 @@ public class CraftingManager
+@@ -196,9 +221,9 @@ public class CraftingManager
              }
          }
  
@@ -19569,7 +19346,7 @@ index 4c5813a..9527dca 100644
          {
              Character character = (Character)p_92103_2_[i];
              ItemStack itemstack1 = null;
-@@ -312,20 +338,47 @@ public class CraftingManager
+@@ -312,7 +337,22 @@ public class CraftingManager
                  i1 = 0;
              }
  
@@ -19593,9 +19370,7 @@ index 4c5813a..9527dca 100644
          }
          else
          {
--            for (j = 0; j < this.recipes.size(); ++j)
-+            recipes_sS=this.recipes.size();
-+            for (j = 0; j < recipes_sS; ++j)
+@@ -320,12 +360,23 @@ public class CraftingManager
              {
                  IRecipe irecipe = (IRecipe)this.recipes.get(j);
  
@@ -19992,28 +19767,10 @@ index 55a8829..bdbc58e 100644
  
      public NBTBase copy()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/nbt/NBTTagList.java ./eclipse/cauldron/src/main/java/net/minecraft/nbt/NBTTagList.java
-index 0454b1a..3a092d9 100644
+index 0454b1a..7ec1262 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/nbt/NBTTagList.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/nbt/NBTTagList.java
-@@ -12,6 +12,7 @@ public class NBTTagList extends NBTBase
-     private List tagList = new ArrayList();
-     private byte tagType = 0;
-     private static final String __OBFID = "CL_00001224";
-+    int tagList_sS;
- 
-     void write(DataOutput p_74734_1_) throws IOException
-     {
-@@ -27,7 +28,8 @@ public class NBTTagList extends NBTBase
-         p_74734_1_.writeByte(this.tagType);
-         p_74734_1_.writeInt(this.tagList.size());
- 
--        for (int i = 0; i < this.tagList.size(); ++i)
-+        tagList_sS=this.tagList.size();
-+        for (int i = 0; i < tagList_sS; ++i)
-         {
-             ((NBTBase)this.tagList.get(i)).write(p_74734_1_);
-         }
-@@ -70,7 +72,7 @@ public class NBTTagList extends NBTBase
+@@ -70,7 +70,7 @@ public class NBTTagList extends NBTBase
          for (Iterator iterator = this.tagList.iterator(); iterator.hasNext(); ++i)
          {
              NBTBase nbtbase = (NBTBase)iterator.next();
@@ -20049,7 +19806,7 @@ index 4ef0115..87d3e52 100644
  
      public NBTBase copy()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
-index 82678d5..2c5f5a1 100644
+index 82678d5..0df04ee 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 @@ -13,6 +13,7 @@ import java.util.Date;
@@ -20153,7 +19910,7 @@ index 82678d5..2c5f5a1 100644
  
  public class NetHandlerPlayServer implements INetHandlerPlayServer
  {
-@@ -105,16 +164,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -105,15 +164,14 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      private boolean field_147366_g;
      private int field_147378_h;
      private long field_147379_i;
@@ -20172,13 +19929,9 @@ index 82678d5..2c5f5a1 100644
 +    public boolean hasMoved = true; // CraftBukkit - private -> public
 +    private boolean processedDisconnect; // CraftBukkit - added
      private static final String __OBFID = "CL_00001452";
-+    int sL_cf;
-+    int sL_cf1;
-+    int inventorySlots_sS;
  
      public NetHandlerPlayServer(MinecraftServer p_i1530_1_, NetworkManager p_i1530_2_, EntityPlayerMP p_i1530_3_)
-     {
-@@ -123,8 +184,41 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -123,8 +181,41 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          p_i1530_2_.setNetHandler(this);
          this.playerEntity = p_i1530_3_;
          p_i1530_3_.playerNetServerHandler = this;
@@ -20220,7 +19973,7 @@ index 82678d5..2c5f5a1 100644
      public void onNetworkTick()
      {
          this.field_147366_g = false;
-@@ -139,10 +233,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -139,10 +230,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              this.sendPacket(new S00PacketKeepAlive(this.field_147378_h));
          }
  
@@ -20237,7 +19990,7 @@ index 82678d5..2c5f5a1 100644
  
          if (this.field_147375_m > 0)
          {
-@@ -162,6 +262,24 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -162,6 +259,24 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void kickPlayerFromServer(String p_147360_1_)
      {
@@ -20262,7 +20015,7 @@ index 82678d5..2c5f5a1 100644
          final ChatComponentText chatcomponenttext = new ChatComponentText(p_147360_1_);
          this.netManager.scheduleOutboundPacket(new S40PacketDisconnect(chatcomponenttext), new GenericFutureListener[] {new GenericFutureListener()
          {
-@@ -170,8 +288,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -170,8 +285,8 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              {
                  NetHandlerPlayServer.this.netManager.closeChannel(chatcomponenttext);
              }
@@ -20273,7 +20026,7 @@ index 82678d5..2c5f5a1 100644
          this.netManager.disableAutoRead();
      }
  
-@@ -182,6 +300,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -182,6 +297,15 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processPlayer(C03PacketPlayer p_147347_1_)
      {
@@ -20289,7 +20042,7 @@ index 82678d5..2c5f5a1 100644
          WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
          this.field_147366_g = true;
  
-@@ -199,8 +326,71 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -199,8 +323,71 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  }
              }
  
@@ -20362,7 +20115,7 @@ index 82678d5..2c5f5a1 100644
                  double d1;
                  double d2;
                  double d3;
-@@ -280,13 +470,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -280,13 +467,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                      d3 = p_147347_1_.func_149472_e();
                      d4 = p_147347_1_.func_149471_f() - p_147347_1_.func_149467_d();
  
@@ -20376,7 +20129,7 @@ index 82678d5..2c5f5a1 100644
                      if (Math.abs(p_147347_1_.func_149464_c()) > 3.2E7D || Math.abs(p_147347_1_.func_149472_e()) > 3.2E7D)
                      {
                          this.kickPlayerFromServer("Illegal position");
-@@ -318,7 +501,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -318,7 +498,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  double d9 = Math.max(Math.abs(d6), Math.abs(this.playerEntity.motionZ));
                  double d10 = d7 * d7 + d8 * d8 + d9 * d9;
  
@@ -20385,7 +20138,7 @@ index 82678d5..2c5f5a1 100644
                  {
                      logger.warn(this.playerEntity.getCommandSenderName() + " moved too quickly! " + d4 + "," + d5 + "," + d6 + " (" + d7 + ", " + d8 + ", " + d9 + ")");
                      this.setPlayerLocation(this.lastPosX, this.lastPosY, this.lastPosZ, this.playerEntity.rotationYaw, this.playerEntity.rotationPitch);
-@@ -354,7 +537,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -354,7 +534,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  d10 = d4 * d4 + d5 * d5 + d6 * d6;
                  boolean flag1 = false;
  
@@ -20394,7 +20147,7 @@ index 82678d5..2c5f5a1 100644
                  {
                      flag1 = true;
                      logger.warn(this.playerEntity.getCommandSenderName() + " moved wrongly!");
-@@ -413,21 +596,85 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -413,21 +593,85 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void setPlayerLocation(double p_147364_1_, double p_147364_3_, double p_147364_5_, float p_147364_7_, float p_147364_8_)
      {
@@ -20485,7 +20238,7 @@ index 82678d5..2c5f5a1 100644
              this.playerEntity.dropOneItem(false);
          }
          else if (p_147345_1_.func_149506_g() == 3)
-@@ -490,7 +737,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -490,7 +734,17 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  }
                  else
                  {
@@ -20503,7 +20256,7 @@ index 82678d5..2c5f5a1 100644
                  }
              }
              else if (p_147345_1_.func_149506_g() == 2)
-@@ -517,6 +774,34 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -517,6 +771,34 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
      public void processPlayerBlockPlacement(C08PacketPlayerBlockPlacement p_147346_1_)
      {
          WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
@@ -20538,7 +20291,7 @@ index 82678d5..2c5f5a1 100644
          ItemStack itemstack = this.playerEntity.inventory.getCurrentItem();
          boolean flag = false;
          boolean placeResult = true;
-@@ -533,11 +818,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -533,11 +815,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  return;
              }
  
@@ -20562,7 +20315,7 @@ index 82678d5..2c5f5a1 100644
          }
          else if (p_147346_1_.func_149571_d() >= this.serverController.getBuildLimit() - 1 && (p_147346_1_.func_149568_f() == 1 || p_147346_1_.func_149571_d() >= this.serverController.getBuildLimit()))
          {
-@@ -548,17 +843,24 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -548,17 +840,24 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          }
          else
          {
@@ -20595,7 +20348,7 @@ index 82678d5..2c5f5a1 100644
              flag = true;
          }
  
-@@ -615,7 +917,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -615,7 +914,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              this.playerEntity.openContainer.detectAndSendChanges();
              this.playerEntity.isChangingQuantityOnly = false;
  
@@ -20604,7 +20357,7 @@ index 82678d5..2c5f5a1 100644
              {
                  this.sendPacket(new S2FPacketSetSlot(this.playerEntity.openContainer.windowId, slot.slotNumber, this.playerEntity.inventory.getCurrentItem()));
              }
-@@ -624,13 +926,33 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -624,13 +923,33 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void onDisconnect(IChatComponent p_147231_1_)
      {
@@ -20643,7 +20396,7 @@ index 82678d5..2c5f5a1 100644
  
          if (this.serverController.isSinglePlayer() && this.playerEntity.getCommandSenderName().equals(this.serverController.getServerOwner()))
          {
-@@ -657,6 +979,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -657,6 +976,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              }
          }
  
@@ -20662,7 +20415,7 @@ index 82678d5..2c5f5a1 100644
          try
          {
              this.netManager.scheduleOutboundPacket(p_147359_1_, new GenericFutureListener[0]);
-@@ -679,20 +1013,37 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -679,20 +1010,37 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processHeldItemChange(C09PacketHeldItemChange p_147355_1_)
      {
@@ -20701,7 +20454,7 @@ index 82678d5..2c5f5a1 100644
          {
              ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("chat.cannotSend", new Object[0]);
              chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
-@@ -702,57 +1053,391 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -702,57 +1050,391 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          {
              this.playerEntity.func_143004_u();
              String s = p_147354_1_.func_149439_c();
@@ -21107,7 +20860,7 @@ index 82678d5..2c5f5a1 100644
          if (p_147357_1_.func_149513_d() == 1)
          {
              this.playerEntity.setSneaking(true);
-@@ -772,7 +1457,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -772,7 +1454,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          else if (p_147357_1_.func_149513_d() == 3)
          {
              this.playerEntity.wakeUpPlayer(false, true, true);
@@ -21116,7 +20869,7 @@ index 82678d5..2c5f5a1 100644
          }
          else if (p_147357_1_.func_149513_d() == 6)
          {
-@@ -789,8 +1474,20 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -789,8 +1471,20 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processUseEntity(C02PacketUseEntity p_147340_1_)
      {
@@ -21138,7 +20891,7 @@ index 82678d5..2c5f5a1 100644
          this.playerEntity.func_143004_u();
  
          if (entity != null)
-@@ -805,9 +1502,53 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -805,9 +1499,53 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
              if (this.playerEntity.getDistanceSqToEntity(entity) < d0)
              {
@@ -21192,7 +20945,7 @@ index 82678d5..2c5f5a1 100644
                  }
                  else if (p_147340_1_.func_149565_c() == C02PacketUseEntity.Action.ATTACK)
                  {
-@@ -819,6 +1560,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -819,6 +1557,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                      }
  
                      this.playerEntity.attackTargetEntityWithCurrentItem(entity);
@@ -21206,7 +20959,7 @@ index 82678d5..2c5f5a1 100644
                  }
              }
          }
-@@ -834,7 +1582,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -834,7 +1579,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              case 1:
                  if (this.playerEntity.playerConqueredTheEnd)
                  {
@@ -21226,7 +20979,7 @@ index 82678d5..2c5f5a1 100644
                  }
                  else if (this.playerEntity.getServerForPlayer().getWorldInfo().isHardcoreModeEnabled())
                  {
-@@ -871,16 +1630,460 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -871,16 +1627,460 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processCloseWindow(C0DPacketCloseWindow p_147356_1_)
      {
@@ -21688,15 +21441,7 @@ index 82678d5..2c5f5a1 100644
  
              if (ItemStack.areItemStacksEqual(p_147351_1_.func_149546_g(), itemstack))
              {
-@@ -897,12 +2100,19 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
-                 this.playerEntity.openContainer.setPlayerIsPresent(this.playerEntity, false);
-                 ArrayList arraylist = new ArrayList();
- 
--                for (int i = 0; i < this.playerEntity.openContainer.inventorySlots.size(); ++i)
-+                inventorySlots_sS=this.playerEntity.openContainer.inventorySlots.size();
-+                for (int i = 0; i < inventorySlots_sS; ++i)
-                 {
-                     arraylist.add(((Slot)this.playerEntity.openContainer.inventorySlots.get(i)).getStack());
+@@ -903,6 +2103,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  }
  
                  this.playerEntity.sendContainerAndContentsToPlayer(this.playerEntity.openContainer, arraylist);
@@ -21709,7 +21454,7 @@ index 82678d5..2c5f5a1 100644
              }
          }
      }
-@@ -925,8 +2135,60 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -925,8 +2131,60 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              boolean flag = p_147344_1_.func_149627_c() < 0;
              ItemStack itemstack = p_147344_1_.func_149625_d();
              boolean flag1 = p_147344_1_.func_149627_c() >= 1 && p_147344_1_.func_149627_c() < 36 + InventoryPlayer.getHotbarSize();
@@ -21771,7 +21516,7 @@ index 82678d5..2c5f5a1 100644
  
              if (flag1 && flag2 && flag3)
              {
-@@ -956,6 +2218,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -956,6 +2214,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processConfirmTransaction(C0FPacketConfirmTransaction p_147339_1_)
      {
@@ -21783,7 +21528,7 @@ index 82678d5..2c5f5a1 100644
          Short oshort = (Short)this.field_147372_n.lookup(this.playerEntity.openContainer.windowId);
  
          if (oshort != null && p_147339_1_.func_149533_d() == oshort.shortValue() && this.playerEntity.openContainer.windowId == p_147339_1_.func_149532_c() && !this.playerEntity.openContainer.isPlayerNotUsingContainer(this.playerEntity))
-@@ -966,6 +2233,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -966,6 +2229,11 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processUpdateSign(C12PacketUpdateSign p_147343_1_)
      {
@@ -21795,7 +21540,7 @@ index 82678d5..2c5f5a1 100644
          this.playerEntity.func_143004_u();
          WorldServer worldserver = this.serverController.worldServerForDimension(this.playerEntity.dimension);
  
-@@ -980,6 +2252,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -980,6 +2248,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  if (!tileentitysign.func_145914_a() || tileentitysign.func_145911_b() != this.playerEntity)
                  {
                      this.serverController.logWarning("Player " + this.playerEntity.getCommandSenderName() + " just tried to change non-editable sign");
@@ -21803,7 +21548,7 @@ index 82678d5..2c5f5a1 100644
                      return;
                  }
              }
-@@ -990,14 +2263,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -990,14 +2259,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              for (j = 0; j < 4; ++j)
              {
                  boolean flag = true;
@@ -21822,7 +21567,7 @@ index 82678d5..2c5f5a1 100644
                      {
                          if (!ChatAllowedCharacters.isAllowedCharacter(p_147343_1_.func_149589_f()[j].charAt(i)))
                          {
-@@ -1018,7 +2293,29 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1018,7 +2289,29 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  int k = p_147343_1_.func_149586_d();
                  i = p_147343_1_.func_149585_e();
                  TileEntitySign tileentitysign1 = (TileEntitySign)tileentity;
@@ -21853,7 +21598,7 @@ index 82678d5..2c5f5a1 100644
                  tileentitysign1.markDirty();
                  worldserver.markBlockForUpdate(j, k, i);
              }
-@@ -1041,7 +2338,22 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1041,7 +2334,22 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processPlayerAbilities(C13PacketPlayerAbilities p_147348_1_)
      {
@@ -21877,7 +21622,7 @@ index 82678d5..2c5f5a1 100644
      }
  
      public void processTabComplete(C14PacketTabComplete p_147341_1_)
-@@ -1068,7 +2380,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1068,7 +2376,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          PacketBuffer packetbuffer;
          ItemStack itemstack;
          ItemStack itemstack1;
@@ -21885,7 +21630,7 @@ index 82678d5..2c5f5a1 100644
          if ("MC|BEdit".equals(p_147349_1_.func_149559_c()))
          {
              packetbuffer = new PacketBuffer(Unpooled.wrappedBuffer(p_147349_1_.func_149558_e()));
-@@ -1093,16 +2404,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1093,16 +2400,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
                      if (itemstack.getItem() == Items.writable_book && itemstack.getItem() == itemstack1.getItem())
                      {
@@ -21908,7 +21653,7 @@ index 82678d5..2c5f5a1 100644
              }
              finally
              {
-@@ -1135,19 +2448,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1135,19 +2444,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  {
                      if (itemstack.getItem() == Items.written_book && itemstack1.getItem() == Items.writable_book)
                      {
@@ -21934,7 +21679,7 @@ index 82678d5..2c5f5a1 100644
              }
              finally
              {
-@@ -1174,9 +2486,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1174,9 +2482,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                          ((ContainerMerchant)container).setCurrentRecipeIndex(i);
                      }
                  }
@@ -21948,7 +21693,7 @@ index 82678d5..2c5f5a1 100644
                  }
              }
              else if ("MC|AdvCdm".equals(p_147349_1_.func_149559_c()))
-@@ -1222,9 +2537,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1222,9 +2533,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                              this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", new Object[] {s1}));
                          }
                      }
@@ -21963,7 +21708,7 @@ index 82678d5..2c5f5a1 100644
                      }
                      finally
                      {
-@@ -1257,9 +2575,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1257,9 +2571,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                              tileentitybeacon.markDirty();
                          }
                      }
@@ -21978,7 +21723,7 @@ index 82678d5..2c5f5a1 100644
                      }
                  }
              }
-@@ -1281,6 +2602,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1281,6 +2598,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                      containerrepair.updateItemName("");
                  }
              }
@@ -21992,7 +21737,7 @@ index 82678d5..2c5f5a1 100644
          }
      }
  
-@@ -1292,6 +2620,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1292,6 +2616,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          }
      }
  
@@ -22981,7 +22726,7 @@ index 4bf8cee..d3542e4 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
-index c23c8fa..c777d1d 100644
+index c23c8fa..4f8249b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -16,6 +16,7 @@ import io.netty.buffer.ByteBuf;
@@ -23345,7 +23090,7 @@ index c23c8fa..c777d1d 100644
          this.clearCurrentTask();
      }
  
-@@ -292,19 +508,18 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -292,19 +508,17 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      {
          this.currentTask = null;
          this.percentDone = 0;
@@ -23363,15 +23108,14 @@ index c23c8fa..c777d1d 100644
 -
 -            for (int j = 0; j < i; ++j)
 +            // CraftBukkit start
-+            worlds_sS=this.worlds.size();
-+            for (int j = 0; j < worlds_sS; ++j)
++            for (int j = 0; j < this.worlds.size(); ++j)
              {
 -                WorldServer worldserver = aworldserver[j];
 +                WorldServer worldserver = this.worlds.get(j);
  
                  if (worldserver != null)
                  {
-@@ -313,25 +528,41 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -313,25 +527,41 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                          logger.info("Saving chunks for level \'" + worldserver.getWorldInfo().getWorldName() + "\'/" + worldserver.provider.getDimensionName());
                      }
  
@@ -23418,7 +23162,7 @@ index c23c8fa..c777d1d 100644
              if (this.func_147137_ag() != null)
              {
                  this.func_147137_ag().terminateEndpoints();
-@@ -347,7 +578,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -347,7 +577,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              if (this.worldServers != null)
              {
                  logger.info("Saving worlds");
@@ -23434,7 +23178,7 @@ index c23c8fa..c777d1d 100644
  
                  for (int i = 0; i < this.worldServers.length; ++i)
                  {
-@@ -380,6 +618,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -380,6 +617,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.serverRunning = false;
      }
  
@@ -23448,7 +23192,7 @@ index c23c8fa..c777d1d 100644
      public void run()
      {
          try
-@@ -392,45 +637,43 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -392,45 +636,43 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                  this.field_147147_p.func_151315_a(new ChatComponentText(this.motd));
                  this.field_147147_p.func_151321_a(new ServerStatusResponse.MinecraftProtocolVersionIdentifier("1.7.10", 5));
                  this.func_147138_a(this.field_147147_p);
@@ -23517,7 +23261,7 @@ index c23c8fa..c777d1d 100644
                  FMLCommonHandler.instance().handleServerStopping();
                  FMLCommonHandler.instance().expectServerStopped(); // has to come before finalTick to avoid race conditions
              }
-@@ -448,6 +691,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -448,6 +690,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          catch (Throwable throwable1)
          {
              logger.error("Encountered an unexpected exception", throwable1);
@@ -23532,7 +23276,7 @@ index c23c8fa..c777d1d 100644
              CrashReport crashreport = null;
  
              if (throwable1 instanceof ReportedException)
-@@ -477,6 +728,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -477,6 +727,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          {
              try
              {
@@ -23540,7 +23284,7 @@ index c23c8fa..c777d1d 100644
                  this.stopServer();
                  this.serverStopped = true;
              }
-@@ -486,6 +738,16 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -486,6 +737,16 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              }
              finally
              {
@@ -23557,7 +23301,7 @@ index c23c8fa..c777d1d 100644
                  FMLCommonHandler.instance().handleServerStopped();
                  this.serverStopped = true;
                  this.systemExitNow();
-@@ -532,8 +794,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -532,8 +793,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public void tick()
      {
@@ -23569,7 +23313,7 @@ index c23c8fa..c777d1d 100644
          ++this.tickCounter;
  
          if (this.startProfiling)
-@@ -562,12 +827,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -562,12 +826,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              this.field_147147_p.func_151318_b().func_151330_a(agameprofile);
          }
  
@@ -23593,7 +23337,7 @@ index c23c8fa..c777d1d 100644
          }
  
          this.theProfiler.startSection("tallying");
-@@ -575,25 +849,58 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -575,25 +848,57 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.theProfiler.endSection();
          this.theProfiler.startSection("snooper");
  
@@ -23642,8 +23386,7 @@ index c23c8fa..c777d1d 100644
 +        // Send time updates to everyone, it will get the right time from the world the player is in.
 +        if (this.tickCounter % 20 == 0)
 +        {
-+            playerEntityList_sS=this.getConfigurationManager().playerEntityList.size();
-+            for (int i = 0; i < playerEntityList_sS; ++i)
++            for (int i = 0; i < this.getConfigurationManager().playerEntityList.size(); ++i)
 +            {
 +                EntityPlayerMP entityplayermp = (EntityPlayerMP) this.getConfigurationManager().playerEntityList.get(i);
 +                entityplayermp.playerNetServerHandler.sendPacket(new S03PacketTimeUpdate(entityplayermp.worldObj.getTotalWorldTime(), entityplayermp.getPlayerTime(), entityplayermp.worldObj.getGameRules().getGameRuleBooleanValue("doDaylightCycle"))); // Add support for per player time
@@ -23654,7 +23397,7 @@ index c23c8fa..c777d1d 100644
          int i;
  
          Integer[] ids = DimensionManager.getIDs(this.tickCounter % 200 == 0);
-@@ -602,19 +909,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -602,19 +907,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              int id = ids[x];
              long j = System.nanoTime();
  
@@ -23679,7 +23422,7 @@ index c23c8fa..c777d1d 100644
  
                  this.theProfiler.startSection("tick");
                  FMLCommonHandler.instance().onPreWorldTick(worldserver);
-@@ -622,22 +931,46 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -622,22 +929,46 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
                  try
                  {
@@ -23728,7 +23471,7 @@ index c23c8fa..c777d1d 100644
                      worldserver.addWorldInfoToCrashReport(crashreport);
                      throw new ReportedException(crashreport);
                  }
-@@ -645,10 +978,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -645,10 +976,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                  FMLCommonHandler.instance().onPostWorldTick(worldserver);
                  this.theProfiler.endSection();
                  this.theProfiler.startSection("tracker");
@@ -23742,7 +23485,7 @@ index c23c8fa..c777d1d 100644
  
              worldTickTimes.get(id)[this.tickCounter % 100] = System.nanoTime() - j;
          }
-@@ -656,15 +991,22 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -656,15 +989,21 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          this.theProfiler.endStartSection("dim_unloading");
          DimensionManager.unloadWorlds(worldTickTimes);
          this.theProfiler.endStartSection("connection");
@@ -23755,10 +23498,8 @@ index c23c8fa..c777d1d 100644
 +        SpigotTimings.playerListTimer.stopTiming(); // Spigot
          this.theProfiler.endStartSection("tickables");
  
--        for (i = 0; i < this.tickables.size(); ++i)
 +        SpigotTimings.tickablesTimer.startTiming(); // Spigot
-+        tickables_sS=this.tickables.size();
-+        for (i = 0; i < tickables_sS; ++i)
+         for (i = 0; i < this.tickables.size(); ++i)
          {
              ((IUpdatePlayerListBox)this.tickables.get(i)).update();
          }
@@ -23766,7 +23507,7 @@ index c23c8fa..c777d1d 100644
  
          this.theProfiler.endSection();
      }
-@@ -699,6 +1041,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -699,6 +1038,13 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public WorldServer worldServerForDimension(int p_71218_1_)
      {
@@ -23780,7 +23521,7 @@ index c23c8fa..c777d1d 100644
          WorldServer ret = DimensionManager.getWorld(p_71218_1_);
          if (ret == null)
          {
-@@ -784,13 +1133,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -784,13 +1130,14 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public List getPossibleCompletions(ICommandSender p_71248_1_, String p_71248_2_)
      {
@@ -23799,7 +23540,7 @@ index c23c8fa..c777d1d 100644
  
              if (list != null)
              {
-@@ -798,40 +1148,25 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -798,40 +1145,25 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
                  while (iterator.hasNext())
                  {
@@ -23848,7 +23589,7 @@ index c23c8fa..c777d1d 100644
      }
  
      public static MinecraftServer getServer()
-@@ -985,7 +1320,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -985,7 +1317,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public void addServerStatsToSnooper(PlayerUsageSnooper p_70000_1_)
      {
@@ -23857,7 +23598,7 @@ index c23c8fa..c777d1d 100644
          p_70000_1_.func_152768_a("whitelist_count", Integer.valueOf(0));
          p_70000_1_.func_152768_a("players_current", Integer.valueOf(this.getCurrentPlayerCount()));
          p_70000_1_.func_152768_a("players_max", Integer.valueOf(this.getMaxPlayers()));
-@@ -1034,7 +1369,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1034,7 +1366,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public boolean isServerInOnlineMode()
      {
@@ -23866,7 +23607,7 @@ index c23c8fa..c777d1d 100644
      }
  
      public void setOnlineMode(boolean p_71229_1_)
-@@ -1124,7 +1459,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1124,7 +1456,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
  
      public NetworkSystem func_147137_ag()
      {
@@ -23875,7 +23616,7 @@ index c23c8fa..c777d1d 100644
      }
  
      @SideOnly(Side.CLIENT)
-@@ -1259,8 +1594,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1259,8 +1591,11 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      {
          Bootstrap.func_151354_b();
  
@@ -23887,7 +23628,7 @@ index c23c8fa..c777d1d 100644
              boolean flag = true;
              String s = null;
              String s1 = ".";
-@@ -1356,16 +1694,34 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1356,16 +1691,34 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
              {
                  dedicatedserver.setGuiEnabled();
              }
@@ -23928,7 +23669,7 @@ index c23c8fa..c777d1d 100644
          }
          catch (Exception exception)
          {
-@@ -1400,15 +1756,70 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1400,15 +1753,70 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      @SideOnly(Side.SERVER)
      public String getPlugins()
      {
@@ -24004,7 +23745,7 @@ index c23c8fa..c777d1d 100644
      }
  
      @SideOnly(Side.SERVER)
-@@ -1455,9 +1866,215 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
+@@ -1455,9 +1863,215 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
          return this.serverStopped;
      }
  
@@ -25285,7 +25026,7 @@ index 371986d..8ddf977 100644
                  Iterator iterator = hashmap.keySet().iterator();
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java ./eclipse/cauldron/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java
-index 8d5db06..0a752f8 100644
+index 8d5db06..c35123c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/management/ServerConfigurationManager.java
 @@ -6,6 +6,8 @@ import com.google.common.collect.Maps;
@@ -25335,7 +25076,7 @@ index 8d5db06..0a752f8 100644
  public abstract class ServerConfigurationManager
  {
      public static final File field_152613_a = new File("banned-players.json");
-@@ -76,23 +100,35 @@ public abstract class ServerConfigurationManager
+@@ -76,14 +100,14 @@ public abstract class ServerConfigurationManager
      private static final Logger logger = LogManager.getLogger();
      private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
      private final MinecraftServer mcServer;
@@ -25353,16 +25094,13 @@ index 8d5db06..0a752f8 100644
      protected int maxPlayers;
      private int viewDistance;
      private WorldSettings.GameType gameType;
-     private boolean commandsAllowedForAll;
+@@ -91,8 +115,17 @@ public abstract class ServerConfigurationManager
      private int playerPingIndex;
      private static final String __OBFID = "CL_00001423";
-+    int playerEntityList_sS2;
-+    int playerEntityList_sS3;
-+    int playerEntityList_sS4;
-+
+ 
 +    // CraftBukkit start
 +    private CraftServer cserver;
- 
++
      public ServerConfigurationManager(MinecraftServer p_i1500_1_)
      {
 +        p_i1500_1_.server = new CraftServer(p_i1500_1_, this);
@@ -25374,7 +25112,7 @@ index 8d5db06..0a752f8 100644
          this.bannedPlayers = new UserListBans(field_152613_a);
          this.bannedIPs = new BanList(field_152614_b);
          this.ops = new UserListOps(field_152615_c);
-@@ -131,12 +167,32 @@ public abstract class ServerConfigurationManager
+@@ -131,12 +164,32 @@ public abstract class ServerConfigurationManager
              s1 = p_72355_1_.getSocketAddress().toString();
          }
  
@@ -25409,7 +25147,7 @@ index 8d5db06..0a752f8 100644
          nethandlerplayserver.sendPacket(new S3FPacketCustomPayload("MC|Brand", this.getServerInstance().getServerModName().getBytes(Charsets.UTF_8)));
          nethandlerplayserver.sendPacket(new S05PacketSpawnPosition(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ));
          nethandlerplayserver.sendPacket(new S39PacketPlayerAbilities(p_72355_2_.capabilities));
-@@ -145,6 +201,7 @@ public abstract class ServerConfigurationManager
+@@ -145,6 +198,7 @@ public abstract class ServerConfigurationManager
          p_72355_2_.func_147099_x().func_150884_b(p_72355_2_);
          this.func_96456_a((ServerScoreboard)worldserver.getScoreboard(), p_72355_2_);
          this.mcServer.func_147132_au();
@@ -25417,7 +25155,7 @@ index 8d5db06..0a752f8 100644
          ChatComponentTranslation chatcomponenttranslation;
  
          if (!p_72355_2_.getCommandSenderName().equalsIgnoreCase(s))
-@@ -158,6 +215,7 @@ public abstract class ServerConfigurationManager
+@@ -158,6 +212,7 @@ public abstract class ServerConfigurationManager
  
          chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.YELLOW);
          this.sendChatMsg(chatcomponenttranslation);
@@ -25425,7 +25163,7 @@ index 8d5db06..0a752f8 100644
          this.playerLoggedIn(p_72355_2_);
          nethandlerplayserver.setPlayerLocation(p_72355_2_.posX, p_72355_2_.posY, p_72355_2_.posZ, p_72355_2_.rotationYaw, p_72355_2_.rotationPitch);
          this.updateTimeAndWeatherForPlayer(p_72355_2_, worldserver);
-@@ -192,7 +250,7 @@ public abstract class ServerConfigurationManager
+@@ -192,7 +247,7 @@ public abstract class ServerConfigurationManager
          }
      }
  
@@ -25434,7 +25172,7 @@ index 8d5db06..0a752f8 100644
      {
          HashSet hashset = new HashSet();
          Iterator iterator = p_96456_1_.getTeams().iterator();
-@@ -225,6 +283,7 @@ public abstract class ServerConfigurationManager
+@@ -225,6 +280,7 @@ public abstract class ServerConfigurationManager
  
      public void setPlayerManager(WorldServer[] p_72364_1_)
      {
@@ -25442,7 +25180,7 @@ index 8d5db06..0a752f8 100644
          this.playerNBTManagerObj = p_72364_1_[0].getSaveHandler().getSaveHandler();
      }
  
-@@ -248,7 +307,7 @@ public abstract class ServerConfigurationManager
+@@ -248,7 +304,7 @@ public abstract class ServerConfigurationManager
  
      public NBTTagCompound readPlayerDataFromFile(EntityPlayerMP p_72380_1_)
      {
@@ -25451,7 +25189,7 @@ index 8d5db06..0a752f8 100644
          NBTTagCompound nbttagcompound1;
  
          if (p_72380_1_.getCommandSenderName().equals(this.mcServer.getServerOwner()) && nbttagcompound != null)
-@@ -294,18 +353,62 @@ public abstract class ServerConfigurationManager
+@@ -294,18 +350,61 @@ public abstract class ServerConfigurationManager
  
      public void playerLoggedIn(EntityPlayerMP p_72377_1_)
      {
@@ -25489,9 +25227,7 @@ index 8d5db06..0a752f8 100644
 +        // CraftBukkit start - sendAll above replaced with this loop
 +        S38PacketPlayerListItem packet = new S38PacketPlayerListItem(p_72377_1_.listName, true, 1000);
  
--        for (int i = 0; i < this.playerEntityList.size(); ++i)
-+        playerEntityList_sS2=this.playerEntityList.size();
-+        for (int i = 0; i < playerEntityList_sS2; ++i)
+         for (int i = 0; i < this.playerEntityList.size(); ++i)
          {
              EntityPlayerMP entityplayermp1 = (EntityPlayerMP)this.playerEntityList.get(i);
 -            p_72377_1_.playerNetServerHandler.sendPacket(new S38PacketPlayerListItem(entityplayermp1.getCommandSenderName(), true, entityplayermp1.ping));
@@ -25501,7 +25237,7 @@ index 8d5db06..0a752f8 100644
 +            }
 +        }
 +        // CraftBukkit end
-+        for (int i = 0; i < playerEntityList_sS2; ++i)
++        for (int i = 0; i < this.playerEntityList.size(); ++i)
 +        {
 +            EntityPlayerMP entityplayermp1 = (EntityPlayerMP) this.playerEntityList.get(i);
 +
@@ -25519,7 +25255,7 @@ index 8d5db06..0a752f8 100644
      }
  
      public void updatePlayerPertinentChunks(EntityPlayerMP p_72358_1_)
-@@ -313,14 +416,33 @@ public abstract class ServerConfigurationManager
+@@ -313,14 +412,33 @@ public abstract class ServerConfigurationManager
          p_72358_1_.getServerForPlayer().getPlayerManager().updatePlayerPertinentChunks(p_72358_1_);
      }
  
@@ -25555,7 +25291,7 @@ index 8d5db06..0a752f8 100644
          {
              worldserver.removePlayerEntityDangerously(p_72367_1_.ridingEntity);
              logger.debug("removing player mount");
-@@ -329,9 +451,36 @@ public abstract class ServerConfigurationManager
+@@ -329,9 +447,35 @@ public abstract class ServerConfigurationManager
          worldserver.removeEntity(p_72367_1_);
          worldserver.getPlayerManager().removePlayer(p_72367_1_);
          this.playerEntityList.remove(p_72367_1_);
@@ -25568,8 +25304,7 @@ index 8d5db06..0a752f8 100644
 +        // this.sendAll(new PacketPlayOutPlayerInfo(entityplayermp.getName(), false, 9999));
 +        S38PacketPlayerListItem packet = new S38PacketPlayerListItem(p_72367_1_.listName, false, 9999);
 +
-+        playerEntityList_sS3=this.playerEntityList.size();
-+        for (int i = 0; i < playerEntityList_sS3; ++i)
++        for (int i = 0; i < this.playerEntityList.size(); ++i)
 +        {
 +            EntityPlayerMP entityplayermp1 = (EntityPlayerMP) this.playerEntityList.get(i);
 +
@@ -25595,7 +25330,7 @@ index 8d5db06..0a752f8 100644
      }
  
      public String allowUserToConnect(SocketAddress p_148542_1_, GameProfile p_148542_2_)
-@@ -372,13 +521,79 @@ public abstract class ServerConfigurationManager
+@@ -372,6 +516,71 @@ public abstract class ServerConfigurationManager
          }
      }
  
@@ -25667,16 +25402,7 @@ index 8d5db06..0a752f8 100644
      public EntityPlayerMP createPlayerForUser(GameProfile p_148545_1_)
      {
          UUID uuid = EntityPlayer.func_146094_a(p_148545_1_);
-         ArrayList arraylist = Lists.newArrayList();
-         EntityPlayerMP entityplayermp;
- 
--        for (int i = 0; i < this.playerEntityList.size(); ++i)
-+        playerEntityList_sS4=this.playerEntityList.size();
-+        for (int i = 0; i < playerEntityList_sS4; ++i)
-         {
-             entityplayermp = (EntityPlayerMP)this.playerEntityList.get(i);
- 
-@@ -410,80 +625,206 @@ public abstract class ServerConfigurationManager
+@@ -410,80 +619,206 @@ public abstract class ServerConfigurationManager
          return new EntityPlayerMP(this.mcServer, this.mcServer.worldServerForDimension(0), p_148545_1_, (ItemInWorldManager)object);
      }
  
@@ -25923,7 +25649,7 @@ index 8d5db06..0a752f8 100644
          return entityplayermp1;
      }
  
-@@ -492,34 +833,112 @@ public abstract class ServerConfigurationManager
+@@ -492,34 +827,112 @@ public abstract class ServerConfigurationManager
          transferPlayerToDimension(p_72356_1_, p_72356_2_, mcServer.worldServerForDimension(p_72356_2_).getDefaultTeleporter());
      }
  
@@ -26055,7 +25781,7 @@ index 8d5db06..0a752f8 100644
      }
  
      public void transferEntityToWorld(Entity p_82448_1_, int p_82448_2_, WorldServer p_82448_3_, WorldServer p_82448_4_, Teleporter teleporter)
-@@ -605,6 +1024,109 @@ public abstract class ServerConfigurationManager
+@@ -605,6 +1018,109 @@ public abstract class ServerConfigurationManager
          p_82448_1_.setWorld(p_82448_4_);
      }
  
@@ -26165,7 +25891,7 @@ index 8d5db06..0a752f8 100644
      public void sendPlayerInfoToAllPlayers()
      {
          if (++this.playerPingIndex > 600)
-@@ -612,11 +1134,13 @@ public abstract class ServerConfigurationManager
+@@ -612,11 +1128,13 @@ public abstract class ServerConfigurationManager
              this.playerPingIndex = 0;
          }
  
@@ -26179,7 +25905,7 @@ index 8d5db06..0a752f8 100644
      }
  
      public void sendPacketToAllPlayers(Packet p_148540_1_)
-@@ -877,13 +1401,24 @@ public abstract class ServerConfigurationManager
+@@ -877,13 +1395,24 @@ public abstract class ServerConfigurationManager
          for (int j = 0; j < this.playerEntityList.size(); ++j)
          {
              EntityPlayerMP entityplayermp = (EntityPlayerMP)this.playerEntityList.get(j);
@@ -26206,7 +25932,7 @@ index 8d5db06..0a752f8 100644
                  if (d4 * d4 + d5 * d5 + d6 * d6 < p_148543_8_ * p_148543_8_)
                  {
                      entityplayermp.playerNetServerHandler.sendPacket(p_148543_11_);
-@@ -941,13 +1476,16 @@ public abstract class ServerConfigurationManager
+@@ -941,13 +1470,16 @@ public abstract class ServerConfigurationManager
              p_72354_1_.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(1, 0.0F));
              p_72354_1_.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(7, p_72354_2_.getRainStrength(1.0F)));
              p_72354_1_.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(8, p_72354_2_.getWeightedThunderStrength(1.0F)));
@@ -26224,7 +25950,7 @@ index 8d5db06..0a752f8 100644
          p_72385_1_.playerNetServerHandler.sendPacket(new S09PacketHeldItemChange(p_72385_1_.inventory.currentItem));
      }
  
-@@ -961,9 +1499,17 @@ public abstract class ServerConfigurationManager
+@@ -961,9 +1493,17 @@ public abstract class ServerConfigurationManager
          return this.maxPlayers;
      }
  
@@ -26243,7 +25969,7 @@ index 8d5db06..0a752f8 100644
      }
  
      public void setWhiteListEnabled(boolean p_72371_1_)
-@@ -1032,11 +1578,29 @@ public abstract class ServerConfigurationManager
+@@ -1032,11 +1572,29 @@ public abstract class ServerConfigurationManager
  
      public void removeAllPlayers()
      {
@@ -28114,7 +27840,7 @@ index 82d8e1c..16953a5 100644
  
      public int compareTo(ChunkCoordinates p_compareTo_1_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/util/CombatTracker.java ./eclipse/cauldron/src/main/java/net/minecraft/util/CombatTracker.java
-index 5fe0ace..bc3f13c 100644
+index 5fe0ace..5aab997 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/util/CombatTracker.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/util/CombatTracker.java
 @@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
@@ -28126,24 +27852,6 @@ index 5fe0ace..bc3f13c 100644
      private final EntityLivingBase fighter;
      private int field_94555_c;
      private int field_152775_d;
-@@ -21,6 +21,7 @@ public class CombatTracker
-     private boolean field_94553_e;
-     private String field_94551_f;
-     private static final String __OBFID = "CL_00001520";
-+    int combatEntries_sS;
- 
-     public CombatTracker(EntityLivingBase p_i1565_1_)
-     {
-@@ -176,7 +177,8 @@ public class CombatTracker
-         byte b0 = 0;
-         float f = 0.0F;
- 
--        for (int i = 0; i < this.combatEntries.size(); ++i)
-+        combatEntries_sS=this.combatEntries.size();
-+        for (int i = 0; i < combatEntries_sS; ++i)
-         {
-             CombatEntry combatentry2 = (CombatEntry)this.combatEntries.get(i);
-             CombatEntry combatentry3 = i > 0 ? (CombatEntry)this.combatEntries.get(i - 1) : null;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/util/EnchantmentNameParts.java ./eclipse/cauldron/src/main/java/net/minecraft/util/EnchantmentNameParts.java
 index 24c4667..37c640e 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/util/EnchantmentNameParts.java
@@ -28475,7 +28183,7 @@ index e507216..8cb5ea1 100644
  
      public WeightedRandomFishable(ItemStack p_i45317_1_, int p_i45317_2_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/village/Village.java ./eclipse/cauldron/src/main/java/net/minecraft/village/Village.java
-index 3e9b44c..d02e316 100644
+index 3e9b44c..667953b 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/village/Village.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/village/Village.java
 @@ -20,7 +20,7 @@ import net.minecraft.world.World;
@@ -28487,7 +28195,7 @@ index 3e9b44c..d02e316 100644
      private final ChunkCoordinates centerHelper = new ChunkCoordinates(0, 0, 0);
      private final ChunkCoordinates center = new ChunkCoordinates(0, 0, 0);
      private int villageRadius;
-@@ -29,9 +29,10 @@ public class Village
+@@ -29,7 +29,7 @@ public class Village
      private int numVillagers;
      private int noBreedTicks;
      private TreeMap playerReputation = new TreeMap();
@@ -28495,11 +28203,8 @@ index 3e9b44c..d02e316 100644
 +    private List villageAgressors = new ArrayList(4);
      private int numIronGolems;
      private static final String __OBFID = "CL_00001631";
-+    int villageAgressors_sS;
  
-     public Village() {}
- 
-@@ -71,7 +72,7 @@ public class Village
+@@ -71,7 +71,7 @@ public class Village
              {
                  EntityIronGolem entityirongolem = new EntityIronGolem(this.worldObj);
                  entityirongolem.setPosition(vec3.xCoord, vec3.yCoord, vec3.zCoord);
@@ -28508,16 +28213,6 @@ index 3e9b44c..d02e316 100644
                  ++this.numIronGolems;
              }
          }
-@@ -292,7 +293,8 @@ public class Village
-         double d0 = Double.MAX_VALUE;
-         Village.VillageAgressor villageagressor = null;
- 
--        for (int i = 0; i < this.villageAgressors.size(); ++i)
-+        villageAgressors_sS=this.villageAgressors.size();
-+        for (int i = 0; i < villageAgressors_sS; ++i)
-         {
-             Village.VillageAgressor villageagressor1 = (Village.VillageAgressor)this.villageAgressors.get(i);
-             double d1 = villageagressor1.agressor.getDistanceSqToEntity(p_75571_1_);
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/village/VillageCollection.java ./eclipse/cauldron/src/main/java/net/minecraft/village/VillageCollection.java
 index 799c003..9faf8c4 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/village/VillageCollection.java
@@ -28549,7 +28244,7 @@ index 0d6225d..712fa8e 100644
              entityzombie.setHomeArea(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, this.theVillage.getVillageRadius());
              return true;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/ChunkCache.java ./eclipse/cauldron/src/main/java/net/minecraft/world/ChunkCache.java
-index a4ae42b..3ad9d4a 100644
+index a4ae42b..d464660 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/ChunkCache.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/ChunkCache.java
 @@ -36,7 +36,7 @@ public class ChunkCache implements IBlockAccess
@@ -28570,15 +28265,8 @@ index a4ae42b..3ad9d4a 100644
          {
              if (p_72810_1_ == EnumSkyBlock.Sky && this.worldObj.provider.hasNoSky)
              {
-@@ -223,12 +223,12 @@ public class ChunkCache implements IBlockAccess
-             p_72812_3_ = 0;
-         }
- 
--        if (p_72812_3_ >= 256)
-+        if (p_72812_3_ >= 999)
-         {
--            p_72812_3_ = 255;
-+            p_72812_3_ = 998;
+@@ -228,7 +228,7 @@ public class ChunkCache implements IBlockAccess
+             p_72812_3_ = 255;
          }
  
 -        if (p_72812_3_ >= 0 && p_72812_3_ < 256 && p_72812_2_ >= -30000000 && p_72812_4_ >= -30000000 && p_72812_2_ < 30000000 && p_72812_4_ <= 30000000)
@@ -28586,14 +28274,7 @@ index a4ae42b..3ad9d4a 100644
          {
              int l = (p_72812_2_ >> 4) - this.chunkX;
              int i1 = (p_72812_4_ >> 4) - this.chunkZ;
-@@ -243,17 +243,19 @@ public class ChunkCache implements IBlockAccess
-     @SideOnly(Side.CLIENT)
-     public int getHeight()
-     {
--        return 256;
-+        return 999;
-     }
- 
+@@ -249,11 +249,13 @@ public class ChunkCache implements IBlockAccess
      @Override
      public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default)
      {
@@ -28770,7 +28451,7 @@ index 004ba3b..f5d5016 100644
              }
          }
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/SpawnerAnimals.java ./eclipse/cauldron/src/main/java/net/minecraft/world/SpawnerAnimals.java
-index bbabd3e..84a12ca 100644
+index bbabd3e..80364fb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/SpawnerAnimals.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/SpawnerAnimals.java
 @@ -22,9 +22,15 @@ import net.minecraft.world.chunk.Chunk;
@@ -28786,7 +28467,7 @@ index bbabd3e..84a12ca 100644
  public final class SpawnerAnimals
  {
 -    private HashMap eligibleChunksForSpawning = new HashMap();
-+    private LongObjectHashMap<Boolean> eligibleChunksForSpawning = new LongObjectHashMap<Boolean>(); // CraftBukkit - HashMap -> LongObjectHashMap
++    private org.eclipse.collections.impl.map.mutable.primitive.LongBooleanHashMap eligibleChunksForSpawning = new org.eclipse.collections.impl.map.mutable.primitive.LongBooleanHashMap(); // CraftBukkit - HashMap -> LongObjectHashMap //FFoKC: LongObjectHashMap -> LongBooleanHashMap
      private static final String __OBFID = "CL_00000152";
  
      protected static ChunkPosition func_151350_a(World p_151350_0_, int p_151350_1_, int p_151350_2_)
@@ -28825,7 +28506,7 @@ index bbabd3e..84a12ca 100644
                      }
                  }
              }
-@@ -82,22 +96,47 @@ public final class SpawnerAnimals
+@@ -82,27 +96,53 @@ public final class SpawnerAnimals
              for (int k3 = 0; k3 < k; ++k3)
              {
                  EnumCreatureType enumcreaturetype = aenumcreaturetype[k3];
@@ -28858,10 +28539,11 @@ index bbabd3e..84a12ca 100644
 -                if ((!enumcreaturetype.getPeacefulCreature() || p_77192_3_) && (enumcreaturetype.getPeacefulCreature() || p_77192_2_) && (!enumcreaturetype.getAnimal() || p_77192_4_) && p_77192_1_.countEntities(enumcreaturetype, true) <= enumcreaturetype.getMaxNumberOfCreature() * this.eligibleChunksForSpawning.size() / 256)
 +                if ((!enumcreaturetype.getPeacefulCreature() || p_77192_3_) && (enumcreaturetype.getPeacefulCreature() || p_77192_2_) && (!enumcreaturetype.getAnimal() || p_77192_4_) && p_77192_1_.countEntities(enumcreaturetype.getCreatureClass()) <= limit * eligibleChunksForSpawning.size() / 256)   // CraftBukkit - use per-world limits
                  {
-                     Iterator iterator = this.eligibleChunksForSpawning.keySet().iterator();
+-                    Iterator iterator = this.eligibleChunksForSpawning.keySet().iterator();
 -                    ArrayList<ChunkCoordIntPair> tmp = new ArrayList(eligibleChunksForSpawning.keySet());
 -                    Collections.shuffle(tmp);
 -                    iterator = tmp.iterator();
++                    org.eclipse.collections.api.iterator.MutableLongIterator iterator = this.eligibleChunksForSpawning.keySet().longIterator();
 +                    int maxMobSpawnAttemptsPS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonCapnumberofattemptsatspawningmobs.getValue(); // Paper - max attempts
                      label110:
  
@@ -28870,7 +28552,7 @@ index bbabd3e..84a12ca 100644
                      {
 -                        ChunkCoordIntPair chunkcoordintpair1 = (ChunkCoordIntPair)iterator.next();
 +                        // CraftBukkit start
-+                        long key = ((Long) iterator.next()).longValue();
++                        long key = iterator.next();
  
 -                        if (!((Boolean)this.eligibleChunksForSpawning.get(chunkcoordintpair1)).booleanValue())
 +                        if (!(this.eligibleChunksForSpawning.get(key)))
@@ -28881,7 +28563,14 @@ index bbabd3e..84a12ca 100644
                              int j1 = chunkposition.chunkPosX;
                              int k1 = chunkposition.chunkPosY;
                              int l1 = chunkposition.chunkPosZ;
-@@ -170,7 +209,8 @@ public final class SpawnerAnimals
+ 
+-                            if (!p_77192_1_.getBlock(j1, k1, l1).isNormalCube() && p_77192_1_.getBlock(j1, k1, l1).getMaterial() == enumcreaturetype.getCreatureMaterial())
++                            final Block block = p_77192_1_.getBlock(j1, k1, l1); //FFoKC: -1 getBlock()
++                            if (!block.isNormalCube() && block.getMaterial() == enumcreaturetype.getCreatureMaterial())
+                             {
+                                 int i2 = 0;
+                                 int j2 = 0;
+@@ -170,7 +210,8 @@ public final class SpawnerAnimals
                                                              if (canSpawn == Result.ALLOW || (canSpawn == Result.DEFAULT && entityliving.getCanSpawnHere()))
                                                              {
                                                                  ++i2;
@@ -28891,7 +28580,7 @@ index bbabd3e..84a12ca 100644
                                                                  if (!ForgeEventFactory.doSpecialSpawn(entityliving, p_77192_1_, f, f1, f2))
                                                                  {
                                                                      ientitylivingdata = entityliving.onSpawnWithEgg(ientitylivingdata);
-@@ -266,8 +306,10 @@ public final class SpawnerAnimals
+@@ -266,8 +307,10 @@ public final class SpawnerAnimals
                              }
  
                              entityliving.setLocationAndAngles((double)f, (double)f1, (double)f2, p_77191_6_.nextFloat() * 360.0F, 0.0F);
@@ -29747,7 +29436,7 @@ index d358df5..0ba0c7d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..e51cb7e 100644
+index c365f90..81d445f 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -2,7 +2,8 @@ package net.minecraft.world;
@@ -30300,7 +29989,7 @@ index c365f90..e51cb7e 100644
      {
          return this.chunkProvider.chunkExists(p_72916_1_, p_72916_2_);
      }
-@@ -421,13 +754,34 @@ public abstract class World implements IBlockAccess
+@@ -421,7 +754,28 @@ public abstract class World implements IBlockAccess
  
      public boolean setBlock(int p_147465_1_, int p_147465_2_, int p_147465_3_, Block p_147465_4_, int p_147465_5_, int p_147465_6_)
      {
@@ -30330,13 +30019,6 @@ index c365f90..e51cb7e 100644
          {
              if (p_147465_2_ < 0)
              {
-                 return false;
-             }
--            else if (p_147465_2_ >= 256)
-+            else if (p_147465_2_ >= 999)
-             {
-                 return false;
-             }
 @@ -448,8 +802,22 @@ public abstract class World implements IBlockAccess
                      this.capturedBlockSnapshots.add(blockSnapshot);
                  }
@@ -30368,7 +30050,7 @@ index c365f90..e51cb7e 100644
                  if (flag && blockSnapshot == null) // Don't notify clients or update physics while capturing blockstates
                  {
                      // Modularize client and physic updates
-@@ -496,13 +865,26 @@ public abstract class World implements IBlockAccess
+@@ -496,7 +865,20 @@ public abstract class World implements IBlockAccess
  
      public int getBlockMetadata(int p_72805_1_, int p_72805_2_, int p_72805_3_)
      {
@@ -30390,13 +30072,6 @@ index c365f90..e51cb7e 100644
          {
              if (p_72805_2_ < 0)
              {
-                 return 0;
-             }
--            else if (p_72805_2_ >= 256)
-+            else if (p_72805_2_ >= 999)
-             {
-                 return 0;
-             }
 @@ -511,7 +893,7 @@ public abstract class World implements IBlockAccess
                  Chunk chunk = this.getChunkFromChunkCoords(p_72805_1_ >> 4, p_72805_3_ >> 4);
                  p_72805_1_ &= 15;
@@ -30406,7 +30081,7 @@ index c365f90..e51cb7e 100644
              }
          }
          else
-@@ -522,13 +904,13 @@ public abstract class World implements IBlockAccess
+@@ -522,7 +904,7 @@ public abstract class World implements IBlockAccess
  
      public boolean setBlockMetadataWithNotify(int p_72921_1_, int p_72921_2_, int p_72921_3_, int p_72921_4_, int p_72921_5_)
      {
@@ -30415,13 +30090,6 @@ index c365f90..e51cb7e 100644
          {
              if (p_72921_2_ < 0)
              {
-                 return false;
-             }
--            else if (p_72921_2_ >= 256)
-+            else if (p_72921_2_ >= 999)
-             {
-                 return false;
-             }
 @@ -610,6 +992,12 @@ public abstract class World implements IBlockAccess
  
      public void notifyBlockChange(int p_147444_1_, int p_147444_2_, int p_147444_3_, Block p_147444_4_)
@@ -30463,18 +30131,6 @@ index c365f90..e51cb7e 100644
                  block.onNeighborBlockChange(this, p_147460_1_, p_147460_2_, p_147460_3_, p_147460_4_);
              }
              catch (Throwable throwable1)
-@@ -750,9 +1154,9 @@ public abstract class World implements IBlockAccess
-         }
-         else
-         {
--            if (p_72883_2_ >= 256)
-+            if (p_72883_2_ >= 999)
-             {
--                p_72883_2_ = 255;
-+                p_72883_2_ = 998;
-             }
- 
-             return this.getChunkFromChunkCoords(p_72883_1_ >> 4, p_72883_3_ >> 4).getBlockLightValue(p_72883_1_ & 15, p_72883_2_, p_72883_3_ & 15, 0);
 @@ -766,7 +1170,7 @@ public abstract class World implements IBlockAccess
  
      public int getBlockLightValue_do(int p_72849_1_, int p_72849_2_, int p_72849_3_, boolean p_72849_4_)
@@ -30484,18 +30140,6 @@ index c365f90..e51cb7e 100644
          {
              if (p_72849_4_ && this.getBlock(p_72849_1_, p_72849_2_, p_72849_3_).getUseNeighborBrightness())
              {
-@@ -804,9 +1208,9 @@ public abstract class World implements IBlockAccess
-             }
-             else
-             {
--                if (p_72849_2_ >= 256)
-+                if (p_72849_2_ >= 999)
-                 {
--                    p_72849_2_ = 255;
-+                    p_72849_2_ = 998;
-                 }
- 
-                 Chunk chunk = this.getChunkFromChunkCoords(p_72849_1_ >> 4, p_72849_3_ >> 4);
 @@ -823,7 +1227,7 @@ public abstract class World implements IBlockAccess
  
      public int getHeightValue(int p_72976_1_, int p_72976_2_)
@@ -30514,12 +30158,7 @@ index c365f90..e51cb7e 100644
          {
              if (!this.chunkExists(p_82734_1_ >> 4, p_82734_2_ >> 4))
              {
-@@ -875,11 +1279,11 @@ public abstract class World implements IBlockAccess
-                 p_72925_3_ = 0;
-             }
- 
--            if (p_72925_3_ >= 256)
-+            if (p_72925_3_ >= 999)
+@@ -879,7 +1283,7 @@ public abstract class World implements IBlockAccess
              {
                  return p_72925_1_.defaultLightValue;
              }
@@ -30528,15 +30167,8 @@ index c365f90..e51cb7e 100644
              {
                  int l = p_72925_2_ >> 4;
                  int i1 = p_72925_4_ >> 4;
-@@ -938,12 +1342,12 @@ public abstract class World implements IBlockAccess
-             p_72972_3_ = 0;
-         }
- 
--        if (p_72972_3_ >= 256)
-+        if (p_72972_3_ >= 999)
-         {
--            p_72972_3_ = 255;
-+            p_72972_3_ = 998;
+@@ -943,7 +1347,7 @@ public abstract class World implements IBlockAccess
+             p_72972_3_ = 255;
          }
  
 -        if (p_72972_2_ >= -30000000 && p_72972_4_ >= -30000000 && p_72972_2_ < 30000000 && p_72972_4_ < 30000000)
@@ -30544,7 +30176,7 @@ index c365f90..e51cb7e 100644
          {
              int l = p_72972_2_ >> 4;
              int i1 = p_72972_4_ >> 4;
-@@ -966,11 +1370,11 @@ public abstract class World implements IBlockAccess
+@@ -966,7 +1370,7 @@ public abstract class World implements IBlockAccess
  
      public void setLightValue(EnumSkyBlock p_72915_1_, int p_72915_2_, int p_72915_3_, int p_72915_4_, int p_72915_5_)
      {
@@ -30553,11 +30185,6 @@ index c365f90..e51cb7e 100644
          {
              if (p_72915_3_ >= 0)
              {
--                if (p_72915_3_ < 256)
-+                if (p_72915_3_ < 999)
-                 {
-                     if (this.chunkExists(p_72915_2_ >> 4, p_72915_4_ >> 4))
-                     {
 @@ -1307,6 +1711,13 @@ public abstract class World implements IBlockAccess
  
      public boolean spawnEntityInWorld(Entity p_72838_1_)
@@ -31442,18 +31069,12 @@ index c365f90..e51cb7e 100644
          {
              return _default;
          }
-@@ -4001,12 +4714,12 @@ public abstract class World implements IBlockAccess
+@@ -4001,7 +4714,7 @@ public abstract class World implements IBlockAccess
       */
      public int getBlockLightOpacity(int x, int y, int z)
      {
 -        if (x < -30000000 || z < -30000000 || x >= 30000000 || z >= 30000000)
 +        if (x < -MAX_BLOCK_COORD || z < -MAX_BLOCK_COORD || x >= MAX_BLOCK_COORD || z >= MAX_BLOCK_COORD)
-         {
-             return 0;
-         }
- 
--        if (y < 0 || y >= 256)
-+        if (y < 0 || y >= 999)
          {
              return 0;
          }
@@ -32338,30 +31959,18 @@ index 8b18f86..dcbec3d 100644
  
      public String getWorldTypeName()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeCache.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeCache.java
-index 80b2854..a8b4d0f 100644
+index 80b2854..8e50174 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeCache.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeCache.java
-@@ -10,8 +10,9 @@ public class BiomeCache
+@@ -10,7 +10,7 @@ public class BiomeCache
      private final WorldChunkManager chunkManager;
      private long lastCleanupTime;
      private LongHashMap cacheMap = new LongHashMap();
 -    private List cache = new ArrayList();
 +    private List cache = new ArrayList(64);
      private static final String __OBFID = "CL_00000162";
-+    int cache_sS;
  
      public BiomeCache(WorldChunkManager p_i1973_1_)
-     {
-@@ -50,7 +51,8 @@ public class BiomeCache
-         {
-             this.lastCleanupTime = i;
- 
--            for (int k = 0; k < this.cache.size(); ++k)
-+            cache_sS=this.cache.size();
-+            for (int k = 0; k < cache_sS; ++k)
-             {
-                 BiomeCache.Block block = (BiomeCache.Block)this.cache.get(k);
-                 long l = i - block.lastAccessTime;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeDecorator.java ./eclipse/cauldron/src/main/java/net/minecraft/world/biome/BiomeDecorator.java
 index dac10c8..d7df7bc 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/biome/BiomeDecorator.java
@@ -33278,10 +32887,10 @@ index 1eb8072..001e3c7 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
-index 37d5ddc..7806805 100644
+index 37d5ddc..71f0cbb 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/AnvilChunkLoader.java
-@@ -33,15 +33,24 @@ import org.apache.logging.log4j.LogManager;
+@@ -33,14 +33,22 @@ import org.apache.logging.log4j.LogManager;
  import org.apache.logging.log4j.Logger;
  
  import cpw.mods.fml.common.FMLLog;
@@ -33303,11 +32912,9 @@ index 37d5ddc..7806805 100644
      public final File chunkSaveLocation;
 +    private List checkedTileEntities = new ArrayList(100); // Cauldron
      private static final String __OBFID = "CL_00000384";
-+    int chunksToRemove_sS;
  
      public AnvilChunkLoader(File p_i2003_1_)
-     {
-@@ -73,13 +82,16 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -73,13 +81,16 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
  
      public Chunk loadChunk(World p_75815_1_, int p_75815_2_, int p_75815_3_) throws IOException
      {
@@ -33324,7 +32931,7 @@ index 37d5ddc..7806805 100644
              return chunk;
          }
  
-@@ -156,8 +168,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -156,8 +167,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
              if (!chunk.isAtLocation(p_75822_2_, p_75822_3_))
              {
                  logger.error("Chunk file at " + p_75822_2_ + "," + p_75822_3_ + " is in the wrong location; relocating. (Expected " + p_75822_2_ + ", " + p_75822_3_ + ", got " + chunk.xPosition + ", " + chunk.zPosition + ")");
@@ -33335,7 +32942,7 @@ index 37d5ddc..7806805 100644
                  // Have to move tile entities since we don't load them at this stage
                  NBTTagList tileEntities = p_75822_4_.getCompoundTag("Level").getTagList("TileEntities", 10);
  
-@@ -187,7 +199,17 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -187,7 +198,17 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
  
      public void saveChunk(World p_75816_1_, Chunk p_75816_2_) throws MinecraftException, IOException
      {
@@ -33354,17 +32961,7 @@ index 37d5ddc..7806805 100644
  
          try
          {
-@@ -212,7 +234,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
-         {
-             if (this.pendingAnvilChunksCoordinates.contains(p_75824_1_))
-             {
--                for (int i = 0; i < this.chunksToRemove.size(); ++i)
-+                chunksToRemove_sS=this.chunksToRemove.size();
-+                for (int i = 0; i < chunksToRemove_sS; ++i)
-                 {
-                     if (((AnvilChunkLoader.PendingChunk)this.chunksToRemove.get(i)).chunkCoordinate.equals(p_75824_1_))
-                     {
-@@ -230,7 +253,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -230,7 +251,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
  
      public boolean writeNextIO()
      {
@@ -33373,7 +32970,7 @@ index 37d5ddc..7806805 100644
          Object object = this.syncLockObject;
  
          synchronized (this.syncLockObject)
-@@ -240,15 +263,15 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -240,15 +261,15 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
                  return false;
              }
  
@@ -33393,7 +32990,7 @@ index 37d5ddc..7806805 100644
              }
              catch (Exception exception)
              {
-@@ -259,7 +282,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -259,7 +280,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
          return true;
      }
  
@@ -33402,7 +32999,7 @@ index 37d5ddc..7806805 100644
      {
          DataOutputStream dataoutputstream = RegionFileCache.getChunkOutputStream(this.chunkSaveLocation, p_75821_1_.chunkCoordinate.chunkXPos, p_75821_1_.chunkCoordinate.chunkZPos);
          CompressedStreamTools.write(p_75821_1_.nbtTags, dataoutputstream);
-@@ -307,19 +330,19 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -307,19 +328,19 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
  
                  if (extendedblockstorage.getBlockMSBArray() != null)
                  {
@@ -33427,7 +33024,7 @@ index 37d5ddc..7806805 100644
                  }
  
                  nbttaglist.appendTag(nbttagcompound1);
-@@ -455,6 +478,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -455,6 +476,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
  
      public void loadEntities(World p_75823_1_, NBTTagCompound p_75823_2_, Chunk chunk)
      {
@@ -33435,7 +33032,7 @@ index 37d5ddc..7806805 100644
          NBTTagList nbttaglist1 = p_75823_2_.getTagList("Entities", 10);
  
          if (nbttaglist1 != null)
-@@ -468,24 +492,31 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -468,24 +490,31 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
                  if (entity2 != null)
                  {
                      chunk.addEntity(entity2);
@@ -33476,7 +33073,7 @@ index 37d5ddc..7806805 100644
          NBTTagList nbttaglist2 = p_75823_2_.getTagList("TileEntities", 10);
  
          if (nbttaglist2 != null)
-@@ -497,11 +528,35 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -497,11 +526,35 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
  
                  if (tileentity != null)
                  {
@@ -33512,7 +33109,7 @@ index 37d5ddc..7806805 100644
          if (p_75823_2_.hasKey("TileTicks", 9))
          {
              NBTTagList nbttaglist3 = p_75823_2_.getTagList("TileTicks", 10);
-@@ -515,6 +570,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
+@@ -515,6 +568,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
                  }
              }
          }
@@ -35100,7 +34697,7 @@ index 1b0ea95..410c2a1 100644
                      boolean flag = !p_76204_1_.isOnItemFrame();
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/storage/MapStorage.java ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/MapStorage.java
-index a54c225..716d964 100644
+index a54c225..d03546a 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/storage/MapStorage.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/storage/MapStorage.java
 @@ -5,6 +5,8 @@ import java.io.DataOutputStream;
@@ -35112,7 +34709,7 @@ index a54c225..716d964 100644
  import java.util.ArrayList;
  import java.util.HashMap;
  import java.util.Iterator;
-@@ -19,10 +21,12 @@ import net.minecraft.world.WorldSavedData;
+@@ -19,8 +21,8 @@ import net.minecraft.world.WorldSavedData;
  public class MapStorage
  {
      private ISaveHandler saveHandler;
@@ -35122,12 +34719,8 @@ index a54c225..716d964 100644
 +    private List loadedDataList = new ArrayList(10);
      private Map idCounts = new HashMap();
      private static final String __OBFID = "CL_00000604";
-+    int loadedDataList_sS;
-+    int playersArrayList_sS;
  
-     public MapStorage(ISaveHandler p_i2162_1_)
-     {
-@@ -57,7 +61,7 @@ public class MapStorage
+@@ -57,7 +59,7 @@ public class MapStorage
                              throw new RuntimeException("Failed to instantiate " + p_75742_1_.toString(), exception);
                          }
  
@@ -35136,17 +34729,7 @@ index a54c225..716d964 100644
                          NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(fileinputstream);
                          fileinputstream.close();
                          worldsaveddata.readFromNBT(nbttagcompound.getCompoundTag("data"));
-@@ -99,7 +103,8 @@ public class MapStorage
- 
-     public void saveAllData()
-     {
--        for (int i = 0; i < this.loadedDataList.size(); ++i)
-+        loadedDataList_sS=this.loadedDataList.size();
-+        for (int i = 0; i < loadedDataList_sS; ++i)
-         {
-             WorldSavedData worldsaveddata = (WorldSavedData)this.loadedDataList.get(i);
- 
-@@ -152,7 +157,7 @@ public class MapStorage
+@@ -152,7 +154,7 @@ public class MapStorage
  
              if (file1 != null && file1.exists())
              {
@@ -35608,7 +35191,7 @@ index 5951732..40d8c2d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
-index 08bd913..d1016bb 100644
+index 08bd913..713349c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/ClientCommandHandler.java
 @@ -39,7 +39,7 @@ public class ClientCommandHandler extends CommandHandler
@@ -35620,7 +35203,7 @@ index 08bd913..d1016bb 100644
          {
              message = message.substring(1);
          }
-@@ -113,20 +113,22 @@ public class ClientCommandHandler extends CommandHandler
+@@ -113,7 +113,7 @@ public class ClientCommandHandler extends CommandHandler
              Minecraft mc = FMLClientHandler.instance().getClient();
              if (mc.currentScreen instanceof GuiChat)
              {
@@ -35629,25 +35212,8 @@ index 08bd913..d1016bb 100644
                  List<String> commands = getPossibleCommands(mc.thePlayer, leftOfCursor);
                  if (commands != null && !commands.isEmpty())
                  {
-                     if (leftOfCursor.indexOf(' ') == -1)
-                     {
--                        for (int i = 0; i < commands.size(); i++)
-+                        int commands_sS=commands.size();
-+                        for (int i = 0; i < commands_sS; i++)
-                         {
-                             commands.set(i, GRAY + "/" + commands.get(i) + RESET);
-                         }
-                     }
-                     else
-                     {
--                        for (int i = 0; i < commands.size(); i++)
-+                        int commands_sS=commands.size();
-+                        for (int i = 0; i < commands_sS; i++)
-                         {
-                             commands.set(i, GRAY + commands.get(i) + RESET);
-                         }
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/client/GuiIngameForge.java ./eclipse/cauldron/src/main/java/net/minecraftforge/client/GuiIngameForge.java
-index 87d31b4..3975183 100644
+index 87d31b4..cb8313f 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/client/GuiIngameForge.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/client/GuiIngameForge.java
 @@ -125,7 +125,7 @@ public class GuiIngameForge extends GuiIngame
@@ -35677,26 +35243,7 @@ index 87d31b4..3975183 100644
                  int x = (width - fontrenderer.getStringWidth(text)) / 2;
                  int y = height - 31 - 4;
                  fontrenderer.drawString(text, x + 1, y, 0);
-@@ -698,14 +698,16 @@ public class GuiIngameForge extends GuiIngame
-         RenderGameOverlayEvent.Text event = new RenderGameOverlayEvent.Text(eventParent, left, right);
-         if (!MinecraftForge.EVENT_BUS.post(event))
-         {
--            for (int x = 0; x < left.size(); x++)
-+            int left_sS=left.size();
-+            for (int x = 0; x < left_sS; x++)
-             {
-                 String msg = left.get(x);
-                 if (msg == null) continue;
-                 fontrenderer.drawStringWithShadow(msg, 2, 2 + x * 10, WHITE);
-             }
- 
--            for (int x = 0; x < right.size(); x++)
-+            int right_sS=right.size();
-+            for (int x = 0; x < right_sS; x++)
-             {
-                 String msg = right.get(x);
-                 if (msg == null) continue;
-@@ -814,7 +816,7 @@ public class GuiIngameForge extends GuiIngame
+@@ -814,7 +814,7 @@ public class GuiIngameForge extends GuiIngame
                          if (maxX - endX > 5)
                          {
                              Score score = scoreobjective.getScoreboard().func_96529_a(player.name, scoreobjective);
@@ -37260,7 +36807,7 @@ index 849986d..f5ec081 100644
                                      currentCat.put(name, prop);
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Property.java ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Property.java
-index 8616986..fedbaec 100644
+index 8616986..9e00502 100644
 --- ./eclipse/Clean/src/main/java/net/minecraftforge/common/config/Property.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraftforge/common/config/Property.java
 @@ -8,9 +8,11 @@ package net.minecraftforge.common.config;
@@ -37612,20 +37159,7 @@ index 8616986..fedbaec 100644
  
          for (String value : values)
          {
-@@ -843,9 +859,10 @@ public class Property
-             catch (NumberFormatException e){}
-         }
- 
--        int[] primitives = new int[nums.size()];
-+        int nums_sS=nums.size();
-+        int[] primitives = new int[nums_sS];
- 
--        for (int i = 0; i < nums.size(); i++)
-+        for (int i = 0; i < nums_sS; i++)
-         {
-             primitives[i] = nums.get(i);
-         }
-@@ -882,7 +899,7 @@ public class Property
+@@ -882,7 +898,7 @@ public class Property
       */
      public boolean[] getBooleanList()
      {
@@ -37634,20 +37168,7 @@ index 8616986..fedbaec 100644
          for (String value : values)
          {
              try
-@@ -892,9 +909,10 @@ public class Property
-             catch (NumberFormatException e){}
-         }
- 
--        boolean[] primitives = new boolean[tmp.size()];
-+        int temp_sS=tmp.size();
-+        boolean[] primitives = new boolean[temp_sS];
- 
--        for (int i = 0; i < tmp.size(); i++)
-+        for (int i = 0; i < temp_sS; i++)
-         {
-             primitives[i] = tmp.get(i);
-         }
-@@ -928,7 +946,7 @@ public class Property
+@@ -928,7 +944,7 @@ public class Property
       */
      public double[] getDoubleList()
      {
@@ -37656,20 +37177,7 @@ index 8616986..fedbaec 100644
          for (String value : values)
          {
              try
-@@ -938,9 +956,10 @@ public class Property
-             catch (NumberFormatException e) {}
-         }
- 
--        double[] primitives = new double[tmp.size()];
-+        int temp_sS=tmp.size();
-+        double[] primitives = new double[temp_sS];
- 
--        for (int i = 0; i < tmp.size(); i++)
-+        for (int i = 0; i < temp_sS; i++)
-         {
-             primitives[i] = tmp.get(i);
-         }
-@@ -977,7 +996,7 @@ public class Property
+@@ -977,7 +993,7 @@ public class Property
       */
      public String getName()
      {
@@ -37678,7 +37186,7 @@ index 8616986..fedbaec 100644
      }
  
      /**
-@@ -987,7 +1006,7 @@ public class Property
+@@ -987,7 +1003,7 @@ public class Property
       */
      public void setName(String name)
      {
@@ -37687,7 +37195,7 @@ index 8616986..fedbaec 100644
      }
  
      /**
-@@ -1035,7 +1054,7 @@ public class Property
+@@ -1035,7 +1051,7 @@ public class Property
       */
      public Property setValue(String value)
      {

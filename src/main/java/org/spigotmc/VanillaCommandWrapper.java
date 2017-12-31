@@ -74,17 +74,17 @@ public class VanillaCommandWrapper
 
     private static net.minecraft.command.ICommandSender getListener(CommandSender sender)
     {
-        if ( sender.getClass().equals(CraftPlayer.class) )
+        if ( sender instanceof CraftPlayer )
         {
             return new PlayerListener( ( (CraftPlayer) sender ).getHandle() );
         }
-        if ( sender.getClass().equals(CraftBlockCommandSender.class) )
+        if ( sender instanceof CraftBlockCommandSender )
         {
             CraftBlockCommandSender commandBlock = (CraftBlockCommandSender) sender;
             Block block = commandBlock.getBlock();
             return ( (net.minecraft.tileentity.TileEntityCommandBlock) ( (CraftWorld) block.getWorld() ).getTileEntityAt( block.getX(), block.getY(), block.getZ() ) ).func_145993_a();
         }
-        if ( sender.getClass().equals(CraftMinecartCommand.class) )
+        if ( sender instanceof CraftMinecartCommand )
         {
             return ( (net.minecraft.entity.EntityMinecartCommandBlock) ( (CraftMinecartCommand) sender ).getHandle() ).func_145822_e();
         }

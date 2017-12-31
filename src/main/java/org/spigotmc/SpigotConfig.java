@@ -172,7 +172,7 @@ public class SpigotConfig
         outdatedServerMessage = transform( getString( "messages.outdated-server", outdatedServerMessage ) );
     }
 
-    public static int timeoutTime = 240; // Cauldron - raise to 90 //FFoKC: meh, -> 900
+    public static int timeoutTime = 900; // Cauldron - raise to 90 //FFoKC: meh, -> 900
     public static boolean restartOnCrash = false;
     public static String restartScript = "./start.sh";
     public static String restartMessage;

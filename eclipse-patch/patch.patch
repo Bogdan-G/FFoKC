@@ -19806,7 +19806,7 @@ index 4ef0115..87d3e52 100644
  
      public NBTBase copy()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
-index 82678d5..0df04ee 100644
+index 82678d5..a0001c2 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/network/NetHandlerPlayServer.java
 @@ -13,6 +13,7 @@ import java.util.Date;
@@ -20454,15 +20454,7 @@ index 82678d5..0df04ee 100644
          {
              ChatComponentTranslation chatcomponenttranslation = new ChatComponentTranslation("chat.cannotSend", new Object[0]);
              chatcomponenttranslation.getChatStyle().setColor(EnumChatFormatting.RED);
-@@ -702,57 +1050,391 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
-         {
-             this.playerEntity.func_143004_u();
-             String s = p_147354_1_.func_149439_c();
--            s = StringUtils.normalizeSpace(s);
-+            s = StringUtils.normalizeSpace(s);sL_cf=s.length();
- 
--            for (int i = 0; i < s.length(); ++i)
-+            for (int i = 0; i < sL_cf; ++i)
+@@ -708,51 +1056,385 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              {
                  if (!ChatAllowedCharacters.isAllowedCharacter(s.charAt(i)))
                  {
@@ -21548,26 +21540,15 @@ index 82678d5..0df04ee 100644
                      return;
                  }
              }
-@@ -990,14 +2259,16 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -990,6 +2259,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
              for (j = 0; j < 4; ++j)
              {
                  boolean flag = true;
 +                p_147343_1_.func_149589_f()[j] = p_147343_1_.func_149589_f()[j].replaceAll("\uF700", "").replaceAll("\uF701", ""); // Spigot - Mac OSX sends weird chars
-+                sL_cf1=p_147343_1_.func_149589_f()[j].length();
  
--                if (p_147343_1_.func_149589_f()[j].length() > 15)
-+                if (sL_cf1 > 15)
+                 if (p_147343_1_.func_149589_f()[j].length() > 15)
                  {
-                     flag = false;
-                 }
-                 else
-                 {
--                    for (i = 0; i < p_147343_1_.func_149589_f()[j].length(); ++i)
-+                    for (i = 0; i < sL_cf1; ++i)
-                     {
-                         if (!ChatAllowedCharacters.isAllowedCharacter(p_147343_1_.func_149589_f()[j].charAt(i)))
-                         {
-@@ -1018,7 +2289,29 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1018,7 +2288,29 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  int k = p_147343_1_.func_149586_d();
                  i = p_147343_1_.func_149585_e();
                  TileEntitySign tileentitysign1 = (TileEntitySign)tileentity;
@@ -21598,7 +21579,7 @@ index 82678d5..0df04ee 100644
                  tileentitysign1.markDirty();
                  worldserver.markBlockForUpdate(j, k, i);
              }
-@@ -1041,7 +2334,22 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1041,7 +2333,22 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
      public void processPlayerAbilities(C13PacketPlayerAbilities p_147348_1_)
      {
@@ -21622,7 +21603,7 @@ index 82678d5..0df04ee 100644
      }
  
      public void processTabComplete(C14PacketTabComplete p_147341_1_)
-@@ -1068,7 +2376,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1068,7 +2375,6 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          PacketBuffer packetbuffer;
          ItemStack itemstack;
          ItemStack itemstack1;
@@ -21630,7 +21611,7 @@ index 82678d5..0df04ee 100644
          if ("MC|BEdit".equals(p_147349_1_.func_149559_c()))
          {
              packetbuffer = new PacketBuffer(Unpooled.wrappedBuffer(p_147349_1_.func_149558_e()));
-@@ -1093,16 +2400,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1093,16 +2399,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
  
                      if (itemstack.getItem() == Items.writable_book && itemstack.getItem() == itemstack1.getItem())
                      {
@@ -21653,7 +21634,7 @@ index 82678d5..0df04ee 100644
              }
              finally
              {
-@@ -1135,19 +2444,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1135,19 +2443,18 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                  {
                      if (itemstack.getItem() == Items.written_book && itemstack1.getItem() == Items.writable_book)
                      {
@@ -21679,7 +21660,7 @@ index 82678d5..0df04ee 100644
              }
              finally
              {
-@@ -1174,9 +2482,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1174,9 +2481,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                          ((ContainerMerchant)container).setCurrentRecipeIndex(i);
                      }
                  }
@@ -21693,7 +21674,7 @@ index 82678d5..0df04ee 100644
                  }
              }
              else if ("MC|AdvCdm".equals(p_147349_1_.func_149559_c()))
-@@ -1222,9 +2533,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1222,9 +2532,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                              this.playerEntity.addChatMessage(new ChatComponentTranslation("advMode.setCommand.success", new Object[] {s1}));
                          }
                      }
@@ -21708,7 +21689,7 @@ index 82678d5..0df04ee 100644
                      }
                      finally
                      {
-@@ -1257,9 +2571,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1257,9 +2570,12 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                              tileentitybeacon.markDirty();
                          }
                      }
@@ -21723,7 +21704,7 @@ index 82678d5..0df04ee 100644
                      }
                  }
              }
-@@ -1281,6 +2598,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1281,6 +2597,13 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
                      containerrepair.updateItemName("");
                  }
              }
@@ -21737,7 +21718,7 @@ index 82678d5..0df04ee 100644
          }
      }
  
-@@ -1292,6 +2616,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
+@@ -1292,6 +2615,21 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer
          }
      }
  

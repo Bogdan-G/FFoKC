@@ -89,6 +89,7 @@ public class ActivationRange
             return true;
         }
         // Cauldron end
+        if (config.ignoreActivationRange) return true;
 
         if ( ( entity.activationType == 3 && config.miscActivationRange == 0 )
                 || ( entity.activationType == 2 && config.animalActivationRange == 0 )
@@ -150,19 +151,28 @@ public class ActivationRange
         final int animalActivationRange = world.getSpigotConfig().animalActivationRange;
         final int monsterActivationRange = world.getSpigotConfig().monsterActivationRange;
         // Cauldron end
+        final boolean max_distance_sS = world.getSpigotConfig().enableAllMaxActivationRange;
 
         int maxRange = Math.max( monsterActivationRange, animalActivationRange );
         maxRange = Math.max( maxRange, miscActivationRange );
         maxRange = Math.min( ( world.getSpigotConfig().viewDistance << 4 ) - 8, maxRange ); // Cauldron
+        if (max_distance_sS) maxRange = Math.min( ( world.getSpigotConfig().viewDistance << 4 ), 512 );
 
         for ( Entity player : new ArrayList<Entity>( world.playerEntities ) )
         {
 
             player.activatedTick = MinecraftServer.currentTick;
+            if (!max_distance_sS) {
             growBB( maxBB, player.boundingBox, maxRange, 256, maxRange );
             growBB( miscBB, player.boundingBox, miscActivationRange, 256, miscActivationRange );
             growBB( animalBB, player.boundingBox, animalActivationRange, 256, animalActivationRange );
             growBB( monsterBB, player.boundingBox, monsterActivationRange, 256, monsterActivationRange );
+            } else {
+            growBB( maxBB, player.boundingBox, maxRange, 256, maxRange );
+            growBB( miscBB, player.boundingBox, maxRange, 256, maxRange );
+            growBB( animalBB, player.boundingBox, maxRange, 256, maxRange );
+            growBB( monsterBB, player.boundingBox, maxRange, 256, maxRange );
+            }
 
             int i = MathHelper.floor_double( maxBB.minX / 16.0D );
             int j = MathHelper.floor_double( maxBB.maxX / 16.0D );
@@ -201,26 +211,12 @@ public class ActivationRange
                         entity.activatedTick = MinecraftServer.currentTick;
                         continue;
                     }
-                    switch ( entity.activationType )
-                    {
-                        case 1:
-                            if ( monsterBB.intersectsWith( entity.boundingBox ) )
-                            {
-                                entity.activatedTick = MinecraftServer.currentTick;
-                            }
-                            break;
-                        case 2:
-                            if ( animalBB.intersectsWith( entity.boundingBox ) )
-                            {
-                                entity.activatedTick = MinecraftServer.currentTick;
-                            }
-                            break;
-                        case 3:
-                        default:
-                            if ( miscBB.intersectsWith( entity.boundingBox ) )
-                            {
-                                entity.activatedTick = MinecraftServer.currentTick;
-                            }
+                    if ( entity.activationType==1 && monsterBB.intersectsWith( entity.boundingBox ) ) {
+                            entity.activatedTick = MinecraftServer.currentTick;
+                    } else if ( entity.activationType==2 && animalBB.intersectsWith( entity.boundingBox ) ) {
+                            entity.activatedTick = MinecraftServer.currentTick;
+                    } else if ((entity.activationType==3 || true) && miscBB.intersectsWith( entity.boundingBox ) ) {
+                            entity.activatedTick = MinecraftServer.currentTick;
                     }
                 }
             }
@@ -236,6 +232,7 @@ public class ActivationRange
      */
     public static boolean checkEntityImmunities(Entity entity)
     {
+        if (entity.worldObj.getSpigotConfig().ignoreActivationRange) return true;
         // quick checks.
         if ( entity.inWater /* isInWater */ || entity.fire > 0 )
         {
@@ -292,6 +289,7 @@ public class ActivationRange
      */
     public static boolean checkIfActive(Entity entity)
     {
+        if (entity.worldObj.getSpigotConfig().ignoreActivationRange) return true;
         SpigotTimings.checkIfActiveTimer.startTiming();
 
         boolean isActive = entity.activatedTick >= MinecraftServer.currentTick || entity.defaultActivationState;

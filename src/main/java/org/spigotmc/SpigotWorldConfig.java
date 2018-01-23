@@ -145,8 +145,14 @@ public class SpigotWorldConfig
     public int animalActivationRange = 32;
     public int monsterActivationRange = 32;
     public int miscActivationRange = 32;
+    public boolean disableActivationRange;
+    public boolean enableAllMaxActivationRange;
+    public boolean ignoreActivationRange;
     private void activationRange()
     {
+        disableActivationRange = getBoolean( "entity-activation-range.disable", false );
+        enableAllMaxActivationRange = getBoolean( "entity-activation-range.allmax", false );
+        ignoreActivationRange = getBoolean( "entity-activation-range.ignore", false );
         animalActivationRange = getInt( "entity-activation-range.animals", animalActivationRange );
         monsterActivationRange = getInt( "entity-activation-range.monsters", monsterActivationRange );
         miscActivationRange = getInt( "entity-activation-range.misc", miscActivationRange );
@@ -158,8 +164,12 @@ public class SpigotWorldConfig
     public int monsterTrackingRange = 32;
     public int miscTrackingRange = 32;
     public int maxTrackingRange = 32;
+    public boolean disableTrackingRange;
+    public boolean enableAllMaxTrackingRange;
     private void trackingRange()
     {
+        disableTrackingRange = getBoolean( "entity-tracking-range.disable", false );
+        enableAllMaxTrackingRange = getBoolean( "entity-tracking-range.allmax", false );
         playerTrackingRange = getInt( "entity-tracking-range.players", playerTrackingRange );
         animalTrackingRange = getInt( "entity-tracking-range.animals", animalTrackingRange );
         monsterTrackingRange = getInt( "entity-tracking-range.monsters", monsterTrackingRange );

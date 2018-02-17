@@ -41,6 +41,7 @@ public class SpigotConfig
     static Map<String, Command> commands;
     /*========================================================================*/
     private static Metrics metrics;
+    private static Metrics2 metrics2;
 
     public static void init()
     {
@@ -73,6 +74,9 @@ public class SpigotConfig
                 Bukkit.getServer().getLogger().log( Level.SEVERE, "Could not start metrics service", ex );
             }
         }
+        try {
+        metrics2 = new Metrics2();
+        } catch (Exception ex) { Bukkit.getServer().getLogger().log( Level.SEVERE, "Could not start bStats metrics service", ex ); }
     }
 
     static void readConfig(Class<?> clazz, Object instance)

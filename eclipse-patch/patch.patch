@@ -9054,7 +9054,7 @@ index 6221188..47e0979 100644
              private final int objectType;
              private final int dataValueId;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
-index e114a23..c88e948 100644
+index e114a23..00a19aa 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/Entity.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/Entity.java
 @@ -4,7 +4,7 @@ import cpw.mods.fml.common.FMLLog;
@@ -9329,10 +9329,10 @@ index e114a23..c88e948 100644
 +        }
 +        catch (Throwable throwable)
 +        {
-+            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Checking entity block collision");
++            /*CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Checking entity block collision");
 +            CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity being checked for collision");
-+            this.addEntityCrashInfo(crashreportcategory);
-+            FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash, checking entity block collision, stacktrace: %s", throwable);//throw new ReportedException(crashreport);
++            this.addEntityCrashInfo(crashreportcategory);*/
++            if (warningFIC) FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash, checking entity block collision, stacktrace: %s", throwable);//throw new ReportedException(crashreport);
 +        }
 +
 +        // Check if we're moving
@@ -9409,7 +9409,7 @@ index e114a23..c88e948 100644
 -                    if (this.fire == 0)
 +                    // CraftBukkit start - Not on fire yet
 +                    if (this.fire <= 0)   // Only throw events on the first combust, otherwise it spams
-+                    {
+                     {
 +                        EntityCombustEvent event = new EntityCombustEvent(this.getBukkitEntity(), 8);
 +                        this.worldObj.getServer().getPluginManager().callEvent(event);
 +
@@ -9419,7 +9419,7 @@ index e114a23..c88e948 100644
 +                        }
 +                    }
 +                    else
-                     {
++                    {
 +                        // CraftBukkit end
                          this.setFire(8);
                      }
@@ -9453,11 +9453,13 @@ index e114a23..c88e948 100644
                          }
                          catch (Throwable throwable)
                          {
-                             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
+-                            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
++                            /*CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
                              CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being collided with");
-                             CrashReportCategory.func_147153_a(crashreportcategory, k1, l1, i2, block, this.worldObj.getBlockMetadata(k1, l1, i2));
+-                            CrashReportCategory.func_147153_a(crashreportcategory, k1, l1, i2, block, this.worldObj.getBlockMetadata(k1, l1, i2));
 -                            throw new ReportedException(crashreport);
-+                            FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash, colliding entity with block, stacktrace: %s", throwable);//throw new ReportedException(crashreport);
++                            CrashReportCategory.func_147153_a(crashreportcategory, k1, l1, i2, block, this.worldObj.getBlockMetadata(k1, l1, i2));*/
++                            if (warningFIC) FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash, colliding entity with block, stacktrace: %s", throwable);//throw new ReportedException(crashreport);
                          }
                      }
                  }
@@ -9895,7 +9897,7 @@ index e114a23..c88e948 100644
      public float func_145772_a(Explosion p_145772_1_, World p_145772_2_, int p_145772_3_, int p_145772_4_, int p_145772_5_, Block p_145772_6_)
      {
          return p_145772_6_.getExplosionResistance(this, p_145772_2_, p_145772_3_, p_145772_4_, p_145772_5_, posX, posY + getEyeHeight(), posZ);
-@@ -2474,4 +2927,14 @@ public abstract class Entity
+@@ -2474,4 +2927,16 @@ public abstract class Entity
                  }
              }
          }
@@ -9909,6 +9911,8 @@ index e114a23..c88e948 100644
 +        return false;
 +    }
 +    // Cauldron end
++    //FFoKC
++    public static final boolean warningFIC = Boolean.parseBoolean(System.getProperty("mc.warningFIC", "false"));
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/EntityAgeable.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/EntityAgeable.java
@@ -15079,7 +15083,7 @@ index ecca43c..085a7ec 100644
          else
          {
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/entity/monster/EntityZombie.java ./eclipse/cauldron/src/main/java/net/minecraft/entity/monster/EntityZombie.java
-index a137fa3..3b7ea0a 100644
+index a137fa3..2db3348 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/entity/monster/EntityZombie.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/entity/monster/EntityZombie.java
 @@ -46,6 +46,13 @@ import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -15118,7 +15122,7 @@ index a137fa3..3b7ea0a 100644
          this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
          this.tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1.0D, false));
          this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-@@ -72,17 +85,22 @@ public class EntityZombie extends EntityMob
+@@ -72,7 +85,12 @@ public class EntityZombie extends EntityMob
          this.tasks.addTask(8, new EntityAILookIdle(this));
          this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
          this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
@@ -15132,11 +15136,8 @@ index a137fa3..3b7ea0a 100644
          this.setSize(0.6F, 1.8F);
      }
  
-     protected void applyEntityAttributes()
-     {
-         super.applyEntityAttributes();
--        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
-+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
+@@ -82,7 +100,7 @@ public class EntityZombie extends EntityMob
+         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
          this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
          this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3.0D);
 -        this.getAttributeMap().registerAttribute(field_110186_bp).setBaseValue(this.rand.nextDouble() * ForgeModContainer.zombieSummonBaseChance);
@@ -25969,7 +25970,7 @@ index fa9629c..1c583ae 100644
  
      public boolean func_154346_a()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 7526a8d..79fe1c3 100644
+index 7526a8d..583c3af 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -34,17 +34,27 @@ import net.minecraft.world.EnumDifficulty;
@@ -26019,15 +26020,6 @@ index 7526a8d..79fe1c3 100644
          {
              private static final String __OBFID = "CL_00001787";
              {
-@@ -64,7 +77,7 @@ public class DedicatedServer extends MinecraftServer implements IServer
-             }
-             public void run()
-             {
--                while (true)
-+                while (true) // FFoKC - off sleep //off
-                 {
-                     try
-                     {
 @@ -82,31 +95,77 @@ public class DedicatedServer extends MinecraftServer implements IServer
          };
      }
@@ -26178,18 +26170,6 @@ index 7526a8d..79fe1c3 100644
                  long j = System.nanoTime();
  
                  if (this.getFolderName() == null)
-@@ -249,9 +327,9 @@ public class DedicatedServer extends MinecraftServer implements IServer
-                 this.isCommandBlockEnabled();
-                 this.getOpPermissionLevel();
-                 this.isSnooperEnabled();
--                this.setBuildLimit(this.settings.getIntProperty("max-build-height", 256));
-+                this.setBuildLimit(this.settings.getIntProperty("max-build-height", 999));
-                 this.setBuildLimit((this.getBuildLimit() + 8) / 16 * 16);
--                this.setBuildLimit(MathHelper.clamp_int(this.getBuildLimit(), 64, 256));
-+                this.setBuildLimit(MathHelper.clamp_int(this.getBuildLimit(), 64, 999));
-                 this.settings.setProperty("max-build-height", Integer.valueOf(this.getBuildLimit()));
-                 if (!FMLCommonHandler.instance().handleServerAboutToStart(this)) { return false; }
-                 field_155771_h.info("Preparing level \"" + this.getFolderName() + "\"");
 @@ -274,11 +352,30 @@ public class DedicatedServer extends MinecraftServer implements IServer
                      this.theRConThreadMain.startThread();
                  }
@@ -31474,7 +31454,7 @@ index d358df5..0ba0c7d 100644
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/World.java ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
-index c365f90..49b2436 100644
+index c365f90..4e69b02 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/World.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/World.java
 @@ -2,7 +2,8 @@ package net.minecraft.world;
@@ -31990,28 +31970,25 @@ index c365f90..49b2436 100644
 +            }
 +        }
 +        // Cauldron end
-+        if (p_147439_1_ >= -MAX_BLOCK_COORD && p_147439_3_ >= -MAX_BLOCK_COORD && p_147439_1_ < MAX_BLOCK_COORD && p_147439_3_ < MAX_BLOCK_COORD && p_147439_2_ >= 0 && p_147439_2_ < 999)
++        if (p_147439_1_ >= -MAX_BLOCK_COORD && p_147439_3_ >= -MAX_BLOCK_COORD && p_147439_1_ < MAX_BLOCK_COORD && p_147439_3_ < MAX_BLOCK_COORD && p_147439_2_ >= 0 && p_147439_2_ < 256)
          {
              Chunk chunk = null;
  
-@@ -351,7 +687,7 @@ public abstract class World implements IBlockAccess
+@@ -347,11 +683,11 @@ public abstract class World implements IBlockAccess
+             }
+             catch (Throwable throwable)
+             {
+-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception getting block type in world");
++                /*CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Exception getting block type in world");
                  CrashReportCategory crashreportcategory = crashreport.makeCategory("Requested block coordinates");
                  crashreportcategory.addCrashSection("Found chunk", Boolean.valueOf(chunk == null));
-                 crashreportcategory.addCrashSection("Location", CrashReportCategory.getLocationInfo(p_147439_1_, p_147439_2_, p_147439_3_));
+-                crashreportcategory.addCrashSection("Location", CrashReportCategory.getLocationInfo(p_147439_1_, p_147439_2_, p_147439_3_));
 -                throw new ReportedException(crashreport);
-+                FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash by Exception getting block type in world, stacktrace:");return Blocks.air;//throw new ReportedException(crashreport); //FFoKC
++                crashreportcategory.addCrashSection("Location", CrashReportCategory.getLocationInfo(p_147439_1_, p_147439_2_, p_147439_3_));*/
++                if (warningFIC) FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash by Exception getting block type in world, stacktrace:");return Blocks.air;//throw new ReportedException(crashreport); //FFoKC
              }
          }
          else
-@@ -368,7 +704,7 @@ public abstract class World implements IBlockAccess
- 
-     public boolean blockExists(int p_72899_1_, int p_72899_2_, int p_72899_3_)
-     {
--        return p_72899_2_ >= 0 && p_72899_2_ < 256 ? this.chunkExists(p_72899_1_ >> 4, p_72899_3_ >> 4) : false;
-+        return p_72899_2_ >= 0 && p_72899_2_ < 999 ? this.chunkExists(p_72899_1_ >> 4, p_72899_3_ >> 4) : false;
-     }
- 
-     public boolean doChunksNearChunkExist(int p_72873_1_, int p_72873_2_, int p_72873_3_, int p_72873_4_)
 @@ -404,7 +740,7 @@ public abstract class World implements IBlockAccess
          }
      }
@@ -32496,7 +32473,7 @@ index c365f90..49b2436 100644
                          {
                              block = this.getBlock(k1, i2, l1);
                          }
-@@ -1797,15 +2322,29 @@ public abstract class World implements IBlockAccess
+@@ -1797,19 +2322,33 @@ public abstract class World implements IBlockAccess
          Entity entity;
          CrashReport crashreport;
          CrashReportCategory crashreportcategory;
@@ -32505,15 +32482,14 @@ index c365f90..49b2436 100644
 +        tilesTicked = 0;
 +        // Cauldron end
  
--        for (i = 0; i < this.weatherEffects.size(); ++i)
-+        for (i = 0; i < this.weatherEffects.size(); i++)
+         for (i = 0; i < this.weatherEffects.size(); ++i)
          {
              entity = (Entity)this.weatherEffects.get(i);
  
 +            if (entity == null)
 +            {
 +                FMLLog.warning("FFoKC has detected a null entity weatherEffects and has removed it, preventing a crash and NPE");
-+                this.weatherEffects.remove(i);
++                this.weatherEffects.remove(i--);
 +                continue;
 +            } else {
 +
@@ -32527,12 +32503,20 @@ index c365f90..49b2436 100644
              }
              catch (Throwable throwable2)
              {
-@@ -1821,7 +2360,7 @@ public abstract class World implements IBlockAccess
+-                crashreport = CrashReport.makeCrashReport(throwable2, "Ticking entity");
++                /*crashreport = CrashReport.makeCrashReport(throwable2, "Ticking entity");
+                 crashreportcategory = crashreport.makeCategory("Entity being ticked");
+ 
+                 if (entity == null)
+@@ -1819,9 +2358,9 @@ public abstract class World implements IBlockAccess
+                 else
+                 {
                      entity.addEntityCrashInfo(crashreportcategory);
-                 }
+-                }
++                }*/
  
 -                if (ForgeModContainer.removeErroringEntities)
-+                FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable2, "Found initialization crash, when update weather effects, stacktrace: %s", throwable2);/*if (ForgeModContainer.removeErroringEntities)
++                if (warningFIC) FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable2, "Found initialization crash, when update weather effects, stacktrace: %s", throwable2);/*if (ForgeModContainer.removeErroringEntities)
                  {
                      FMLLog.getLogger().log(org.apache.logging.log4j.Level.ERROR, crashreport.getCompleteReport());
                      removeEntity(entity);
@@ -32546,8 +32530,7 @@ index c365f90..49b2436 100644
  
              if (entity.isDead)
              {
--                this.weatherEffects.remove(i--);
-+                this.weatherEffects.remove(i);
+                 this.weatherEffects.remove(i--);
              }
 -        }
 +        }}
@@ -32567,13 +32550,13 @@ index c365f90..49b2436 100644
  
 -        for (i = 0; i < this.loadedEntityList.size(); ++i)
 -        {
-+        for (i = 0; i < this.loadedEntityList.size(); i++) {
++        for (i = 0; i < this.loadedEntityList.size(); ++i) {
              entity = (Entity)this.loadedEntityList.get(i);
 -
 +            if (entity == null)
 +            {
 +                FMLLog.warning("FFoKC has detected a null entity and has removed it, preventing a crash and NPE");
-+                this.loadedEntityList.remove(i);
++                this.loadedEntityList.remove(i--);
 +                continue;
 +            } else {
              if (entity.ridingEntity != null)
@@ -32599,7 +32582,7 @@ index c365f90..49b2436 100644
 +                    entity.addEntityCrashInfo(crashreportcategory);*/
  
 -                    if (ForgeModContainer.removeErroringEntities)
-+                    FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable1, "Found initialization crash, when entity update, stacktrace: %s", throwable1);/*if (ForgeModContainer.removeErroringEntities)
++                    if (warningFIC) FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable1, "Found initialization crash, when entity update, stacktrace: %s", throwable1);/*if (ForgeModContainer.removeErroringEntities)
                      {
                          FMLLog.getLogger().log(org.apache.logging.log4j.Level.ERROR, crashreport.getCompleteReport());
                          removeEntity(entity);
@@ -32617,8 +32600,7 @@ index c365f90..49b2436 100644
                      this.getChunkFromChunkCoords(j, l).removeEntity(entity);
                  }
 -
--                this.loadedEntityList.remove(i--);
-+                this.loadedEntityList.remove(i);
+                 this.loadedEntityList.remove(i--);
                  this.onEntityRemoved(entity);
              }
  
@@ -32667,13 +32649,13 @@ index c365f90..49b2436 100644
 +            if (tileentity == null)
 +            {
 +                FMLLog.warning("FFoKC has detected a null tileentity and has removed it, preventing a crash and NPE");
-+                this.loadedTileEntityList.remove(i);
++                this.loadedTileEntityList.remove(i--);
 +                continue;
 +            } else {
 +            // Spigot end
 +            
 +            if (tileentity.isInvalid()) {
-+                this.loadedTileEntityList.remove(i);
++                this.loadedTileEntityList.remove(i--);
 +                if (this.chunkExists(tileentity.xCoord >> 4, tileentity.zCoord >> 4)) {
 +                    Chunk chunk = this.getChunkFromChunkCoords(tileentity.xCoord >> 4, tileentity.zCoord >> 4);
 +                    if (chunk != null) chunk.removeInvalidTileEntity(tileentity.xCoord & 15, tileentity.yCoord, tileentity.zCoord & 15);
@@ -32704,7 +32686,7 @@ index c365f90..49b2436 100644
 -                    tileentity.func_145828_a(crashreportcategory);
 -                    if (ForgeModContainer.removeErroringTileEntities)
 +                    tileentity.func_145828_a(crashreportcategory);*/
-+                    FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash, when update tileentity, stacktrace: %s", throwable);/*if (ForgeModContainer.removeErroringTileEntities)
++                    if (warningFIC) FMLLog.log(org.apache.logging.log4j.Level.WARN, throwable, "Found initialization crash, when update tileentity, stacktrace: %s", throwable);/*if (ForgeModContainer.removeErroringTileEntities)
                      {
                          FMLLog.getLogger().log(org.apache.logging.log4j.Level.ERROR, crashreport.getCompleteReport());
                          tileentity.invalidate();
@@ -32819,15 +32801,6 @@ index c365f90..49b2436 100644
          }
      }
  
-@@ -2511,7 +3109,7 @@ public abstract class World implements IBlockAccess
- 
-     public TileEntity getTileEntity(int p_147438_1_, int p_147438_2_, int p_147438_3_)
-     {
--        if (p_147438_2_ >= 0 && p_147438_2_ < 256)
-+        if (p_147438_2_ >= 0 && p_147438_2_ < 999)
-         {
-             TileEntity tileentity = null;
-             int l;
 @@ -2570,7 +3168,7 @@ public abstract class World implements IBlockAccess
              return;
          }
@@ -32968,24 +32941,6 @@ index c365f90..49b2436 100644
          {
              i = this.rand.nextInt(this.playerEntities.size());
              entityplayer = (EntityPlayer)this.playerEntities.get(i);
-@@ -2887,7 +3545,7 @@ public abstract class World implements IBlockAccess
-         }
-         else
-         {
--            if (p_72834_2_ >= 0 && p_72834_2_ < 256 && this.getSavedLightValue(EnumSkyBlock.Block, p_72834_1_, p_72834_2_, p_72834_3_) < 10)
-+            if (p_72834_2_ >= 0 && p_72834_2_ < 999 && this.getSavedLightValue(EnumSkyBlock.Block, p_72834_1_, p_72834_2_, p_72834_3_) < 10)
-             {
-                 Block block = this.getBlock(p_72834_1_, p_72834_2_, p_72834_3_);
- 
-@@ -2951,7 +3609,7 @@ public abstract class World implements IBlockAccess
-         }
-         else
-         {
--            if (p_147478_2_ >= 0 && p_147478_2_ < 256 && this.getSavedLightValue(EnumSkyBlock.Block, p_147478_1_, p_147478_2_, p_147478_3_) < 10)
-+            if (p_147478_2_ >= 0 && p_147478_2_ < 999 && this.getSavedLightValue(EnumSkyBlock.Block, p_147478_1_, p_147478_2_, p_147478_3_) < 10)
-             {
-                 Block block = this.getBlock(p_147478_1_, p_147478_2_, p_147478_3_);
- 
 @@ -3284,8 +3942,21 @@ public abstract class World implements IBlockAccess
          {
              Entity entity = (Entity)this.loadedEntityList.get(j);
@@ -32993,7 +32948,7 @@ index c365f90..49b2436 100644
 -            if ((!(entity instanceof EntityLiving) || !((EntityLiving)entity).isNoDespawnRequired()) && p_72907_1_.isAssignableFrom(entity.getClass()))
 +            // CraftBukkit start - Split out persistent check, don't apply it to special persistent mobs
 +            if (entity instanceof EntityLiving)
-             {
++            {
 +                EntityLiving entityliving = (EntityLiving) entity;
 +
 +                if (entityliving.canDespawn_CB() && entityliving.isNoDespawnRequired())
@@ -33003,7 +32958,7 @@ index c365f90..49b2436 100644
 +            }
 +
 +            if (p_72907_1_.isAssignableFrom(entity.getClass()))
-+            {
+             {
 +                // if ((!(entity instanceof EntityLiving) || !((EntityLiving)entity).isNoDespawnRequired()) && p_72907_1_.isAssignableFrom(entity.getClass()))
 +                // CraftBukkit end
                  ++i;
@@ -33205,12 +33160,12 @@ index c365f90..49b2436 100644
 +    //FFoKC: parse parts code UC
 +    public Block getBlockIfExists(int x, int y, int z) {
 +        try{Chunk chunk = getChunkFromChunkCoords(x >> 4, z >> 4);
-+        if(chunk != null) return chunk.getBlock(x & 15, y, z & 15);}catch(Throwable e) {long time = System.nanoTime();if (time - gBIE_time > 50000000) {gBIE_time=time;FMLLog.log(org.apache.logging.log4j.Level.WARN, e, "Found initialization crash by Exception getting block type if exists in world, stacktrace:");}}
++        if(chunk != null) return chunk.getBlock(x & 15, y, z & 15);}catch(Throwable e) {if (warningFIC) {FMLLog.log(org.apache.logging.log4j.Level.WARN, e, "Found initialization crash by Exception getting block type if exists in world, stacktrace:");}}
 +        return Blocks.air;
 +        }
 +    public static final int MAX_BLOCK_COORD = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaxCoordOverworld.getValue();
 +    //public static final int CL_LOAD_RADIUS = net.minecraft.server.MinecraftServer.kcauldronConfig.commonMaxCoordOverworld.getValue();
-+    boolean off_sS = true, max_distance_sS = false; long gBIE_time = 0;
++    boolean off_sS = true, max_distance_sS = false; public static final boolean warningFIC = Boolean.parseBoolean(System.getProperty("mc.warningFIC", "false"));
  }
 \ No newline at end of file
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/WorldManager.java ./eclipse/cauldron/src/main/java/net/minecraft/world/WorldManager.java
@@ -34313,7 +34268,7 @@ index 078b73e..26c1e3f 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
-index 65b90b0..316fbf8 100644
+index 65b90b0..27eb99c 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/Chunk.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/Chunk.java
 @@ -9,7 +9,7 @@ import java.util.Iterator;
@@ -34349,24 +34304,18 @@ index 65b90b0..316fbf8 100644
      public long inhabitedTime;
 -    private int queuedLightChecks;
 +    private int queuedLightChecks;public final long chunkKey; // Forge
-+    public gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<Class>(); // Spigot (Cauldron protected -> public)
++    public org.eclipse.collections.impl.map.mutable.primitive.ObjectIntHashMap<Class> entityCount = new org.eclipse.collections.impl.map.mutable.primitive.ObjectIntHashMap<Class>(); // Spigot (Cauldron protected -> public)
 +    public int lastAccessedTick; // Cauldron track last time the chunk was accessed
      private static final String __OBFID = "CL_00000373";
  
      public Chunk(World p_i1995_1_, int p_i1995_2_, int p_i1995_3_)
-@@ -71,22 +84,31 @@ public class Chunk
-         this.precipitationHeightMap = new int[256];
-         this.updateSkylightColumns = new boolean[256];
-         this.chunkTileEntityMap = new HashMap();
--        this.queuedLightChecks = 4096;
-+        this.queuedLightChecks = 15984;//FFoKC: goto 999 height light
+@@ -75,18 +88,27 @@ public class Chunk
          this.entityLists = new List[16];
          this.worldObj = p_i1995_1_;
          this.xPosition = p_i1995_2_;
 -        this.zPosition = p_i1995_3_;
--        this.heightMap = new int[256];
 +        this.zPosition = p_i1995_3_;this.chunkKey = org.bukkit.craftbukkit.util.LongHash.toLong(p_i1995_2_, p_i1995_3_); // Forge
-+        this.heightMap = new int[999];
+         this.heightMap = new int[256];
  
          for (int k = 0; k < this.entityLists.length; ++k)
          {
@@ -34413,15 +34362,6 @@ index 65b90b0..316fbf8 100644
              }
          }
  
-@@ -568,7 +590,7 @@ public class Chunk
-         }
-         else
-         {
--            ExtendedBlockStorage extendedblockstorage = this.storageArrays[p_150807_2_ >> 4];
-+            ExtendedBlockStorage extendedblockstorage = null;try {extendedblockstorage = this.storageArrays[p_150807_2_ >> 4];} catch (ArrayIndexOutOfBoundsException e) { if ((p_150807_2_ >> 4)>15) extendedblockstorage = this.storageArrays[15];}
-             boolean flag = false;
- 
-             if (extendedblockstorage == null)
 @@ -589,9 +611,10 @@ public class Chunk
  
              if (!this.worldObj.isRemote)
@@ -34434,31 +34374,6 @@ index 65b90b0..316fbf8 100644
              extendedblockstorage.func_150818_a(p_150807_1_, p_150807_2_ & 15, p_150807_3_, p_150807_4_);
              extendedblockstorage.setExtBlockMetadata(p_150807_1_, p_150807_2_ & 15, p_150807_3_, p_150807_5_); // This line duplicates the one below, so breakBlock fires with valid worldstate
  
-@@ -711,13 +734,13 @@ public class Chunk
- 
-     public int getSavedLightValue(EnumSkyBlock p_76614_1_, int p_76614_2_, int p_76614_3_, int p_76614_4_)
-     {
--        ExtendedBlockStorage extendedblockstorage = this.storageArrays[p_76614_3_ >> 4];
-+        ExtendedBlockStorage extendedblockstorage = null;try {extendedblockstorage = this.storageArrays[p_76614_3_ >> 4];} catch (ArrayIndexOutOfBoundsException e) { if ((p_76614_3_ >> 4)>15) extendedblockstorage = this.storageArrays[15];}
-         return extendedblockstorage == null ? (this.canBlockSeeTheSky(p_76614_2_, p_76614_3_, p_76614_4_) ? p_76614_1_.defaultLightValue : 0) : (p_76614_1_ == EnumSkyBlock.Sky ? (this.worldObj.provider.hasNoSky ? 0 : extendedblockstorage.getExtSkylightValue(p_76614_2_, p_76614_3_ & 15, p_76614_4_)) : (p_76614_1_ == EnumSkyBlock.Block ? extendedblockstorage.getExtBlocklightValue(p_76614_2_, p_76614_3_ & 15, p_76614_4_) : p_76614_1_.defaultLightValue));
-     }
- 
-     public void setLightValue(EnumSkyBlock p_76633_1_, int p_76633_2_, int p_76633_3_, int p_76633_4_, int p_76633_5_)
-     {
--        ExtendedBlockStorage extendedblockstorage = this.storageArrays[p_76633_3_ >> 4];
-+        ExtendedBlockStorage extendedblockstorage = null;try {extendedblockstorage = this.storageArrays[p_76633_3_ >> 4];} catch (ArrayIndexOutOfBoundsException e) { if ((p_76633_3_ >> 4)>15) extendedblockstorage = this.storageArrays[15];}
- 
-         if (extendedblockstorage == null)
-         {
-@@ -742,7 +765,7 @@ public class Chunk
- 
-     public int getBlockLightValue(int p_76629_1_, int p_76629_2_, int p_76629_3_, int p_76629_4_)
-     {
--        ExtendedBlockStorage extendedblockstorage = this.storageArrays[p_76629_2_ >> 4];
-+        ExtendedBlockStorage extendedblockstorage = null;try {extendedblockstorage = this.storageArrays[p_76629_2_ >> 4];} catch (ArrayIndexOutOfBoundsException e) { if ((p_76629_2_ >> 4)>15) extendedblockstorage = this.storageArrays[15];}
- 
-         if (extendedblockstorage == null)
-         {
 @@ -777,8 +800,20 @@ public class Chunk
  
          if (i != this.xPosition || j != this.zPosition)
@@ -34502,7 +34417,7 @@ index 65b90b0..316fbf8 100644
 +        {
 +            if (creatureType.getCreatureClass().isAssignableFrom(p_76612_1_.getClass()))
 +            {
-+                this.entityCount.adjustOrPutValue(creatureType.getCreatureClass(), 1, 1);
++                int value = this.entityCount.get(creatureType.getCreatureClass());if (value == 0) {this.entityCount.put(creatureType.getCreatureClass(), 1);} else {value = value+1;this.entityCount.put(creatureType.getCreatureClass(), value);}
 +            }
 +        }
 +        // Spigot end
@@ -34529,7 +34444,7 @@ index 65b90b0..316fbf8 100644
 +        {
 +            if (creatureType.getCreatureClass().isAssignableFrom(p_76608_1_.getClass()))
 +            {
-+                this.entityCount.adjustValue(creatureType.getCreatureClass(), -1);
++                int value = this.entityCount.get(creatureType.getCreatureClass())-1;this.entityCount.put(creatureType.getCreatureClass(), value);
 +            }
 +        }
 +        // Spigot end
@@ -34548,7 +34463,7 @@ index 65b90b0..316fbf8 100644
 +        }
 +        catch (ArrayIndexOutOfBoundsException e)
 +        {
-+            System.out.println("ERROR: Detected corrupted TileEntity " + p_150812_4_ + " with bad extended block ID of "
++            cpw.mods.fml.common.FMLLog.warning("ERROR: Detected corrupted TileEntity " + p_150812_4_ + " with bad extended block ID of "
 +                    + ((p_150812_2_ & 15) << 8 | p_150812_3_ << 4 | p_150812_1_) + " @  " + p_150812_4_.xCoord + ", " + p_150812_4_.yCoord + ", "
 +                    + p_150812_4_.zCoord + ". Removing TE to avoid crash...");
 +            p_150812_4_.invalidate();
@@ -34568,10 +34483,10 @@ index 65b90b0..316fbf8 100644
 +        // CraftBukkit start
 +        else if (net.minecraft.server.MinecraftServer.getServer().tileEntityConfig.enableTEPlaceWarning.getValue()) // Cauldron
 +        {
-+            System.out.println("Attempted to place a tile entity (" + p_150812_4_ + ") at " + p_150812_4_.xCoord + "," + p_150812_4_.yCoord + ","
++            cpw.mods.fml.common.FMLLog.warning("Attempted to place a tile entity (" + p_150812_4_ + ") at " + p_150812_4_.xCoord + "," + p_150812_4_.yCoord + ","
 +                    + p_150812_4_.zCoord + " (" + org.bukkit.Material.getMaterial(Block.getIdFromBlock(getBlock(p_150812_1_, p_150812_2_, p_150812_3_)))
 +                    + ") where there was no entity tile!");
-+            System.out.println("Chunk coordinates: " + (this.xPosition * 16) + "," + (this.zPosition * 16));
++            cpw.mods.fml.common.FMLLog.warning("Chunk coordinates: " + (this.xPosition * 16) + "," + (this.zPosition * 16));
 +            new Exception().printStackTrace();
 +        }
 +        // CraftBukkit end
@@ -34694,23 +34609,6 @@ index 65b90b0..316fbf8 100644
          iterator = this.chunkTileEntityMap.values().iterator();
  
          while (iterator.hasNext())
-@@ -1312,14 +1435,14 @@ public class Chunk
-     {
-         for (int i = 0; i < 8; ++i)
-         {
--            if (this.queuedLightChecks >= 4096)
-+            if (this.queuedLightChecks >= 15984)//FFoKC: goto 999 height light
-             {
-                 return;
-             }
- 
-             int j = this.queuedLightChecks % 16;
-             int k = this.queuedLightChecks / 16 % 16;
--            int l = this.queuedLightChecks / 256;
-+            int l = this.queuedLightChecks / 999;//FFoKC: goto 999 height light
-             ++this.queuedLightChecks;
-             int i1 = (this.xPosition << 4) + k;
-             int j1 = (this.zPosition << 4) + l;
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/EmptyChunk.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/EmptyChunk.java
 index add20e4..28a0c75 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/EmptyChunk.java
@@ -35470,7 +35368,7 @@ index 43cb3a9..820296d 100644
      @SideOnly(Side.CLIENT)
      public NibbleArray createBlockMSBArray()
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
-index a54d157..4154600 100644
+index a54d157..7239dd8 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFile.java
 @@ -5,9 +5,12 @@ import java.io.ByteArrayInputStream;
@@ -35548,6 +35446,38 @@ index a54d157..4154600 100644
                  this.chunkTimestamps[j] = k;
              }
          }
+@@ -109,8 +111,8 @@ public class RegionFile
+     {
+         if (this.outOfBounds(x, z)) return false;
+ 
+-        try
+-        {
++        //try //FFoKC
++        //{
+             int offset = this.getOffset(x, z);
+ 
+             if (offset == 0) return false;
+@@ -120,7 +122,7 @@ public class RegionFile
+ 
+             if (sectorNumber + numSectors > this.sectorFree.size()) return false;
+ 
+-            this.dataFile.seek((long)(sectorNumber * 4096));
++            /*this.dataFile.seek((long)(sectorNumber * 4096));
+             int length = this.dataFile.readInt();
+ 
+             if (length > 4096 * numSectors || length <= 0) return false;
+@@ -132,9 +134,9 @@ public class RegionFile
+         catch (IOException ioexception)
+         {
+             return false;
+-        }
++        }*/
+ 
+-        return false;
++        return true;//return false;
+     }
+ 
+     public synchronized DataInputStream getChunkDataInputStream(int p_76704_1_, int p_76704_2_)
 @@ -209,7 +211,7 @@ public class RegionFile
  
      public DataOutputStream getChunkDataOutputStream(int p_76710_1_, int p_76710_2_)
@@ -35603,7 +35533,7 @@ index a54d157..4154600 100644
      }
  
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFileCache.java ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFileCache.java
-index c594664..5dea3a2 100644
+index c594664..4c6a111 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/chunk/storage/RegionFileCache.java
 +++ ./eclipse/cauldron/src/main/java/net/minecraft/world/chunk/storage/RegionFileCache.java
 @@ -8,9 +8,11 @@ import java.util.HashMap;
@@ -35619,16 +35549,30 @@ index c594664..5dea3a2 100644
      private static final String __OBFID = "CL_00000383";
  
      public static synchronized RegionFile createOrLoadRegionFile(File p_76550_0_, int p_76550_1_, int p_76550_2_)
-@@ -43,6 +45,9 @@ public class RegionFileCache
+@@ -41,9 +43,12 @@ public class RegionFileCache
+         }
+     }
  
-     public static synchronized void clearRegionFileReferences()
+-    public static synchronized void clearRegionFileReferences()
++    public static void clearRegionFileReferences()
      {
+-        Iterator iterator = regionsByFilename.values().iterator();
 +        if(!Thread.currentThread().getName().equals("File IO Thread")) {
 +                try { ThreadedFileIOBase.threadedIOInstance.waitForFinish(); } catch (InterruptedException ignored){}
 +        }
-         Iterator iterator = regionsByFilename.values().iterator();
++        synchronized(RegionFileCache.class) { Iterator iterator = regionsByFilename.values().iterator(); //FFoKC
  
          while (iterator.hasNext())
+         {
+@@ -62,7 +67,7 @@ public class RegionFileCache
+             }
+         }
+ 
+-        regionsByFilename.clear();
++        regionsByFilename.clear();}
+     }
+ 
+     public static DataInputStream getChunkInputStream(File p_76549_0_, int p_76549_1_, int p_76549_2_)
 diff --git ./eclipse/Clean/src/main/java/net/minecraft/world/gen/ChunkProviderEnd.java ./eclipse/cauldron/src/main/java/net/minecraft/world/gen/ChunkProviderEnd.java
 index 1685026..a125124 100644
 --- ./eclipse/Clean/src/main/java/net/minecraft/world/gen/ChunkProviderEnd.java
